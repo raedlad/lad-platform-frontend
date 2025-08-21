@@ -9,4 +9,6 @@ export { default as useRegistration } from "./useRegistration";
 export { default as useUserRollSelection } from "./useUserRollSelection";
 export { default as useUserTypeSelection } from "./useUserTypeSelection";
 export { default as useSignupFlow } from "./useSignupFlow";
-export { default as useSignupForm } from "./useSignupForm";
+// export { default as useSignupForm } from "./useSignupForm";
+export { default as useIndividualRegistration } from "./useIndividualRegistration";
+export { default as useInstitutionRegistration } from "./useInstitutionRegistration";

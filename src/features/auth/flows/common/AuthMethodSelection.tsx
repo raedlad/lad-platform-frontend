@@ -2,33 +2,26 @@
 
 import { Button } from "@shared/components/ui/button";
 import { Phone, MailIcon } from "lucide-react";
-import { useSignUpStore } from "@auth/store/signupStore";
 import GoogleAuthButton from "@auth/components/common/GoogleAuthButton";
 import AppleAuthButton from "@auth/components/common/AppleAuthButton";
 
-export default function AuthMethodSelection() {
-  const { setAuthMethod } = useSignUpStore();
+interface AuthMethodSelectionProps {
+  onAuthMethodSelect: (method: "email" | "phone" | "thirdParty") => void;
+}
 
-  const handleAuthMethodSelect = (method: "email" | "phone" | "thirdParty") => {
-    setAuthMethod(method);
-    if (method === "thirdParty") {
-      // In a real app, this would redirect to OAuth provider
-      router.push("/signup/third-party");
-    } else {
-      router.push(`/signup/${method}`);
-    }
-  };
-
+export default function AuthMethodSelection({
+  onAuthMethodSelect,
+}: AuthMethodSelectionProps) {
   const handleGoogleSignUp = () => {
     // In a real app, this would initiate Google OAuth
     console.log("Google OAuth would be initiated here");
-    handleAuthMethodSelect("thirdParty");
+    onAuthMethodSelect("thirdParty");
   };
 
   const handleAppleSignUp = () => {
     // In a real app, this would initiate Apple OAuth
     console.log("Apple OAuth would be initiated here");
-    handleAuthMethodSelect("thirdParty");
+    onAuthMethodSelect("thirdParty");
   };
 
   return (
@@ -59,11 +52,10 @@ export default function AuthMethodSelection() {
           </div>
 
           {/* Email and Phone Options */}
-
           <Button
             variant={"outline"}
             className="w-full !py-6"
-            onClick={() => handleAuthMethodSelect("phone")}
+            onClick={() => onAuthMethodSelect("phone")}
           >
             <Phone className="w-6 h-6 text-i-8" />
             الإستمرار باستخدام رقم الهاتف
@@ -83,7 +75,7 @@ export default function AuthMethodSelection() {
           <Button
             variant={"outline"}
             className="w-full !py-6"
-            onClick={() => handleAuthMethodSelect("email")}
+            onClick={() => onAuthMethodSelect("email")}
           >
             <MailIcon className="w-6 h-6 text-i-8" />
             الاستمرار باستخدام البريد الألكتروني

@@ -1,23 +1,35 @@
-'use client';
+"use client";
 
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@shared/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@shared/components/ui/card";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@shared/components/ui/form";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@shared/components/ui/card";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@shared/components/ui/form";
 import { Input } from "@shared/components/ui/input";
 import { Checkbox } from "@shared/components/ui/checkbox";
 import { emailSignUpSchema, EmailSignUpFormValues } from "@/lib/schemas";
 import { useSignUpStore } from "@auth/store/signupStore";
-import { useRouter } from "next/navigation";
-import { Eye, EyeOff, ArrowLeft } from "lucide-react";
+import { ArrowLeft, Eye, EyeOff } from "lucide-react";
 
 export default function EmailSignUpForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const { setEmailSignUpData, setVerificationCodeSent } = useSignUpStore();
-  const router = useRouter();
+  const { setEmailSignUpData, setVerificationCodeSent, setCurrentStep } =
+    useSignUpStore();
 
   const form = useForm<EmailSignUpFormValues>({
     resolver: zodResolver(emailSignUpSchema),
@@ -36,18 +48,22 @@ export default function EmailSignUpForm() {
     try {
       // Store form data in Zustand store
       setEmailSignUpData(values);
-      
+
       // In a real app, this would send a verification email
-      console.log('Sending verification email to:', values.email);
-      
+      console.log("Sending verification email to:", values.email);
+
       // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
       setVerificationCodeSent(true);
-      router.push('/signup/verify');
+      setCurrentStep(3);
     } catch (error) {
-      console.error('Sign up error:', error);
+      console.error("Sign up error:", error);
     }
+  };
+
+  const handleBack = () => {
+    setCurrentStep(1);
   };
 
   const getPasswordStrength = (password: string) => {
@@ -57,13 +73,13 @@ export default function EmailSignUpForm() {
     if (/[A-Z]/.test(password)) strength++;
     if (/\d/.test(password)) strength++;
     if (/[@$!%*?&]/.test(password)) strength++;
-    
-    if (strength <= 2) return { text: 'Weak', color: 'text-red-500' };
-    if (strength <= 4) return { text: 'Medium', color: 'text-yellow-500' };
-    return { text: 'Strong', color: 'text-green-500' };
+
+    if (strength <= 2) return { text: "Weak", color: "text-red-500" };
+    if (strength <= 4) return { text: "Medium", color: "text-yellow-500" };
+    return { text: "Strong", color: "text-green-500" };
   };
 
-  const passwordStrength = getPasswordStrength(form.watch('password') || '');
+  const passwordStrength = getPasswordStrength(form.watch("password") || "");
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
@@ -73,14 +89,16 @@ export default function EmailSignUpForm() {
             <Button
               variant="ghost"
               size="sm"
-              onClick={() => router.back()}
+              onClick={handleBack}
               className="p-1"
             >
               <ArrowLeft className="h-4 w-4" />
             </Button>
-            <div className="text-sm text-muted-foreground">Step 1 of 2</div>
+            <div className="text-sm text-muted-foreground">Step 2 of 4</div>
           </div>
-          <CardTitle className="text-2xl font-bold">Email Registration</CardTitle>
+          <CardTitle className="text-2xl font-bold">
+            Email Registration
+          </CardTitle>
           <CardDescription>Create your account with email</CardDescription>
         </CardHeader>
         <CardContent>
@@ -120,9 +138,27 @@ export default function EmailSignUpForm() {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Email address *</FormLabel>
+                    <FormLabel>Email *</FormLabel>
                     <FormControl>
-                      <Input type="email" placeholder="john@example.com" {...field} />
+                      <Input
+                        type="email"
+                        placeholder="john@example.com"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="employeeId"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Employee ID (Optional)</FormLabel>
+                    <FormControl>
+                      <Input placeholder="EMP123" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -139,7 +175,7 @@ export default function EmailSignUpForm() {
                       <div className="relative">
                         <Input
                           type={showPassword ? "text" : "password"}
-                          placeholder="••••••••"
+                          placeholder="Create a password"
                           {...field}
                         />
                         <Button
@@ -157,13 +193,10 @@ export default function EmailSignUpForm() {
                         </Button>
                       </div>
                     </FormControl>
-                    {field.value && (
-                      <div className="text-sm">
-                        Strength: <span className={passwordStrength.color}>{passwordStrength.text}</span>
+                    <div className="flex items-center justify-between">
+                      <div className={`text-xs ${passwordStrength.color}`}>
+                        {passwordStrength.text}
                       </div>
-                    )}
-                    <div className="text-xs text-muted-foreground">
-                      Password requirements: 8+ characters, uppercase, lowercase, number, special character
                     </div>
                     <FormMessage />
                   </FormItem>
@@ -175,12 +208,12 @@ export default function EmailSignUpForm() {
                 name="confirmPassword"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Confirm password *</FormLabel>
+                    <FormLabel>Confirm Password *</FormLabel>
                     <FormControl>
                       <div className="relative">
                         <Input
                           type={showConfirmPassword ? "text" : "password"}
-                          placeholder="••••••••"
+                          placeholder="Confirm your password"
                           {...field}
                         />
                         <Button
@@ -188,7 +221,9 @@ export default function EmailSignUpForm() {
                           variant="ghost"
                           size="sm"
                           className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
-                          onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                          onClick={() =>
+                            setShowConfirmPassword(!showConfirmPassword)
+                          }
                         >
                           {showConfirmPassword ? (
                             <EyeOff className="h-4 w-4" />
@@ -197,20 +232,6 @@ export default function EmailSignUpForm() {
                           )}
                         </Button>
                       </div>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="employeeId"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Employee ID (optional)</FormLabel>
-                    <FormControl>
-                      <Input placeholder="EMP123" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -229,13 +250,13 @@ export default function EmailSignUpForm() {
                       />
                     </FormControl>
                     <div className="space-y-1 leading-none">
-                      <FormLabel className="text-sm">
-                        I agree to the{' '}
-                        <a href="#" className="text-primary underline hover:no-underline">
+                      <FormLabel>
+                        I agree to the{" "}
+                        <a href="#" className="underline hover:text-primary">
                           Terms of Service
-                        </a>{' '}
-                        and{' '}
-                        <a href="#" className="text-primary underline hover:no-underline">
+                        </a>{" "}
+                        and{" "}
+                        <a href="#" className="underline hover:text-primary">
                           Privacy Policy
                         </a>
                       </FormLabel>
@@ -245,12 +266,8 @@ export default function EmailSignUpForm() {
                 )}
               />
 
-              <Button
-                type="submit"
-                className="w-full"
-                disabled={form.formState.isSubmitting}
-              >
-                {form.formState.isSubmitting ? "Creating Account..." : "Continue"}
+              <Button type="submit" className="w-full">
+                Continue
               </Button>
             </form>
           </Form>
@@ -259,4 +276,3 @@ export default function EmailSignUpForm() {
     </div>
   );
 }
-

@@ -9,7 +9,7 @@ const GoogleAuthButton = ({
   return (
     <Button
       variant="outline"
-      className="w-full bg-[#4285F4] text-n-1 !py-6 rounded-lg text-base flex items-center justify-center gap-2"
+      className="w-full bg-[#4285F4] dark:bg-[#4489f9e6]  text-n-1 !py-6 rounded-lg text-base flex items-center justify-center gap-2 hover:bg-[#4489f9e6] dark:hover:bg-[#4285F4] hover:text-n-1"
       onClick={handleGoogleSignUp}
     >
       <svg className="!w-5 !h-5 mr-2" viewBox="0 0 24 24">

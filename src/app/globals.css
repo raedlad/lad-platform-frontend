@@ -254,7 +254,6 @@ body {
 }
 
 body {
-  
   font-family: Cairo, sans-serif;
 }
 
@@ -297,7 +296,7 @@ body {
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-white dark:bg-black text-foreground;
   }
   .section{
     @apply mx-auto px-4 py-8 md:py-10 lg:py-12;
