@@ -1,0 +1,222 @@
+{
+  "common": {
+    "loading": "جاري التحميل...",
+    "submit": "إرسال",
+    "continue": "متابعة",
+    "back": "رجوع",
+    "next": "التالي",
+    "cancel": "إلغاء",
+    "save": "حفظ",
+    "edit": "تعديل",
+    "delete": "حذف",
+    "confirm": "تأكيد",
+    "close": "إغلاق",
+    "search": "بحث",
+    "filter": "تصفية",
+    "sort": "ترتيب",
+    "refresh": "تحديث",
+    "download": "تحميل",
+    "upload": "رفع",
+    "select": "اختيار",
+    "clear": "مسح",
+    "reset": "إعادة تعيين",
+    "changeLanguage": "تغيير اللغة",
+    "comingSoon": "قريباً"
+  },
+  "auth": {
+    "title": "مرحبا بك في منصة لاد",
+    "subtitle": "انشئ حسابك الآن",
+    "login": "تسجيل الدخول",
+    "signup": "إنشاء حساب",
+    "logout": "تسجيل الخروج",
+    "forgotPassword": "نسيت كلمة المرور؟",
+    "resetPassword": "إعادة تعيين كلمة المرور",
+    "verifyEmail": "تأكيد البريد الإلكتروني",
+    "verifyPhone": "تأكيد رقم الهاتف",
+    "resendCode": "إعادة إرسال الرمز",
+    "authMethod": {
+      "title": "طريقة التسجيل",
+      "description": "اختر طريقة التسجيل المفضلة لديك",
+      "email": "الاستمرار باستخدام البريد الإلكتروني",
+      "phone": "الإستمرار باستخدام رقم الهاتف",
+      "thirdParty": "الاستمرار باستخدام Google"
+    },
+    "personalInfo": {
+      "title": "المعلومات الشخصية",
+      "description": "أدخل معلوماتك الشخصية",
+      "firstName": "الاسم الأول",
+      "lastName": "اسم العائلة",
+      "email": "البريد الإلكتروني",
+      "phoneNumber": "رقم الهاتف",
+      "password": "كلمة المرور",
+      "confirmPassword": "تأكيد كلمة المرور",
+      "nationalId": "رقم الهوية الوطنية",
+      "agreeToTerms": "أوافق على الشروط والأحكام",
+      "emailRegistration": "تسجيل باستخدام البريد الإلكتروني",
+      "phoneRegistration": "تسجيل باستخدام رقم الهاتف",
+      "thirdPartyDescription": "يرجى تقديم المعلومات الإضافية لإكمال ملفك الشخصي",
+      "phoneDescription": "إنشاء حساب باستخدام رقم الهاتف",
+      "emailDescription": "إنشاء حساب باستخدام البريد الإلكتروني",
+      "completeProfile": "إكمال ملفك الشخصي",
+      "continue": "متابعة"
+    },
+    "verification": {
+      "title": "التحقق",
+      "description": "تحقق من حسابك",
+      "enterCode": "أدخل الرمز المرسل إليك",
+      "codeSent": "تم إرسال الرمز إلى",
+      "didntReceive": "لم تستلم الرمز؟"
+    },
+    "roles": {
+      "individual": "فرد",
+      "institution": "مؤسسة",
+      "supplier": "مورد",
+      "freelanceEngineer": "مهندس مستقل",
+      "engineeringOffice": "مكتب هندسي",
+      "contractor": "مقاول"
+    },
+    "form": {
+      "placeholders": {
+        "firstName": "أدخل اسمك الأول",
+        "lastName": "أدخل اسم العائلة",
+        "email": "أدخل بريدك الإلكتروني",
+        "phoneNumber": "أدخل رقم هاتفك",
+        "password": "أدخل كلمة المرور",
+        "confirmPassword": "أعد إدخال كلمة المرور",
+        "nationalId": "أدخل رقم الهوية الوطنية"
+      },
+      "validation": {
+        "required": "هذا الحقل مطلوب",
+        "invalidEmail": "البريد الإلكتروني غير صحيح",
+        "invalidPhone": "رقم الهاتف غير صحيح",
+        "passwordMinLength": "كلمة المرور يجب أن تكون 8 أحرف على الأقل",
+        "passwordMismatch": "كلمة المرور غير متطابقة",
+        "nationalIdMinLength": "رقم الهوية الوطنية يجب أن يكون 10 أرقام على الأقل"
+      }
+    },
+    "terms": {
+      "text": "أوافق على",
+      "termsLink": "الشروط والأحكام",
+      "and": "و",
+      "privacyLink": "سياسة الخصوصية"
+    },
+    "roleSelection": {
+      "description": "حدد نوع المستخدم لبدء استخدام منصتنا",
+      "serviceSeeker": "طالب خدمة",
+      "serviceProvider": "مقدم خدمة",
+      "or": "أو",
+      "haveAccount": "لديك حساب مسجل مسبقا؟"
+    },
+    "onboarding": {
+      "steps": {
+        "authMethod": {
+          "label": "طريقة التسجيل",
+          "description": "اختر طريقة التسجيل المفضلة لديك"
+        },
+        "personalInfo": {
+          "label": "المعلومات الشخصية",
+          "description": "أدخل معلوماتك الشخصية"
+        },
+        "verification": {
+          "label": "التحقق",
+          "description": "تحقق من حسابك"
+        }
+      }
+    }
+  },
+  "roles": {
+    "individual": {
+      "title": "تسجيل حساب فردي",
+      "description": "إنشاء حساب للاستخدام الشخصي"
+    },
+    "institution": {
+      "title": "تسجيل حساب مؤسسي",
+      "description": "إنشاء حساب للمؤسسات والشركات",
+      "emailRegistration": "تسجيل مؤسسة باستخدام البريد الإلكتروني",
+      "phoneRegistration": "تسجيل مؤسسة باستخدام رقم الهاتف",
+      "completeProfile": "إكمال ملف المؤسسة",
+      "emailDescription": "إنشاء حساب المؤسسة باستخدام البريد الإلكتروني",
+      "phoneDescription": "إنشاء حساب المؤسسة باستخدام رقم الهاتف",
+      "thirdPartyDescription": "يرجى تقديم المعلومات الإضافية لإكمال ملف المؤسسة",
+      "fields": {
+        "institutionName": "اسم المؤسسة",
+        "contactPersonFirstName": "الاسم الأول لشخص الاتصال",
+        "contactPersonLastName": "الاسم الأخير لشخص الاتصال",
+        "institutionEmail": "البريد الإلكتروني للمؤسسة",
+        "institutionPhoneNumber": "رقم هاتف المؤسسة",
+        "commercialRegistration": "السجل التجاري (اختياري)"
+      }
+    },
+    "supplier": {
+      "title": "تسجيل حساب مورد",
+      "description": "إنشاء حساب للموردين والمقاولين",
+      "fields": {
+        "commercialEstablishmentName": "اسم المؤسسة التجارية",
+        "commercialRegistrationNumber": "رقم السجل التجاري",
+        "authorizedPersonName": "اسم الشخص المفوض",
+        "authorizedPersonMobileNumber": "رقم هاتف الشخص المفوض"
+      }
+    },
+    "freelanceEngineer": {
+      "title": "تسجيل حساب مهندس مستقل",
+      "description": "إنشاء حساب للمهندسين المستقلين",
+      "emailRegistration": "تسجيل مهندس مستقل باستخدام البريد الإلكتروني",
+      "phoneRegistration": "تسجيل مهندس مستقل باستخدام رقم الهاتف",
+      "completeProfile": "إكمال ملف المهندس المستقل",
+      "emailDescription": "إنشاء حساب المهندس المستقل باستخدام البريد الإلكتروني",
+      "phoneDescription": "إنشاء حساب المهندس المستقل باستخدام رقم الهاتف",
+      "thirdPartyDescription": "يرجى تقديم المعلومات الإضافية لإكمال ملف المهندس المستقل",
+      "fields": {
+        "engineeringLicenseNumber": "رقم رخصة الهندسة"
+      }
+    },
+    "engineeringOffice": {
+      "title": "تسجيل حساب مكتب هندسي",
+      "description": "إنشاء حساب للمكاتب الهندسية",
+      "fields": {
+        "officeName": "اسم المكتب",
+        "professionalLicenseNumber": "رقم الرخصة المهنية",
+        "authorizedPersonName": "اسم الشخص المفوض",
+        "authorizedPersonMobileNumber": "رقم هاتف الشخص المفوض",
+        "authorizationFormNumber": "رقم نموذج التفويض"
+      }
+    },
+    "contractor": {
+      "title": "تسجيل حساب مقاول",
+      "description": "إنشاء حساب للمقاولين",
+      "fields": {
+        "companyName": "اسم الشركة",
+        "commercialRegistrationNumber": "رقم السجل التجاري",
+        "authorizedPersonName": "اسم الشخص المفوض",
+        "authorizedPersonMobileNumber": "رقم هاتف الشخص المفوض",
+        "authorizationFormNumber": "رقم نموذج التفويض"
+      }
+    }
+  },
+  "navigation": {
+    "home": "الرئيسية",
+    "dashboard": "لوحة التحكم",
+    "profile": "الملف الشخصي",
+    "settings": "الإعدادات",
+    "help": "المساعدة",
+    "about": "حول",
+    "contact": "اتصل بنا"
+  },
+  "errors": {
+    "general": "حدث خطأ ما",
+    "network": "خطأ في الاتصال",
+    "validation": "خطأ في التحقق من البيانات",
+    "notFound": "الصفحة غير موجودة",
+    "unauthorized": "غير مصرح",
+    "forbidden": "محظور",
+    "serverError": "خطأ في الخادم",
+    "loginFailed": "فشل تسجيل الدخول"
+  },
+  "success": {
+    "registration": "تم التسجيل بنجاح",
+    "login": "تم تسجيل الدخول بنجاح",
+    "passwordReset": "تم إعادة تعيين كلمة المرور بنجاح",
+    "profileUpdate": "تم تحديث الملف الشخصي بنجاح",
+    "dataSaved": "تم حفظ البيانات بنجاح"
+  }
+}

@@ -26,26 +26,6 @@ export const STEP_CONFIG = {
     description: "أدخل رمز التحقق المرسل إلى حسابك كمورد",
     stepNumber: 3,
   },
-  operationalCommercialInfo: {
-    title: "المعلومات التشغيلية والتجارية",
-    description: "أدخل معلومات المورد التشغيلية والتجارية",
-    stepNumber: 4,
-  },
-  documentUpload: {
-    title: "رفع المستندات",
-    description: "يرجى رفع المستندات المطلوبة لإكمال التسجيل",
-    stepNumber: 5,
-  },
-  planSelection: {
-    title: "اختر خطة الاشتراك",
-    description: "اختر الخطة التي تناسب احتياجات منشأتك",
-    stepNumber: 6,
-  },
-  complete: {
-    title: "اكتمل تسجيل المورد",
-    description: "تم إنشاء حساب المورد بنجاح",
-    stepNumber: 7,
-  },
 } as const;
 
 export const AUTH_METHOD_LABELS = {

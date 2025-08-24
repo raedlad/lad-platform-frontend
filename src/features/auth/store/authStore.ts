@@ -1,136 +1,181 @@
 import { create } from "zustand";
-import {
-  AuthState,
-  User,
-  LoginCredentials,
-  SignupData,
-  AuthResponse,
-} from "@auth/types";
+import { devtools } from "zustand/middleware";
 
-interface AuthStore extends AuthState {
+// Types
+import type {
+  AuthMethod,
+  RegistrationRole,
+  BaseRegistrationState,
+  RoleSpecificData,
+} from "../types/auth";
+
+// Constants
+import { roleFlowMeta } from "../constants/roleFlowMeta";
+
+export interface AuthStoreState extends BaseRegistrationState {
+  // Shared
+  currentRole: RegistrationRole | null;
+  currentStep: string | null;
+  authMethod: AuthMethod | null;
+  verificationCode: string;
+  isVerified: boolean;
+  isLoading: boolean;
+  error: string | null;
+
+  // Role-specific dynamic data bucket
+  roleData: RoleSpecificData;
+
   // Actions
-  login: (credentials: LoginCredentials) => Promise<void>;
-  signup: (data: SignupData) => Promise<void>;
-  logout: () => void;
-  setUser: (user: User) => void;
-  setToken: (token: string) => void;
+  setRole: (role: RegistrationRole) => void;
+  setCurrentStep: (step: string) => void;
+  setAuthMethod: (method: AuthMethod) => void;
+  setRoleData: (key: keyof RoleSpecificData, data: any) => void;
+  setVerificationCode: (code: string) => void;
+  setIsVerified: (verified: boolean) => void;
   setLoading: (loading: boolean) => void;
   setError: (error: string | null) => void;
   clearError: () => void;
+
+  // Flow actions
+  resetRegistration: () => void;
+  goToNextStep: () => void;
+  goToPreviousStep: () => void;
+
+  // Derived state
+  canGoToNextStep: () => boolean;
+  canGoToPreviousStep: () => boolean;
+  getCurrentStepInfo: () => {
+    step: string | null;
+    stepNumber: number;
+    totalSteps: number;
+    progress: number;
+  };
+
+  // Debug
+  getStoreState: () => AuthStoreState;
 }
 
-export const useAuthStore = create<AuthStore>((set, get) => ({
-  // Initial state
-  user: null,
-  token: null,
-  isAuthenticated: false,
-  isLoading: false,
-  error: null,
+export const useAuthStore = create<AuthStoreState>()(
+  devtools((set, get) => ({
+    // Initial state
+    currentRole: null,
+    currentStep: null,
+    authMethod: null,
+    verificationCode: "",
+    isVerified: false,
+    isLoading: false,
+    error: null,
+    roleData: {},
 
-  // Actions
-  login: async (credentials: LoginCredentials) => {
-    set({ isLoading: true, error: null });
-    try {
-      // TODO: Implement actual API call
-      // const response = await authApi.login(credentials);
-      // set({ user: response.user, token: response.token, isAuthenticated: true });
+    // Actions
+    setRole: (role) =>
+      set({
+        currentRole: role,
+        currentStep: roleFlowMeta[role].map((step) => step.key)[0] ?? null,
+        roleData: {},
+        authMethod: null,
+        verificationCode: "",
+        isVerified: false,
+        error: null,
+      }),
 
-      // Mock response for now
-      const mockResponse: AuthResponse = {
-        user: {
-          id: "1",
-          email: credentials.email,
-          firstName: "John",
-          lastName: "Doe",
-          role: "individual" as any,
-          userType: "personal" as any,
-          isEmailVerified: true,
-          isPhoneVerified: false,
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
-        },
-        token: "mock-token",
+    setCurrentStep: (step) => set({ currentStep: step }),
+    setAuthMethod: (method) => set({ authMethod: method }),
+    setRoleData: (key, data) =>
+      set((state) => ({
+        roleData: { ...state.roleData, [key]: data },
+      })),
+    setVerificationCode: (code) => set({ verificationCode: code }),
+    setIsVerified: (verified) => set({ isVerified: verified }),
+    setLoading: (loading) => set({ isLoading: loading }),
+    setError: (error) => set({ error }),
+    clearError: () => set({ error: null }),
+
+    // Reset
+    resetRegistration: () =>
+      set({
+        currentStep: null,
+        currentRole: null,
+        authMethod: null,
+        roleData: {},
+        verificationCode: "",
+        isVerified: false,
+        isLoading: false,
+        error: null,
+      }),
+
+    // Navigation
+    goToNextStep: () => {
+      const { currentRole, currentStep } = get();
+      if (!currentRole || !currentStep) return;
+
+      const steps = roleFlowMeta[currentRole];
+      const idx = steps.map((step) => step.key).indexOf(currentStep);
+      if (idx >= 0 && idx < steps.length - 1) {
+        set({ currentStep: steps[idx + 1].key });
+      }
+    },
+
+    goToPreviousStep: () => {
+      const { currentRole, currentStep } = get();
+      if (!currentRole || !currentStep) return;
+
+      const steps = roleFlowMeta[currentRole];
+      const idx = steps.map((step) => step.key).indexOf(currentStep);
+
+      // If user is on the first step, reset the role selection
+      if (idx === 0) {
+        set({
+          currentRole: null,
+          currentStep: null,
+          authMethod: null,
+          roleData: {},
+          verificationCode: "",
+          isVerified: false,
+          error: null,
+        });
+      } else if (idx > 0) {
+        // Go to previous step
+        set({ currentStep: steps[idx - 1].key });
+      }
+    },
+
+    // Derived
+    canGoToNextStep: () => {
+      const { currentRole, currentStep } = get();
+      if (!currentRole || !currentStep) return false;
+      const steps = roleFlowMeta[currentRole];
+      return (
+        steps.map((step) => step.key).indexOf(currentStep) < steps.length - 1
+      );
+    },
+
+    canGoToPreviousStep: () => {
+      const { currentRole, currentStep } = get();
+      if (!currentRole || !currentStep) return false;
+      const steps = roleFlowMeta[currentRole];
+      const idx = steps.map((step) => step.key).indexOf(currentStep);
+      // Allow going back even on first step to reset role selection
+      return idx >= 0;
+    },
+
+    getCurrentStepInfo: () => {
+      const { currentRole, currentStep } = get();
+      if (!currentRole || !currentStep) {
+        return { step: null, stepNumber: 0, totalSteps: 0, progress: 0 };
+      }
+      const steps = roleFlowMeta[currentRole];
+      const idx = steps.map((step) => step.key).indexOf(currentStep);
+      const totalSteps = steps.length;
+      return {
+        step: currentStep,
+        stepNumber: idx + 1,
+        totalSteps,
+        progress: ((idx + 1) / totalSteps) * 100,
       };
+    },
 
-      set({
-        user: mockResponse.user,
-        token: mockResponse.token,
-        isAuthenticated: true,
-        isLoading: false,
-      });
-    } catch (error) {
-      set({
-        error: error instanceof Error ? error.message : "Login failed",
-        isLoading: false,
-      });
-    }
-  },
-
-  signup: async (data: SignupData) => {
-    set({ isLoading: true, error: null });
-    try {
-      // TODO: Implement actual API call
-      // const response = await authApi.signup(data);
-      // set({ user: response.user, token: response.token, isAuthenticated: true });
-
-      // Mock response for now
-      const mockResponse: AuthResponse = {
-        user: {
-          id: "1",
-          email: data.email,
-          firstName: data.firstName,
-          lastName: data.lastName,
-          phone: data.phone,
-          role: data.role,
-          userType: data.userType,
-          isEmailVerified: false,
-          isPhoneVerified: false,
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
-        },
-        token: "mock-token",
-      };
-
-      set({
-        user: mockResponse.user,
-        token: mockResponse.token,
-        isAuthenticated: true,
-        isLoading: false,
-      });
-    } catch (error) {
-      set({
-        error: error instanceof Error ? error.message : "Signup failed",
-        isLoading: false,
-      });
-    }
-  },
-
-  logout: () => {
-    set({
-      user: null,
-      token: null,
-      isAuthenticated: false,
-      error: null,
-    });
-  },
-
-  setUser: (user: User) => {
-    set({ user, isAuthenticated: true });
-  },
-
-  setToken: (token: string) => {
-    set({ token });
-  },
-
-  setLoading: (isLoading: boolean) => {
-    set({ isLoading });
-  },
-
-  setError: (error: string | null) => {
-    set({ error });
-  },
-
-  clearError: () => {
-    set({ error: null });
-  },
-}));
+    // Debug
+    getStoreState: () => get(),
+  }))
+);

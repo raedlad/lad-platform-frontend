@@ -74,3 +74,40 @@ export interface AuthError {
   code?: string;
   field?: string;
 }
+// features/authentication/types/auth.ts
+
+// الأدوار المتاحة
+export type RegistrationRole =
+  | "individual"
+  | "institution"
+  | "supplier"
+  | "freelanceEngineer"
+  | "engineeringOffice"
+  | "contractor";
+
+// طرق التوثيق
+export type AuthMethod = "email" | "phone" | "thirdParty";
+
+// الحالة الأساسية المشتركة بين كل الأدوار
+export interface BaseRegistrationState {
+  currentRole: RegistrationRole | null;
+  currentStep: string | null;
+  authMethod: AuthMethod | null;
+  verificationCode: string;
+  isVerified: boolean;
+  isLoading: boolean;
+  error: string | null;
+}
+
+// بيانات خاصة بكل دور (تجمع كل أنواع الـ info)
+export interface RoleSpecificData {
+  personalInfo?: Record<string, any>;
+  phoneInfo?: Record<string, any>;
+  thirdPartyInfo?: Record<string, any>;
+  documentUpload?: Record<string, any>;
+  professionalInfo?: Record<string, any>;
+  operationalCommercialInfo?: Record<string, any>;
+  technicalOperationalInfo?: Record<string, any>;
+  planSelection?: Record<string, any>;
+  [key: string]: any; // مرونة لإضافة steps جديدة مستقبلاً
+}

@@ -6,12 +6,13 @@ import { Label } from "@/shared/components/ui/label";
 import { twMerge } from "tailwind-merge";
 import Link from "next/link";
 import { Button } from "@/shared/components/ui/button";
+import { useTranslations } from "next-intl";
+import { RegistrationRole } from "@auth/types/auth";
 
 // --- Data arrays remain the same ---
 const serviceSeekerRoles = [
-    // ... (no changes here)
   {
-    id: "individual",
+    id: "individual" as RegistrationRole,
     title: "فرد",
     description: "للأفراد الذين يبحثون عن خدمات",
     icon: <User className="size-4" />,
@@ -19,7 +20,7 @@ const serviceSeekerRoles = [
     buttonText: "الاستمرار كفرد",
   },
   {
-    id: "institution",
+    id: "institution" as RegistrationRole,
     title: "مؤسسة",
     description: "للمؤسسات والشركات التي تبحث عن خدمات",
     icon: <Building2 className="size-4" />,
@@ -27,7 +28,7 @@ const serviceSeekerRoles = [
     buttonText: "الاستمرار كمؤسسة",
   },
   {
-    id: "government-agency",
+    id: "government-agency" as string, // This is not a RegistrationRole
     title: "جهة حكومية",
     description: "للجهات الحكومية التي تبحث عن خدمات",
     icon: <Briefcase className="size-4" />,
@@ -37,27 +38,24 @@ const serviceSeekerRoles = [
 ];
 
 const serviceProviderRoles = [
-    // ... (no changes here)
   {
-    id: "freelance-engineer",
+    id: "freelanceEngineer" as RegistrationRole,
     title: "مهندس مستقل",
     description: "للمهندسين المستقلين والعاملين لحسابهم الخاص",
     icon: <User className="size-4" />,
     comingSoon: false,
     buttonText: "تقديم كمهندس مستقل",
-
   },
   {
-    id: "engineering-office",
+    id: "engineeringOffice" as RegistrationRole,
     title: "مكتب هندسي",
     description: "لمكاتب الهندسة والاستشارات الهندسية",
     icon: <Building2 className="size-4" />,
     comingSoon: false,
     buttonText: "تقديم كمكتب هندسي ",
-
   },
   {
-    id: "contractor",
+    id: "contractor" as RegistrationRole,
     title: "مقاول",
     description: "للمقاولين وشركات المقاولات",
     icon: <Briefcase className="size-4" />,
@@ -65,7 +63,7 @@ const serviceProviderRoles = [
     buttonText: "تقديم كمقاول ",
   },
   {
-    id: "supplier",
+    id: "supplier" as RegistrationRole,
     title: "مورد",
     description: "للموردين ومزودي المواد والمعدات",
     icon: <Search className="size-4" />,
@@ -74,33 +72,53 @@ const serviceProviderRoles = [
   },
 ];
 
-
 // 1. Define the props the component will receive from its parent
 interface RoleSelectorFormProps {
-  selectedRole: string | null;
-  onSelectRole: (roleId: string) => void;
+  selectedRole: RegistrationRole | null;
+  onSelectRole: (roleId: RegistrationRole) => void;
   onContinue: () => void;
 }
+
 // 2. Accept the props
-const RoleSelectorForm = ({ selectedRole, onSelectRole, onContinue  }: RoleSelectorFormProps) => {
-  
-  
+const RoleSelectorForm = ({
+  selectedRole,
+  onSelectRole,
+  onContinue,
+}: RoleSelectorFormProps) => {
+  const t = useTranslations("auth");
+  const commonT = useTranslations("common");
+
   const handleSelect = (id: string) => {
-    if (id !== "government-agency") {
-      onSelectRole(id);
+    if (
+      id !== "government-agency" &&
+      (id === "individual" ||
+        id === "institution" ||
+        id === "freelanceEngineer" ||
+        id === "engineeringOffice" ||
+        id === "contractor" ||
+        id === "supplier")
+    ) {
+      onSelectRole(id as RegistrationRole);
     }
   };
 
-
   const buttonText = selectedRole
-  ? serviceSeekerRoles.find((type) => type.id === selectedRole)?.buttonText ||
-    serviceProviderRoles.find((type) => type.id === selectedRole)?.buttonText
-  : "انشاء حساب";
-  const renderUserRoleCard = (role: any) => {
-    
+    ? serviceSeekerRoles.find((type) => type.id === selectedRole)?.buttonText ||
+      serviceProviderRoles.find((type) => type.id === selectedRole)?.buttonText
+    : t("signup");
 
+  const renderUserRoleCard = (role: any) => {
     const isSelected = selectedRole === role.id;
     const isDisabled = role.comingSoon;
+
+    // Check if this role has translations
+    const hasTranslation =
+      role.id === "individual" ||
+      role.id === "institution" ||
+      role.id === "freelanceEngineer" ||
+      role.id === "engineeringOffice" ||
+      role.id === "contractor" ||
+      role.id === "supplier";
 
     return (
       <Label
@@ -129,10 +147,12 @@ const RoleSelectorForm = ({ selectedRole, onSelectRole, onContinue  }: RoleSelec
             </div>
             <div className="flex flex-col gap-0.5">
               <div className="flex items-center gap-2">
-                <h4 className="font-bold text-sm">{role.title}</h4>
+                <h4 className="font-bold text-sm">
+                  {hasTranslation ? t(`roles.${role.id}`) : role.title}
+                </h4>
                 {isDisabled && (
                   <span className="inline-flex items-center rounded-full border border-n-4 bg-n-2/50 text-n-6 text-xs px-2 py-0.5 font-medium">
-                    قريباً
+                    {commonT("comingSoon")}
                   </span>
                 )}
               </div>
@@ -142,7 +162,7 @@ const RoleSelectorForm = ({ selectedRole, onSelectRole, onContinue  }: RoleSelec
                   isSelected && !isDisabled ? "text-p-5" : ""
                 )}
               >
-                {role.description}
+                {hasTranslation ? t(`roles.${role.id}`) : role.description}
               </p>
             </div>
           </div>
@@ -163,16 +183,16 @@ const RoleSelectorForm = ({ selectedRole, onSelectRole, onContinue  }: RoleSelec
     <div className="w-full max-w-2xl section">
       <div className="flex flex-col items-center justify-center gap-6">
         <div className="flex flex-col items-center justify-center text-center gap-1.5">
-          <h1 className="text-5xl">LAD</h1>
-          <h2 className="text-2xl font-bold">انطلق نحو تجربتك المثالية</h2>
-          <p className="text-sm text-n-7">
-            حدد نوع المستخدم لبدء استخدام منصتنا
-          </p>
+          <h1 className="text-5xl">{t("title")}</h1>
+          <h2 className="text-2xl font-bold">{t("subtitle")}</h2>
+          <p className="text-sm text-n-7">{t("roleSelection.description")}</p>
         </div>
 
         <div className="w-full flex flex-col gap-3">
           <div className="flex flex-col gap-1.5">
-            <h3 className="text-base font-semibold">طالب خدمة</h3>
+            <h3 className="text-base font-semibold">
+              {t("roleSelection.serviceSeeker")}
+            </h3>
             <div className="grid grid-cols-1 lg:grid-cols-2 auto-rows-fr items-center justify-center gap-3">
               {serviceSeekerRoles.map((role) => renderUserRoleCard(role))}
             </div>
@@ -183,42 +203,47 @@ const RoleSelectorForm = ({ selectedRole, onSelectRole, onContinue  }: RoleSelec
               <span className="w-full border-t" />
             </div>
             <div className="relative flex justify-center text-xs uppercase">
-              <span className="px-2 bg-background">أو</span>
+              <span className="px-2 bg-background">
+                {t("roleSelection.or")}
+              </span>
             </div>
           </div>
 
           <div className="flex flex-col gap-1.5">
-            <h3 className="text-base font-semibold">مقدم خدمة</h3>
+            <h3 className="text-base font-semibold">
+              {t("roleSelection.serviceProvider")}
+            </h3>
             <div className="grid grid-cols-1 lg:grid-cols-2  items-center justify-center gap-3">
               {serviceProviderRoles.map((role) => renderUserRoleCard(role))}
             </div>
           </div>
 
           <div className="flex flex-col gap-2 w-full mt-2">
-          <Button
-            // The onClick now calls the onContinue function from props
-            onClick={onContinue}
-            className={`w-full py-4 rounded-sm font-bold ${
-              !selectedRole ? "bg-n-4 text-n-8" : ""
-            }`}
-            // Disable the button if no role is selected
-            disabled={!selectedRole}
-          >
-            {buttonText}
-          </Button>
-          <p className="text-sm text-center">
-            لديك حساب مسجل مسبقا؟{" "}
-            <Link
-              href="/login"
-              className="text-p-6 hover:text-p-5 transition-all underline underline-offset-4"
+            <Button
+              // The onClick now calls the onContinue function from props
+              onClick={onContinue}
+              className={`w-full py-4 rounded-sm font-bold ${
+                !selectedRole ? "bg-n-4 text-n-8" : ""
+              }`}
+              // Disable the button if no role is selected
+              disabled={!selectedRole}
             >
-              تسجيل الدخول
-            </Link>
-          </p>
-        </div>
+              {buttonText}
+            </Button>
+            <p className="text-sm text-center">
+              {t("roleSelection.haveAccount")}{" "}
+              <Link
+                href="/login"
+                className="text-p-6 hover:text-p-5 transition-all underline underline-offset-4"
+              >
+                {t("login")}
+              </Link>
+            </p>
+          </div>
         </div>
       </div>
     </div>
   );
 };
+
 export default RoleSelectorForm;

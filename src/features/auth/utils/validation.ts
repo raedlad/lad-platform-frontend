@@ -34,7 +34,10 @@ export const PersonalInfoSchema = z
     agreeToTerms: z.boolean().refine((val) => val === true, {
       message: VALIDATION_MESSAGES.terms.required,
     }),
-    nationalIdFile: z.instanceof(File).optional(),
+    nationalId: z
+      .string()
+      .min(10, "National ID must be at least 10 digits")
+      .optional(),
   })
   .refine(
     (data) => {
@@ -124,7 +127,6 @@ export const InstitutionPersonalInfoSchema = z
     agreeToTerms: z.boolean().refine((val) => val === true, {
       message: VALIDATION_MESSAGES.terms.required,
     }),
-    commercialRegistrationFile: z.instanceof(File).optional(),
   })
   .refine(
     (data) => {
@@ -189,7 +191,6 @@ export const FreelanceEngineerPersonalInfoSchema = z
     agreeToTerms: z.boolean().refine((val) => val === true, {
       message: VALIDATION_MESSAGES.terms.required,
     }),
-    engineeringLicenseFile: z.instanceof(File).optional(), // Specific field for freelance engineer
   })
   .refine(
     (data) => {
@@ -295,12 +296,7 @@ export const EngineeringOfficePersonalInfoSchema = z
     email: z.string().email(VALIDATION_MESSAGES.email.invalid),
     password: z.string().min(8, VALIDATION_MESSAGES.password.minLength),
     confirmPassword: z.string(),
-    authorizationForm: z.instanceof(File, {
-      message: "Authorization form is required",
-    }),
-    officeLogo: z
-      .instanceof(File, { message: "Office logo is required" })
-      .optional(),
+
     agreeToTerms: z.boolean().refine((val) => val === true, {
       message: "You must accept the terms and conditions",
     }),
@@ -424,12 +420,6 @@ export const ContractorPersonalInfoSchema = z
     email: z.string().email(VALIDATION_MESSAGES.email.invalid),
     password: z.string().min(8, VALIDATION_MESSAGES.password.minLength),
     confirmPassword: z.string(),
-    authorizationForm: z.instanceof(File, {
-      message: "Authorization form is required",
-    }),
-    companyLogo: z
-      .instanceof(File, { message: "Company logo is required" })
-      .optional(),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: VALIDATION_MESSAGES.confirmPassword.mismatch,
@@ -572,12 +562,6 @@ export const SupplierPersonalInfoSchema = z
     email: z.string().email(VALIDATION_MESSAGES.email.invalid),
     password: z.string().min(8, VALIDATION_MESSAGES.password.minLength),
     confirmPassword: z.string(),
-    officialAuthorizationLetter: z.instanceof(File, {
-      message: "Official authorization letter is required",
-    }),
-    establishmentLogo: z
-      .instanceof(File, { message: "Establishment logo is required" })
-      .optional(),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: VALIDATION_MESSAGES.confirmPassword.mismatch,

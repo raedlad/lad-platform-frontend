@@ -19,7 +19,7 @@ export type ContractorThirdPartyRegistrationInfo = z.infer<typeof ContractorThir
 
 // Combined contractor registration data
 export interface ContractorRegistrationData {
-  userType: UserType.INSTITUTION;
+  // userType: userRole.INSTITUTION;
   role: UserRole.CONTRACTOR;
   authMethod: "email" | "phone" | "thirdParty";
   personalInfo?: ContractorPersonalInfo;

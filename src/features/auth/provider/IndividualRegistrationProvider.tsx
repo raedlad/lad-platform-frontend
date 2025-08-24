@@ -1,7 +1,7 @@
 "use client";
 
 import React, { ReactNode } from "react";
-import { useIndividualRegistrationStore } from "@auth/store/individualRegistrationStore";
+import { useAuthStore } from "@auth/store/authStore";
 
 interface IndividualRegistrationProviderProps {
   children: ReactNode;
@@ -10,11 +10,14 @@ interface IndividualRegistrationProviderProps {
 const IndividualRegistrationProvider: React.FC<
   IndividualRegistrationProviderProps
 > = ({ children }) => {
-  // Initialize the store when the provider mounts
-  const store = useIndividualRegistrationStore();
+  const store = useAuthStore();
 
-  // You can add any initialization logic here
-  // For example, checking for existing registration data, etc.
+  // Set the role to individual if not already set
+  React.useEffect(() => {
+    if (!store.currentRole) {
+      store.setRole("individual");
+    }
+  }, [store]);
 
   return <>{children}</>;
 };

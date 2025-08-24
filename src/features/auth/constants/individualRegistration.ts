@@ -3,8 +3,6 @@ import { IndividualRegistrationStep } from "@auth/types/individual";
 export const REGISTRATION_STEPS: IndividualRegistrationStep[] = [
   "authMethod",
   "personalInfo",
-  "verification",
-  "complete",
 ];
 
 export const STEP_CONFIG = {
@@ -50,7 +48,7 @@ export const FORM_LABELS = {
   phoneNumber: "رقم الهاتف",
   password: "كلمة المرور",
   confirmPassword: "تأكيد كلمة المرور",
-  nationalId: "رفع الهوية الوطنية",
+  nationalId: "رقم الهوية الوطنية (اختياري)",
 } as const;
 
 export const FORM_PLACEHOLDERS = {

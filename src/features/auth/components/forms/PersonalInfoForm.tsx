@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@shared/components/ui/button";
@@ -23,34 +23,40 @@ import {
 import { Input } from "@shared/components/ui/input";
 import { Checkbox } from "@shared/components/ui/checkbox";
 import { Label } from "@shared/components/ui/label";
-import { useIndividualRegistration } from "@auth/hooks/useIndividualRegistration";
+import { useIndividualRegistration } from "@auth/flows/individual/useIndividualRegistration";
+import { useAuthStore } from "@auth/store/authStore";
 import { useIndividualRegistrationStore } from "@auth/store/individualRegistrationStore";
-import { PersonalInfo } from "@auth/types/individual";
 import { ArrowLeft, Eye, EyeOff } from "lucide-react";
 import {
   REGISTRATION_STEPS,
   STEP_CONFIG,
   FORM_LABELS,
   FORM_PLACEHOLDERS,
-  FILE_UPLOAD_MESSAGES,
   TERMS_TEXT,
 } from "@auth/constants/individualRegistration";
-import { FileUpload } from "@/features/auth/components/common/FileUpload";
 import Link from "next/link";
 import z from "zod";
+import { GetPasswordStrength } from "../../utils/getPasswordStrength";
+import { useTranslations } from "next-intl";
 
 const PersonalInfoForm: React.FC = () => {
-  const store = useIndividualRegistrationStore();
+  const store = useAuthStore();
   const { handlePersonalInfoSubmit, goToPreviousStep, getPersonalInfoSchema } =
     useIndividualRegistration();
+  const individualStore = useIndividualRegistrationStore();
+  const t = useTranslations("auth");
+  const commonT = useTranslations("common");
 
   const authMethod = store.authMethod!;
   const isLoading = store.isLoading;
   const onSubmit = handlePersonalInfoSubmit;
   const onBack = goToPreviousStep;
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [nationalIdFile, setNationalIdFile] = useState<File | null>(null);
+  const {
+    showPassword,
+    showConfirmPassword,
+    setShowPassword,
+    setShowConfirmPassword,
+  } = individualStore;
 
   const schema = getPersonalInfoSchema(authMethod);
 
@@ -63,6 +69,7 @@ const PersonalInfoForm: React.FC = () => {
       phoneNumber: "",
       password: "",
       confirmPassword: "",
+      nationalId: "",
       agreeToTerms: false,
     },
     shouldUnregister: true,
@@ -70,79 +77,63 @@ const PersonalInfoForm: React.FC = () => {
 
   // Set pre-filled values from store when component mounts
   React.useEffect(() => {
-    if (authMethod === "thirdParty" && store.thirdPartyInfo) {
-      if (store.thirdPartyInfo.firstName) {
-        form.setValue("firstName", store.thirdPartyInfo.firstName);
+    if (authMethod === "thirdParty" && store.roleData.thirdPartyInfo) {
+      if (store.roleData.thirdPartyInfo.firstName) {
+        form.setValue("firstName", store.roleData.thirdPartyInfo.firstName);
       }
-      if (store.thirdPartyInfo.lastName) {
-        form.setValue("lastName", store.thirdPartyInfo.lastName);
+      if (store.roleData.thirdPartyInfo.lastName) {
+        form.setValue("lastName", store.roleData.thirdPartyInfo.lastName);
       }
-      if (store.thirdPartyInfo.email) {
-        form.setValue("email", store.thirdPartyInfo.email);
+      if (store.roleData.thirdPartyInfo.email) {
+        form.setValue("email", store.roleData.thirdPartyInfo.email);
       }
     } else {
       // Use default pre-filled data for testing/development
-      const defaultData = store.getDefaultPreFilledData();
+      const defaultData = {
+        firstName: "John",
+        lastName: "Doe",
+        email: "john.doe@example.com",
+      };
       form.setValue("firstName", defaultData.firstName);
       form.setValue("lastName", defaultData.lastName);
       form.setValue("email", defaultData.email);
     }
-  }, [authMethod, store.thirdPartyInfo, store, form]);
+  }, [authMethod, store.roleData.thirdPartyInfo, form]);
 
   const handleSubmit = async (values: z.infer<typeof schema>) => {
     console.log("Form values before submit:", values);
-    const formData = {
-      ...values,
-      nationalIdFile: nationalIdFile || undefined,
-    };
-
-    const result = await onSubmit(formData);
+    const result = await onSubmit(values);
 
     if (!result.success) {
       console.log("Form submission failed:", result.error);
     }
   };
 
-  const getPasswordStrength = (password: string) => {
-    let strength = 0;
-    if (password.length >= 8) strength++;
-    if (/[a-z]/.test(password)) strength++;
-    if (/[A-Z]/.test(password)) strength++;
-    if (/\d/.test(password)) strength++;
-    if (/[@$!%*?&]/.test(password)) strength++;
-
-    if (strength <= 2) return { text: "Weak", color: "text-red-500" };
-    if (strength <= 4) return { text: "Medium", color: "text-yellow-500" };
-    return { text: "Strong", color: "text-green-500" };
-  };
-
-  const passwordStrength = getPasswordStrength(form.watch("password") || "");
-
-  const getStepNumber = () => STEP_CONFIG.personalInfo.stepNumber;
+  const passwordStrength = GetPasswordStrength(form.watch("password") || "");
 
   const getTitle = () => {
     switch (authMethod) {
       case "email":
-        return "Email Registration";
+        return t("personalInfo.emailRegistration");
       case "phone":
-        return "Phone Registration";
+        return t("personalInfo.phoneRegistration");
       case "thirdParty":
-        return "Complete Your Profile";
+        return t("personalInfo.completeProfile");
       default:
-        return "Personal Information";
+        return t("personalInfo.title");
     }
   };
 
   const getDescription = () => {
     switch (authMethod) {
       case "email":
-        return "Create your account with email address";
+        return t("personalInfo.emailDescription");
       case "phone":
-        return "Create your account with phone number";
+        return t("personalInfo.phoneDescription");
       case "thirdParty":
-        return "Please provide additional information to complete your profile";
+        return t("personalInfo.thirdPartyDescription");
       default:
-        return "Enter your personal details to continue";
+        return t("personalInfo.description");
     }
   };
 
@@ -152,23 +143,9 @@ const PersonalInfoForm: React.FC = () => {
       : null;
 
   return (
-    <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <Card className="w-full max-w-md bg-transparent shadow-none border-none">
+    <div className=" flex items-center justify-center ">
+      <Card className="w-full max-w-md bg-transparent ">
         <CardHeader>
-          <div className="flex items-center gap-2">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={onBack}
-              className="p-1"
-              disabled={isLoading}
-            >
-              <ArrowLeft className="h-4 w-4" />
-            </Button>
-            <div className="text-sm text-muted-foreground">
-              Step {getStepNumber()} of {REGISTRATION_STEPS.length}
-            </div>
-          </div>
           <CardTitle className="text-2xl font-bold flex items-center gap-2">
             {providerInfo && (
               <span className={providerInfo.color}>{providerInfo.icon}</span>
@@ -192,7 +169,7 @@ const PersonalInfoForm: React.FC = () => {
                   name="firstName"
                   render={({ field }) => (
                     <FormItem className="flex flex-col">
-                      <FormLabel>{FORM_LABELS.firstName}</FormLabel>
+                      <FormLabel>{t("personalInfo.firstName")}</FormLabel>
                       <FormControl>
                         <Input {...field} disabled={isLoading} />
                       </FormControl>
@@ -205,7 +182,7 @@ const PersonalInfoForm: React.FC = () => {
                   name="lastName"
                   render={({ field }) => (
                     <FormItem className="flex flex-col">
-                      <FormLabel>{FORM_LABELS.lastName}</FormLabel>
+                      <FormLabel>{t("personalInfo.lastName")}</FormLabel>
                       <FormControl>
                         <Input {...field} disabled={isLoading} />
                       </FormControl>
@@ -222,14 +199,9 @@ const PersonalInfoForm: React.FC = () => {
                   name="email"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>{FORM_LABELS.email} </FormLabel>
+                      <FormLabel>{t("personalInfo.email")} </FormLabel>
                       <FormControl>
-                        <Input
-                          type="email"
-                          placeholder={FORM_PLACEHOLDERS.email}
-                          {...field}
-                          disabled={isLoading}
-                        />
+                        <Input type="email" {...field} disabled={isLoading} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -243,7 +215,7 @@ const PersonalInfoForm: React.FC = () => {
                 name="phoneNumber"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{FORM_LABELS.phoneNumber} </FormLabel>
+                    <FormLabel>{t("personalInfo.phoneNumber")} </FormLabel>
                     <FormControl>
                       <PhoneInput
                         value={field.value}
@@ -264,7 +236,7 @@ const PersonalInfoForm: React.FC = () => {
                     name="password"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>{FORM_LABELS.password} </FormLabel>
+                        <FormLabel>{t("personalInfo.password")} </FormLabel>
                         <FormControl>
                           <div className="relative">
                             <Input
@@ -301,7 +273,9 @@ const PersonalInfoForm: React.FC = () => {
                     name="confirmPassword"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>{FORM_LABELS.confirmPassword} </FormLabel>
+                        <FormLabel>
+                          {t("personalInfo.confirmPassword")}{" "}
+                        </FormLabel>
                         <FormControl>
                           <div className="relative">
                             <Input
@@ -333,17 +307,20 @@ const PersonalInfoForm: React.FC = () => {
                   />
                 </>
               )}
-
-              {/* National ID Upload */}
-              <div className="space-y-2">
-                <Label>{FILE_UPLOAD_MESSAGES.title}</Label>
-
-                <FileUpload
-                  accept={["application/pdf", "image/jpeg", "image/png"]}
-                  maxSizeMB={10}
-                  onChange={(file) => setNationalIdFile(file as File | null)}
-                />
-              </div>
+              {/* National ID */}
+              <FormField
+                control={form.control}
+                name="nationalId"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{t("personalInfo.nationalId")}</FormLabel>
+                    <FormControl>
+                      <Input {...field} disabled={isLoading} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
               {/* Terms and Privacy */}
               <FormField
@@ -361,19 +338,19 @@ const PersonalInfoForm: React.FC = () => {
                     <div className="space-y-1">
                       <FormLabel className="flex flex-wrap">
                         <span>
-                          {TERMS_TEXT.terms}{" "}
+                          {t("terms.text")}{" "}
                           <Link
                             href="#"
                             className="underline text-p-6 hover:text-p-5"
                           >
-                            {TERMS_TEXT.termsLink}
+                            {t("terms.termsLink")}
                           </Link>{" "}
-                          {TERMS_TEXT.termsCong}{" "}
+                          {t("terms.and")}{" "}
                           <Link
                             href="#"
                             className="underline text-p-5 hover:text-p-5"
                           >
-                            {TERMS_TEXT.privacyLink}
+                            {t("terms.privacyLink")}
                           </Link>
                         </span>
                       </FormLabel>
@@ -385,7 +362,7 @@ const PersonalInfoForm: React.FC = () => {
 
               {/* Submit */}
               <Button type="submit" className="w-full" disabled={isLoading}>
-                {isLoading ? "Submitting..." : "Continue"}
+                {isLoading ? commonT("loading") : t("personalInfo.continue")}
               </Button>
             </form>
           </Form>

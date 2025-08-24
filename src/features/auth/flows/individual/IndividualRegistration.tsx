@@ -1,30 +1,40 @@
 "use client";
 
 import React from "react";
-import { useIndividualRegistrationStore } from "@auth/store/individualRegistrationStore";
-import { useIndividualRegistration } from "@/features/auth/hooks/useIndividualRegistration";
+import { useAuthStore } from "@auth/store/authStore";
+import { useIndividualRegistration } from "@auth/flows/individual/useIndividualRegistration";
+import { OnboardingLayout } from "@auth/components/onboarding/OnboardingLayout";
+import { useTranslations } from "next-intl";
+
 import AuthMethodSelection from "../common/AuthMethodSelection";
 import PersonalInfoStep from "./PersonalInfoStep";
-import VerificationStep from "./VerificationStep";
-import CompletionStep from "./CompletionStep";
+import OTPVerificationStep from "../common/OTPVerificationStep";
 
-// Wrapper component for individual registration verification
+// Wrapper for OTP verification
 const IndividualVerificationStep: React.FC = () => {
-  const store = useIndividualRegistrationStore();
+  const store = useAuthStore();
   const hook = useIndividualRegistration();
-  return <VerificationStep store={store} hook={hook} />;
-};
 
-// Wrapper component for individual registration completion
-const IndividualCompletionStep: React.FC = () => {
-  const store = useIndividualRegistrationStore();
-  const hook = useIndividualRegistration();
-  return <CompletionStep store={store} hook={hook} />;
+  const adaptedStore = {
+    currentStep: store.currentStep || "",
+    authMethod: store.authMethod,
+    personalInfo:
+      store.roleData.personalInfo ||
+      store.roleData.phoneInfo ||
+      store.roleData.thirdPartyInfo,
+    phoneInfo: store.roleData.phoneInfo,
+    thirdPartyInfo: store.roleData.thirdPartyInfo,
+    isLoading: store.isLoading,
+    error: store.error,
+  };
+
+  return <OTPVerificationStep store={adaptedStore} hook={hook} />;
 };
 
 const IndividualRegistration: React.FC = () => {
-  const store = useIndividualRegistrationStore();
+  const store = useAuthStore();
   const { handleAuthMethodSelect } = useIndividualRegistration();
+  const t = useTranslations("common");
 
   const renderStepContent = () => {
     switch (store.currentStep) {
@@ -32,16 +42,10 @@ const IndividualRegistration: React.FC = () => {
         return (
           <AuthMethodSelection onAuthMethodSelect={handleAuthMethodSelect} />
         );
-
       case "personalInfo":
         return <PersonalInfoStep />;
-
       case "verification":
         return <IndividualVerificationStep />;
-
-      case "complete":
-        return <IndividualCompletionStep />;
-
       default:
         return (
           <AuthMethodSelection onAuthMethodSelect={handleAuthMethodSelect} />
@@ -50,14 +54,10 @@ const IndividualRegistration: React.FC = () => {
   };
 
   return (
-    <div className="w-full">
-      {store.error && (
-        <div className="fixed top-4 right-4 z-50 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
-          {store.error}
-        </div>
-      )}
-      {renderStepContent()}
-    </div>
+    <OnboardingLayout>
+      <div className="w-full max-w-md">{renderStepContent()}</div>
+      {store.error && <div className="">{store.error}</div>}
+    </OnboardingLayout>
   );
 };
 

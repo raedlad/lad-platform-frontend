@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@shared/components/ui/button";
@@ -36,23 +36,32 @@ import {
 } from "@auth/constants/institutionRegistration";
 import { FileUpload } from "@/features/auth/components/common/FileUpload";
 import Link from "next/link";
+import { useAuthStore } from "@auth/store/authStore";
+import { useInstitutionRegistration } from "@auth/flows/institution/useInstitutionRegistration";
 import { useInstitutionRegistrationStore } from "@auth/store/institutionRegistrationStore";
-import { useInstitutionRegistration } from "@auth/hooks/useInstitutionRegistration";
+import { GetPasswordStrength } from "../../utils/getPasswordStrength";
+import { useTranslations } from "next-intl";
 
 const InstitutionPersonalInfoForm: React.FC = () => {
-  const store = useInstitutionRegistrationStore();
+  const store = useAuthStore();
   const { handlePersonalInfoSubmit, goToPreviousStep } =
     useInstitutionRegistration();
+  const institutionStore = useInstitutionRegistrationStore();
+  const t = useTranslations("auth");
+  const commonT = useTranslations("common");
 
   const authMethod = store.authMethod!;
   const isLoading = store.isLoading;
   const onSubmit = handlePersonalInfoSubmit;
-  const onBack = goToPreviousStep;
 
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [commercialRegistrationFile, setCommercialRegistrationFile] =
-    useState<File | null>(null);
+  const {
+    showPassword,
+    showConfirmPassword,
+    commercialRegistrationFile,
+    setShowPassword,
+    setShowConfirmPassword,
+    setCommercialRegistrationFile,
+  } = institutionStore;
 
   const form = useForm<InstitutionPersonalInfo>({
     resolver: zodResolver(InstitutionPersonalInfoSchema),
@@ -71,27 +80,33 @@ const InstitutionPersonalInfoForm: React.FC = () => {
 
   // Set pre-filled values from store when component mounts
   React.useEffect(() => {
-    if (authMethod === "thirdParty" && store.personalInfo) {
-      if (store.personalInfo.institutionName) {
-        form.setValue("institutionName", store.personalInfo.institutionName);
+    if (authMethod === "thirdParty" && store.roleData.personalInfo) {
+      if (store.roleData.personalInfo.institutionName) {
+        form.setValue(
+          "institutionName",
+          store.roleData.personalInfo.institutionName
+        );
       }
-      if (store.personalInfo.contactPersonFirstName) {
+      if (store.roleData.personalInfo.contactPersonFirstName) {
         form.setValue(
           "contactPersonFirstName",
-          store.personalInfo.contactPersonFirstName
+          store.roleData.personalInfo.contactPersonFirstName
         );
       }
-      if (store.personalInfo.contactPersonLastName) {
+      if (store.roleData.personalInfo.contactPersonLastName) {
         form.setValue(
           "contactPersonLastName",
-          store.personalInfo.contactPersonLastName
+          store.roleData.personalInfo.contactPersonLastName
         );
       }
-      if (store.personalInfo.institutionEmail) {
-        form.setValue("institutionEmail", store.personalInfo.institutionEmail);
+      if (store.roleData.personalInfo.institutionEmail) {
+        form.setValue(
+          "institutionEmail",
+          store.roleData.personalInfo.institutionEmail
+        );
       }
     }
-  }, [authMethod, store.personalInfo, form]);
+  }, [authMethod, store.roleData.personalInfo, form]);
 
   const handleSubmit = async (values: InstitutionPersonalInfo) => {
     console.log("Form values before submit:", values);
@@ -107,46 +122,31 @@ const InstitutionPersonalInfoForm: React.FC = () => {
     }
   };
 
-  const getPasswordStrength = (password: string) => {
-    let strength = 0;
-    if (password.length >= 8) strength++;
-    if (/[a-z]/.test(password)) strength++;
-    if (/[A-Z]/.test(password)) strength++;
-    if (/\d/.test(password)) strength++;
-    if (/[@$!%*?&]/.test(password)) strength++;
-
-    if (strength <= 2) return { text: "Weak", color: "text-red-500" };
-    if (strength <= 4) return { text: "Medium", color: "text-yellow-500" };
-    return { text: "Strong", color: "text-green-500" };
-  };
-
-  const passwordStrength = getPasswordStrength(form.watch("password") || "");
-
-  const getStepNumber = () => STEP_CONFIG.personalInfo.stepNumber;
+  const passwordStrength = GetPasswordStrength(form.watch("password") || "");
 
   const getTitle = () => {
     switch (authMethod) {
       case "email":
-        return "Institution Email Registration";
+        return t("roles.institution.emailRegistration");
       case "phone":
-        return "Institution Phone Registration";
+        return t("roles.institution.phoneRegistration");
       case "thirdParty":
-        return "Complete Your Institution Profile";
+        return t("roles.institution.completeProfile");
       default:
-        return "Institution Information";
+        return t("roles.institution.title");
     }
   };
 
   const getDescription = () => {
     switch (authMethod) {
       case "email":
-        return "Create your institution account with email address";
+        return t("roles.institution.emailDescription");
       case "phone":
-        return "Create your institution account with phone number";
+        return t("roles.institution.phoneDescription");
       case "thirdParty":
-        return "Please provide additional information to complete your institution profile";
+        return t("roles.institution.thirdPartyDescription");
       default:
-        return "Enter your institution details to continue";
+        return t("roles.institution.description");
     }
   };
 
@@ -159,20 +159,6 @@ const InstitutionPersonalInfoForm: React.FC = () => {
     <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <Card className="w-full max-w-md bg-transparent shadow-none border-none">
         <CardHeader>
-          <div className="flex items-center gap-2">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={onBack}
-              className="p-1"
-              disabled={isLoading}
-            >
-              <ArrowLeft className="h-4 w-4" />
-            </Button>
-            <div className="text-sm text-muted-foreground">
-              Step {getStepNumber()} of {REGISTRATION_STEPS.length}
-            </div>
-          </div>
           <CardTitle className="text-2xl font-bold flex items-center gap-2">
             {providerInfo && (
               <span className={providerInfo.color}>{providerInfo.icon}</span>
@@ -193,7 +179,9 @@ const InstitutionPersonalInfoForm: React.FC = () => {
                 name="institutionName"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{FORM_LABELS.institutionName}</FormLabel>
+                    <FormLabel>
+                      {t("roles.institution.fields.institutionName")}
+                    </FormLabel>
                     <FormControl>
                       <Input {...field} disabled={isLoading} />
                     </FormControl>
@@ -210,7 +198,7 @@ const InstitutionPersonalInfoForm: React.FC = () => {
                   render={({ field }) => (
                     <FormItem className="flex flex-col">
                       <FormLabel>
-                        {FORM_LABELS.contactPersonFirstName}
+                        {t("roles.institution.fields.contactPersonFirstName")}
                       </FormLabel>
                       <FormControl>
                         <Input {...field} disabled={isLoading} />
@@ -224,7 +212,9 @@ const InstitutionPersonalInfoForm: React.FC = () => {
                   name="contactPersonLastName"
                   render={({ field }) => (
                     <FormItem className="flex flex-col">
-                      <FormLabel>{FORM_LABELS.contactPersonLastName}</FormLabel>
+                      <FormLabel>
+                        {t("roles.institution.fields.contactPersonLastName")}
+                      </FormLabel>
                       <FormControl>
                         <Input {...field} disabled={isLoading} />
                       </FormControl>
@@ -241,7 +231,9 @@ const InstitutionPersonalInfoForm: React.FC = () => {
                   name="institutionEmail"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>{FORM_LABELS.institutionEmail} </FormLabel>
+                      <FormLabel>
+                        {t("roles.institution.fields.institutionEmail")}{" "}
+                      </FormLabel>
                       <FormControl>
                         <Input
                           type="email"
@@ -262,7 +254,9 @@ const InstitutionPersonalInfoForm: React.FC = () => {
                 name="institutionPhoneNumber"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{FORM_LABELS.institutionPhoneNumber} </FormLabel>
+                    <FormLabel>
+                      {t("roles.institution.fields.institutionPhoneNumber")}{" "}
+                    </FormLabel>
                     <FormControl>
                       <PhoneInput
                         value={field.value}
@@ -283,7 +277,7 @@ const InstitutionPersonalInfoForm: React.FC = () => {
                     name="password"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>{FORM_LABELS.password} </FormLabel>
+                        <FormLabel>{t("personalInfo.password")} </FormLabel>
                         <FormControl>
                           <div className="relative">
                             <Input
@@ -320,7 +314,9 @@ const InstitutionPersonalInfoForm: React.FC = () => {
                     name="confirmPassword"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>{FORM_LABELS.confirmPassword} </FormLabel>
+                        <FormLabel>
+                          {t("personalInfo.confirmPassword")}{" "}
+                        </FormLabel>
                         <FormControl>
                           <div className="relative">
                             <Input
@@ -355,14 +351,16 @@ const InstitutionPersonalInfoForm: React.FC = () => {
 
               {/* Commercial Registration Upload */}
               <div className="space-y-2">
-                <Label>{FILE_UPLOAD_MESSAGES.title}</Label>
+                <Label>
+                  {t("roles.institution.fields.commercialRegistration")}
+                </Label>
 
                 <FileUpload
                   accept={["application/pdf", "image/jpeg", "image/png"]}
                   maxSizeMB={10}
-                  onChange={(file) =>
-                    setCommercialRegistrationFile(file as File | null)
-                  }
+                  onChange={(file) => {
+                    setCommercialRegistrationFile(file as File | null);
+                  }}
                 />
               </div>
 
@@ -382,19 +380,19 @@ const InstitutionPersonalInfoForm: React.FC = () => {
                     <div className="space-y-1">
                       <FormLabel className="flex flex-wrap">
                         <span>
-                          {TERMS_TEXT.terms}{" "}
+                          {t("terms.text")}{" "}
                           <Link
                             href="#"
                             className="underline text-p-6 hover:text-p-5"
                           >
-                            {TERMS_TEXT.termsLink}
+                            {t("terms.termsLink")}
                           </Link>{" "}
-                          {TERMS_TEXT.termsCong}{" "}
+                          {t("terms.and")}{" "}
                           <Link
                             href="#"
                             className="underline text-p-5 hover:text-p-5"
                           >
-                            {TERMS_TEXT.privacyLink}
+                            {t("terms.privacyLink")}
                           </Link>
                         </span>
                       </FormLabel>
@@ -406,7 +404,7 @@ const InstitutionPersonalInfoForm: React.FC = () => {
 
               {/* Submit */}
               <Button type="submit" className="w-full" disabled={isLoading}>
-                {isLoading ? "Submitting..." : "Continue"}
+                {isLoading ? commonT("loading") : t("personalInfo.continue")}
               </Button>
             </form>
           </Form>

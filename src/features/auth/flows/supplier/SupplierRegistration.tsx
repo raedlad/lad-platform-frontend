@@ -1,76 +1,66 @@
 "use client";
 
 import React from "react";
-import { useSupplierRegistrationStore } from "@auth/store/supplierRegistrationStore";
-import { useSupplierRegistration } from "@auth/hooks/useSupplierRegistration";
-import AuthMethodSelection from "../common/AuthMethodSelection";
+import { useAuthStore } from "@auth/store/authStore";
+import { useSupplierRegistration } from "./useSupplierRegistration";
+import AuthMethodSelection from "@auth/flows/common/AuthMethodSelection";
+import OTPVerificationStep from "@auth/flows/common/OTPVerificationStep";
 import SupplierPersonalInfoForm from "@auth/components/forms/SupplierPersonalInfoForm";
-import SupplierOperationalCommercialInfoForm from "@auth/components/forms/SupplierOperationalCommercialInfoForm";
-import SupplierDocumentUploadForm from "@auth/components/forms/SupplierDocumentUploadForm";
-import SupplierPlanSelectionForm from "@auth/components/forms/SupplierPlanSelectionForm";
-import VerificationStep from "../individual/VerificationStep";
-import CompletionStep from "../individual/CompletionStep";
+import { OnboardingLayout } from "../../components/onboarding/OnboardingLayout";
 
-// Wrapper component for supplier registration verification
+// Adapter to convert unified store to expected RegistrationStore interface
+const createStoreAdapter = (store: any) => ({
+  currentStep: store.currentStep,
+  authMethod: store.authMethod,
+  personalInfo: store.roleData.personalInfo || {},
+  phoneInfo: store.roleData.phoneInfo,
+  thirdPartyInfo: store.roleData.thirdPartyInfo,
+  isLoading: store.isLoading,
+  error: store.error,
+});
+
 const SupplierVerificationStep: React.FC = () => {
-  const store = useSupplierRegistrationStore();
-  const hook = useSupplierRegistration();
-  return <VerificationStep store={store} hook={hook} />;
-};
+  const { handleVerificationSubmit, handleResendCode, isLoading, error } =
+    useSupplierRegistration();
+  const store = useAuthStore();
 
-// Wrapper component for supplier registration completion
-const SupplierCompletionStep: React.FC = () => {
-  const store = useSupplierRegistrationStore();
-  const hook = useSupplierRegistration();
-  return <CompletionStep store={store} hook={hook} />;
+  return (
+    <OTPVerificationStep
+      store={createStoreAdapter(store)}
+      hook={{
+        handleVerificationSubmit,
+        handleResendCode,
+        goToPreviousStep: () => store.goToPreviousStep(),
+      }}
+    />
+  );
 };
 
 const SupplierRegistration: React.FC = () => {
-  const store = useSupplierRegistrationStore();
-  const { handleAuthMethodSelect } = useSupplierRegistration();
+  const store = useAuthStore();
+  const { currentStep } = store;
 
   const renderStepContent = () => {
-    switch (store.currentStep) {
+    switch (currentStep) {
       case "authMethod":
         return (
-          <AuthMethodSelection onAuthMethodSelect={handleAuthMethodSelect} />
+          <AuthMethodSelection
+            onAuthMethodSelect={(method: "email" | "phone" | "thirdParty") => {
+              store.setAuthMethod(method);
+              store.goToNextStep();
+            }}
+          />
         );
-
       case "personalInfo":
         return <SupplierPersonalInfoForm />;
-
       case "verification":
         return <SupplierVerificationStep />;
-
-      case "operationalCommercialInfo":
-        return <SupplierOperationalCommercialInfoForm />;
-
-      case "documentUpload":
-        return <SupplierDocumentUploadForm />;
-
-      case "planSelection":
-        return <SupplierPlanSelectionForm />;
-
-      case "complete":
-        return <SupplierCompletionStep />;
-
       default:
-        return (
-          <AuthMethodSelection onAuthMethodSelect={handleAuthMethodSelect} />
-        );
+        return <div>Unknown step: {currentStep}</div>;
     }
   };
 
-  return (
-    <div className="w-full">
-      {store.error && (
-        <div className="fixed top-4 right-4 z-50 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
-          {store.error}
-        </div>
-      )}
-      {renderStepContent()}
-    </div>
-  );
+  return <OnboardingLayout>{renderStepContent()}</OnboardingLayout>;
 };
 
 export default SupplierRegistration;

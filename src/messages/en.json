@@ -1,0 +1,222 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "submit": "Submit",
+    "continue": "Continue",
+    "back": "Back",
+    "next": "Next",
+    "cancel": "Cancel",
+    "save": "Save",
+    "edit": "Edit",
+    "delete": "Delete",
+    "confirm": "Confirm",
+    "close": "Close",
+    "search": "Search",
+    "filter": "Filter",
+    "sort": "Sort",
+    "refresh": "Refresh",
+    "download": "Download",
+    "upload": "Upload",
+    "select": "Select",
+    "clear": "Clear",
+    "reset": "Reset",
+    "changeLanguage": "Change Language",
+    "comingSoon": "Coming Soon"
+  },
+  "auth": {
+    "title": "Welcome to LAD Platform",
+    "subtitle": "Create your account now",
+    "login": "Login",
+    "signup": "Sign Up",
+    "logout": "Logout",
+    "forgotPassword": "Forgot Password?",
+    "resetPassword": "Reset Password",
+    "verifyEmail": "Verify Email",
+    "verifyPhone": "Verify Phone",
+    "resendCode": "Resend Code",
+    "authMethod": {
+      "title": "Registration Method",
+      "description": "Choose your preferred registration method",
+      "email": "Continue with Email",
+      "phone": "Continue with Phone Number",
+      "thirdParty": "Continue with Google"
+    },
+    "personalInfo": {
+      "title": "Personal Information",
+      "description": "Enter your personal information",
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "email": "Email",
+      "phoneNumber": "Phone Number",
+      "password": "Password",
+      "confirmPassword": "Confirm Password",
+      "nationalId": "National ID",
+      "agreeToTerms": "I agree to the terms and conditions",
+      "emailRegistration": "Email Registration",
+      "phoneRegistration": "Phone Registration",
+      "thirdPartyDescription": "Please provide additional information to complete your profile",
+      "phoneDescription": "Create your account using phone number",
+      "emailDescription": "Create your account using email",
+      "completeProfile": "Complete Your Profile",
+      "continue": "Continue"
+    },
+    "verification": {
+      "title": "Verification",
+      "description": "Verify your account",
+      "enterCode": "Enter the code sent to you",
+      "codeSent": "Code sent to",
+      "didntReceive": "Didn't receive the code?"
+    },
+    "roles": {
+      "individual": "Individual",
+      "institution": "Institution",
+      "supplier": "Supplier",
+      "freelanceEngineer": "Freelance Engineer",
+      "engineeringOffice": "Engineering Office",
+      "contractor": "Contractor"
+    },
+    "form": {
+      "placeholders": {
+        "firstName": "Enter your first name",
+        "lastName": "Enter your last name",
+        "email": "Enter your email",
+        "phoneNumber": "Enter your phone number",
+        "password": "Enter your password",
+        "confirmPassword": "Re-enter your password",
+        "nationalId": "Enter your national ID"
+      },
+      "validation": {
+        "required": "This field is required",
+        "invalidEmail": "Invalid email address",
+        "invalidPhone": "Invalid phone number",
+        "passwordMinLength": "Password must be at least 8 characters",
+        "passwordMismatch": "Passwords do not match",
+        "nationalIdMinLength": "National ID must be at least 10 digits"
+      }
+    },
+    "terms": {
+      "text": "I agree to the",
+      "termsLink": "Terms and Conditions",
+      "and": "and",
+      "privacyLink": "Privacy Policy"
+    },
+    "roleSelection": {
+      "description": "Select user type to start using our platform",
+      "serviceSeeker": "Service Seeker",
+      "serviceProvider": "Service Provider",
+      "or": "OR",
+      "haveAccount": "Already have an account?"
+    },
+    "onboarding": {
+      "steps": {
+        "authMethod": {
+          "label": "Registration Method",
+          "description": "Choose your preferred registration method"
+        },
+        "personalInfo": {
+          "label": "Personal Information",
+          "description": "Enter your personal information"
+        },
+        "verification": {
+          "label": "Verification",
+          "description": "Verify your account"
+        }
+      }
+    }
+  },
+  "roles": {
+    "individual": {
+      "title": "Individual Registration",
+      "description": "Create an account for personal use"
+    },
+    "institution": {
+      "title": "Institution Registration",
+      "description": "Create an account for institutions and companies",
+      "emailRegistration": "Institution Email Registration",
+      "phoneRegistration": "Institution Phone Registration",
+      "completeProfile": "Complete Your Institution Profile",
+      "emailDescription": "Create your institution account with email address",
+      "phoneDescription": "Create your institution account with phone number",
+      "thirdPartyDescription": "Please provide additional information to complete your institution profile",
+      "fields": {
+        "institutionName": "Institution Name",
+        "contactPersonFirstName": "Contact Person First Name",
+        "contactPersonLastName": "Contact Person Last Name",
+        "institutionEmail": "Institution Email",
+        "institutionPhoneNumber": "Institution Phone Number",
+        "commercialRegistration": "Commercial Registration (Optional)"
+      }
+    },
+    "supplier": {
+      "title": "Supplier Registration",
+      "description": "Create an account for suppliers and contractors",
+      "fields": {
+        "commercialEstablishmentName": "Commercial Establishment Name",
+        "commercialRegistrationNumber": "Commercial Registration Number",
+        "authorizedPersonName": "Authorized Person Name",
+        "authorizedPersonMobileNumber": "Authorized Person Mobile Number"
+      }
+    },
+    "freelanceEngineer": {
+      "title": "Freelance Engineer Registration",
+      "description": "Create an account for freelance engineers",
+      "emailRegistration": "Freelance Engineer Email Registration",
+      "phoneRegistration": "Freelance Engineer Phone Registration",
+      "completeProfile": "Complete Your Freelance Engineer Profile",
+      "emailDescription": "Create your freelance engineer account with email address",
+      "phoneDescription": "Create your freelance engineer account with phone number",
+      "thirdPartyDescription": "Please provide additional information to complete your freelance engineer profile",
+      "fields": {
+        "engineeringLicenseNumber": "Engineering License Number"
+      }
+    },
+    "engineeringOffice": {
+      "title": "Engineering Office Registration",
+      "description": "Create an account for engineering offices",
+      "fields": {
+        "officeName": "Office Name",
+        "professionalLicenseNumber": "Professional License Number",
+        "authorizedPersonName": "Authorized Person Name",
+        "authorizedPersonMobileNumber": "Authorized Person Mobile Number",
+        "authorizationFormNumber": "Authorization Form Number"
+      }
+    },
+    "contractor": {
+      "title": "Contractor Registration",
+      "description": "Create an account for contractors",
+      "fields": {
+        "companyName": "Company Name",
+        "commercialRegistrationNumber": "Commercial Registration Number",
+        "authorizedPersonName": "Authorized Person Name",
+        "authorizedPersonMobileNumber": "Authorized Person Mobile Number",
+        "authorizationFormNumber": "Authorization Form Number"
+      }
+    }
+  },
+  "navigation": {
+    "home": "Home",
+    "dashboard": "Dashboard",
+    "profile": "Profile",
+    "settings": "Settings",
+    "help": "Help",
+    "about": "About",
+    "contact": "Contact"
+  },
+  "errors": {
+    "general": "Something went wrong",
+    "network": "Network error",
+    "validation": "Validation error",
+    "notFound": "Page not found",
+    "unauthorized": "Unauthorized",
+    "forbidden": "Forbidden",
+    "serverError": "Server error",
+    "loginFailed": "Login failed"
+  },
+  "success": {
+    "registration": "Registration successful",
+    "login": "Login successful",
+    "passwordReset": "Password reset successful",
+    "profileUpdate": "Profile updated successfully",
+    "dataSaved": "Data saved successfully"
+  }
+}

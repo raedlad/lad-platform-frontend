@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@shared/components/ui/button";
@@ -30,27 +30,27 @@ import {
   STEP_CONFIG,
   FORM_LABELS,
   FORM_PLACEHOLDERS,
-  FILE_UPLOAD_MESSAGES,
 } from "@auth/constants/supplierRegistration";
-import { FileUpload } from "@/features/auth/components/common/FileUpload";
+import { useAuthStore } from "@auth/store/authStore";
+import { useSupplierRegistration } from "@/features/auth/flows/supplier/useSupplierRegistration";
 import { useSupplierRegistrationStore } from "@auth/store/supplierRegistrationStore";
-import { useSupplierRegistration } from "@auth/hooks/useSupplierRegistration";
+import { GetPasswordStrength } from "../../utils/getPasswordStrength";
 
 const SupplierPersonalInfoForm: React.FC = () => {
-  const store = useSupplierRegistrationStore();
-  const { handlePersonalInfoSubmit, goToPreviousStep } =
-    useSupplierRegistration();
+  const store = useAuthStore();
+  const { handlePersonalInfoSubmit } = useSupplierRegistration();
+  const supplierStore = useSupplierRegistrationStore();
 
   const authMethod = store.authMethod!;
   const isLoading = store.isLoading;
   const onSubmit = handlePersonalInfoSubmit;
-  const onBack = goToPreviousStep;
 
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [officialAuthorizationLetter, setOfficialAuthorizationLetter] =
-    useState<File | null>(null);
-  const [establishmentLogo, setEstablishmentLogo] = useState<File | null>(null);
+  const {
+    showPassword,
+    showConfirmPassword,
+    setShowPassword,
+    setShowConfirmPassword,
+  } = supplierStore;
 
   const form = useForm<SupplierPersonalInfo>({
     resolver: zodResolver(SupplierPersonalInfoSchema),
@@ -62,64 +62,41 @@ const SupplierPersonalInfoForm: React.FC = () => {
       email: "",
       password: "",
       confirmPassword: "",
-      officialAuthorizationLetter: undefined, // Handled by useState
-      establishmentLogo: undefined, // Handled by useState
     },
     shouldUnregister: true,
   });
 
   // Set pre-filled values from store when component mounts
   React.useEffect(() => {
-    if (authMethod === "thirdParty" && store.personalInfo) {
-      if (store.personalInfo.commercialEstablishmentName) {
+    if (authMethod === "thirdParty" && store.roleData.personalInfo) {
+      if (store.roleData.personalInfo.commercialEstablishmentName) {
         form.setValue(
           "commercialEstablishmentName",
-          store.personalInfo.commercialEstablishmentName
+          store.roleData.personalInfo.commercialEstablishmentName
         );
       }
-      if (store.personalInfo.authorizedPersonName) {
+      if (store.roleData.personalInfo.authorizedPersonName) {
         form.setValue(
           "authorizedPersonName",
-          store.personalInfo.authorizedPersonName
+          store.roleData.personalInfo.authorizedPersonName
         );
       }
-      if (store.personalInfo.email) {
-        form.setValue("email", store.personalInfo.email);
+      if (store.roleData.personalInfo.email) {
+        form.setValue("email", store.roleData.personalInfo.email);
       }
     }
-  }, [authMethod, store.personalInfo, form]);
+  }, [authMethod, store.roleData.personalInfo, form]);
 
   const handleSubmit = async (values: SupplierPersonalInfo) => {
     console.log("Form values before submit:", values);
-    const formData = {
-      ...values,
-      officialAuthorizationLetter: officialAuthorizationLetter!,
-      establishmentLogo: establishmentLogo || undefined,
-    };
-
-    const result = await onSubmit(formData);
+    const result = await onSubmit(values);
 
     if (!result.success) {
       console.log("Form submission failed:", result.error);
     }
   };
 
-  const getPasswordStrength = (password: string) => {
-    let strength = 0;
-    if (password.length >= 8) strength++;
-    if (/[a-z]/.test(password)) strength++;
-    if (/[A-Z]/.test(password)) strength++;
-    if (/\d/.test(password)) strength++;
-    if (/[@$!%*?&]/.test(password)) strength++;
-
-    if (strength <= 2) return { text: "Weak", color: "text-red-500" };
-    if (strength <= 4) return { text: "Medium", color: "text-yellow-500" };
-    return { text: "Strong", color: "text-green-500" };
-  };
-
-  const passwordStrength = getPasswordStrength(form.watch("password") || "");
-
-  const getStepNumber = () => STEP_CONFIG.personalInfo.stepNumber;
+  const passwordStrength = GetPasswordStrength(form.watch("password") || "");
 
   const getTitle = () => {
     switch (authMethod) {
@@ -153,23 +130,9 @@ const SupplierPersonalInfoForm: React.FC = () => {
       : null;
 
   return (
-    <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div className="w-full flex items-center justify-center">
       <Card className="w-full max-w-md bg-transparent shadow-none border-none">
         <CardHeader>
-          <div className="flex items-center gap-2">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={onBack}
-              className="p-1"
-              disabled={isLoading}
-            >
-              <ArrowLeft className="h-4 w-4" />
-            </Button>
-            <div className="text-sm text-muted-foreground">
-              Step {getStepNumber()} of {REGISTRATION_STEPS.length}
-            </div>
-          </div>
           <CardTitle className="text-2xl font-bold flex items-center gap-2">
             {providerInfo && (
               <span className={providerInfo.color}>{providerInfo.icon}</span>
@@ -353,35 +316,6 @@ const SupplierPersonalInfoForm: React.FC = () => {
                   />
                 </>
               )}
-
-              {/* Official Authorization Letter Upload */}
-              <div className="space-y-2">
-                <Label className="text-base font-semibold">
-                  {FILE_UPLOAD_MESSAGES.officialAuthorizationLetter.title}
-                </Label>
-                <FileUpload
-                  accept={["application/pdf", "image/jpeg", "image/png"]}
-                  maxSizeMB={FILE_UPLOAD_MESSAGES.maxSizeMB}
-                  onChange={(file) =>
-                    setOfficialAuthorizationLetter(file as File | null)
-                  }
-                />
-                <FormMessage>
-                  {form.formState.errors.officialAuthorizationLetter?.message}
-                </FormMessage>
-              </div>
-
-              {/* Establishment Logo Upload (Optional) */}
-              <div className="space-y-2">
-                <Label className="text-base font-semibold">
-                  {FILE_UPLOAD_MESSAGES.establishmentLogo.title}
-                </Label>
-                <FileUpload
-                  accept={["image/jpeg", "image/png"]}
-                  maxSizeMB={FILE_UPLOAD_MESSAGES.maxSizeMB}
-                  onChange={(file) => setEstablishmentLogo(file as File | null)}
-                />
-              </div>
 
               {/* Submit */}
               <Button type="submit" className="w-full" disabled={isLoading}>

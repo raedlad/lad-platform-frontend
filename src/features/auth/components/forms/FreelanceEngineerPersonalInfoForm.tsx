@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@shared/components/ui/button";
@@ -31,28 +31,32 @@ import {
   STEP_CONFIG,
   FORM_LABELS,
   FORM_PLACEHOLDERS,
-  FILE_UPLOAD_MESSAGES,
   TERMS_TEXT,
 } from "@auth/constants/freelanceEngineerRegistration";
-import { FileUpload } from "@/features/auth/components/common/FileUpload";
 import Link from "next/link";
+import { useAuthStore } from "@auth/store/authStore";
+import { useFreelanceEngineerRegistration } from "@/features/auth/flows/freelance-engineer/useFreelanceEngineerRegistration";
 import { useFreelanceEngineerRegistrationStore } from "@auth/store/freelanceEngineerRegistrationStore";
-import { useFreelanceEngineerRegistration } from "@auth/hooks/useFreelanceEngineerRegistration";
+import { GetPasswordStrength } from "../../utils/getPasswordStrength";
+import { useTranslations } from "next-intl";
 
 const FreelanceEngineerPersonalInfoForm: React.FC = () => {
-  const store = useFreelanceEngineerRegistrationStore();
-  const { handlePersonalInfoSubmit, goToPreviousStep } =
-    useFreelanceEngineerRegistration();
+  const store = useAuthStore();
+  const { handlePersonalInfoSubmit } = useFreelanceEngineerRegistration();
+  const freelanceEngineerStore = useFreelanceEngineerRegistrationStore();
+  const t = useTranslations("auth");
+  const commonT = useTranslations("common");
 
   const authMethod = store.authMethod!;
   const isLoading = store.isLoading;
   const onSubmit = handlePersonalInfoSubmit;
-  const onBack = goToPreviousStep;
 
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [engineeringLicenseFile, setEngineeringLicenseFile] =
-    useState<File | null>(null);
+  const {
+    showPassword,
+    showConfirmPassword,
+    setShowPassword,
+    setShowConfirmPassword,
+  } = freelanceEngineerStore;
 
   const form = useForm<FreelanceEngineerPersonalInfo>({
     resolver: zodResolver(FreelanceEngineerPersonalInfoSchema),
@@ -63,6 +67,7 @@ const FreelanceEngineerPersonalInfoForm: React.FC = () => {
       phoneNumber: "",
       password: "",
       confirmPassword: "",
+
       agreeToTerms: false,
     },
     shouldUnregister: true,
@@ -70,73 +75,53 @@ const FreelanceEngineerPersonalInfoForm: React.FC = () => {
 
   // Set pre-filled values from store when component mounts
   React.useEffect(() => {
-    if (authMethod === "thirdParty" && store.personalInfo) {
-      if (store.personalInfo.firstName) {
-        form.setValue("firstName", store.personalInfo.firstName);
+    if (authMethod === "thirdParty" && store.roleData.personalInfo) {
+      if (store.roleData.personalInfo.firstName) {
+        form.setValue("firstName", store.roleData.personalInfo.firstName);
       }
-      if (store.personalInfo.lastName) {
-        form.setValue("lastName", store.personalInfo.lastName);
+      if (store.roleData.personalInfo.lastName) {
+        form.setValue("lastName", store.roleData.personalInfo.lastName);
       }
-      if (store.personalInfo.email) {
-        form.setValue("email", store.personalInfo.email);
+      if (store.roleData.personalInfo.email) {
+        form.setValue("email", store.roleData.personalInfo.email);
       }
     }
-  }, [authMethod, store.personalInfo, form]);
+  }, [authMethod, store.roleData.personalInfo, form]);
 
   const handleSubmit = async (values: FreelanceEngineerPersonalInfo) => {
     console.log("Form values before submit:", values);
-    const formData = {
-      ...values,
-      engineeringLicenseFile: engineeringLicenseFile || undefined,
-    };
-
-    const result = await onSubmit(formData);
+    const result = await onSubmit(values);
 
     if (!result.success) {
       console.log("Form submission failed:", result.error);
     }
   };
 
-  const getPasswordStrength = (password: string) => {
-    let strength = 0;
-    if (password.length >= 8) strength++;
-    if (/[a-z]/.test(password)) strength++;
-    if (/[A-Z]/.test(password)) strength++;
-    if (/\d/.test(password)) strength++;
-    if (/[@$!%*?&]/.test(password)) strength++;
-
-    if (strength <= 2) return { text: "Weak", color: "text-red-500" };
-    if (strength <= 4) return { text: "Medium", color: "text-yellow-500" };
-    return { text: "Strong", color: "text-green-500" };
-  };
-
-  const passwordStrength = getPasswordStrength(form.watch("password") || "");
-
-  const getStepNumber = () => STEP_CONFIG.personalInfo.stepNumber;
+  const passwordStrength = GetPasswordStrength(form.watch("password") || "");
 
   const getTitle = () => {
     switch (authMethod) {
       case "email":
-        return "Freelance Engineer Email Registration";
+        return t("roles.freelanceEngineer.emailRegistration");
       case "phone":
-        return "Freelance Engineer Phone Registration";
+        return t("roles.freelanceEngineer.phoneRegistration");
       case "thirdParty":
-        return "Complete Your Freelance Engineer Profile";
+        return t("roles.freelanceEngineer.completeProfile");
       default:
-        return "Freelance Engineer Information";
+        return t("roles.freelanceEngineer.title");
     }
   };
 
   const getDescription = () => {
     switch (authMethod) {
       case "email":
-        return "Create your freelance engineer account with email address";
+        return t("roles.freelanceEngineer.emailDescription");
       case "phone":
-        return "Create your freelance engineer account with phone number";
+        return t("roles.freelanceEngineer.phoneDescription");
       case "thirdParty":
-        return "Please provide additional information to complete your freelance engineer profile";
+        return t("roles.freelanceEngineer.thirdPartyDescription");
       default:
-        return "Enter your freelance engineer details to continue";
+        return t("roles.freelanceEngineer.description");
     }
   };
 
@@ -146,23 +131,9 @@ const FreelanceEngineerPersonalInfoForm: React.FC = () => {
       : null;
 
   return (
-    <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div className="w-full flex items-center justify-center">
       <Card className="w-full max-w-md bg-transparent shadow-none border-none">
         <CardHeader>
-          <div className="flex items-center gap-2">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={onBack}
-              className="p-1"
-              disabled={isLoading}
-            >
-              <ArrowLeft className="h-4 w-4" />
-            </Button>
-            <div className="text-sm text-muted-foreground">
-              Step {getStepNumber()} of {REGISTRATION_STEPS.length}
-            </div>
-          </div>
           <CardTitle className="text-2xl font-bold flex items-center gap-2">
             {providerInfo && (
               <span className={providerInfo.color}>{providerInfo.icon}</span>
@@ -184,7 +155,7 @@ const FreelanceEngineerPersonalInfoForm: React.FC = () => {
                   name="firstName"
                   render={({ field }) => (
                     <FormItem className="flex flex-col">
-                      <FormLabel>{FORM_LABELS.firstName}</FormLabel>
+                      <FormLabel>{t("personalInfo.firstName")}</FormLabel>
                       <FormControl>
                         <Input {...field} disabled={isLoading} />
                       </FormControl>
@@ -197,7 +168,7 @@ const FreelanceEngineerPersonalInfoForm: React.FC = () => {
                   name="lastName"
                   render={({ field }) => (
                     <FormItem className="flex flex-col">
-                      <FormLabel>{FORM_LABELS.lastName}</FormLabel>
+                      <FormLabel>{t("personalInfo.lastName")}</FormLabel>
                       <FormControl>
                         <Input {...field} disabled={isLoading} />
                       </FormControl>
@@ -214,7 +185,7 @@ const FreelanceEngineerPersonalInfoForm: React.FC = () => {
                   name="email"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>{FORM_LABELS.email} </FormLabel>
+                      <FormLabel>{t("personalInfo.email")} </FormLabel>
                       <FormControl>
                         <Input
                           type="email"
@@ -235,7 +206,7 @@ const FreelanceEngineerPersonalInfoForm: React.FC = () => {
                 name="phoneNumber"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{FORM_LABELS.phoneNumber} </FormLabel>
+                    <FormLabel>{t("personalInfo.phoneNumber")} </FormLabel>
                     <FormControl>
                       <PhoneInput
                         value={field.value}
@@ -256,7 +227,7 @@ const FreelanceEngineerPersonalInfoForm: React.FC = () => {
                     name="password"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>{FORM_LABELS.password} </FormLabel>
+                        <FormLabel>{t("personalInfo.password")} </FormLabel>
                         <FormControl>
                           <div className="relative">
                             <Input
@@ -293,7 +264,9 @@ const FreelanceEngineerPersonalInfoForm: React.FC = () => {
                     name="confirmPassword"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>{FORM_LABELS.confirmPassword} </FormLabel>
+                        <FormLabel>
+                          {t("personalInfo.confirmPassword")}{" "}
+                        </FormLabel>
                         <FormControl>
                           <div className="relative">
                             <Input
@@ -326,17 +299,6 @@ const FreelanceEngineerPersonalInfoForm: React.FC = () => {
                 </>
               )}
 
-              {/* Engineering License Upload */}
-              <div className="space-y-2">
-                <Label>{FILE_UPLOAD_MESSAGES.title}</Label>
-
-                <FileUpload
-                  accept={["application/pdf", "image/jpeg", "image/png"]}
-                  maxSizeMB={10}
-                  onChange={(file) => setEngineeringLicenseFile(file as File | null)}
-                />
-              </div>
-
               {/* Terms and Privacy */}
               <FormField
                 control={form.control}
@@ -353,19 +315,19 @@ const FreelanceEngineerPersonalInfoForm: React.FC = () => {
                     <div className="space-y-1">
                       <FormLabel className="flex flex-wrap">
                         <span>
-                          {TERMS_TEXT.terms}{" "}
+                          {t("terms.text")}{" "}
                           <Link
                             href="#"
                             className="underline text-p-6 hover:text-p-5"
                           >
-                            {TERMS_TEXT.termsLink}
+                            {t("terms.termsLink")}
                           </Link>{" "}
-                          {TERMS_TEXT.termsCong}{" "}
+                          {t("terms.and")}{" "}
                           <Link
                             href="#"
                             className="underline text-p-5 hover:text-p-5"
                           >
-                            {TERMS_TEXT.privacyLink}
+                            {t("terms.privacyLink")}
                           </Link>
                         </span>
                       </FormLabel>
@@ -377,7 +339,7 @@ const FreelanceEngineerPersonalInfoForm: React.FC = () => {
 
               {/* Submit */}
               <Button type="submit" className="w-full" disabled={isLoading}>
-                {isLoading ? "Submitting..." : "Continue"}
+                {isLoading ? commonT("loading") : t("personalInfo.continue")}
               </Button>
             </form>
           </Form>

@@ -1,30 +1,37 @@
 "use client";
 
 import React from "react";
-import { useInstitutionRegistrationStore } from "@auth/store/institutionRegistrationStore";
-import { useInstitutionRegistration } from "@auth/hooks";
+import { useAuthStore } from "@auth/store/authStore";
+import { useInstitutionRegistration } from "@auth/flows/institution/useInstitutionRegistration";
 import AuthMethodSelection from "../common/AuthMethodSelection";
 import InstitutionPersonalInfoForm from "@auth/components/forms/InstitutionPersonalInfoForm";
-import VerificationStep from "../individual/VerificationStep";
-import CompletionStep from "../individual/CompletionStep";
+import OTPVerificationStep from "../common/OTPVerificationStep";
+import { OnboardingLayout } from "../../components/onboarding/OnboardingLayout";
+import { useTranslations } from "next-intl";
 
 // Wrapper component for institution registration verification
 const InstitutionVerificationStep: React.FC = () => {
-  const store = useInstitutionRegistrationStore();
+  const store = useAuthStore();
   const hook = useInstitutionRegistration();
-  return <VerificationStep store={store} hook={hook} />;
-};
 
-// Wrapper component for institution registration completion
-const InstitutionCompletionStep: React.FC = () => {
-  const store = useInstitutionRegistrationStore();
-  const hook = useInstitutionRegistration();
-  return <CompletionStep store={store} hook={hook} />;
+  // Adapt the new store structure to the expected interface
+  const adaptedStore = {
+    currentStep: store.currentStep || "",
+    authMethod: store.authMethod,
+    personalInfo: store.roleData.personalInfo,
+    phoneInfo: store.roleData.phoneInfo,
+    thirdPartyInfo: store.roleData.thirdPartyInfo,
+    isLoading: store.isLoading,
+    error: store.error,
+  };
+
+  return <OTPVerificationStep store={adaptedStore} hook={hook} />;
 };
 
 const InstitutionRegistration: React.FC = () => {
-  const store = useInstitutionRegistrationStore();
+  const store = useAuthStore();
   const { handleAuthMethodSelect } = useInstitutionRegistration();
+  const t = useTranslations("common");
 
   const renderStepContent = () => {
     switch (store.currentStep) {
@@ -32,15 +39,11 @@ const InstitutionRegistration: React.FC = () => {
         return (
           <AuthMethodSelection onAuthMethodSelect={handleAuthMethodSelect} />
         );
-
       case "personalInfo":
         return <InstitutionPersonalInfoForm />;
 
       case "verification":
         return <InstitutionVerificationStep />;
-
-      case "complete":
-        return <InstitutionCompletionStep />;
 
       default:
         return (
@@ -50,14 +53,14 @@ const InstitutionRegistration: React.FC = () => {
   };
 
   return (
-    <div className="w-full">
+    <OnboardingLayout>
       {store.error && (
         <div className="fixed top-4 right-4 z-50 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
           {store.error}
         </div>
       )}
       {renderStepContent()}
-    </div>
+    </OnboardingLayout>
   );
 };
 

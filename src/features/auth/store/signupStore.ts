@@ -5,7 +5,7 @@ interface SignUpState {
   setAuthMethod: (method: "email" | "phone" | "thirdParty" | null) => void;
   currentStep: number;
   setCurrentStep: (step: number) => void;
-  emailSignUpData: any;
+  emailSignUpData: any; 
   setEmailSignUpData: (data: any) => void;
   phoneSignUpData: any;
   setPhoneSignUpData: (data: any) => void;

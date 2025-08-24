@@ -1,44 +1,40 @@
-import { useAuthStore } from "./authStore";
-import { UserRole, UserType } from "@auth/types";
+import { AuthStoreState } from "./authStore";
 
-export const useAuthSelectors = () => {
-  const store = useAuthStore();
+// --- Core state selectors ---
+export const selectCurrentRole = (state: AuthStoreState) => state.currentRole;
+export const selectCurrentStep = (state: AuthStoreState) => state.currentStep;
+export const selectAuthMethod = (state: AuthStoreState) => state.authMethod;
 
-  return {
-    // User selectors
-    user: store.user,
-    isAuthenticated: store.isAuthenticated,
-    isLoading: store.isLoading,
-    error: store.error,
+export const selectIsVerified = (state: AuthStoreState) => state.isVerified;
+export const selectIsLoading = (state: AuthStoreState) => state.isLoading;
+export const selectError = (state: AuthStoreState) => state.error;
 
-    // User info selectors
-    userId: store.user?.id,
-    userEmail: store.user?.email,
-    userName: store.user
-      ? `${store.user.firstName} ${store.user.lastName}`
-      : "",
-    userRole: store.user?.role,
-    userType: store.user?.userType,
+// --- Role-specific data selectors ---
+export const selectPersonalInfo = (state: AuthStoreState) =>
+  state.roleData.personalInfo ?? null;
 
-    // Status selectors
-    isEmailVerified: store.user?.isEmailVerified || false,
-    isPhoneVerified: store.user?.isPhoneVerified || false,
+export const selectProfessionalInfo = (state: AuthStoreState) =>
+  state.roleData.professionalInfo ?? null;
 
-    // Role-based selectors
-    isIndividual: store.user?.role === UserRole.INDIVIDUAL,
-    isContractor: store.user?.role === UserRole.CONTRACTOR,
-    isEngineeringOffice: store.user?.role === UserRole.ENGINEERING_OFFICE,
-    isFreelanceEngineer: store.user?.role === UserRole.FREELANCE_ENGINEER,
-    isInstitution: store.user?.role === UserRole.INSTITUTION,
+export const selectTechnicalOperationalInfo = (state: AuthStoreState) =>
+  state.roleData.technicalOperationalInfo ?? null;
 
-    // User type selectors
-    isPersonalAccount: store.user?.userType === UserType.PERSONAL,
-    isBusinessAccount: store.user?.userType === UserType.BUSINESS,
+export const selectOperationalCommercialInfo = (state: AuthStoreState) =>
+  state.roleData.operationalCommercialInfo ?? null;
 
-    // Actions
-    login: store.login,
-    signup: store.signup,
-    logout: store.logout,
-    clearError: store.clearError,
-  };
-};
+export const selectDocumentUpload = (state: AuthStoreState) =>
+  state.roleData.documentUpload ?? null;
+
+// --- Navigation & flow ---
+export const selectStepInfo = (state: AuthStoreState) =>
+  state.getCurrentStepInfo();
+
+export const selectCanGoNext = (state: AuthStoreState) =>
+  state.canGoToNextStep();
+
+export const selectCanGoPrevious = (state: AuthStoreState) =>
+  state.canGoToPreviousStep();
+
+// --- Debug / utilities ---
+export const selectStoreSnapshot = (state: AuthStoreState) =>
+  state.getStoreState();
