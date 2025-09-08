@@ -251,9 +251,6 @@ body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-}
-
-body {
   font-family: Cairo, sans-serif;
 }
 
@@ -296,9 +293,454 @@ body {
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-white dark:bg-black text-foreground;
+    @apply !bg-background !text-n-9 dark:!text-n-1;
   }
-  .section{
+
+  /* Layout Utilities */
+  .section {
     @apply mx-auto px-4 py-8 md:py-10 lg:py-12;
   }
+
+  .container-centered {
+    @apply w-full max-w-2xl mx-auto px-4 pb-8 md:pb-10 lg:pb-12;
+  }
+
+  .container-narrow {
+    @apply w-full max-w-md mx-auto;
+  }
+
+  .container-wide {
+    @apply w-full max-w-6xl mx-auto;
+  }
+
+  /* Flex Layout Utilities */
+  .flex-center {
+    @apply flex items-center justify-center;
+  }
+
+  .flex-between {
+    @apply flex items-center justify-between;
+  }
+
+  .flex-col-center {
+    @apply flex flex-col items-center justify-center;
+  }
+
+  .flex-col-start {
+    @apply flex flex-col items-start;
+  }
+
+  /* Grid Layout Utilities */
+  .grid-responsive-2 {
+    @apply grid grid-cols-1 lg:grid-cols-2 gap-3;
+  }
+
+  .grid-responsive-3 {
+    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3;
+  }
+
+  .grid-auto-fit {
+    @apply grid grid-cols-1 lg:grid-cols-2 auto-rows-fr items-center justify-center gap-3;
+  }
+
+  /* Spacing Utilities */
+  .space-y-form {
+    @apply space-y-6;
+  }
+
+  .space-y-section {
+    @apply space-y-4;
+  }
+
+  .space-y-tight {
+    @apply space-y-2;
+  }
+
+  .gap-form {
+    @apply gap-6;
+  }
+
+  .gap-section {
+    @apply gap-3;
+  }
+
+  /* Typography Utilities */
+  .heading-hero {
+    @apply text-5xl;
+  }
+
+  .heading-section {
+    @apply text-2xl font-bold;
+  }
+
+  .heading-subsection {
+    @apply text-base font-semibold;
+  }
+
+  .text-description {
+    @apply text-sm text-n-7;
+  }
+
+  .text-muted-small {
+    @apply text-xs text-muted-foreground;
+  }
+
+  .text-center-block {
+    @apply text-center;
+  }
+
+  /* Form Utilities */
+  .form-container {
+    @apply space-y-6;
+  }
+
+  .form-section {
+    @apply space-y-4;
+  }
+
+  .form-field-group {
+    @apply space-y-2;
+  }
+
+  .form-checkbox-group {
+    @apply flex flex-row items-start space-x-3 space-y-0;
+  }
+
+  .form-checkbox-content {
+    @apply space-y-1;
+  }
+
+  .form-submit-section {
+    @apply flex flex-col gap-2 w-full mt-2;
+  }
+
+  /* Input Utilities */
+  .input-password-container {
+    @apply relative;
+  }
+
+  .input-password-toggle {
+    @apply absolute right-0 top-0 !h-full px-3 py-2 hover:bg-transparent;
+  }
+
+  .input-otp {
+    @apply w-12 h-12 text-center text-lg font-semibold;
+  }
+
+  .input-otp-container {
+    @apply flex justify-center gap-2;
+  }
+
+  /* Card Utilities */
+  .card-elevated {
+    @apply border-0 shadow-xl bg-gradient-to-br from-white to-gray-50/50;
+  }
+
+  .card-role-selector {
+    @apply flex-1 p-4 h-full border border-n-4 rounded-lg shadow-xs transition-all cursor-pointer;
+  }
+
+  .card-role-selector-selected {
+    @apply border-p-6 shadow-p-1 text-p-6 bg-p-1/10;
+  }
+
+  .card-role-selector-disabled {
+    @apply opacity-60 cursor-not-allowed;
+  }
+
+  .card-role-selector-hover {
+    @apply hover:border-n-5 hover:shadow-sm;
+  }
+
+  /* Role Card Components */
+  .role-card-content {
+    @apply w-full flex justify-between;
+  }
+
+  .role-card-info {
+    @apply flex items-center gap-3;
+  }
+
+  .role-card-icon {
+    @apply flex items-center justify-center w-10 h-10 rounded-lg bg-n-2/50;
+  }
+
+  .role-card-icon-selected {
+    @apply bg-p-2/50 text-p-6;
+  }
+
+  .role-card-details {
+    @apply flex flex-col gap-0.5;
+  }
+
+  .role-card-header {
+    @apply flex items-center gap-2;
+  }
+
+  .role-card-title {
+    @apply font-bold text-sm;
+  }
+
+  .role-card-description {
+    @apply text-xs text-n-7;
+  }
+
+  .role-card-description-selected {
+    @apply text-p-5;
+  }
+
+  .role-card-radio-container {
+    @apply flex items-center;
+  }
+
+  .role-card-radio {
+    @apply w-4 h-4 rounded-full border-2 transition-all;
+  }
+
+  .role-card-radio-selected {
+    @apply bg-p-6 border-p-6;
+  }
+
+  .role-card-radio-unselected {
+    @apply border-n-4 bg-transparent;
+  }
+
+  .role-card-radio-dot {
+    @apply w-full h-full flex items-center justify-center;
+  }
+
+  .role-card-radio-dot-inner {
+    @apply w-1.5 h-1.5 bg-white rounded-full;
+  }
+
+  /* Badge Utilities */
+  .badge-coming-soon {
+    @apply inline-flex items-center rounded-full border border-n-4 bg-n-2/50 text-n-6 text-xs px-2 py-0.5 font-medium;
+  }
+
+  /* Button Utilities */
+  .btn-full-width {
+    @apply w-full;
+  }
+
+  .btn-full-width-tall {
+    @apply w-full py-4 rounded-sm font-bold;
+  }
+
+  /* Link Utilities */
+  .link-primary {
+    @apply text-p-6 hover:text-p-5 transition-all underline underline-offset-4;
+  }
+
+  .link-muted {
+    @apply underline text-p-6 hover:text-p-5;
+  }
+
+  .link-alt {
+    @apply underline text-p-5 hover:text-p-5;
+  }
+
+  /* Divider Utilities */
+  .divider-horizontal {
+    @apply relative;
+  }
+
+  .divider-line {
+    @apply absolute inset-0 flex items-center;
+  }
+
+  .divider-line-border {
+    @apply w-full border-t;
+  }
+
+  .divider-text {
+    @apply relative flex justify-center text-xs uppercase;
+  }
+
+  .divider-text-bg {
+    @apply px-2 bg-background;
+  }
+
+  /* Status Utilities */
+  .status-error {
+    @apply text-sm text-red-600 text-center;
+  }
+
+  .status-success {
+    @apply text-sm text-green-600 text-center;
+  }
+
+  /* Screen Layout Utilities */
+
+  .auth-form-container {
+    @apply flex flex-col items-center justify-center gap-6;
+  }
+
+  .auth-form-header {
+    @apply flex flex-col items-center justify-center text-center gap-1.5;
+  }
+
+  .auth-form-content {
+    @apply w-full flex flex-col gap-3;
+  }
+
+  /* Password Strength Utilities */
+  .password-strength {
+    @apply text-xs;
+  }
+
+  /* Icon Utilities */
+  .icon-sm {
+    @apply h-4 w-4;
+  }
+
+  .icon-md {
+    @apply size-5;
+  }
+
+  /* Navigation Utilities */
+  .nav-back-button {
+    @apply p-1;
+  }
+
+  .nav-step-indicator {
+    @apply text-sm text-muted-foreground;
+  }
+
+  /* Demo/Helper Utilities */
+  .demo-help-text {
+    @apply text-xs text-center text-muted-foreground;
+  }
+
+  /* Additional Form Utilities */
+  .form-grid-2 {
+    @apply grid grid-cols-2 gap-4 items-start;
+  }
+
+  .form-item-vertical {
+    @apply flex flex-col;
+  }
+
+  .form-message-min-height {
+    @apply min-h-5;
+  }
+
+  .form-message-height {
+    @apply h-5;
+  }
+
+  .form-item-horizontal {
+    @apply flex flex-row items-center space-x-3 space-y-0;
+  }
+
+  /* Text Color Utilities */
+  .text-blue-600 {
+    @apply text-blue-600;
+  }
+
+  .text-provider-color {
+    @apply text-blue-600;
+  }
+
+  /* Background Utilities */
+  .bg-transparent {
+    @apply bg-transparent;
+  }
+
+  /* Gap Utilities */
+  .gap-2 {
+    @apply gap-2;
+  }
+
+  .gap-4 {
+    @apply gap-4;
+  }
+
+  /* Button State Utilities */
+  .btn-disabled-state {
+    @apply bg-n-4 text-n-8;
+  }
+
+  /* Success/Info Card Utilities */
+  .success-icon-container {
+    @apply w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4;
+  }
+
+  .info-box {
+    @apply bg-blue-50 border border-blue-200 rounded-lg p-4;
+  }
+
+  .info-box-content {
+    @apply flex items-start gap-3;
+  }
+
+  .info-box-text {
+    @apply text-sm text-blue-800;
+  }
+
+  .info-box-title {
+    @apply font-medium mb-1;
+  }
+
+  .info-box-list {
+    @apply space-y-1 text-blue-700;
+  }
+
+  /* Text Center with Spacing */
+  .text-center-spaced {
+    @apply text-center space-y-3;
+  }
+
+  .text-center-mt {
+    @apply text-center mt-6;
+  }
+
+  /* Header with Padding */
+  .header-centered-padded {
+    @apply text-center pb-6;
+  }
+
+  /* Icon Sizing */
+  .icon-lg {
+    @apply size-8;
+  }
+
+  .icon-flex-shrink {
+    @apply size-5 mt-0.5 flex-shrink-0;
+  }
+
+  /* Color Utilities */
+  .text-gray-900 {
+    @apply text-gray-900;
+  }
+
+  .text-gray-600 {
+    @apply text-gray-600;
+  }
+
+  .text-blue-600 {
+    @apply text-blue-600;
+  }
+
+  .text-blue-800 {
+    @apply text-blue-800;
+  }
+
+  .text-blue-700 {
+    @apply text-blue-700;
+  }
+
+  .text-green-600 {
+    @apply text-green-600;
+  }
 }
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+

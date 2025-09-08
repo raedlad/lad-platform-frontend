@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Header from "../components/Header";
 import ThemeProvider from "@shared/components/ThemeProvider";
-import I18nProvider from "../components/I18nProvider";
-import { getServerLocale, getTextDirection } from "../lib/server-locale";
+import AuthProvider from "@/features/auth/provider/AuthProvider";
+import I18nProvider from "@/components/I18nProvider";
+import { getServerLocale, getTextDirection } from "@/lib/server-locale";
 
 export const metadata: Metadata = {
   title: "LAD",
@@ -23,8 +23,7 @@ export default async function RootLayout({
       <body>
         <I18nProvider>
           <ThemeProvider>
-            <Header />
-            {children}
+            <AuthProvider>{children}</AuthProvider>
           </ThemeProvider>
         </I18nProvider>
       </body>

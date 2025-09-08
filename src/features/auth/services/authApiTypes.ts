@@ -15,15 +15,45 @@ export interface AuthRequest {
 }
 
 export interface AuthResponse {
-  token: string;
-  refreshToken: string;
-  user: {
-    id: string;
-    email?: string;
-    phoneNumber?: string;
-    role: string;
-    isVerified: boolean;
-    // Add other common user fields
+  message: string;
+  response: {
+    id: number;
+    name: string;
+    email: string;
+    phone: string;
+    user_type: string;
+    status: string;
+    email_verified_at: string | null;
+    phone_verified_at: string | null;
+    account_overview: {
+      verification_status: {
+        verification_required: boolean;
+        email_verified: boolean;
+        phone_verified: boolean;
+      };
+      verification_required: {
+        email_verification: {
+          has_token: boolean;
+          token_type: string;
+        };
+        phone_verification: {
+          has_token: boolean;
+          token_type: string;
+        };
+      };
+    };
+
+    extra: {
+      tokens: {
+        access_token: string;
+        access_token_expires_at: string;
+        access_token_expires_in: number;
+        token_type: string;
+        refresh_token: string;
+        refresh_token_expires_at: string;
+        refresh_token_expires_in: number;
+      };
+    };
   };
 }
 
@@ -37,17 +67,114 @@ export interface RegistrationRequest<T> {
 
 export interface RegistrationResponse {
   message: string;
-  userId: string;
-  // Potentially return a token or other initial auth data
+  response: {
+    id: number;
+    name: string;
+    email: string;
+    phone: string;
+    user_type: string;
+    account_overview: {
+      verification_status: {
+        verification_required: boolean;
+        email_verified: boolean;
+        phone_verified: boolean;
+      };
+      verification_required: {
+        email_verification: {
+          has_token: boolean;
+          token_type: string;
+        };
+        phone_verification: {
+          has_token: boolean;
+          token_type: string;
+        };
+      };
+    };
+    extra: {
+      tokens?: {
+        access_token: string;
+        access_token_expires_at: string;
+        access_token_expires_in: number;
+        token_type: string;
+        refresh_token: string;
+        refresh_token_expires_at: string;
+        refresh_token_expires_in: number;
+      };
+    };
+  };
 }
 
+export interface ForgotPasswordRequest {
+  email?: string;
+  phone?: string;
+}
+
+export interface ForgotPasswordResponse {
+  message: string;
+}
 // Verification Request/Response Types
 export interface VerificationRequest {
   contactInfo: string; // email or phone number
-  otp: string;
+  token: string;
 }
 
 export interface VerificationResponse {
+  message: string;
+  isVerified: boolean;
+}
+
+// New verification types based on the API response
+export interface VerificationStatus {
+  verification_required: boolean;
+  email_verified: boolean;
+  phone_verified: boolean;
+  email_verification_enabled: boolean;
+  phone_verification_enabled: boolean;
+  pending_actions: string[];
+}
+
+export interface VerificationRequired {
+  email_verification: {
+    has_token: boolean;
+    token_type: string | null;
+  };
+  phone_verification: {
+    has_token: boolean;
+    token_type: string | null;
+  };
+}
+
+export interface VerificationStatusResponse {
+  verification_status: VerificationStatus;
+  verification_required: VerificationRequired;
+}
+
+export interface VerifyPhoneRequest {
+  phoneNumber: string;
+  token: string;
+}
+
+export interface VerifyPhoneResponse {
+  message: string;
+  isVerified: boolean;
+}
+
+// Resend email verification (for existing users)
+export interface ResendEmailVerificationRequest {
+  email?: string; // Optional, can use current user's email
+}
+
+export interface ResendEmailVerificationResponse {
+  message: string;
+  success: boolean;
+}
+
+export interface VerifyEmailRequest {
+  email: string;
+  token: string;
+}
+
+export interface VerifyEmailResponse {
   message: string;
   isVerified: boolean;
 }
@@ -71,143 +198,6 @@ export interface IndividualRegistrationApiData {
   phoneNumber?: string;
   password?: string;
   countryOfResidence: string;
-  nationalIdUpload?: File; // For API, this would be a FormData entry
+  nationalId?: string; // For API, this would be a FormData entry
   // thirdPartyInfo?: { token: string; provider: string };
 }
-
-export interface InstitutionRegistrationApiData {
-  companyName: string;
-  commercialRegistrationNumber: string;
-  phoneNumber: string;
-  country: string;
-  email?: string;
-  password?: string;
-  commercialRegistrationDocumentUpload?: File;
-  // thirdPartyInfo?: { token: string; provider: string };
-}
-
-export interface FreelanceEngineerRegistrationApiData {
-  fullName: string;
-  nationalIdResidencyNumber: string;
-  saudiCouncilOfEngineersMembershipNumber: string;
-  mobileNumber: string;
-  email?: string;
-  password?: string;
-  engineeringSpecialization: string[];
-  yearsOfExperience: string;
-  typesOfExperience: string[];
-  workLocations: string[];
-  currentOfficeAffiliation: boolean;
-  officeName?: string;
-  technicalCv?: File;
-  personalPhoto?: File;
-  saudiCouncilOfEngineersCardCopy?: File;
-  trainingCertificates?: File[];
-  professionalCertificates?: File[];
-  personalProfile?: File;
-  recommendationLetters?: File[];
-  workSamples?: File[];
-}
-
-export interface EngineeringOfficeRegistrationApiData {
-  engineeringOfficeName: string;
-  professionalLicenseNumber: string;
-  authorizedPersonName: string;
-  authorizedPersonMobileNumber: string;
-  email?: string;
-  password?: string;
-  authorizationForm?: File;
-  officeLogo?: File;
-  officeSpecializations: string[];
-  yearsOfExperience: string;
-  numberOfEmployees: string;
-  annualProjectVolume: string;
-  geographicCoverage: string[];
-  officialAccreditations: boolean;
-  accreditationDocument?: File;
-  saudiCouncilOfEngineersLicense?: File;
-  commercialRegistration?: File;
-  nationalAddress?: File;
-  bankAccountDetails?: File;
-  vatCertificate?: File;
-  previousWorkRecord?: File;
-  officialContactInformation?: File;
-  engineeringClassificationCertificate?: File;
-  qualityCertificates?: File[];
-  chamberOfCommerceMembership?: File;
-  zakatAndIncomeCertificate?: File;
-  companyProfile?: File;
-  organizationalStructure?: File;
-  additionalFiles?: File[];
-}
-
-export interface ContractorRegistrationApiData {
-  companyName: string;
-  commercialRegistrationNumber: string;
-  authorizedPersonName: string;
-  authorizedPersonMobileNumber: string;
-  email?: string;
-  password?: string;
-  officialAuthorizationLetter?: File;
-  companyLogo?: File;
-  projectSizeCompleted: string;
-  targetProjectSize: string[];
-  totalEmployees: string;
-  governmentAccreditations: boolean;
-  contractorClassification: string;
-  classificationFile?: File;
-  workFields: string[];
-  geographicSpread: string[];
-  yearsOfExperience: string;
-  annualProjectVolume: string;
-  socialInsuranceCertificate?: File;
-  commercialRegistration?: File;
-  vatCertificate?: File;
-  nationalAddress?: File;
-  projectsAndPreviousWorkRecord?: File;
-  officialContactInformation?: File;
-  bankAccountDetails?: File;
-  chamberOfCommerceMembership?: File;
-  companyProfile?: File;
-  organizationalStructure?: File;
-  qualityCertificates?: File[];
-  otherFiles?: File[];
-}
-
-export interface SupplierRegistrationApiData {
-  commercialEstablishmentName: string;
-  commercialRegistrationNumber: string;
-  authorizedPersonName: string;
-  authorizedPersonMobileNumber: string;
-  email?: string;
-  password?: string;
-  officialAuthorizationLetter?: File;
-  establishmentLogo?: File;
-  supplyAreas: string[];
-  serviceCoverage: string[];
-  yearsOfExperience: string;
-  governmentPrivateDealings: boolean;
-  supportingDocuments?: File[];
-  commercialRegistration?: File;
-  vatCertificate?: File;
-  nationalAddress?: File;
-  bankAccountDetails?: File;
-  accreditationCertificates?: File[];
-  establishmentProfile?: File;
-  administrativeStructure?: File;
-  previousContracts?: File[];
-  thankYouLetters?: File[];
-  additionalCredibilityDocuments?: File[];
-}
-
-// Plan Selection Request/Response Types
-export interface PlanSelectionRequest {
-  userId: string;
-  planType: "free" | "paid";
-}
-
-export interface PlanSelectionResponse {
-  message: string;
-}
-
-

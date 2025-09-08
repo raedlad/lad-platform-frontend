@@ -77,7 +77,7 @@ export default function I18nProvider({ children }: I18nProviderProps) {
   }, []);
 
   if (isLoading || !messages) {
-    return <div>Loading...</div>;
+    return null;
   }
 
   return (

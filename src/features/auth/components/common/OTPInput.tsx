@@ -1,18 +1,18 @@
-"use client"
+"use client";
 
-import * as React from "react"
+import * as React from "react";
 import {
   InputOTP,
   InputOTPGroup,
   InputOTPSlot,
-} from "@/shared/components/ui/input-otp"
+} from "@/shared/components/ui/input-otp";
 
 interface OTPInputProps {
-  value: string
-  onChange: (value: string) => void
-  length?: number
-  disabled?: boolean
-  className?: string
+  value: string;
+  onChange: (value: string) => void;
+  length?: number;
+  disabled?: boolean;
+  className?: string;
 }
 
 export function OTPInput({
@@ -24,7 +24,7 @@ export function OTPInput({
 }: OTPInputProps) {
   return (
     <InputOTP
-    autoFocus={true}
+      autoFocus={true}
       maxLength={length}
       value={value}
       onChange={onChange}
@@ -37,5 +37,5 @@ export function OTPInput({
         ))}
       </InputOTPGroup>
     </InputOTP>
-  )
+  );
 }

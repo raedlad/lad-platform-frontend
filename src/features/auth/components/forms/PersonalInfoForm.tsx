@@ -22,43 +22,39 @@ import {
 } from "@shared/components/ui/form";
 import { Input } from "@shared/components/ui/input";
 import { Checkbox } from "@shared/components/ui/checkbox";
-import { Label } from "@shared/components/ui/label";
-import { useIndividualRegistration } from "@auth/flows/individual/useIndividualRegistration";
+
+import { useRoleRegistration } from "@auth/flows/useRoleRegistration";
 import { useAuthStore } from "@auth/store/authStore";
-import { useIndividualRegistrationStore } from "@auth/store/individualRegistrationStore";
-import { ArrowLeft, Eye, EyeOff } from "lucide-react";
-import {
-  REGISTRATION_STEPS,
-  STEP_CONFIG,
-  FORM_LABELS,
-  FORM_PLACEHOLDERS,
-  TERMS_TEXT,
-} from "@auth/constants/individualRegistration";
+import { Eye, EyeOff } from "lucide-react";
+
 import Link from "next/link";
 import z from "zod";
-import { GetPasswordStrength } from "../../utils/getPasswordStrength";
+import {
+  getPasswordStrength,
+  getPasswordStrengthColor,
+  getPasswordStrengthText,
+} from "../../utils/getPasswordStrength";
 import { useTranslations } from "next-intl";
 
-const PersonalInfoForm: React.FC = () => {
+const PersonalInfoForm: React.FC<{ role: string }> = ({ role }) => {
   const store = useAuthStore();
-  const { handlePersonalInfoSubmit, goToPreviousStep, getPersonalInfoSchema } =
-    useIndividualRegistration();
-  const individualStore = useIndividualRegistrationStore();
-  const t = useTranslations("auth");
+  const { handlePersonalInfoSubmit, getPersonalInfoSchema } =
+    useRoleRegistration();
+  const t = useTranslations("");
   const commonT = useTranslations("common");
-
+  const authT = useTranslations("auth");
   const authMethod = store.authMethod!;
   const isLoading = store.isLoading;
+  //  const onSubmit = handlePersonalInfoSubmit(data, role);
   const onSubmit = handlePersonalInfoSubmit;
-  const onBack = goToPreviousStep;
   const {
     showPassword,
     showConfirmPassword,
     setShowPassword,
     setShowConfirmPassword,
-  } = individualStore;
+  } = store;
 
-  const schema = getPersonalInfoSchema(authMethod);
+  const schema = getPersonalInfoSchema();
 
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
@@ -69,7 +65,6 @@ const PersonalInfoForm: React.FC = () => {
       phoneNumber: "",
       password: "",
       confirmPassword: "",
-      nationalId: "",
       agreeToTerms: false,
     },
     shouldUnregister: true,
@@ -100,40 +95,53 @@ const PersonalInfoForm: React.FC = () => {
     }
   }, [authMethod, store.roleData.thirdPartyInfo, form]);
 
+  // Clear errors when user starts typing
+  React.useEffect(() => {
+    const subscription = form.watch((value, { name }) => {
+      if (name && store.error) {
+        store.clearError();
+      }
+    });
+    return () => subscription.unsubscribe();
+  }, [form, store]);
+
   const handleSubmit = async (values: z.infer<typeof schema>) => {
     console.log("Form values before submit:", values);
-    const result = await onSubmit(values);
+    // Clear any previous errors when submitting
+    store.clearError();
+
+    const result = await onSubmit(values, role);
 
     if (!result.success) {
       console.log("Form submission failed:", result.error);
     }
   };
 
-  const passwordStrength = GetPasswordStrength(form.watch("password") || "");
+  const passwordStrength = getPasswordStrength(form.watch("password") || "");
 
   const getTitle = () => {
     switch (authMethod) {
       case "email":
-        return t("personalInfo.emailRegistration");
+        return authT("personalInfo.emailRegistration");
       case "phone":
-        return t("personalInfo.phoneRegistration");
+        return authT("personalInfo.phoneRegistration");
       case "thirdParty":
-        return t("personalInfo.completeProfile");
+        return authT("personalInfo.completeProfile");
       default:
-        return t("personalInfo.title");
+        return authT("personalInfo.title");
     }
   };
 
   const getDescription = () => {
     switch (authMethod) {
       case "email":
-        return t("personalInfo.emailDescription");
+        return authT("personalInfo.emailDescription");
       case "phone":
-        return t("personalInfo.phoneDescription");
+        return authT("personalInfo.phoneDescription");
       case "thirdParty":
-        return t("personalInfo.thirdPartyDescription");
+        return authT("personalInfo.thirdPartyDescription");
       default:
-        return t("personalInfo.description");
+        return authT("personalInfo.description");
     }
   };
 
@@ -143,12 +151,12 @@ const PersonalInfoForm: React.FC = () => {
       : null;
 
   return (
-    <div className=" flex items-center justify-center ">
-      <Card className="w-full max-w-md bg-transparent ">
+    <div className="flex-center">
+      <Card className="container-narrow bg-transparent border-none shadow-none">
         <CardHeader>
-          <CardTitle className="text-2xl font-bold flex items-center gap-2">
+          <CardTitle className="heading-section gap-2">
             {providerInfo && (
-              <span className={providerInfo.color}>{providerInfo.icon}</span>
+              <span className="text-provider-color">{providerInfo.icon}</span>
             )}
             {getTitle()}
           </CardTitle>
@@ -158,22 +166,24 @@ const PersonalInfoForm: React.FC = () => {
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(handleSubmit, (errors) => {
-                console.log("❌ Validation errors:", errors);
+                console.log("❌ Validation errors:", store.currentRole);
               })}
-              className="space-y-4"
+              className="form-section"
             >
               {/* First / Last Name */}
-              <div className="grid grid-cols-2 gap-4 items-start">
+              <div className="form-grid-2">
                 <FormField
                   control={form.control}
                   name="firstName"
                   render={({ field }) => (
-                    <FormItem className="flex flex-col">
-                      <FormLabel>{t("personalInfo.firstName")}</FormLabel>
+                    <FormItem className="form-item-vertical">
+                      <FormLabel>
+                        {authT("personalInfo.firstName")}
+                      </FormLabel>
                       <FormControl>
                         <Input {...field} disabled={isLoading} />
                       </FormControl>
-                      <FormMessage className="min-h-5" />
+                      <FormMessage className="form-message-min-height" />
                     </FormItem>
                   )}
                 />
@@ -181,33 +191,37 @@ const PersonalInfoForm: React.FC = () => {
                   control={form.control}
                   name="lastName"
                   render={({ field }) => (
-                    <FormItem className="flex flex-col">
-                      <FormLabel>{t("personalInfo.lastName")}</FormLabel>
+                    <FormItem className="form-item-vertical">
+                      <FormLabel>
+                        {authT("personalInfo.lastName")}
+                      </FormLabel>
                       <FormControl>
                         <Input {...field} disabled={isLoading} />
                       </FormControl>
-                      <FormMessage className="h-5" />
+                      <FormMessage className="form-message-height" />
                     </FormItem>
                   )}
                 />
               </div>
 
               {/* Email - only email / thirdParty */}
-              {authMethod === "email" && (
-                <FormField
-                  control={form.control}
-                  name="email"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>{t("personalInfo.email")} </FormLabel>
-                      <FormControl>
-                        <Input type="email" {...field} disabled={isLoading} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              )}
+             {authMethod !== "thirdParty" && (
+                  <FormField
+                    control={form.control}
+                    name="email"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>
+                          {authT("personalInfo.email")}{" "}
+                        </FormLabel>
+                        <FormControl>
+                          <Input type="email" {...field} disabled={isLoading} dir="ltr"/>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                )}
 
               {/* Phone Number */}
               <FormField
@@ -215,12 +229,15 @@ const PersonalInfoForm: React.FC = () => {
                 name="phoneNumber"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{t("personalInfo.phoneNumber")} </FormLabel>
+                    <FormLabel>
+                      {authT("personalInfo.phoneNumber")}{" "}
+                    </FormLabel>
                     <FormControl>
                       <PhoneInput
                         value={field.value}
                         onChange={field.onChange}
                         disabled={isLoading}
+                        smartCaret={true}
                       />
                     </FormControl>
                     <FormMessage />
@@ -229,93 +246,84 @@ const PersonalInfoForm: React.FC = () => {
               />
 
               {/* Passwords - only email / phone */}
-              {(authMethod === "email" || authMethod === "phone") && (
-                <>
-                  <FormField
-                    control={form.control}
-                    name="password"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>{t("personalInfo.password")} </FormLabel>
-                        <FormControl>
-                          <div className="relative">
-                            <Input
-                              type={showPassword ? "text" : "password"}
-                              {...field}
-                              disabled={isLoading}
-                            />
-                            <Button
-                              type="button"
-                              variant="ghost"
-                              size="sm"
-                              className="absolute end-0 top-0 h-full px-3 py-2 hover:bg-transparent"
-                              onClick={() => setShowPassword(!showPassword)}
-                              disabled={isLoading}
-                            >
-                              {showPassword ? (
-                                <EyeOff className="h-4 w-4" />
-                              ) : (
-                                <Eye className="h-4 w-4" />
-                              )}
-                            </Button>
-                          </div>
-                        </FormControl>
-                        <div className={`text-xs ${passwordStrength.color}`}>
-                          {passwordStrength.text}
-                        </div>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
 
-                  <FormField
-                    control={form.control}
-                    name="confirmPassword"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>
-                          {t("personalInfo.confirmPassword")}{" "}
-                        </FormLabel>
-                        <FormControl>
-                          <div className="relative">
-                            <Input
-                              type={showConfirmPassword ? "text" : "password"}
-                              {...field}
-                              disabled={isLoading}
-                            />
-                            <Button
-                              type="button"
-                              variant="ghost"
-                              size="sm"
-                              className="absolute end-0 top-0 h-full px-3 py-2 hover:bg-transparent"
-                              onClick={() =>
-                                setShowConfirmPassword(!showConfirmPassword)
-                              }
-                              disabled={isLoading}
-                            >
-                              {showConfirmPassword ? (
-                                <EyeOff className="h-4 w-4" />
-                              ) : (
-                                <Eye className="h-4 w-4" />
-                              )}
-                            </Button>
-                          </div>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </>
-              )}
-              {/* National ID */}
               <FormField
                 control={form.control}
-                name="nationalId"
+                name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{t("personalInfo.nationalId")}</FormLabel>
+                    <FormLabel>
+                      {authT("personalInfo.password")}{" "}
+                    </FormLabel>
                     <FormControl>
-                      <Input {...field} disabled={isLoading} />
+                      <div className="input-password-container">
+                        <Input
+                          type={showPassword ? "text" : "password"}
+                          {...field}
+                          disabled={isLoading}
+                          dir="ltr"
+                        />
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="sm"
+                          className="input-password-toggle"
+                          onClick={() => setShowPassword(!showPassword)}
+                          disabled={isLoading}
+                        >
+                          {showPassword ? (
+                            <EyeOff className="icon-sm" />
+                          ) : (
+                            <Eye className="icon-sm" />
+                          )}
+                        </Button>
+                      </div>
+                    </FormControl>
+                    <div
+                      className={`text-xs ${getPasswordStrengthColor(
+                        passwordStrength
+                      )}`}
+                    >
+                      {getPasswordStrengthText(passwordStrength, t)}
+                    </div>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="confirmPassword"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>
+                      {authT("personalInfo.confirmPassword")}{" "}
+                    </FormLabel>
+                    <FormControl>
+                      <div className="input-password-container">
+                        <Input
+                          type={showConfirmPassword ? "text" : "password"}
+                          {...field}
+                          disabled={isLoading}
+                          dir="ltr"
+                        />
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="sm"
+                          className="input-password-toggle"
+                          onClick={() =>
+                            setShowConfirmPassword(!showConfirmPassword)
+                          }
+                          disabled={isLoading}
+                        >
+                          {showConfirmPassword ? (
+                            <EyeOff className="icon-sm" />
+                          ) : (
+                            <Eye className="icon-sm" />
+                          )}
+                        </Button>
+                      </div>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -335,22 +343,16 @@ const PersonalInfoForm: React.FC = () => {
                         disabled={isLoading}
                       />
                     </FormControl>
-                    <div className="space-y-1">
+                    <div className="form-checkbox-content">
                       <FormLabel className="flex flex-wrap">
                         <span>
-                          {t("terms.text")}{" "}
-                          <Link
-                            href="#"
-                            className="underline text-p-6 hover:text-p-5"
-                          >
-                            {t("terms.termsLink")}
+                          {authT("terms.text")}{" "}
+                          <Link href="#" className="link-muted">
+                            {authT("terms.termsLink")}
                           </Link>{" "}
-                          {t("terms.and")}{" "}
-                          <Link
-                            href="#"
-                            className="underline text-p-5 hover:text-p-5"
-                          >
-                            {t("terms.privacyLink")}
+                          {authT("terms.and")}{" "}
+                          <Link href="#" className="link-alt">
+                            {authT("terms.privacyLink")}
                           </Link>
                         </span>
                       </FormLabel>
@@ -360,9 +362,22 @@ const PersonalInfoForm: React.FC = () => {
                 )}
               />
 
+              {/* Error Display */}
+              {store.error && (
+                <div className="mt-4 p-3 bg-red-50 border border-red-200 rounded-md">
+                  <p className="text-red-800 text-sm">{store.error}</p>
+                </div>
+              )}
+
               {/* Submit */}
-              <Button type="submit" className="w-full" disabled={isLoading}>
-                {isLoading ? commonT("loading") : t("personalInfo.continue")}
+              <Button
+                type="submit"
+                className="btn-full-width"
+                disabled={isLoading}
+              >
+                {isLoading
+                  ? commonT("actions.loading")
+                  : authT("personalInfo.continue")}
               </Button>
             </form>
           </Form>

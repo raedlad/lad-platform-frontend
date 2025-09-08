@@ -5,6 +5,7 @@ import { Phone, MailIcon } from "lucide-react";
 import GoogleAuthButton from "@auth/components/common/GoogleAuthButton";
 import AppleAuthButton from "@auth/components/common/AppleAuthButton";
 import { useTranslations } from "next-intl";
+import { useGoogleAuth } from "@/features/auth/hooks";
 
 interface AuthMethodSelectionProps {
   onAuthMethodSelect: (method: "email" | "phone" | "thirdParty") => void;
@@ -14,10 +15,10 @@ export default function AuthMethodSelection({
   onAuthMethodSelect,
 }: AuthMethodSelectionProps) {
   const t = useTranslations("auth");
+  const { signInWithGoogle } = useGoogleAuth();
 
   const handleGoogleSignUp = () => {
-    // In a real app, this would initiate Google OAuth
-    console.log("Google OAuth would be initiated here");
+    signInWithGoogle();
     onAuthMethodSelect("thirdParty");
   };
 
@@ -85,13 +86,13 @@ export default function AuthMethodSelection({
           </Button>
 
           {/* Terms and Privacy */}
-          <p className="text-xs text-center text-muted-foreground">
+          <p className="text-xs text-center text-n-6">
             {t("terms.text")}{" "}
-            <a href="#" className="underline hover:text-primary">
+            <a href="#" className="underline text-p-7 hover:text-p-5">
               {t("terms.termsLink")}
             </a>{" "}
             {t("terms.and")}{" "}
-            <a href="#" className="underline hover:text-primary">
+            <a href="#" className="underline text-p-7 hover:text-p-5">
               {t("terms.privacyLink")}
             </a>
           </p>

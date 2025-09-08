@@ -1,74 +1,50 @@
 "use client";
 
 import { Building2, Briefcase, User, Search } from "lucide-react";
-import { Checkbox } from "@/shared/components/ui/checkbox";
-import { Label } from "@/shared/components/ui/label";
 import { twMerge } from "tailwind-merge";
 import Link from "next/link";
 import { Button } from "@/shared/components/ui/button";
 import { useTranslations } from "next-intl";
 import { RegistrationRole } from "@auth/types/auth";
 
-// --- Data arrays remain the same ---
 const serviceSeekerRoles = [
   {
     id: "individual" as RegistrationRole,
-    title: "فرد",
-    description: "للأفراد الذين يبحثون عن خدمات",
-    icon: <User className="size-4" />,
+    icon: <User className="icon-md" />,
     comingSoon: false,
-    buttonText: "الاستمرار كفرد",
   },
   {
-    id: "institution" as RegistrationRole,
-    title: "مؤسسة",
-    description: "للمؤسسات والشركات التي تبحث عن خدمات",
-    icon: <Building2 className="size-4" />,
+    id: "organization" as RegistrationRole,
+    icon: <Building2 className="icon-md" />,
     comingSoon: false,
-    buttonText: "الاستمرار كمؤسسة",
   },
   {
     id: "government-agency" as string, // This is not a RegistrationRole
-    title: "جهة حكومية",
-    description: "للجهات الحكومية التي تبحث عن خدمات",
-    icon: <Briefcase className="size-4" />,
+    icon: <Briefcase className="icon-md" />,
     comingSoon: true,
-    buttonText: "الاستمرار كجهة حكومية",
   },
 ];
 
 const serviceProviderRoles = [
   {
-    id: "freelanceEngineer" as RegistrationRole,
-    title: "مهندس مستقل",
-    description: "للمهندسين المستقلين والعاملين لحسابهم الخاص",
-    icon: <User className="size-4" />,
+    id: "freelance_engineer" as RegistrationRole,
+    icon: <User className="icon-md" />,
     comingSoon: false,
-    buttonText: "تقديم كمهندس مستقل",
   },
   {
-    id: "engineeringOffice" as RegistrationRole,
-    title: "مكتب هندسي",
-    description: "لمكاتب الهندسة والاستشارات الهندسية",
-    icon: <Building2 className="size-4" />,
+    id: "engineering_office" as RegistrationRole,
+    icon: <Building2 className="icon-md" />,
     comingSoon: false,
-    buttonText: "تقديم كمكتب هندسي ",
   },
   {
     id: "contractor" as RegistrationRole,
-    title: "مقاول",
-    description: "للمقاولين وشركات المقاولات",
-    icon: <Briefcase className="size-4" />,
+    icon: <Briefcase className="icon-md" />,
     comingSoon: false,
-    buttonText: "تقديم كمقاول ",
   },
   {
     id: "supplier" as RegistrationRole,
-    title: "مورد",
-    description: "للموردين ومزودي المواد والمعدات",
-    icon: <Search className="size-4" />,
+    icon: <Search className="icon-md" />,
     comingSoon: false,
-    buttonText: "تقديم كمورد ",
   },
 ];
 
@@ -88,13 +64,14 @@ const RoleSelectorForm = ({
   const t = useTranslations("auth");
   const commonT = useTranslations("common");
 
-  const handleSelect = (id: string) => {
+  const handleSelect = (id: string, checked: boolean) => {
     if (
+      checked &&
       id !== "government-agency" &&
       (id === "individual" ||
-        id === "institution" ||
-        id === "freelanceEngineer" ||
-        id === "engineeringOffice" ||
+        id === "organization" ||
+        id === "freelance_engineer" ||
+        id === "engineering_office" ||
         id === "contractor" ||
         id === "supplier")
     ) {
@@ -102,140 +79,142 @@ const RoleSelectorForm = ({
     }
   };
 
-  const buttonText = selectedRole
-    ? serviceSeekerRoles.find((type) => type.id === selectedRole)?.buttonText ||
-      serviceProviderRoles.find((type) => type.id === selectedRole)?.buttonText
-    : t("signup");
+  const handleContinue = () => {
+    if (selectedRole) {
+      onContinue();
+    }
+  };
+
+  const getButtonText = () => {
+    if (!selectedRole) return t("signup");
+    return t(`roleSelector.${selectedRole}ButtonText`);
+  };
 
   const renderUserRoleCard = (role: any) => {
     const isSelected = selectedRole === role.id;
     const isDisabled = role.comingSoon;
-
-    // Check if this role has translations
-    const hasTranslation =
-      role.id === "individual" ||
-      role.id === "institution" ||
-      role.id === "freelanceEngineer" ||
-      role.id === "engineeringOffice" ||
-      role.id === "contractor" ||
-      role.id === "supplier";
+    const hasTranslation = role.id !== "government-agency";
 
     return (
-      <Label
+      <div
         key={role.id}
-        htmlFor={role.id}
         className={twMerge(
-          "flex-1 p-1.5 h-full border border-n-4 rounded-lg shadow-xs transition-all cursor-pointer",
+          "card-role-selector",
           isSelected && !isDisabled
-            ? "border-p-9 shadow-p-1 text-p-5 bg-p-1/10"
+            ? "card-role-selector-selected"
             : isDisabled
-            ? "opacity-60 cursor-not-allowed"
-            : "hover:border-n-5 hover:shadow-sm"
+            ? "card-role-selector-disabled"
+            : "card-role-selector-hover"
         )}
-        // Call the handler directly, no need for a separate function if it's simple
-        onClick={() => !isDisabled && handleSelect(role.id)}
+        onClick={() => !isDisabled && handleSelect(role.id, !isSelected)}
       >
-        <div className="w-full flex justify-between">
-          <div className="flex items-center gap-2">
+        <div className="role-card-content">
+          <div className="role-card-info">
             <div
               className={twMerge(
-                "flex items-center justify-center w-10 h-10 rounded-lg bg-n4 bg-n-2/50",
-                isSelected && !isDisabled ? "bg-p-2/50 text-p-6" : ""
+                "role-card-icon",
+                isSelected && !isDisabled ? "role-card-icon-selected" : ""
               )}
             >
               {role.icon}
             </div>
-            <div className="flex flex-col gap-0.5">
-              <div className="flex items-center gap-2">
-                <h4 className="font-bold text-sm">
-                  {hasTranslation ? t(`roles.${role.id}`) : role.title}
+            <div className="role-card-details">
+              <div className="role-card-header">
+                <h4 className="role-card-title">
+                  {hasTranslation
+                    ? t(`roleSelector.${role.id}Title`)
+                    : "Government Agency"}
                 </h4>
                 {isDisabled && (
-                  <span className="inline-flex items-center rounded-full border border-n-4 bg-n-2/50 text-n-6 text-xs px-2 py-0.5 font-medium">
-                    {commonT("comingSoon")}
+                  <span className="badge-coming-soon">
+                    {commonT("ui.comingSoon")}
                   </span>
                 )}
               </div>
               <p
                 className={twMerge(
-                  "text-xs text-n-7",
-                  isSelected && !isDisabled ? "text-p-5" : ""
+                  "role-card-description",
+                  isSelected && !isDisabled
+                    ? "role-card-description-selected"
+                    : ""
                 )}
               >
-                {hasTranslation ? t(`roles.${role.id}`) : role.description}
+                {hasTranslation
+                  ? t(`roleSelector.${role.id}Description`)
+                  : "For government agencies looking for services"}
               </p>
             </div>
           </div>
-          <Checkbox
-            id={role.id}
-            className="rounded-full"
-            checked={isSelected && !isDisabled}
-            // The Label's onClick handles this, but this is good for accessibility
-            onCheckedChange={() => !isDisabled && handleSelect(role.id)}
-            disabled={isDisabled}
-          />
+          <div className="role-card-radio-container">
+            <div
+              className={twMerge(
+                "role-card-radio",
+                isSelected && !isDisabled
+                  ? "role-card-radio-selected"
+                  : "role-card-radio-unselected"
+              )}
+            >
+              {isSelected && !isDisabled && (
+                <div className="role-card-radio-dot">
+                  <div className="role-card-radio-dot-inner"></div>
+                </div>
+              )}
+            </div>
+          </div>
         </div>
-      </Label>
+      </div>
     );
   };
 
   return (
-    <div className="w-full max-w-2xl section">
-      <div className="flex flex-col items-center justify-center gap-6">
-        <div className="flex flex-col items-center justify-center text-center gap-1.5">
-          <h1 className="text-5xl">{t("title")}</h1>
-          <h2 className="text-2xl font-bold">{t("subtitle")}</h2>
-          <p className="text-sm text-n-7">{t("roleSelection.description")}</p>
+    <div className="container-centered">
+      <div className="auth-form-container">
+        <div className="auth-form-header">
+          <h2 className="heading-section">{t("subtitle")}</h2>
+          <p className="text-description">{t("roleSelection.description")}</p>
         </div>
 
-        <div className="w-full flex flex-col gap-3">
-          <div className="flex flex-col gap-1.5">
-            <h3 className="text-base font-semibold">
+        <div className="auth-form-content">
+          <div className="form-field-group">
+            <h3 className="heading-subsection">
               {t("roleSelection.serviceSeeker")}
             </h3>
-            <div className="grid grid-cols-1 lg:grid-cols-2 auto-rows-fr items-center justify-center gap-3">
+            <div className="grid-auto-fit">
               {serviceSeekerRoles.map((role) => renderUserRoleCard(role))}
             </div>
           </div>
 
-          <div className="relative">
-            <div className="absolute inset-0 flex items-center">
-              <span className="w-full border-t" />
+          <div className="divider-horizontal">
+            <div className="divider-line">
+              <span className="divider-line-border" />
             </div>
-            <div className="relative flex justify-center text-xs uppercase">
-              <span className="px-2 bg-background">
-                {t("roleSelection.or")}
-              </span>
+            <div className="divider-text">
+              <span className="divider-text-bg">{t("roleSelection.or")}</span>
             </div>
           </div>
 
-          <div className="flex flex-col gap-1.5">
-            <h3 className="text-base font-semibold">
+          <div className="form-field-group">
+            <h3 className="heading-subsection">
               {t("roleSelection.serviceProvider")}
             </h3>
-            <div className="grid grid-cols-1 lg:grid-cols-2  items-center justify-center gap-3">
+            <div className="grid-responsive-2">
               {serviceProviderRoles.map((role) => renderUserRoleCard(role))}
             </div>
           </div>
 
-          <div className="flex flex-col gap-2 w-full mt-2">
+          <div className="form-submit-section">
             <Button
-              // The onClick now calls the onContinue function from props
-              onClick={onContinue}
-              className={`w-full py-4 rounded-sm font-bold ${
-                !selectedRole ? "bg-n-4 text-n-8" : ""
+              onClick={handleContinue}
+              className={`btn-full-width-tall ${
+                !selectedRole ? "btn-disabled-state" : ""
               }`}
-              // Disable the button if no role is selected
               disabled={!selectedRole}
             >
-              {buttonText}
+              {getButtonText()}
             </Button>
-            <p className="text-sm text-center">
+            <p className="text-description text-center-block">
               {t("roleSelection.haveAccount")}{" "}
-              <Link
-                href="/login"
-                className="text-p-6 hover:text-p-5 transition-all underline underline-offset-4"
-              >
+              <Link href="/login" className="link-primary">
                 {t("login")}
               </Link>
             </p>

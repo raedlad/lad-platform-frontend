@@ -10,7 +10,7 @@ export const roleSpecificData = {
           UserRole.CONTRACTOR,
           UserRole.ENGINEERING_OFFICE,
           UserRole.FREELANCE_ENGINEER,
-          UserRole.INSTITUTION,
+          UserRole.ORGANIZATION,
         ];
       default:
         return [];
@@ -27,8 +27,8 @@ export const roleSpecificData = {
         return "Engineering Office";
       case UserRole.FREELANCE_ENGINEER:
         return "Freelance Engineer";
-      case UserRole.INSTITUTION:
-        return "Institution";
+      case UserRole.ORGANIZATION:
+        return "Organization";
       default:
         return "Unknown";
     }
@@ -55,8 +55,8 @@ export const roleSpecificData = {
         return "For engineering consulting firms";
       case UserRole.FREELANCE_ENGINEER:
         return "For independent engineering professionals";
-      case UserRole.INSTITUTION:
-        return "For government and educational institutions";
+      case UserRole.ORGANIZATION:
+        return "For government and educational organizations";
       default:
         return "";
     }

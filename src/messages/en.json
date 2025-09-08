@@ -1,49 +1,257 @@
 {
   "common": {
-    "loading": "Loading...",
-    "submit": "Submit",
-    "continue": "Continue",
-    "back": "Back",
-    "next": "Next",
-    "cancel": "Cancel",
-    "save": "Save",
-    "edit": "Edit",
-    "delete": "Delete",
-    "confirm": "Confirm",
-    "close": "Close",
-    "search": "Search",
-    "filter": "Filter",
-    "sort": "Sort",
-    "refresh": "Refresh",
-    "download": "Download",
-    "upload": "Upload",
-    "select": "Select",
-    "clear": "Clear",
-    "reset": "Reset",
-    "changeLanguage": "Change Language",
-    "comingSoon": "Coming Soon"
+    "actions": {
+      "loading": "Loading...",
+      "submit": "Submit",
+      "continue": "Continue",
+      "back": "Back",
+      "next": "Next",
+      "cancel": "Cancel",
+      "save": "Save",
+      "edit": "Edit",
+      "delete": "Delete",
+      "confirm": "Confirm",
+      "close": "Close",
+      "refresh": "Refresh",
+      "download": "Download",
+      "upload": "Upload",
+      "select": "Select",
+      "clear": "Clear",
+      "reset": "Reset"
+    },
+    "select": {
+      "country": "Select Country",
+      "state": "Select State",
+      "city": "Select City"
+    },
+    "ui": {
+      "search": "Search",
+      "filter": "Filter",
+      "sort": "Sort",
+      "changeLanguage": "Change Language",
+      "comingSoon": "Coming Soon",
+      "selectCountry": "Select country",
+      "searchCountry": "Search country...",
+      "noCountryFound": "No country found."
+    }
   },
+
+  "Header": {
+    "l": "L",
+    "logo": "LAD",
+    "features": "Features",
+    "pricing": "Pricing",
+    "about": "About",
+    "login": "Login",
+    "signup": "Sign up",
+    "getStarted": "Get Started"
+  },
+  "hero": {
+    "title": "Build Smarter. Connect Faster. Grow Bigger.",
+    "description": "A unified platform for contractors, engineers, suppliers, and individuals to collaborate, find opportunities, and deliver success.",
+    "createAccount": "Create Account",
+    "login": "Login",
+    "partners": "Trusted partners"
+  },
+  "features": {
+    "title": "Built for Legal, Architecture & Design Professionals",
+    "description": " A unified platform that empowers individuals, firms, and contractors to collaborate and grow.",
+    "legalConsultancy": "Legal Consultancy",
+    "legalConsultancyDescription": "access expert legal services, compliance tools, and documentation support tailored to your sector.",
+    "architectureEngineering": "Architecture & Engineering",
+    "architectureEngineeringDescription": "Tools and collaboration features for engineers, contractors, and design offices to deliver projects efficiently.",
+    "openMarketWorkflow": "Open Market & Workflow",
+    "openMarketWorkflowDescription": "A seamless marketplace to connect suppliers, freelancers, and clients with AI-powered project tracking."
+  },
+
+  "testimonials": {
+    "title": "Trusted by Professionals in Construction & Engineering",
+    "description": "LAD brings together contractors, engineers, suppliers, and clients in one place. Here’s what professionals are saying about the platform.",
+    "testimonial1": {
+      "quote": "LAD helped me find reliable suppliers and connect with engineers much faster. The platform made project management far easier.",
+      "name": "Ahmed Khaled",
+      "role": "General Contractor"
+    },
+    "testimonial2": {
+      "quote": "As a freelance engineer, LAD gave me access to clients and contractors who truly value my skills. It’s a real gateway to opportunities.",
+      "name": "Mona El-Sayed",
+      "role": "Freelance Engineer"
+    },
+    "testimonial3": {
+      "quote": "Thanks to LAD, I expanded my business and started supplying materials directly to contractors and offices. The platform saves time and builds trust.",
+      "name": "Hassan Ali",
+      "role": "Building Materials Supplier"
+    },
+    "testimonial4": {
+      "quote": "Finding the right contractor for my home project was easy with LAD. The process was clear, fast, and transparent.",
+      "name": "Sara Mohamed",
+      "role": "Individual Client"
+    }
+  },
+  "cta": {
+    "title": "New Opportunities and Successful Projects in Construction Await You",
+    "getStarted": "Get Started"
+  },
+
+  "footer": {
+    "copyright": "© {year} LAD, All rights reserved",
+    "links": {
+      "features": "Features",
+      "solutions": "Solutions",
+      "marketplace": "Marketplace",
+      "pricing": "Pricing",
+      "help": "Help & Support",
+      "about": "About LAD"
+    }
+  },
+
   "auth": {
-    "title": "Welcome to LAD Platform",
-    "subtitle": "Create your account now",
+    "title": "Welcome",
+    "subtitle": "Create your account to get started",
     "login": "Login",
     "signup": "Sign Up",
-    "logout": "Logout",
-    "forgotPassword": "Forgot Password?",
-    "resetPassword": "Reset Password",
-    "verifyEmail": "Verify Email",
-    "verifyPhone": "Verify Phone",
-    "resendCode": "Resend Code",
+    "createAccount": "Sign up",
+    "noAccount": "Don't have an account?",
+    "forgotPassword": "Forgot password?",
+    "resendCode": "Resend code",
+
+    "passwordReset": {
+      "title": "Reset your password",
+      "description": "Enter your email address or phone number and we'll send you a reset link or code.",
+      "emailSent": "Check Your Email",
+      "phoneSent": "Check Your Messages",
+      "emailSentDescription": "We've sent a password reset link to",
+      "phoneSentDescription": "We've sent a password reset code to",
+      "whatNext": "What happens next?",
+      "steps": [
+        "Check your email inbox",
+        "Click the reset link in the email",
+        "Create a new password"
+      ],
+      "smsSteps": [
+        "Check your messages",
+        "Follow the instructions in the message",
+        "Create a new password"
+      ],
+      "didntReceive": "Didn't receive the email? Check your spam folder or",
+      "didntReceiveSms": "Didn't receive the message?",
+      "tryAgain": "Try again",
+      "backToLogin": "Back to login",
+      "sendResetLink": "Send reset link",
+      "sendingResetLink": "Sending reset link...",
+      "sendResetCode": "Send reset code",
+      "sendingResetCode": "Sending reset code...",
+      "emailOrPhoneLabel": "Email or phone number"
+    },
+
+    "newPassword": {
+      "title": "Create New Password",
+      "description": "Your new password must be different from previously used passwords.",
+      "newPassword": "New Password",
+      "confirmNewPassword": "Confirm New Password",
+      "requirements": "Password Requirements",
+      "requirementsList": [
+        "At least 8 characters long",
+        "Contains uppercase and lowercase letters",
+        "Contains at least one number",
+        "Contains at least one special character"
+      ],
+      "strength": {
+        "weak": "Weak",
+        "fair": "Fair",
+        "good": "Good",
+        "strong": "Strong",
+        "label": "Password strength:"
+      },
+      "updatePassword": "Update Password",
+      "updatingPassword": "Updating password...",
+      "success": "Password Reset Successfully",
+      "successDescription": "Your password has been updated successfully. You can now sign in with your new password.",
+      "continueToLogin": "Continue to Login"
+    },
+
     "authMethod": {
-      "title": "Registration Method",
-      "description": "Choose your preferred registration method",
       "email": "Continue with Email",
-      "phone": "Continue with Phone Number",
+      "phone": "Continue with Phone",
       "thirdParty": "Continue with Google"
     },
+
+    "roleSelection": {
+      "description": "Choose your role to continue",
+      "serviceSeeker": "Service Seeker",
+      "serviceProvider": "Service Provider",
+      "or": "or",
+      "haveAccount": "Already have an account?"
+    },
+
+    "verification": {
+      "title": "Account Verification",
+      "enterCode": "Enter the verification code sent to",
+      "description": "Enter the verification code sent to {contact} via {type}",
+      "thirdPartyDescription": "Complete verification using your selected provider",
+      "noCodeReceived": "Didn't receive the code?",
+      "resendCooldown": "Resend code in {seconds} seconds",
+      "errors": {
+        "invalidCode": "Please enter a 6-digit verification code",
+        "verificationFailed": "Verification failed",
+        "resendFailed": "Failed to resend code"
+      },
+      "contactInfo": {
+        "email": "your email",
+        "phone": "your phone number",
+        "account": "your account"
+      },
+      "contactType": {
+        "email": "email",
+        "sms": "SMS",
+        "account": "account"
+      },
+      "actions": {
+        "verify": "Verify Code",
+        "verifying": "Verifying...",
+        "resend": "Resend Code",
+        "continue": "Continue"
+      },
+      "thirdParty": {
+        "success": "Verification Successful!",
+        "verified": "Your {type} has been verified successfully."
+      }
+    },
+
+    "roleSelector": {
+      "description": "Choose your role to continue",
+      "serviceSeeker": "Service Seeker",
+      "serviceProvider": "Service Provider",
+      "or": "or",
+      "haveAccount": "Already have an account?",
+      "individualTitle": "Individual",
+      "individualDescription": "For individuals looking for services",
+      "individualButtonText": "Continue as Individual",
+      "organizationTitle": "Organization",
+      "organizationDescription": "For organizations and companies looking for services",
+      "organizationButtonText": "Continue as organization",
+      "freelance_engineerTitle": "Freelance Engineer",
+      "freelance_engineerDescription": "For independent engineers and freelancers",
+      "freelance_engineerButtonText": "Apply as Freelance Engineer",
+      "engineering_officeTitle": "Engineering Office",
+      "engineering_officeDescription": "For engineering offices and consulting firms",
+      "engineering_officeButtonText": "Apply as Engineering Office",
+      "contractorTitle": "Contractor",
+      "contractorDescription": "For contractors and construction companies",
+      "contractorButtonText": "Apply as Contractor",
+      "supplierTitle": "Supplier",
+      "supplierDescription": "For suppliers and equipment providers",
+      "supplierButtonText": "Apply as Supplier"
+    },
+
     "personalInfo": {
       "title": "Personal Information",
-      "description": "Enter your personal information",
+      "emailRegistration": "Email Registration",
+      "phoneRegistration": "Phone Registration",
+      "completeProfile": "Complete Your Profile",
+      "emailDescription": "Create your account with email address",
+      "phoneDescription": "Create your account with phone number",
+      "thirdPartyDescription": "Please provide additional information to complete your profile",
       "firstName": "First Name",
       "lastName": "Last Name",
       "email": "Email",
@@ -51,148 +259,86 @@
       "password": "Password",
       "confirmPassword": "Confirm Password",
       "nationalId": "National ID",
-      "agreeToTerms": "I agree to the terms and conditions",
-      "emailRegistration": "Email Registration",
-      "phoneRegistration": "Phone Registration",
-      "thirdPartyDescription": "Please provide additional information to complete your profile",
-      "phoneDescription": "Create your account using phone number",
-      "emailDescription": "Create your account using email",
-      "completeProfile": "Complete Your Profile",
       "continue": "Continue"
     },
-    "verification": {
-      "title": "Verification",
-      "description": "Verify your account",
-      "enterCode": "Enter the code sent to you",
-      "codeSent": "Code sent to",
-      "didntReceive": "Didn't receive the code?"
-    },
-    "roles": {
-      "individual": "Individual",
-      "institution": "Institution",
-      "supplier": "Supplier",
-      "freelanceEngineer": "Freelance Engineer",
-      "engineeringOffice": "Engineering Office",
-      "contractor": "Contractor"
-    },
-    "form": {
-      "placeholders": {
-        "firstName": "Enter your first name",
-        "lastName": "Enter your last name",
-        "email": "Enter your email",
-        "phoneNumber": "Enter your phone number",
-        "password": "Enter your password",
-        "confirmPassword": "Re-enter your password",
-        "nationalId": "Enter your national ID"
-      },
-      "validation": {
-        "required": "This field is required",
-        "invalidEmail": "Invalid email address",
-        "invalidPhone": "Invalid phone number",
-        "passwordMinLength": "Password must be at least 8 characters",
-        "passwordMismatch": "Passwords do not match",
-        "nationalIdMinLength": "National ID must be at least 10 digits"
-      }
-    },
+
     "terms": {
-      "text": "I agree to the",
-      "termsLink": "Terms and Conditions",
+      "text": "By continuing, you agree to our",
+      "termsLink": "Terms of Service",
       "and": "and",
       "privacyLink": "Privacy Policy"
     },
-    "roleSelection": {
-      "description": "Select user type to start using our platform",
-      "serviceSeeker": "Service Seeker",
-      "serviceProvider": "Service Provider",
-      "or": "OR",
-      "haveAccount": "Already have an account?"
-    },
+
     "onboarding": {
       "steps": {
+        "createAccount": "Create new account",
         "authMethod": {
-          "label": "Registration Method",
-          "description": "Choose your preferred registration method"
+          "label": "Authentication Method",
+          "description": "Choose your registration method"
         },
         "personalInfo": {
           "label": "Personal Information",
-          "description": "Enter your personal information"
+          "description": "Enter your personal details"
         },
         "verification": {
           "label": "Verification",
-          "description": "Verify your account"
+          "description": "Verify your identity"
         }
       }
-    }
-  },
-  "roles": {
-    "individual": {
-      "title": "Individual Registration",
-      "description": "Create an account for personal use"
     },
-    "institution": {
-      "title": "Institution Registration",
-      "description": "Create an account for institutions and companies",
-      "emailRegistration": "Institution Email Registration",
-      "phoneRegistration": "Institution Phone Registration",
-      "completeProfile": "Complete Your Institution Profile",
-      "emailDescription": "Create your institution account with email address",
-      "phoneDescription": "Create your institution account with phone number",
-      "thirdPartyDescription": "Please provide additional information to complete your institution profile",
-      "fields": {
-        "institutionName": "Institution Name",
-        "contactPersonFirstName": "Contact Person First Name",
-        "contactPersonLastName": "Contact Person Last Name",
-        "institutionEmail": "Institution Email",
-        "institutionPhoneNumber": "Institution Phone Number",
-        "commercialRegistration": "Commercial Registration (Optional)"
+
+    "success": {
+      "defaultName": "there",
+      "welcome": "Welcome, {name}!",
+      "accountCreated": "Your account has been successfully created with your {method}",
+      "authMethod": {
+        "email": "email address",
+        "phone": "phone number",
+        "google": "Google account",
+        "account": "account"
+      },
+      "status": {
+        "accountCreated": "Account created successfully",
+        "emailVerified": "Email verified",
+        "phoneVerified": "Phone number verified",
+        "profileComplete": "Profile setup complete"
+      },
+      "summary": {
+        "title": "Account Summary:",
+        "name": "Name",
+        "email": "Email",
+        "phone": "Phone",
+        "emailGoogle": "Email: {email} (via Google)",
+        "employeeId": "Employee ID"
+      },
+      "actions": {
+        "continueToDashboard": "Continue to Dashboard",
+        "backToHome": "Back to Home"
+      },
+      "footer": {
+        "accessMessage": "You can now access all features of our platform.",
+        "checkEmail": "Check your email for a welcome message!",
+        "checkPhone": "Check your phone for a welcome message!"
       }
     },
-    "supplier": {
-      "title": "Supplier Registration",
-      "description": "Create an account for suppliers and contractors",
-      "fields": {
-        "commercialEstablishmentName": "Commercial Establishment Name",
-        "commercialRegistrationNumber": "Commercial Registration Number",
-        "authorizedPersonName": "Authorized Person Name",
-        "authorizedPersonMobileNumber": "Authorized Person Mobile Number"
-      }
+
+    "errors": {
+      "loginFailed": "Login failed. Please try again.",
+      "emailRequired": "Please enter a valid email address",
+      "phoneRequired": "Phone number is required",
+      "passwordRequired": "Password is required"
     },
-    "freelanceEngineer": {
-      "title": "Freelance Engineer Registration",
-      "description": "Create an account for freelance engineers",
-      "emailRegistration": "Freelance Engineer Email Registration",
-      "phoneRegistration": "Freelance Engineer Phone Registration",
-      "completeProfile": "Complete Your Freelance Engineer Profile",
-      "emailDescription": "Create your freelance engineer account with email address",
-      "phoneDescription": "Create your freelance engineer account with phone number",
-      "thirdPartyDescription": "Please provide additional information to complete your freelance engineer profile",
-      "fields": {
-        "engineeringLicenseNumber": "Engineering License Number"
-      }
-    },
-    "engineeringOffice": {
-      "title": "Engineering Office Registration",
-      "description": "Create an account for engineering offices",
-      "fields": {
-        "officeName": "Office Name",
-        "professionalLicenseNumber": "Professional License Number",
-        "authorizedPersonName": "Authorized Person Name",
-        "authorizedPersonMobileNumber": "Authorized Person Mobile Number",
-        "authorizationFormNumber": "Authorization Form Number"
-      }
-    },
-    "contractor": {
-      "title": "Contractor Registration",
-      "description": "Create an account for contractors",
-      "fields": {
-        "companyName": "Company Name",
-        "commercialRegistrationNumber": "Commercial Registration Number",
-        "authorizedPersonName": "Authorized Person Name",
-        "authorizedPersonMobileNumber": "Authorized Person Mobile Number",
-        "authorizationFormNumber": "Authorization Form Number"
+
+    "completeProfile": {
+      "title": "Complete Your Profile",
+      "desc": "Complete your profile to unlock all features and get the most out of our platform. This will help us provide you with better recommendations and services.",
+      "buttons": {
+        "complete": "Complete Profile",
+        "skip": "Skip for Now"
       }
     }
   },
+
   "navigation": {
     "home": "Home",
     "dashboard": "Dashboard",
@@ -202,21 +348,350 @@
     "about": "About",
     "contact": "Contact"
   },
-  "errors": {
-    "general": "Something went wrong",
-    "network": "Network error",
-    "validation": "Validation error",
-    "notFound": "Page not found",
-    "unauthorized": "Unauthorized",
-    "forbidden": "Forbidden",
-    "serverError": "Server error",
-    "loginFailed": "Login failed"
+
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "Welcome back, {name}!",
+    "banner": {
+      "incomplete": "Your profile is incomplete. Complete your profile to unlock all features and get better recommendations.",
+      "completeNow": "Complete Now"
+    },
+    "stats": {
+      "profileCompletion": "Profile Completion",
+      "documentsUploaded": "Documents Uploaded",
+      "verificationsComplete": "Verifications Complete",
+      "accountStatus": "Account Status"
+    },
+    "quickActions": {
+      "title": "Quick Actions",
+      "editProfile": "Edit Profile",
+      "uploadDocument": "Upload Document",
+      "viewProjects": "View Projects",
+      "manageSettings": "Manage Settings"
+    },
+    "recentActivity": {
+      "title": "Recent Activity",
+      "noActivity": "No recent activity"
+    }
   },
-  "success": {
-    "registration": "Registration successful",
-    "login": "Login successful",
-    "passwordReset": "Password reset successful",
-    "profileUpdate": "Profile updated successfully",
-    "dataSaved": "Data saved successfully"
+
+  "profile": {
+    "title": "Profile",
+    "tabs": {
+      "overview": "Overview",
+      "personal": "Personal Info",
+      "documents": "Documents & Verification",
+      "professional": "Professional Info",
+      "technical": "Technical Info",
+      "security": "Security",
+      "settings": "Settings"
+    },
+    "overview": {
+      "title": "Profile Overview",
+      "snapshot": "Profile Snapshot",
+      "quickActions": "Quick Actions",
+      "verificationStatus": "Verification Status",
+      "completion": "Profile Completion",
+      "recentActivity": "Recent Activity"
+    },
+    "individual": {
+      "personalInfo": {
+        "title": "Personal Information",
+        "description": "Update your basic information and contact details",
+        "fullName": "Full Name",
+        "email": "Email",
+        "phoneNumber": "Phone Number",
+        "nationalId": "National ID"
+      }
+    },
+    "organization": {
+      "personalInfo": {
+        "title": "Organization Information",
+        "description": "Update your organization information and contact details",
+        "organizationName": "Organization Name",
+        "authorizedPersonName": "Authorized Person Name",
+        "email": "Email",
+        "phoneNumber": "Phone Number"
+      }
+    },
+    "freelance_engineer": {
+      "personalInfo": {
+        "title": "Freelance Engineer Information",
+        "description": "Update your freelance engineer information and contact details",
+        "fullName": "Full Name",
+        "email": "Email",
+        "phoneNumber": "Phone Number"
+      }
+    },
+    "engineering_office": {
+      "personalInfo": {
+        "title": "Engineering Office Information",
+        "description": "Update your engineering office information and contact details",
+        "officeName": "Office Name",
+        "authorizedPersonName": "Authorized Person Name",
+        "email": "Email",
+        "phoneNumber": "Phone Number",
+        "professionalLicenseNumber": "Professional License Number"
+      }
+    },
+    "contractor": {
+      "personalInfo": {
+        "title": "Contractor Information",
+        "description": "Update your contractor information and contact details",
+        "companyName": "Company Name",
+        "authorizedPersonName": "Authorized Person Name",
+        "email": "Email",
+        "representativeEmail": "Representative Email",
+        "phoneNumber": "Phone Number",
+        "authorizedPersonPhoneNumber": "Authorized Person Phone Number",
+        "commercialRegistrationNumber": "Commercial Registration Number",
+        "delegationForm": "Delegation Form",
+        "companyLogo": "Company Logo",
+        "country": "Country",
+        "state": "State",
+        "city": "City"
+      }
+    },
+    "supplier": {
+      "personalInfo": {
+        "title": "Supplier Information",
+        "description": "Update your supplier information and contact details",
+        "commercialEstablishmentName": "Commercial Establishment Name",
+        "authorizedPersonName": "Authorized Person Name",
+        "email": "Email",
+        "phoneNumber": "Phone Number",
+        "commercialRegistrationNumber": "Commercial Registration Number"
+      }
+    },
+    "documents": {
+      "title": "Documents & Verification",
+      "required": "Required Documents",
+      "optional": "Optional Documents",
+      "uploadGuidelines": "Upload Guidelines",
+      "status": {
+        "pending": "Pending",
+        "verified": "Verified",
+        "rejected": "Rejected"
+      }
+    },
+    "professional": {
+      "title": "Professional Information",
+      "summary": "Professional Summary",
+      "license": "Professional License",
+      "company": "Company Information",
+      "experience": "Work Experience",
+      "education": "Education",
+      "certifications": "Certifications"
+    },
+    "technical": {
+      "title": "Technical Information",
+      "skills": "Technical Skills",
+      "software": "Software Proficiency",
+      "specializations": "Specializations",
+      "coverage": "Geographic Coverage",
+      "accreditations": "Official Accreditations"
+    },
+    "security": {
+      "title": "Security",
+      "password": "Password",
+      "twoFactor": "Two-Factor Authentication",
+      "sessions": "Active Sessions",
+      "recommendations": "Security Recommendations"
+    },
+    "settings": {
+      "title": "Settings",
+      "general": "General Settings",
+      "notifications": "Notifications",
+      "privacy": "Privacy",
+      "dataManagement": "Data Management",
+      "dangerZone": "Danger Zone"
+    }
+  },
+
+  "feedback": {
+    "errors": {
+      "general": "Something went wrong",
+      "network": "Network error",
+      "validation": "Validation error",
+      "notFound": "Page not found",
+      "unauthorized": "Unauthorized",
+      "forbidden": "Forbidden",
+      "serverError": "Server error",
+      "loginFailed": "Login failed"
+    },
+    "success": {
+      "registration": "Registration successful",
+      "login": "Login successful",
+      "passwordReset": "Password reset successful",
+      "profileUpdate": "Profile updated successfully",
+      "dataSaved": "Data saved successfully"
+    },
+
+    "validation": {
+      "firstName": {
+        "required": "First name is required",
+        "minLength": "First name must be at least 2 characters"
+      },
+      "lastName": {
+        "required": "Last name is required",
+        "minLength": "Last name must be at least 2 characters"
+      },
+      "email": {
+        "required": "Email is required",
+        "invalid": "Please enter a valid email address"
+      },
+      "phoneNumber": {
+        "required": "Phone number is required",
+        "minLength": "Please enter a valid phone number"
+      },
+      "password": {
+        "required": "Password is required",
+        "minLength": "Password must be at least 8 characters"
+      },
+      "confirmPassword": {
+        "required": "Please confirm your password",
+        "mismatch": "Passwords do not match"
+      },
+      "terms": {
+        "required": "You must accept the terms and conditions"
+      },
+      "nationalId": {
+        "minLength": "National ID must be at least 10 digits"
+      },
+      "otp": {
+        "length": "OTP must be 6 digits"
+      },
+      "organizationName": {
+        "required": "Organization name is required"
+      },
+      "officeName": {
+        "required": "Engineering office name is required"
+      },
+      "professionalLicenseNumber": {
+        "required": "Professional license number is required"
+      },
+      "companyName": {
+        "required": "Company name is required"
+      },
+      "commercialRegistrationNumber": {
+        "required": "Commercial registration number is required"
+      },
+      "commercialEstablishmentName": {
+        "required": "Commercial establishment name is required"
+      },
+      "authorizedPersonName": {
+        "required": "Authorized person name is required",
+        "minLength": "Authorized person name must be at least 2 characters"
+      },
+      "authorizedPersonPhoneNumber": {
+        "required": "Authorized person mobile number is required",
+        "minLength": "Please enter a valid mobile number"
+      },
+      "engineeringSpecialization": {
+        "required": "Please select at least one engineering specialization"
+      },
+      "yearsOfExperience": {
+        "required": "Years of experience is required"
+      },
+      "typesOfExperience": {
+        "required": "Please select at least one type of experience"
+      },
+      "workLocations": {
+        "required": "Please select at least one work location"
+      },
+      "officeAffiliation": {
+        "required": "Office affiliation status is required"
+      },
+      "officeSpecializations": {
+        "required": "Please select at least one office specialization"
+      },
+      "numberOfEmployees": {
+        "required": "Number of employees is required"
+      },
+      "annualProjectVolume": {
+        "required": "Annual project volume is required"
+      },
+      "geographicCoverage": {
+        "required": "Please select at least one geographic coverage area"
+      },
+      "officialAccreditations": {
+        "required": "Official accreditations status is required"
+      },
+      "technicalCV": {
+        "required": "Technical CV is required"
+      },
+      "personalPhoto": {
+        "required": "Personal photo is required"
+      },
+      "saudiCouncilOfEngineersCardCopy": {
+        "required": "Saudi Council of Engineers card copy is required"
+      },
+      "saudiCouncilOfEngineersLicense": {
+        "required": "Saudi Council of Engineers license is required"
+      },
+      "commercialRegistration": {
+        "required": "Commercial registration document is required"
+      },
+      "nationalAddress": {
+        "required": "National address document is required"
+      },
+      "bankAccountDetails": {
+        "required": "Bank account details document is required"
+      },
+      "vatCertificate": {
+        "required": "VAT certificate is required"
+      },
+      "previousWorkRecord": {
+        "required": "Previous work record is required"
+      },
+      "officialContactInformation": {
+        "required": "Official contact information document is required"
+      },
+
+      "fullName": {
+        "required": "Full name is required",
+        "minLength": "Full name must be at least 2 characters"
+      },
+      "organizationContactPersonFullName": {
+        "required": "Contact person full name is required",
+        "minLength": "Contact person full name must be at least 2 characters"
+      },
+      "projectName": {
+        "minLength": "Project name must be at least 2 characters"
+      },
+      "projectType": {
+        "minLength": "Project type must be at least 2 characters"
+      },
+      "location": {
+        "minLength": "Location must be at least 2 characters"
+      },
+      "budget": {
+        "minLength": "Budget must be at least 2 characters"
+      },
+      "duration": {
+        "minLength": "Duration must be at least 2 characters"
+      },
+      "duration_unit": {
+        "minLength": "Duration unit must be at least 2 characters"
+      },
+      "area_sqm": {
+        "minLength": "Area must be at least 2 characters"
+      },
+      "description": {
+        "minLength": "Description must be at least 2 characters"
+      },
+      "budget_unit": {
+        "minLength": "Budget unit must be at least 2 characters"
+      }
+    }
+  },
+  "placeholders": {
+    "phoneNumber": "Enter phone number",
+    "email": "Enter email",
+    "nationalId": "Enter national ID",
+    "fullName": "Enter full name",
+    "organizationName": "Enter organization name",
+    "organizationContactPersonFullName": "Enter organization contact person full name",
+    "organizationPhoneNumber": "Enter organization phone number"
   }
 }

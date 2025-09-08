@@ -2,25 +2,15 @@ import type { RegistrationRole } from "../types/auth";
 
 export const roleFlows: Record<RegistrationRole, string[]> = {
   individual: ["authMethod", "personalInfo", "verification", "complete"],
-  institution: ["authMethod", "personalInfo", "verification", "documentUpload", "complete"],
-  supplier: [
+  organization: [
     "authMethod",
     "personalInfo",
     "verification",
+    "documentUpload",
+    "complete",
   ],
-  freelanceEngineer: [
-    "authMethod",
-    "personalInfo",
-    "verification",
-  ],
-  engineeringOffice: [
-    "authMethod",
-    "personalInfo",
-    "verification",
-  ],
-  contractor: [
-    "authMethod",
-    "personalInfo",
-    "verification",
-  ],
+  supplier: ["authMethod", "personalInfo", "verification"],
+  freelance_engineer: ["authMethod", "personalInfo", "verification"],
+  engineering_office: ["authMethod", "personalInfo", "verification"],
+  contractor: ["authMethod", "personalInfo", "verification"],
 };

@@ -1,22 +1,12 @@
 import { create } from "zustand";
-import { devtools } from "zustand/middleware";
-import type {
-  ContractorRegistrationState,
-  ContractorPersonalInfo,
+import {
+  ContractorProfileState,
   ContractorTechnicalOperationalInfo,
   ContractorDocumentUpload,
 } from "../types/contractor";
 
-export interface ContractorRegistrationStoreState
-  extends ContractorRegistrationState {
-  // UI-specific states
-  showPassword: boolean;
-  showConfirmPassword: boolean;
-  authorizationForm: File | null;
-  companyLogo: File | null;
-
-  // Technical Operational Info file states
-  classificationFile: File | null;
+export interface ContractorProfileStoreState extends ContractorProfileState {
+  // UI-specific file states for document upload
   socialInsuranceCertificate: File | null;
   commercialRegistration: File | null;
   vatCertificate: File | null;
@@ -30,28 +20,7 @@ export interface ContractorRegistrationStoreState
   qualityCertificates: File[];
   otherFiles: File[];
 
-  // Document Upload file states
-  documentUploadSocialInsuranceCertificate: File | null;
-  documentUploadCommercialRegistration: File | null;
-  documentUploadVatCertificate: File | null;
-  documentUploadNationalAddress: File | null;
-  documentUploadProjectsAndPreviousWorkRecord: File | null;
-  documentUploadOfficialContactInformation: File | null;
-  documentUploadBankAccountDetails: File | null;
-  documentUploadChamberOfCommerceMembership: File | null;
-  documentUploadCompanyProfile: File | null;
-  documentUploadOrganizationalStructure: File | null;
-  documentUploadQualityCertificates: File[];
-  documentUploadOtherFiles: File[];
-
-  // Actions for UI states
-  setShowPassword: (show: boolean) => void;
-  setShowConfirmPassword: (show: boolean) => void;
-  setAuthorizationForm: (file: File | null) => void;
-  setCompanyLogo: (file: File | null) => void;
-
-  // Actions for Technical Operational Info file states
-  setClassificationFile: (file: File | null) => void;
+  // Actions for file states
   setSocialInsuranceCertificate: (file: File | null) => void;
   setCommercialRegistration: (file: File | null) => void;
   setVatCertificate: (file: File | null) => void;
@@ -65,180 +34,91 @@ export interface ContractorRegistrationStoreState
   setQualityCertificates: (files: File[]) => void;
   setOtherFiles: (files: File[]) => void;
 
-  // Actions for Document Upload file states
-  setDocumentUploadSocialInsuranceCertificate: (file: File | null) => void;
-  setDocumentUploadCommercialRegistration: (file: File | null) => void;
-  setDocumentUploadVatCertificate: (file: File | null) => void;
-  setDocumentUploadNationalAddress: (file: File | null) => void;
-  setDocumentUploadProjectsAndPreviousWorkRecord: (file: File | null) => void;
-  setDocumentUploadOfficialContactInformation: (file: File | null) => void;
-  setDocumentUploadBankAccountDetails: (file: File | null) => void;
-  setDocumentUploadChamberOfCommerceMembership: (file: File | null) => void;
-  setDocumentUploadCompanyProfile: (file: File | null) => void;
-  setDocumentUploadOrganizationalStructure: (file: File | null) => void;
-  setDocumentUploadQualityCertificates: (files: File[]) => void;
-  setDocumentUploadOtherFiles: (files: File[]) => void;
-
   // Form state management
-  setPersonalInfo: (info: ContractorPersonalInfo) => void;
   setTechnicalOperationalInfo: (
     info: ContractorTechnicalOperationalInfo
   ) => void;
   setDocumentUpload: (info: ContractorDocumentUpload) => void;
 
+  // Loading and error management
+  setLoading: (loading: boolean) => void;
+  setError: (error: string | null) => void;
+  clearError: () => void;
+
   // Reset
-  resetForm: () => void;
+  resetProfile: () => void;
 }
 
-export const useContractorRegistrationStore =
-  create<ContractorRegistrationStoreState>()(
-    devtools((set, get) => ({
-      // Initial state from ContractorRegistrationState
-      currentStep: "authMethod",
-      authMethod: null,
-      personalInfo: null,
-      technicalOperationalInfo: null,
-      documentUpload: null,
-      verificationCode: "",
-      isVerified: false,
-      isLoading: false,
-      error: null,
+export const useContractorProfileStore = create<ContractorProfileStoreState>()(
+  (set) => ({
+    // Initial state from ContractorProfileState
+    technicalOperationalInfo: null,
+    documentUpload: null,
+    isLoading: false,
+    error: null,
 
-      // UI-specific states
-      showPassword: false,
-      showConfirmPassword: false,
-      authorizationForm: null,
-      companyLogo: null,
+    // UI-specific file states
+    socialInsuranceCertificate: null,
+    commercialRegistration: null,
+    vatCertificate: null,
+    nationalAddress: null,
+    projectsAndPreviousWorkRecord: null,
+    officialContactInformation: null,
+    bankAccountDetails: null,
+    chamberOfCommerceMembership: null,
+    companyProfile: null,
+    organizationalStructure: null,
+    qualityCertificates: [],
+    otherFiles: [],
 
-      // Technical Operational Info file states
-      classificationFile: null,
-      socialInsuranceCertificate: null,
-      commercialRegistration: null,
-      vatCertificate: null,
-      nationalAddress: null,
-      projectsAndPreviousWorkRecord: null,
-      officialContactInformation: null,
-      bankAccountDetails: null,
-      chamberOfCommerceMembership: null,
-      companyProfile: null,
-      organizationalStructure: null,
-      qualityCertificates: [],
-      otherFiles: [],
+    // Actions for file states
+    setSocialInsuranceCertificate: (file) =>
+      set({ socialInsuranceCertificate: file }),
+    setCommercialRegistration: (file) => set({ commercialRegistration: file }),
+    setVatCertificate: (file) => set({ vatCertificate: file }),
+    setNationalAddress: (file) => set({ nationalAddress: file }),
+    setProjectsAndPreviousWorkRecord: (file) =>
+      set({ projectsAndPreviousWorkRecord: file }),
+    setOfficialContactInformation: (file) =>
+      set({ officialContactInformation: file }),
+    setBankAccountDetails: (file) => set({ bankAccountDetails: file }),
+    setChamberOfCommerceMembership: (file) =>
+      set({ chamberOfCommerceMembership: file }),
+    setCompanyProfile: (file) => set({ companyProfile: file }),
+    setOrganizationalStructure: (file) =>
+      set({ organizationalStructure: file }),
+    setQualityCertificates: (files) => set({ qualityCertificates: files }),
+    setOtherFiles: (files) => set({ otherFiles: files }),
 
-      // Document Upload file states
-      documentUploadSocialInsuranceCertificate: null,
-      documentUploadCommercialRegistration: null,
-      documentUploadVatCertificate: null,
-      documentUploadNationalAddress: null,
-      documentUploadProjectsAndPreviousWorkRecord: null,
-      documentUploadOfficialContactInformation: null,
-      documentUploadBankAccountDetails: null,
-      documentUploadChamberOfCommerceMembership: null,
-      documentUploadCompanyProfile: null,
-      documentUploadOrganizationalStructure: null,
-      documentUploadQualityCertificates: [],
-      documentUploadOtherFiles: [],
+    // Form state management
+    setTechnicalOperationalInfo: (info) =>
+      set({ technicalOperationalInfo: info }),
+    setDocumentUpload: (info) => set({ documentUpload: info }),
 
-      // Actions for UI states
-      setShowPassword: (show) => set({ showPassword: show }),
-      setShowConfirmPassword: (show) => set({ showConfirmPassword: show }),
-      setAuthorizationForm: (file) => set({ authorizationForm: file }),
-      setCompanyLogo: (file) => set({ companyLogo: file }),
+    // Loading and error management
+    setLoading: (loading) => set({ isLoading: loading }),
+    setError: (error) => set({ error }),
+    clearError: () => set({ error: null }),
 
-      // Actions for Technical Operational Info file states
-      setClassificationFile: (file) => set({ classificationFile: file }),
-      setSocialInsuranceCertificate: (file) =>
-        set({ socialInsuranceCertificate: file }),
-      setCommercialRegistration: (file) =>
-        set({ commercialRegistration: file }),
-      setVatCertificate: (file) => set({ vatCertificate: file }),
-      setNationalAddress: (file) => set({ nationalAddress: file }),
-      setProjectsAndPreviousWorkRecord: (file) =>
-        set({ projectsAndPreviousWorkRecord: file }),
-      setOfficialContactInformation: (file) =>
-        set({ officialContactInformation: file }),
-      setBankAccountDetails: (file) => set({ bankAccountDetails: file }),
-      setChamberOfCommerceMembership: (file) =>
-        set({ chamberOfCommerceMembership: file }),
-      setCompanyProfile: (file) => set({ companyProfile: file }),
-      setOrganizationalStructure: (file) =>
-        set({ organizationalStructure: file }),
-      setQualityCertificates: (files) => set({ qualityCertificates: files }),
-      setOtherFiles: (files) => set({ otherFiles: files }),
-
-      // Actions for Document Upload file states
-      setDocumentUploadSocialInsuranceCertificate: (file: File | null) =>
-        set({ documentUploadSocialInsuranceCertificate: file }),
-      setDocumentUploadCommercialRegistration: (file: File | null) =>
-        set({ documentUploadCommercialRegistration: file }),
-      setDocumentUploadVatCertificate: (file: File | null) =>
-        set({ documentUploadVatCertificate: file }),
-      setDocumentUploadNationalAddress: (file: File | null) =>
-        set({ documentUploadNationalAddress: file }),
-      setDocumentUploadProjectsAndPreviousWorkRecord: (file: File | null) =>
-        set({ documentUploadProjectsAndPreviousWorkRecord: file }),
-      setDocumentUploadOfficialContactInformation: (file: File | null) =>
-        set({ documentUploadOfficialContactInformation: file }),
-      setDocumentUploadBankAccountDetails: (file: File | null) =>
-        set({ documentUploadBankAccountDetails: file }),
-      setDocumentUploadChamberOfCommerceMembership: (file: File | null) =>
-        set({ documentUploadChamberOfCommerceMembership: file }),
-      setDocumentUploadCompanyProfile: (file: File | null) =>
-        set({ documentUploadCompanyProfile: file }),
-      setDocumentUploadOrganizationalStructure: (file: File | null) =>
-        set({ documentUploadOrganizationalStructure: file }),
-      setDocumentUploadQualityCertificates: (files: File[]) =>
-        set({ documentUploadQualityCertificates: files }),
-      setDocumentUploadOtherFiles: (files: File[]) =>
-        set({ documentUploadOtherFiles: files }),
-
-      // Form state management
-      setPersonalInfo: (info) => set({ personalInfo: info }),
-      setTechnicalOperationalInfo: (info) =>
-        set({ technicalOperationalInfo: info }),
-      setDocumentUpload: (info) => set({ documentUpload: info }),
-
-      // Reset
-      resetForm: () =>
-        set({
-          currentStep: "authMethod",
-          authMethod: null,
-          personalInfo: null,
-          technicalOperationalInfo: null,
-          documentUpload: null,
-          verificationCode: "",
-          isVerified: false,
-          isLoading: false,
-          error: null,
-          showPassword: false,
-          showConfirmPassword: false,
-          authorizationForm: null,
-          companyLogo: null,
-          classificationFile: null,
-          socialInsuranceCertificate: null,
-          commercialRegistration: null,
-          vatCertificate: null,
-          nationalAddress: null,
-          projectsAndPreviousWorkRecord: null,
-          officialContactInformation: null,
-          bankAccountDetails: null,
-          chamberOfCommerceMembership: null,
-          companyProfile: null,
-          organizationalStructure: null,
-          qualityCertificates: [],
-          otherFiles: [],
-          documentUploadSocialInsuranceCertificate: null,
-          documentUploadCommercialRegistration: null,
-          documentUploadVatCertificate: null,
-          documentUploadNationalAddress: null,
-          documentUploadProjectsAndPreviousWorkRecord: null,
-          documentUploadOfficialContactInformation: null,
-          documentUploadBankAccountDetails: null,
-          documentUploadChamberOfCommerceMembership: null,
-          documentUploadCompanyProfile: null,
-          documentUploadOrganizationalStructure: null,
-          documentUploadQualityCertificates: [],
-          documentUploadOtherFiles: [],
-        }),
-    }))
-  );
+    // Reset
+    resetProfile: () =>
+      set({
+        technicalOperationalInfo: null,
+        documentUpload: null,
+        isLoading: false,
+        error: null,
+        socialInsuranceCertificate: null,
+        commercialRegistration: null,
+        vatCertificate: null,
+        nationalAddress: null,
+        projectsAndPreviousWorkRecord: null,
+        officialContactInformation: null,
+        bankAccountDetails: null,
+        chamberOfCommerceMembership: null,
+        companyProfile: null,
+        organizationalStructure: null,
+        qualityCertificates: [],
+        otherFiles: [],
+      }),
+  })
+);

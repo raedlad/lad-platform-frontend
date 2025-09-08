@@ -1,0 +1,17 @@
+"use client";
+
+import React from "react";
+import DocumentUpload from "@/features/profile/components/common/file-upload/DocumentUpload";
+
+
+const ContractorDocumentUpload: React.FC = () => {
+  return (
+    <DocumentUpload
+      role="CONTRACTOR"
+      title="Contractor Document Upload"
+      description="Upload your personal identification and verification documents. All mandatory documents must be completed before submission."
+    />
+  );
+};
+
+export default ContractorDocumentUpload;

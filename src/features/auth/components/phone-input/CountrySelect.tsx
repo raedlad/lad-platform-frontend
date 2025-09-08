@@ -3,6 +3,7 @@
 import * as React from "react";
 import { ChevronsUpDown, CheckIcon } from "lucide-react";
 import { type Country, getCountryCallingCode } from "react-phone-number-input";
+import { useTranslations } from "next-intl";
 
 import { Button } from "@shared/components/ui/button";
 import {
@@ -35,6 +36,7 @@ export const CountrySelect = ({
   value: selectedCountry,
   onChange,
 }: CountrySelectProps) => {
+  const t = useTranslations("common.ui");
   const scrollAreaRef = React.useRef<HTMLDivElement>(null);
   const [searchValue, setSearchValue] = React.useState("");
   const [isOpen, setIsOpen] = React.useState(false);
@@ -49,13 +51,14 @@ export const CountrySelect = ({
         setIsOpen(open);
         if (open) setSearchValue("");
       }}
+      
     >
       <PopoverTrigger asChild>
         <Button
           type="button"
           variant="outline"
-          aria-label="Select country"
-          className="h-full flex gap-1 rounded-s-none "
+          aria-label={t("selectCountry")}
+          className="h-full flex items-center shrink-0 gap-1 rounded-r-none "
           disabled={disabled}
         >
           <FlagComponent
@@ -71,11 +74,11 @@ export const CountrySelect = ({
           <CommandInput
             value={searchValue}
             onValueChange={setSearchValue}
-            placeholder="Search country..."
+            placeholder={t("searchCountry")}
           />
           <CommandList>
             <ScrollArea ref={scrollAreaRef} className="h-72">
-              <CommandEmpty>No country found.</CommandEmpty>
+              <CommandEmpty>{t("noCountryFound")}</CommandEmpty>
               <CommandGroup>
                 {countryList.map(({ value, label, callingCode }) =>
                   value ? (

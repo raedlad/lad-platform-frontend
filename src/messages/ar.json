@@ -1,117 +1,279 @@
 {
   "common": {
-    "loading": "جاري التحميل...",
-    "submit": "إرسال",
-    "continue": "متابعة",
-    "back": "رجوع",
-    "next": "التالي",
-    "cancel": "إلغاء",
-    "save": "حفظ",
-    "edit": "تعديل",
-    "delete": "حذف",
-    "confirm": "تأكيد",
-    "close": "إغلاق",
-    "search": "بحث",
-    "filter": "تصفية",
-    "sort": "ترتيب",
-    "refresh": "تحديث",
-    "download": "تحميل",
-    "upload": "رفع",
-    "select": "اختيار",
-    "clear": "مسح",
-    "reset": "إعادة تعيين",
-    "changeLanguage": "تغيير اللغة",
-    "comingSoon": "قريباً"
+    "actions": {
+      "loading": "جاري التحميل...",
+      "submit": "إرسال",
+      "continue": "متابعة",
+      "back": "رجوع",
+      "next": "التالي",
+      "cancel": "إلغاء",
+      "save": "حفظ",
+      "edit": "تعديل",
+      "delete": "حذف",
+      "confirm": "تأكيد",
+      "close": "إغلاق",
+      "refresh": "تحديث",
+      "download": "تحميل",
+      "upload": "رفع",
+      "select": "اختيار",
+      "clear": "مسح",
+      "reset": "إعادة تعيين"
+    },
+    "select": {
+      "country": "اختر الدولة",
+      "state": "اختر المحافظة",
+      "city": "اختر المدينة"
+    },
+    "ui": {
+      "search": "بحث",
+      "filter": "تصفية",
+      "sort": "ترتيب",
+      "changeLanguage": "تغيير اللغة",
+      "comingSoon": "قريباً",
+      "selectCountry": "اختر الدولة",
+      "searchCountry": "البحث عن دولة...",
+      "noCountryFound": "لم يتم العثور على دولة."
+    }
   },
+
+  "Header": {
+    "l": "L",
+    "logo": "LAD",
+    "login": "تسجيل الدخول",
+    "features": "الميزات",
+    "pricing": "الأسعار",
+    "about": "عنا",
+    "signup": "إنشاء حساب",
+    "getStarted": "البدء"
+  },
+  "hero": {
+    "title": "ابنِ بذكاء. تواصل بسرعة. وانمُ أكثر.",
+    "description": "منصة موحدة للمقاولين والمهندسين والموردين والأفراد للتعاون، واغتنام الفرص، وتحقيق النجاح.",
+    "createAccount": "إنشاء حساب",
+    "login": "تسجيل الدخول",
+    "partners": "الشركاء الموثوق بهم"
+  },
+  "features": {
+    "title": "مصمم لخبراء القانون والهندسة المعمارية والتصميم",
+    "description": "منصة موحدة تمكّن الأفراد والشركات والمقاولين من التعاون والنمو.",
+    "legalConsultancy": "الاستشارات القانونية",
+    "legalConsultancyDescription": "الوصول إلى خدمات قانونية متخصصة، وأدوات الامتثال، ودعم التوثيق المصمم لقطاعك.",
+    "architectureEngineering": "الهندسة المعمارية والهندسة",
+    "architectureEngineeringDescription": "أدوات وميزات تعاونية للمهندسين والمقاولين والمكاتب الهندسية لتسليم المشاريع بكفاءة.",
+    "openMarketWorkflow": "السوق المفتوحة وسير العمل",
+    "openMarketWorkflowDescription": "سوق متكاملة تربط الموردين والمستقلين والعملاء مع تتبع للمشاريع مدعوم بالذكاء الاصطناعي."
+  },
+
+  "testimonials": {
+    "title": "موثوق من قبل المحترفين في البناء والهندسة",
+    "description": "LAD يجمع بين المقاولين والمهندسين والموردين والعملاء في مكان واحد. إليك ما يقوله المحترفون عن المنصة.",
+    "testimonial1": {
+      "quote": "ساعدتني LAD في العثور على موردين موثوقين والتواصل مع المهندسين بسرعة أكبر. المنصة جعلت إدارة المشاريع أسهل بكثير.",
+      "name": "أحمد خالد",
+      "role": "مقاول عام"
+    },
+    "testimonial2": {
+      "quote": "كمهندسة مستقلة، وفّرت لي LAD الوصول إلى عملاء ومقاولين يقدّرون مهاراتي. إنها بالفعل بوابة للفرص.",
+      "name": "منى السيد",
+      "role": "مهندسة مستقلة"
+    },
+    "testimonial3": {
+      "quote": "بفضل LAD تمكنت من توسيع نطاق عملي وتوريد المواد مباشرة للمقاولين والمكاتب. المنصة توفر الوقت وتبني الثقة.",
+      "name": "حسن علي",
+      "role": "مورد مواد بناء"
+    },
+    "testimonial4": {
+      "quote": "إيجاد المقاول المناسب لمشروعي المنزلي كان سهلاً عبر LAD. العملية كانت واضحة وسريعة وشفافة.",
+      "name": "سارة محمد",
+      "role": "عميلة فردية"
+    }
+  },
+  "cta": {
+    "title": "فرص جديدة ومشاريع ناجحة في عالم البناء بانتظارك",
+    "getStarted": "ابدأ الآن"
+  },
+  "footer": {
+    "copyright": "© {year} LAD، جميع الحقوق محفوظة",
+    "links": {
+      "features": "المميزات",
+      "solutions": "الحلول",
+      "marketplace": "السوق",
+      "pricing": "الأسعار",
+      "help": "المساعدة والدعم",
+      "about": "عن المنصة"
+    }
+  },
+
   "auth": {
-    "title": "مرحبا بك في منصة لاد",
-    "subtitle": "انشئ حسابك الآن",
+    "title": "مرحباً",
+    "subtitle": "أنشئ حسابك للبدء",
     "login": "تسجيل الدخول",
     "signup": "إنشاء حساب",
-    "logout": "تسجيل الخروج",
-    "forgotPassword": "نسيت كلمة المرور؟",
-    "resetPassword": "إعادة تعيين كلمة المرور",
-    "verifyEmail": "تأكيد البريد الإلكتروني",
-    "verifyPhone": "تأكيد رقم الهاتف",
+    "createAccount": "إنشاء حساب",
+    "noAccount": "ليس لديك حساب؟",
+    "forgotPassword": "هل نسيت كلمة المرور؟",
     "resendCode": "إعادة إرسال الرمز",
+
+    "passwordReset": {
+      "title": "إعادة تعيين كلمة المرور",
+      "description": "أدخل بريدك الإلكتروني أو رقم هاتفك وسنرسل لك رابط إعادة التعيين أو رمز.",
+      "emailSent": "تحقق من بريدك الإلكتروني",
+      "phoneSent": "تحقق من رسائلك",
+      "emailSentDescription": "لقد أرسلنا رابط إعادة التعيين إلى",
+      "phoneSentDescription": "لقد أرسلنا رمز إعادة التعيين إلى",
+      "whatNext": "ما الذي يحدث بعد ذلك؟",
+      "steps": [
+        "تحقق من البريد الإلكتروني الخاص بك",
+        "انقر على رابط إعادة التعيين في البريد الإلكتروني",
+        "أنشئ كلمة مرور جديدة"
+      ],
+      "smsSteps": [
+        "تحقق من رسائلك",
+        "اتبع التعليمات في الرسالة",
+        "أنشئ كلمة مرور جديدة"
+      ],
+      "didntReceive": "لم تستلم البريد الإلكتروني؟ تحقق من مجلد البريد المزعج أو",
+      "didntReceiveSms": "لم تستلم الرسالة؟",
+      "tryAgain": "حاول مرة أخرى",
+      "backToLogin": "العودة إلى تسجيل الدخول",
+      "sendResetLink": "إرسال رابط إعادة التعيين",
+      "sendingResetLink": "إرسال رابط إعادة التعيين...",
+      "sendResetCode": "إرسال رمز إعادة التعيين",
+      "sendingResetCode": "إرسال رمز إعادة التعيين...",
+      "emailOrPhoneLabel": "البريد الإلكتروني أو رقم هاتفك"
+    },
+
+    "newPassword": {
+      "title": "أنشئ كلمة مرور جديدة",
+      "description": "يجب أن تكون كلمة المرور الجديدة مختلفة عن كلمات المرور السابقة المستخدمة.",
+      "newPassword": "كلمة المرور الجديدة",
+      "confirmNewPassword": "تأكيد كلمة المرور الجديدة",
+      "requirements": "متطلبات كلمة المرور",
+      "requirementsList": [
+        "أقل من 8 أحرف",
+        "يحتوي على أحرف كبيرة وصغيرة",
+        "يحتوي على عدد واحد على الأقل",
+        "يحتوي على حرف خاص واحد على الأقل"
+      ],
+      "strength": {
+        "weak": "ضعيف",
+        "fair": "متوسط",
+        "good": "جيد",
+        "strong": "قوي",
+        "label": "قوة كلمة المرور:"
+      },
+      "updatePassword": "تحديث كلمة المرور",
+      "updatingPassword": "تحديث كلمة المرور...",
+      "success": "تم إعادة تعيين كلمة المرور بنجاح",
+      "successDescription": "تم تحديث كلمة المرور الخاصة بك بنجاح. يمكنك الآن تسجيل الدخول باستخدام كلمة المرور الجديدة.",
+      "continueToLogin": "المتابعة إلى تسجيل الدخول"
+    },
     "authMethod": {
-      "title": "طريقة التسجيل",
-      "description": "اختر طريقة التسجيل المفضلة لديك",
-      "email": "الاستمرار باستخدام البريد الإلكتروني",
-      "phone": "الإستمرار باستخدام رقم الهاتف",
-      "thirdParty": "الاستمرار باستخدام Google"
+      "email": "المتابعة عبر البريد الإلكتروني",
+      "phone": "المتابعة عبر رقم الهاتف",
+      "thirdParty": "المتابعة عبر جوجل",
+      "google": "جوجل",
+      "apple": "آبل"
+    },
+
+    "roleSelection": {
+      "description": "اختر دورك للمتابعة",
+      "serviceSeeker": "طالب خدمة",
+      "serviceProvider": "مقدم خدمة",
+      "or": "أو",
+      "haveAccount": "لديك حساب بالفعل؟"
+    },
+
+    "verification": {
+      "title": "التحقق من الحساب",
+      "enterCode": "أدخل رمز التأكيد المرسل إلى",
+      "description": "أدخل رمز التحقق المرسل إلى {contact} عبر {type}",
+      "thirdPartyDescription": "أكمل التحقق باستخدام الموفر الذي قمت باختياره",
+      "noCodeReceived": "لم تستلم الرمز؟",
+      "resendCooldown": "أعد إرسال الرمز في {seconds} ثانية",
+      "errors": {
+        "invalidCode": "يرجى إدخال رمز تحقق مكون من 6 أرقام",
+        "verificationFailed": "فشل التحقق",
+        "resendFailed": "فشل في إعادة إرسال الرمز"
+      },
+      "contactInfo": {
+        "email": "بريدك الإلكتروني",
+        "phone": "رقم هاتفك",
+        "account": "حسابك"
+      },
+      "contactType": {
+        "email": "البريد الإلكتروني",
+        "sms": "الرسائل النصية",
+        "account": "الحساب"
+      },
+      "actions": {
+        "verify": "تحقق من الرمز",
+        "verifying": "جاري التحقق...",
+        "resend": "أعد إرسال الرمز",
+        "continue": "استمرار"
+      },
+      "thirdParty": {
+        "success": "تم التحقق بنجاح!",
+        "verified": "تم التحقق من {type} بنجاح."
+      }
+    },
+
+    "roleSelector": {
+      "description": "اختر دورك للمتابعة",
+      "serviceSeeker": "طالب خدمة",
+      "serviceProvider": "مقدم خدمة",
+      "or": "أو",
+      "haveAccount": "لديك حساب بالفعل؟",
+      "individualTitle": "فرد",
+      "individualDescription": "للأفراد الذين يبحثون عن خدمات",
+      "individualButtonText": "استمرار كفرد",
+      "organizationTitle": "مؤسسة",
+      "organizationDescription": "للمؤسسات والشركات التي تبحث عن خدمات",
+      "organizationButtonText": "استمرار كمؤسسة",
+      "freelance_engineerTitle": "مهندس مستقل",
+      "freelance_engineerDescription": "للمهندسين المستقلين والعاملين لحسابهم الخاص",
+      "freelance_engineerButtonText": "تقديم كمهندس مستقل",
+      "engineering_officeTitle": "مكتب هندسي",
+      "engineering_officeDescription": "لمكاتب الهندسة والاستشارات",
+      "engineering_officeButtonText": "تقديم كمكتب هندسي",
+      "contractorTitle": "مقاول",
+      "contractorDescription": "للمقاولين وشركات البناء",
+      "contractorButtonText": "تقديم كمقاول",
+      "supplierTitle": "مورد",
+      "supplierDescription": "للموردين وموردي المواد",
+      "supplierButtonText": "تقديم كمورد"
     },
     "personalInfo": {
       "title": "المعلومات الشخصية",
-      "description": "أدخل معلوماتك الشخصية",
+      "emailRegistration": "التسجيل عبر البريد الإلكتروني",
+      "phoneRegistration": "التسجيل عبر رقم الهاتف",
+      "completeProfile": "أكمل ملفك الشخصي",
+      "emailDescription": "أنشئ حسابك باستخدام البريد الإلكتروني",
+      "phoneDescription": "أنشئ حسابك باستخدام رقم الهاتف",
+      "thirdPartyDescription": "يرجى تقديم معلومات إضافية لإكمال ملفك الشخصي",
       "firstName": "الاسم الأول",
       "lastName": "اسم العائلة",
       "email": "البريد الإلكتروني",
       "phoneNumber": "رقم الهاتف",
       "password": "كلمة المرور",
       "confirmPassword": "تأكيد كلمة المرور",
-      "nationalId": "رقم الهوية الوطنية",
-      "agreeToTerms": "أوافق على الشروط والأحكام",
-      "emailRegistration": "تسجيل باستخدام البريد الإلكتروني",
-      "phoneRegistration": "تسجيل باستخدام رقم الهاتف",
-      "thirdPartyDescription": "يرجى تقديم المعلومات الإضافية لإكمال ملفك الشخصي",
-      "phoneDescription": "إنشاء حساب باستخدام رقم الهاتف",
-      "emailDescription": "إنشاء حساب باستخدام البريد الإلكتروني",
-      "completeProfile": "إكمال ملفك الشخصي",
+      "nationalId": "الهوية الوطنية",
       "continue": "متابعة"
     },
-    "verification": {
-      "title": "التحقق",
-      "description": "تحقق من حسابك",
-      "enterCode": "أدخل الرمز المرسل إليك",
-      "codeSent": "تم إرسال الرمز إلى",
-      "didntReceive": "لم تستلم الرمز؟"
-    },
-    "roles": {
-      "individual": "فرد",
-      "institution": "مؤسسة",
-      "supplier": "مورد",
-      "freelanceEngineer": "مهندس مستقل",
-      "engineeringOffice": "مكتب هندسي",
-      "contractor": "مقاول"
-    },
-    "form": {
-      "placeholders": {
-        "firstName": "أدخل اسمك الأول",
-        "lastName": "أدخل اسم العائلة",
-        "email": "أدخل بريدك الإلكتروني",
-        "phoneNumber": "أدخل رقم هاتفك",
-        "password": "أدخل كلمة المرور",
-        "confirmPassword": "أعد إدخال كلمة المرور",
-        "nationalId": "أدخل رقم الهوية الوطنية"
-      },
-      "validation": {
-        "required": "هذا الحقل مطلوب",
-        "invalidEmail": "البريد الإلكتروني غير صحيح",
-        "invalidPhone": "رقم الهاتف غير صحيح",
-        "passwordMinLength": "كلمة المرور يجب أن تكون 8 أحرف على الأقل",
-        "passwordMismatch": "كلمة المرور غير متطابقة",
-        "nationalIdMinLength": "رقم الهوية الوطنية يجب أن يكون 10 أرقام على الأقل"
-      }
-    },
+
     "terms": {
-      "text": "أوافق على",
-      "termsLink": "الشروط والأحكام",
+      "text": "بالمتابعة، أنت توافق على",
+      "termsLink": "شروط الخدمة",
       "and": "و",
       "privacyLink": "سياسة الخصوصية"
     },
-    "roleSelection": {
-      "description": "حدد نوع المستخدم لبدء استخدام منصتنا",
-      "serviceSeeker": "طالب خدمة",
-      "serviceProvider": "مقدم خدمة",
-      "or": "أو",
-      "haveAccount": "لديك حساب مسجل مسبقا؟"
-    },
+
     "onboarding": {
       "steps": {
+        "createAccount": "إنشاء حساب جديد",
         "authMethod": {
-          "label": "طريقة التسجيل",
-          "description": "اختر طريقة التسجيل المفضلة لديك"
+          "label": "طريقة المصادقة",
+          "description": "اختر طريقة التسجيل"
         },
         "personalInfo": {
           "label": "المعلومات الشخصية",
@@ -119,104 +281,427 @@
         },
         "verification": {
           "label": "التحقق",
-          "description": "تحقق من حسابك"
+          "description": "تأكيد هويتك"
         }
       }
-    }
-  },
-  "roles": {
-    "individual": {
-      "title": "تسجيل حساب فردي",
-      "description": "إنشاء حساب للاستخدام الشخصي"
     },
-    "institution": {
-      "title": "تسجيل حساب مؤسسي",
-      "description": "إنشاء حساب للمؤسسات والشركات",
-      "emailRegistration": "تسجيل مؤسسة باستخدام البريد الإلكتروني",
-      "phoneRegistration": "تسجيل مؤسسة باستخدام رقم الهاتف",
-      "completeProfile": "إكمال ملف المؤسسة",
-      "emailDescription": "إنشاء حساب المؤسسة باستخدام البريد الإلكتروني",
-      "phoneDescription": "إنشاء حساب المؤسسة باستخدام رقم الهاتف",
-      "thirdPartyDescription": "يرجى تقديم المعلومات الإضافية لإكمال ملف المؤسسة",
-      "fields": {
-        "institutionName": "اسم المؤسسة",
-        "contactPersonFirstName": "الاسم الأول لشخص الاتصال",
-        "contactPersonLastName": "الاسم الأخير لشخص الاتصال",
-        "institutionEmail": "البريد الإلكتروني للمؤسسة",
-        "institutionPhoneNumber": "رقم هاتف المؤسسة",
-        "commercialRegistration": "السجل التجاري (اختياري)"
+
+    "success": {
+      "defaultName": "هناك",
+      "welcome": "مرحباً، {name}!",
+      "accountCreated": "تم إنشاء حسابك بنجاح باستخدام {method}",
+      "authMethod": {
+        "email": "عنوان البريد الإلكتروني",
+        "phone": "رقم الهاتف",
+        "google": "حساب جوجل",
+        "account": "الحساب"
+      },
+      "status": {
+        "accountCreated": "تم إنشاء الحساب بنجاح",
+        "emailVerified": "تم التحقق من البريد الإلكتروني",
+        "phoneVerified": "تم التحقق من رقم الهاتف",
+        "profileComplete": "تم إكمال الملف الشخصي"
+      },
+      "summary": {
+        "title": "ملخص الحساب:",
+        "name": "الاسم",
+        "email": "البريد الإلكتروني",
+        "phone": "الهاتف",
+        "emailGoogle": "البريد الإلكتروني: {email} (عبر جوجل)",
+        "employeeId": "رقم الموظف"
+      },
+      "actions": {
+        "continueToDashboard": "المتابعة إلى لوحة التحكم",
+        "backToHome": "العودة إلى الرئيسية"
+      },
+      "footer": {
+        "accessMessage": "يمكنك الآن الوصول إلى جميع ميزات منصتنا.",
+        "checkEmail": "تحقق من بريدك الإلكتروني للحصول على رسالة ترحيب!",
+        "checkPhone": "تحقق من هاتفك للحصول على رسالة ترحيب!"
       }
     },
-    "supplier": {
-      "title": "تسجيل حساب مورد",
-      "description": "إنشاء حساب للموردين والمقاولين",
-      "fields": {
-        "commercialEstablishmentName": "اسم المؤسسة التجارية",
-        "commercialRegistrationNumber": "رقم السجل التجاري",
-        "authorizedPersonName": "اسم الشخص المفوض",
-        "authorizedPersonMobileNumber": "رقم هاتف الشخص المفوض"
-      }
+
+    "errors": {
+      "loginFailed": "فشل تسجيل الدخول. يرجى المحاولة مرة أخرى.",
+      "emailRequired": "يرجى إدخال بريد إلكتروني صالح",
+      "phoneRequired": "رقم الهاتف مطلوب",
+      "passwordRequired": "كلمة المرور مطلوبة"
     },
-    "freelanceEngineer": {
-      "title": "تسجيل حساب مهندس مستقل",
-      "description": "إنشاء حساب للمهندسين المستقلين",
-      "emailRegistration": "تسجيل مهندس مستقل باستخدام البريد الإلكتروني",
-      "phoneRegistration": "تسجيل مهندس مستقل باستخدام رقم الهاتف",
-      "completeProfile": "إكمال ملف المهندس المستقل",
-      "emailDescription": "إنشاء حساب المهندس المستقل باستخدام البريد الإلكتروني",
-      "phoneDescription": "إنشاء حساب المهندس المستقل باستخدام رقم الهاتف",
-      "thirdPartyDescription": "يرجى تقديم المعلومات الإضافية لإكمال ملف المهندس المستقل",
-      "fields": {
-        "engineeringLicenseNumber": "رقم رخصة الهندسة"
-      }
-    },
-    "engineeringOffice": {
-      "title": "تسجيل حساب مكتب هندسي",
-      "description": "إنشاء حساب للمكاتب الهندسية",
-      "fields": {
-        "officeName": "اسم المكتب",
-        "professionalLicenseNumber": "رقم الرخصة المهنية",
-        "authorizedPersonName": "اسم الشخص المفوض",
-        "authorizedPersonMobileNumber": "رقم هاتف الشخص المفوض",
-        "authorizationFormNumber": "رقم نموذج التفويض"
-      }
-    },
-    "contractor": {
-      "title": "تسجيل حساب مقاول",
-      "description": "إنشاء حساب للمقاولين",
-      "fields": {
-        "companyName": "اسم الشركة",
-        "commercialRegistrationNumber": "رقم السجل التجاري",
-        "authorizedPersonName": "اسم الشخص المفوض",
-        "authorizedPersonMobileNumber": "رقم هاتف الشخص المفوض",
-        "authorizationFormNumber": "رقم نموذج التفويض"
+
+    "completeProfile": {
+      "title": "أكمل ملفك الشخصي",
+      "desc": "أكمل ملفك الشخصي لفتح جميع الميزات والاستفادة القصوى من منصتنا. سيساعدنا هذا في تقديم توصيات وخدمات أفضل لك.",
+      "buttons": {
+        "complete": "أكمل الملف الشخصي",
+        "skip": "تخطي الآن"
       }
     }
   },
+
   "navigation": {
     "home": "الرئيسية",
     "dashboard": "لوحة التحكم",
     "profile": "الملف الشخصي",
     "settings": "الإعدادات",
     "help": "المساعدة",
-    "about": "حول",
+    "about": "من نحن",
     "contact": "اتصل بنا"
   },
-  "errors": {
-    "general": "حدث خطأ ما",
-    "network": "خطأ في الاتصال",
-    "validation": "خطأ في التحقق من البيانات",
-    "notFound": "الصفحة غير موجودة",
-    "unauthorized": "غير مصرح",
-    "forbidden": "محظور",
-    "serverError": "خطأ في الخادم",
-    "loginFailed": "فشل تسجيل الدخول"
+
+  "dashboard": {
+    "title": "لوحة التحكم",
+    "welcome": "مرحباً بعودتك، {name}!",
+    "banner": {
+      "incomplete": "ملفك الشخصي غير مكتمل. أكمل ملفك الشخصي لفتح جميع الميزات والحصول على توصيات أفضل.",
+      "completeNow": "أكمل الآن"
+    },
+    "stats": {
+      "profileCompletion": "اكتمال الملف الشخصي",
+      "documentsUploaded": "المستندات المرفوعة",
+      "verificationsComplete": "التحققات المكتملة",
+      "accountStatus": "حالة الحساب"
+    },
+    "quickActions": {
+      "title": "الإجراءات السريعة",
+      "editProfile": "تعديل الملف الشخصي",
+      "uploadDocument": "رفع مستند",
+      "viewProjects": "عرض المشاريع",
+      "manageSettings": "إدارة الإعدادات"
+    },
+    "recentActivity": {
+      "title": "النشاط الأخير",
+      "noActivity": "لا يوجد نشاط حديث"
+    }
   },
-  "success": {
-    "registration": "تم التسجيل بنجاح",
-    "login": "تم تسجيل الدخول بنجاح",
-    "passwordReset": "تم إعادة تعيين كلمة المرور بنجاح",
-    "profileUpdate": "تم تحديث الملف الشخصي بنجاح",
-    "dataSaved": "تم حفظ البيانات بنجاح"
+
+  "profile": {
+    "title": "الملف الشخصي",
+    "tabs": {
+      "overview": "نظرة عامة",
+      "personal": "المعلومات الشخصية",
+      "documents": "المستندات والتحقق",
+      "professional": "المعلومات المهنية",
+      "technical": "المعلومات التقنية",
+      "security": "الأمان",
+      "settings": "الإعدادات"
+    },
+    "overview": {
+      "title": "نظرة عامة على الملف الشخصي",
+      "snapshot": "لقطة الملف الشخصي",
+      "quickActions": "الإجراءات السريعة",
+      "verificationStatus": "حالة التحقق",
+      "completion": "اكتمال الملف الشخصي",
+      "recentActivity": "النشاط الأخير"
+    },
+    "individual": {
+      "personalInfo": {
+        "title": "المعلومات الشخصية",
+        "description": "تحديث معلوماتك الأساسية والتفاصيل",
+        "fullName": "الاسم الكامل",
+        "email": "البريد الإلكتروني",
+        "phoneNumber": "رقم الهاتف",
+        "nationalId": "رقم الهوية الوطنية"
+      }
+    },
+    "organization": {
+      "personalInfo": {
+        "title": "المعلومات الشخصية",
+        "description": "تحديث معلوماتك الأساسية والتفاصيل",
+        "organizationName": "اسم المؤسسة",
+        "authorizedPersonName": "اسم الشخص المفوض",
+        "email": "البريد الإلكتروني",
+        "phoneNumber": "رقم الهاتف"
+      }
+    },
+    "freelance_engineer": {
+      "personalInfo": {
+        "title": "المعلومات الشخصية",
+        "description": "تحديث معلوماتك الأساسية والتفاصيل",
+        "fullName": "الاسم الكامل",
+        "authorizedPersonName": "اسم الشخص المفوض",
+        "email": "البريد الإلكتروني",
+        "phoneNumber": "رقم الهاتف"
+      }
+    },
+    "engineering_office": {
+      "personalInfo": {
+        "title": "المعلومات الشخصية",
+        "description": "تحديث معلوماتك الأساسية والتفاصيل",
+        "officeName": "اسم المكتب",
+        "authorizedPersonName": "اسم الشخص المفوض",
+        "email": "البريد الإلكتروني",
+        "phoneNumber": "رقم الهاتف",
+        "professionalLicenseNumber": "رقم الترخيص المهني"
+      }
+    },
+    "contractor": {
+      "personalInfo": {
+        "title": "المعلومات الشخصية",
+        "description": "تحديث معلوماتك الأساسية والتفاصيل",
+        "companyName": "اسم الشركة",
+        "authorizedPersonName": "اسم الشخص المفوض",
+        "email": "البريد الإلكتروني",
+        "representativeEmail": "بريد الممثل الإلكتروني",
+        "phoneNumber": "رقم الهاتف",
+        "authorizedPersonPhoneNumber": "رقم هاتف الشخص المفوض",
+        "commercialRegistrationNumber": "رقم السجل التجاري",
+        "delegationForm": "نموذج التفويض",
+        "companyLogo": "شعار الشركة",
+        "country": "الدولة",
+        "state": "المحافظة",
+        "city": "المدينة"
+      }
+    },
+    "supplier": {
+      "personalInfo": {
+        "title": "المعلومات الشخصية",
+        "description": "تحديث معلوماتك الأساسية والتفاصيل",
+        "commercialEstablishmentName": "اسم المنشأة التجارية",
+        "authorizedPersonName": "اسم الشخص المفوض",
+        "email": "البريد الإلكتروني",
+        "phoneNumber": "رقم الهاتف",
+        "commercialRegistrationNumber": "رقم السجل التجاري"
+      }
+    },
+    "personal": {
+      "title": "المعلومات الشخصية",
+      "basicInfo": "المعلومات الأساسية",
+      "contactInfo": "معلومات الاتصال",
+      "addressInfo": "معلومات العنوان",
+      "profilePicture": "صورة الملف الشخصي",
+      "fullName": "الاسم الكامل",
+      "email": "البريد الإلكتروني",
+      "phoneNumber": "رقم الهاتف",
+      "nationalId": "رقم الهوية الوطنية"
+    },
+    "documents": {
+      "title": "المستندات والتحقق",
+      "required": "المستندات المطلوبة",
+      "optional": "المستندات الاختيارية",
+      "uploadGuidelines": "إرشادات الرفع",
+      "status": {
+        "pending": "قيد الانتظار",
+        "verified": "تم التحقق",
+        "rejected": "مرفوض"
+      }
+    },
+    "professional": {
+      "title": "المعلومات المهنية",
+      "summary": "الملخص المهني",
+      "license": "الرخصة المهنية",
+      "company": "معلومات الشركة",
+      "experience": "الخبرة العملية",
+      "education": "التعليم",
+      "certifications": "الشهادات"
+    },
+    "technical": {
+      "title": "المعلومات التقنية",
+      "skills": "المهارات التقنية",
+      "software": "إتقان البرامج",
+      "specializations": "التخصصات",
+      "coverage": "التغطية الجغرافية",
+      "accreditations": "الاعتمادات الرسمية"
+    },
+    "security": {
+      "title": "الأمان",
+      "password": "كلمة المرور",
+      "twoFactor": "المصادقة الثنائية",
+      "sessions": "الجلسات النشطة",
+      "recommendations": "توصيات الأمان"
+    },
+    "settings": {
+      "title": "الإعدادات",
+      "general": "الإعدادات العامة",
+      "notifications": "الإشعارات",
+      "privacy": "الخصوصية",
+      "dataManagement": "إدارة البيانات",
+      "dangerZone": "منطقة الخطر"
+    }
+  },
+
+  "feedback": {
+    "errors": {
+      "general": "حدث خطأ ما",
+      "network": "خطأ في الشبكة",
+      "validation": "خطأ في التحقق",
+      "notFound": "الصفحة غير موجودة",
+      "unauthorized": "غير مصرح",
+      "forbidden": "ممنوع الوصول",
+      "serverError": "خطأ في الخادم",
+      "loginFailed": "فشل تسجيل الدخول"
+    },
+    "success": {
+      "registration": "تم التسجيل بنجاح",
+      "login": "تم تسجيل الدخول بنجاح",
+      "passwordReset": "تم إعادة تعيين كلمة المرور بنجاح",
+      "profileUpdate": "تم تحديث الملف الشخصي بنجاح",
+      "dataSaved": "تم حفظ البيانات بنجاح"
+    },
+
+    "validation": {
+      "firstName": {
+        "required": "الاسم الأول مطلوب",
+        "minLength": "يجب أن يتكون الاسم الأول من حرفين على الأقل"
+      },
+      "lastName": {
+        "required": "الاسم الأخير مطلوب",
+        "minLength": "يجب أن يتكون الاسم الأخير من حرفين على الأقل"
+      },
+      "email": {
+        "required": "البريد الإلكتروني مطلوب",
+        "invalid": "يرجى إدخال بريد إلكتروني صالح"
+      },
+      "phoneNumber": {
+        "required": "رقم الهاتف مطلوب",
+        "minLength": "يرجى إدخال رقم هاتف صالح"
+      },
+      "password": {
+        "required": "كلمة المرور مطلوبة",
+        "minLength": "يجب أن تتكون كلمة المرور من 8 أحرف على الأقل"
+      },
+      "confirmPassword": {
+        "required": "يرجى تأكيد كلمة المرور",
+        "mismatch": "كلمتا المرور غير متطابقتين"
+      },
+      "terms": {
+        "required": "يجب أن توافق على الشروط والأحكام"
+      },
+      "nationalId": {
+        "minLength": "يجب أن يتكون رقم الهوية الوطنية من 10 أرقام على الأقل"
+      },
+      "otp": {
+        "length": "يجب أن يتكون رمز التحقق من 6 أرقام"
+      },
+      "organizationName": {
+        "required": "اسم المؤسسة مطلوب"
+      },
+      "officeName": {
+        "required": "اسم المكتب الهندسي مطلوب"
+      },
+      "professionalLicenseNumber": {
+        "required": "رقم الترخيص المهني مطلوب"
+      },
+      "companyName": {
+        "required": "اسم الشركة مطلوب"
+      },
+      "commercialRegistrationNumber": {
+        "required": "رقم السجل التجاري مطلوب"
+      },
+      "commercialEstablishmentName": {
+        "required": "اسم المنشأة التجارية مطلوب"
+      },
+      "authorizedPersonName": {
+        "required": "اسم الشخص المفوض مطلوب",
+        "minLength": "يجب أن يتكون اسم الشخص المفوض من حرفين على الأقل"
+      },
+      "authorizedPersonPhoneNumber": {
+        "required": "رقم جوال الشخص المفوض مطلوب",
+        "minLength": "يرجى إدخال رقم جوال صالح"
+      },
+      "engineeringSpecialization": {
+        "required": "يرجى اختيار تخصص هندسي واحد على الأقل"
+      },
+      "yearsOfExperience": {
+        "required": "سنوات الخبرة مطلوبة"
+      },
+      "typesOfExperience": {
+        "required": "يرجى اختيار نوع خبرة واحد على الأقل"
+      },
+      "workLocations": {
+        "required": "يرجى اختيار موقع عمل واحد على الأقل"
+      },
+      "officeAffiliation": {
+        "required": "حالة الانتماء للمكتب مطلوبة"
+      },
+      "officeSpecializations": {
+        "required": "يرجى اختيار تخصص مكتب واحد على الأقل"
+      },
+      "numberOfEmployees": {
+        "required": "عدد الموظفين مطلوب"
+      },
+      "annualProjectVolume": {
+        "required": "حجم المشاريع السنوي مطلوب"
+      },
+      "geographicCoverage": {
+        "required": "يرجى اختيار منطقة تغطية جغرافية واحدة على الأقل"
+      },
+      "officialAccreditations": {
+        "required": "حالة الاعتمادات الرسمية مطلوبة"
+      },
+      "technicalCV": {
+        "required": "السيرة الذاتية التقنية مطلوبة"
+      },
+      "personalPhoto": {
+        "required": "الصورة الشخصية مطلوبة"
+      },
+      "saudiCouncilOfEngineersCardCopy": {
+        "required": "نسخة بطاقة الهيئة السعودية للمهندسين مطلوبة"
+      },
+      "saudiCouncilOfEngineersLicense": {
+        "required": "ترخيص الهيئة السعودية للمهندسين مطلوب"
+      },
+      "commercialRegistration": {
+        "required": "وثيقة السجل التجاري مطلوبة"
+      },
+      "nationalAddress": {
+        "required": "وثيقة العنوان الوطني مطلوبة"
+      },
+      "bankAccountDetails": {
+        "required": "وثيقة تفاصيل الحساب البنكي مطلوبة"
+      },
+      "vatCertificate": {
+        "required": "شهادة ضريبة القيمة المضافة مطلوبة"
+      },
+      "previousWorkRecord": {
+        "required": "سجل الأعمال السابقة مطلوب"
+      },
+      "officialContactInformation": {
+        "required": "وثيقة معلومات الاتصال الرسمية مطلوبة"
+      },
+      "fullName": {
+        "required": "الاسم الكامل مطلوب",
+        "minLength": "الاسم الكامل يجب أن يكون على الأقل 2 أحرف"
+      },
+      "organizationContactPersonFullName": {
+        "required": "اسم الشخص المفوض مطلوب",
+        "minLength": "اسم الشخص المفوض يجب أن يكون على الأقل 2 أحرف"
+      },
+      "projectName": {
+        "minLength": "اسم المشروع يجب أن يكون على الأقل 2 أحرف"
+      },
+      "projectType": {
+        "minLength": "نوع المشروع يجب أن يكون على الأقل 2 أحرف"
+      },
+      "location": {
+        "minLength": "الموقع يجب أن يكون على الأقل 2 أحرف"
+      },
+      "budget": {
+        "minLength": "الميزانية يجب أن يكون على الأقل 2 أحرف"
+      },
+      "duration": {
+        "minLength": "المدة يجب أن يكون على الأقل 2 أحرف"
+      },
+      "duration_unit": {
+        "minLength": "وحدة المدة يجب أن يكون على الأقل 2 أحرف"
+      },
+      "area_sqm": {
+        "minLength": "المساحة يجب أن يكون على الأقل 2 أحرف"
+      },
+      "description": {
+        "minLength": "الوصف يجب أن يكون على الأقل 2 أحرف"
+      },
+      "budget_unit": {
+        "minLength": "وحدة الميزانية يجب أن يكون على الأقل 2 أحرف"
+      }
+    }
+  },
+  "placeholders": {
+    "phoneNumber": "أدخل رقم الهاتف",
+    "email": "أدخل البريد الإلكتروني",
+    "nationalId": "أدخل رقم الهوية الوطنية",
+    "fullName": "أدخل الاسم الكامل",
+    "organizationName": "أدخل اسم المؤسسة",
+    "organizationContactPersonFullName": "أدخل اسم الشخص المفوض",
+    "organizationPhoneNumber": "أدخل رقم الهاتف الخاص بالمؤسسة"
   }
 }

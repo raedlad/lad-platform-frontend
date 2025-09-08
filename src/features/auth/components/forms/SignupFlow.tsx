@@ -1,36 +1,21 @@
 "use client";
 
-import { Suspense } from "react";
-import dynamic from "next/dynamic";
+import { useState } from "react";
 import { RoleSelectorForm } from "@auth/components/forms";
 import { useAuthStore } from "@auth/store/authStore";
-import { useTranslations } from "next-intl";
-
-// Dynamic imports for each role flow
-const IndividualRegistration = dynamic(
-  () => import("@auth/flows/individual/IndividualRegistration")
-);
-const InstitutionRegistration = dynamic(
-  () => import("@auth/flows/institution/InstitutionRegistration")
-);
-const FreelanceEngineerRegistration = dynamic(
-  () => import("@auth/flows/freelance-engineer/FreelanceEngineerRegistration")
-);
-const EngineeringOfficeRegistration = dynamic(
-  () => import("@auth/flows/engineering-office/EngineeringOfficeRegistration")
-);
-const ContractorRegistration = dynamic(
-  () => import("@auth/flows/contractor/ContractorRegistration")
-);
-const SupplierRegistration = dynamic(
-  () => import("@auth/flows/supplier/SupplierRegistration")
-);
+import { RegistrationRole } from "@auth/types/auth";
+import RoleRegistration from "@auth/flows/RoleRegistration";
 
 export default function SignUpForm() {
   const { currentRole, setRole, setCurrentStep } = useAuthStore();
-  const selectedRole = currentRole;
+  const [localSelectedRole, setLocalSelectedRole] =
+    useState<RegistrationRole | null>(null);
+  const selectedRole = localSelectedRole || currentRole;
   const isRoleConfirmed = !!currentRole;
-  const t = useTranslations("common");
+
+  const handleRoleSelect = (role: RegistrationRole) => {
+    setLocalSelectedRole(role);
+  };
 
   const handleContinue = () => {
     if (selectedRole) {
@@ -44,41 +29,18 @@ export default function SignUpForm() {
       return (
         <RoleSelectorForm
           selectedRole={selectedRole}
-          onSelectRole={setRole}
+          onSelectRole={handleRoleSelect}
           onContinue={handleContinue}
         />
       );
     }
 
-    switch (selectedRole) {
-      case "individual":
-        return <IndividualRegistration />;
-      case "institution":
-        return <InstitutionRegistration />;
-      case "freelanceEngineer":
-        return <FreelanceEngineerRegistration />;
-      case "engineeringOffice":
-        return <EngineeringOfficeRegistration />;
-      case "contractor":
-        return <ContractorRegistration />;
-      case "supplier":
-        return <SupplierRegistration />;
-      default:
-        return (
-          <RoleSelectorForm
-            selectedRole={null}
-            onSelectRole={setRole}
-            onContinue={handleContinue}
-          />
-        );
-    }
+    return <RoleRegistration />;
   };
 
   return (
-    <div className="w-full ">
-      <Suspense fallback={<div>{t("loading")}</div>}>
-        {renderContent()}
-      </Suspense>
+    <div className="w-full flex items-center justify-center">
+      {renderContent()}
     </div>
   );
 }

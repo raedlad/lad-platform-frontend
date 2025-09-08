@@ -1,27 +1,13 @@
 import { create } from "zustand";
-import { devtools } from "zustand/middleware";
 import type {
-  EngineeringOfficeRegistrationState,
-  EngineeringOfficePersonalInfo,
+  EngineeringOfficeProfileState,
   EngineeringOfficeTechnicalOperationalInfo,
   EngineeringOfficeDocumentUpload,
 } from "../types/engineeringOffice";
 
-export interface EngineeringOfficeRegistrationStoreState
-  extends EngineeringOfficeRegistrationState {
-  // UI-specific states
-  showPassword: boolean;
-  showConfirmPassword: boolean;
-  authorizationForm: File | null;
-  officeLogo: File | null;
-
-  // Actions for UI states
-  setShowPassword: (show: boolean) => void;
-  setShowConfirmPassword: (show: boolean) => void;
-  setAuthorizationForm: (file: File | null) => void;
-  setOfficeLogo: (file: File | null) => void;
-
-  // Document Upload file states
+export interface EngineeringOfficeProfileStoreState
+  extends EngineeringOfficeProfileState {
+  // UI-specific file states for document upload
   saudiCouncilOfEngineersLicense: File | null;
   commercialRegistration: File | null;
   nationalAddress: File | null;
@@ -37,7 +23,7 @@ export interface EngineeringOfficeRegistrationStoreState
   organizationalStructure: File | null;
   additionalFiles: File[];
 
-  // Actions for Document Upload file states
+  // Actions for file states
   setSaudiCouncilOfEngineersLicense: (file: File | null) => void;
   setCommercialRegistration: (file: File | null) => void;
   setNationalAddress: (file: File | null) => void;
@@ -54,37 +40,30 @@ export interface EngineeringOfficeRegistrationStoreState
   setAdditionalFiles: (files: File[]) => void;
 
   // Form state management
-  setPersonalInfo: (info: EngineeringOfficePersonalInfo) => void;
   setTechnicalOperationalInfo: (
     info: EngineeringOfficeTechnicalOperationalInfo
   ) => void;
   setDocumentUpload: (info: EngineeringOfficeDocumentUpload) => void;
 
+  // Loading and error management
+  setLoading: (loading: boolean) => void;
+  setError: (error: string | null) => void;
+  clearError: () => void;
+
   // Reset
-  resetForm: () => void;
+  resetProfile: () => void;
 }
 
-export const useEngineeringOfficeRegistrationStore =
-  create<EngineeringOfficeRegistrationStoreState>()(
-    devtools((set, get) => ({
-      // Initial state from EngineeringOfficeRegistrationState
-      currentStep: "authMethod",
-      authMethod: null,
-      personalInfo: null,
+export const useEngineeringOfficeProfileStore =
+  create<EngineeringOfficeProfileStoreState>()(
+    (set) => ({
+      // Initial state from EngineeringOfficeProfileState
       technicalOperationalInfo: null,
       documentUpload: null,
-      verificationCode: "",
-      isVerified: false,
       isLoading: false,
       error: null,
 
-      // UI-specific states
-      showPassword: false,
-      showConfirmPassword: false,
-      authorizationForm: null,
-      officeLogo: null,
-
-      // Document Upload file states
+      // UI-specific file states
       saudiCouncilOfEngineersLicense: null,
       commercialRegistration: null,
       nationalAddress: null,
@@ -100,60 +79,46 @@ export const useEngineeringOfficeRegistrationStore =
       organizationalStructure: null,
       additionalFiles: [],
 
-      // Actions for UI states
-      setShowPassword: (show) => set({ showPassword: show }),
-      setShowConfirmPassword: (show) => set({ showConfirmPassword: show }),
-      setAuthorizationForm: (file) => set({ authorizationForm: file }),
-      setOfficeLogo: (file) => set({ officeLogo: file }),
-
-      // Actions for Document Upload file states
-      setSaudiCouncilOfEngineersLicense: (file: File | null) =>
+      // Actions for file states
+      setSaudiCouncilOfEngineersLicense: (file) =>
         set({ saudiCouncilOfEngineersLicense: file }),
-      setCommercialRegistration: (file: File | null) =>
+      setCommercialRegistration: (file) =>
         set({ commercialRegistration: file }),
-      setNationalAddress: (file: File | null) => set({ nationalAddress: file }),
-      setBankAccountDetails: (file: File | null) =>
-        set({ bankAccountDetails: file }),
-      setVatCertificate: (file: File | null) => set({ vatCertificate: file }),
-      setPreviousWorkRecord: (file: File | null) =>
-        set({ previousWorkRecord: file }),
-      setOfficialContactInformation: (file: File | null) =>
+      setNationalAddress: (file) => set({ nationalAddress: file }),
+      setBankAccountDetails: (file) => set({ bankAccountDetails: file }),
+      setVatCertificate: (file) => set({ vatCertificate: file }),
+      setPreviousWorkRecord: (file) => set({ previousWorkRecord: file }),
+      setOfficialContactInformation: (file) =>
         set({ officialContactInformation: file }),
-      setEngineeringClassificationCertificate: (file: File | null) =>
+      setEngineeringClassificationCertificate: (file) =>
         set({ engineeringClassificationCertificate: file }),
-      setQualityCertificates: (files: File[]) =>
-        set({ qualityCertificates: files }),
-      setChamberOfCommerceMembership: (file: File | null) =>
+      setQualityCertificates: (files) => set({ qualityCertificates: files }),
+      setChamberOfCommerceMembership: (file) =>
         set({ chamberOfCommerceMembership: file }),
-      setZakatAndIncomeCertificate: (file: File | null) =>
+      setZakatAndIncomeCertificate: (file) =>
         set({ zakatAndIncomeCertificate: file }),
-      setCompanyProfile: (file: File | null) => set({ companyProfile: file }),
-      setOrganizationalStructure: (file: File | null) =>
+      setCompanyProfile: (file) => set({ companyProfile: file }),
+      setOrganizationalStructure: (file) =>
         set({ organizationalStructure: file }),
-      setAdditionalFiles: (files: File[]) => set({ additionalFiles: files }),
+      setAdditionalFiles: (files) => set({ additionalFiles: files }),
 
       // Form state management
-      setPersonalInfo: (info) => set({ personalInfo: info }),
       setTechnicalOperationalInfo: (info) =>
         set({ technicalOperationalInfo: info }),
       setDocumentUpload: (info) => set({ documentUpload: info }),
 
+      // Loading and error management
+      setLoading: (loading) => set({ isLoading: loading }),
+      setError: (error) => set({ error }),
+      clearError: () => set({ error: null }),
+
       // Reset
-      resetForm: () =>
+      resetProfile: () =>
         set({
-          currentStep: "authMethod",
-          authMethod: null,
-          personalInfo: null,
           technicalOperationalInfo: null,
           documentUpload: null,
-          verificationCode: "",
-          isVerified: false,
           isLoading: false,
           error: null,
-          showPassword: false,
-          showConfirmPassword: false,
-          authorizationForm: null,
-          officeLogo: null,
           saudiCouncilOfEngineersLicense: null,
           commercialRegistration: null,
           nationalAddress: null,
@@ -169,5 +134,5 @@ export const useEngineeringOfficeRegistrationStore =
           organizationalStructure: null,
           additionalFiles: [],
         }),
-    }))
+    })
   );

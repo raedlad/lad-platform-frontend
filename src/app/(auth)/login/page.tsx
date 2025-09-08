@@ -1,9 +1,10 @@
+import { LoginForm } from '@/features/auth/components/forms'
 import React from 'react'
 
 const page = () => {
   return (
-    <div>
-      
+    <div className="screen-center">
+      <LoginForm />
     </div>
   )
 }

@@ -1,78 +1,101 @@
 import { create } from "zustand";
-import { devtools } from "zustand/middleware";
 import type {
-  FreelanceEngineerRegistrationState,
-  FreelanceEngineerPersonalInfo,
+  FreelanceEngineerProfileState,
   FreelanceEngineerProfessionalInfo,
   FreelanceEngineerDocumentUpload,
 } from "../types/freelanceEngineer";
 
-export interface FreelanceEngineerRegistrationStoreState
-  extends FreelanceEngineerRegistrationState {
-  // UI-specific states
-  showPassword: boolean;
-  showConfirmPassword: boolean;
-  engineeringLicenseFile: File | null;
+export interface FreelanceEngineerProfileStoreState
+  extends FreelanceEngineerProfileState {
+  // UI-specific file states for document upload
+  technicalCV: File | null;
+  personalPhoto: File | null;
+  saudiCouncilOfEngineersCardCopy: File | null;
+  trainingCertificates: File[];
+  professionalCertificates: File[];
+  personalProfile: File | null;
+  recommendationLetters: File[];
+  workSamples: File[];
 
-  // Actions for UI states
-  setShowPassword: (show: boolean) => void;
-  setShowConfirmPassword: (show: boolean) => void;
-  setEngineeringLicenseFile: (file: File | null) => void;
+  // Actions for file states
+  setTechnicalCV: (file: File | null) => void;
+  setPersonalPhoto: (file: File | null) => void;
+  setSaudiCouncilOfEngineersCardCopy: (file: File | null) => void;
+  setTrainingCertificates: (files: File[]) => void;
+  setProfessionalCertificates: (files: File[]) => void;
+  setPersonalProfile: (file: File | null) => void;
+  setRecommendationLetters: (files: File[]) => void;
+  setWorkSamples: (files: File[]) => void;
 
   // Form state management
-  setPersonalInfo: (info: FreelanceEngineerPersonalInfo) => void;
   setProfessionalInfo: (info: FreelanceEngineerProfessionalInfo) => void;
   setDocumentUpload: (info: FreelanceEngineerDocumentUpload) => void;
 
+  // Loading and error management
+  setLoading: (loading: boolean) => void;
+  setError: (error: string | null) => void;
+  clearError: () => void;
+
   // Reset
-  resetForm: () => void;
+  resetProfile: () => void;
 }
 
-export const useFreelanceEngineerRegistrationStore =
-  create<FreelanceEngineerRegistrationStoreState>()(
-    devtools((set, get) => ({
-      // Initial state from FreelanceEngineerRegistrationState
-      currentStep: "authMethod",
-      authMethod: null,
-      personalInfo: null,
+export const useFreelanceEngineerProfileStore =
+  create<FreelanceEngineerProfileStoreState>()(
+    (set) => ({
+      // Initial state from FreelanceEngineerProfileState
       professionalInfo: null,
       documentUpload: null,
-      verificationCode: "",
-      isVerified: false,
       isLoading: false,
       error: null,
 
-      // UI-specific states
-      showPassword: false,
-      showConfirmPassword: false,
-      engineeringLicenseFile: null,
+      // UI-specific file states
+      technicalCV: null,
+      personalPhoto: null,
+      saudiCouncilOfEngineersCardCopy: null,
+      trainingCertificates: [],
+      professionalCertificates: [],
+      personalProfile: null,
+      recommendationLetters: [],
+      workSamples: [],
 
-      // Actions for UI states
-      setShowPassword: (show) => set({ showPassword: show }),
-      setShowConfirmPassword: (show) => set({ showConfirmPassword: show }),
-      setEngineeringLicenseFile: (file) =>
-        set({ engineeringLicenseFile: file }),
+      // Actions for file states
+      setTechnicalCV: (file) => set({ technicalCV: file }),
+      setPersonalPhoto: (file) => set({ personalPhoto: file }),
+      setSaudiCouncilOfEngineersCardCopy: (file) =>
+        set({ saudiCouncilOfEngineersCardCopy: file }),
+      setTrainingCertificates: (files) => set({ trainingCertificates: files }),
+      setProfessionalCertificates: (files) =>
+        set({ professionalCertificates: files }),
+      setPersonalProfile: (file) => set({ personalProfile: file }),
+      setRecommendationLetters: (files) =>
+        set({ recommendationLetters: files }),
+      setWorkSamples: (files) => set({ workSamples: files }),
 
       // Form state management
-      setPersonalInfo: (info) => set({ personalInfo: info }),
       setProfessionalInfo: (info) => set({ professionalInfo: info }),
       setDocumentUpload: (info) => set({ documentUpload: info }),
 
+      // Loading and error management
+      setLoading: (loading) => set({ isLoading: loading }),
+      setError: (error) => set({ error }),
+      clearError: () => set({ error: null }),
+
       // Reset
-      resetForm: () =>
+      resetProfile: () =>
         set({
-          currentStep: "authMethod",
-          authMethod: null,
-          personalInfo: null,
           professionalInfo: null,
           documentUpload: null,
-          verificationCode: "",
-          isVerified: false,
           isLoading: false,
           error: null,
-          showPassword: false,
-          showConfirmPassword: false,
-          engineeringLicenseFile: null,
+          technicalCV: null,
+          personalPhoto: null,
+          saudiCouncilOfEngineersCardCopy: null,
+          trainingCertificates: [],
+          professionalCertificates: [],
+          personalProfile: null,
+          recommendationLetters: [],
+          workSamples: [],
         }),
-    }))
+    })
   );

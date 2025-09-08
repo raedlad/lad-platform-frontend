@@ -9,19 +9,15 @@ import { FlagComponent } from "./Flags";
 const CustomInput = ({ className, ...props }: any) => (
   <Input
     dir="ltr"
-    className={cn(
-      "rounded-l-none",
-      "flex-1",
-      className
-    )}
+    className={cn("rounded-l-none", "flex-1", className)}
     {...props}
   />
 );
 
 export const PhoneInput = (props: any) => (
-  <div dir="ltr" className="w-full">
+  <div dir="ltr" className="h-full w-full">
     <PhoneInputComponent
-    
+      international
       className="flex flex-row h-full"
       flagComponent={FlagComponent}
       countrySelectComponent={CountrySelect}

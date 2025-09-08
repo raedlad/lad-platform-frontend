@@ -16,13 +16,13 @@ export default function DemoTranslation() {
   const commonT = useTranslations("common");
 
   return (
-    <Card className="w-full max-w-md mx-auto">
+    <Card className="container-narrow">
       <CardHeader>
         <CardTitle>{t("auth.title")}</CardTitle>
         <CardDescription>{t("auth.subtitle")}</CardDescription>
       </CardHeader>
-      <CardContent className="space-y-4">
-        <div className="space-y-2">
+      <CardContent className="form-section">
+        <div className="form-field-group">
           <h4 className="font-medium">Common Actions:</h4>
           <div className="flex gap-2 flex-wrap">
             <Button size="sm">{commonT("submit")}</Button>
@@ -35,7 +35,7 @@ export default function DemoTranslation() {
           </div>
         </div>
 
-        <div className="space-y-2">
+        <div className="form-field-group">
           <h4 className="font-medium">Auth Actions:</h4>
           <div className="flex gap-2 flex-wrap">
             <Button size="sm">{authT("login")}</Button>
@@ -45,9 +45,9 @@ export default function DemoTranslation() {
           </div>
         </div>
 
-        <div className="space-y-2">
+        <div className="form-field-group">
           <h4 className="font-medium">Form Fields:</h4>
-          <div className="text-sm space-y-1">
+          <div className="text-description space-y-1">
             <p>
               <strong>First Name:</strong> {authT("personalInfo.firstName")}
             </p>

@@ -1,0 +1,8 @@
+---
+alwaysApply: true
+---
+Reference the following files to stay on track with the project alignments: 
+@.cursor/clean_code.md
+@.cursor/code_quality.md
+@.cursor/tailwind.md
+@.cursor/tech.md

@@ -1,40 +1,45 @@
-import { AuthStoreState } from "./profileStore";
+// Profile-specific selectors - no auth-related fields
 
-// --- Core state selectors ---
-export const selectCurrentRole = (state: AuthStoreState) => state.currentRole;
-export const selectCurrentStep = (state: AuthStoreState) => state.currentStep;
-export const selectAuthMethod = (state: AuthStoreState) => state.authMethod;
+// Individual Profile Selectors
+export const selectIndividualDocumentUpload = (state: any) =>
+  state.documentUpload ?? null;
+export const selectIndividualIsLoading = (state: any) => state.isLoading;
+export const selectIndividualError = (state: any) => state.error;
 
-export const selectIsVerified = (state: AuthStoreState) => state.isVerified;
-export const selectIsLoading = (state: AuthStoreState) => state.isLoading;
-export const selectError = (state: AuthStoreState) => state.error;
+// Organization Profile Selectors
+export const selectOrganizationDocumentUpload = (state: any) =>
+  state.documentUpload ?? null;
+export const selectOrganizationIsLoading = (state: any) => state.isLoading;
+export const selectOrganizationError = (state: any) => state.error;
 
-// --- Role-specific data selectors ---
-export const selectPersonalInfo = (state: AuthStoreState) =>
-  state.roleData.personalInfo ?? null;
+// Freelance Engineer Profile Selectors
+export const selectFreelanceEngineerProfessionalInfo = (state: any) =>
+  state.professionalInfo ?? null;
+export const selectFreelanceEngineerDocumentUpload = (state: any) =>
+  state.documentUpload ?? null;
+export const selectFreelanceEngineerIsLoading = (state: any) => state.isLoading;
+export const selectFreelanceEngineerError = (state: any) => state.error;
 
-export const selectProfessionalInfo = (state: AuthStoreState) =>
-  state.roleData.professionalInfo ?? null;
+// Engineering Office Profile Selectors
+export const selectEngineeringOfficeTechnicalOperationalInfo = (state: any) =>
+  state.technicalOperationalInfo ?? null;
+export const selectEngineeringOfficeDocumentUpload = (state: any) =>
+  state.documentUpload ?? null;
+export const selectEngineeringOfficeIsLoading = (state: any) => state.isLoading;
+export const selectEngineeringOfficeError = (state: any) => state.error;
 
-export const selectTechnicalOperationalInfo = (state: AuthStoreState) =>
-  state.roleData.technicalOperationalInfo ?? null;
+// Contractor Profile Selectors
+export const selectContractorTechnicalOperationalInfo = (state: any) =>
+  state.technicalOperationalInfo ?? null;
+export const selectContractorDocumentUpload = (state: any) =>
+  state.documentUpload ?? null;
+export const selectContractorIsLoading = (state: any) => state.isLoading;
+export const selectContractorError = (state: any) => state.error;
 
-export const selectOperationalCommercialInfo = (state: AuthStoreState) =>
-  state.roleData.operationalCommercialInfo ?? null;
-
-export const selectDocumentUpload = (state: AuthStoreState) =>
-  state.roleData.documentUpload ?? null;
-
-// --- Navigation & flow ---
-export const selectStepInfo = (state: AuthStoreState) =>
-  state.getCurrentStepInfo();
-
-export const selectCanGoNext = (state: AuthStoreState) =>
-  state.canGoToNextStep();
-
-export const selectCanGoPrevious = (state: AuthStoreState) =>
-  state.canGoToPreviousStep();
-
-// --- Debug / utilities ---
-export const selectStoreSnapshot = (state: AuthStoreState) =>
-  state.getStoreState();
+// Supplier Profile Selectors
+export const selectSupplierOperationalCommercialInfo = (state: any) =>
+  state.operationalCommercialInfo ?? null;
+export const selectSupplierDocumentUpload = (state: any) =>
+  state.documentUpload ?? null;
+export const selectSupplierIsLoading = (state: any) => state.isLoading;
+export const selectSupplierError = (state: any) => state.error;

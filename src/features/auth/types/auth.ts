@@ -61,7 +61,7 @@ export enum UserRole {
   CONTRACTOR = "contractor",
   ENGINEERING_OFFICE = "engineering_office",
   FREELANCE_ENGINEER = "freelance_engineer",
-  INSTITUTION = "institution",
+  ORGANIZATION = "organization",
 }
 
 export enum UserType {
@@ -79,10 +79,10 @@ export interface AuthError {
 // الأدوار المتاحة
 export type RegistrationRole =
   | "individual"
-  | "institution"
+  | "organization"
   | "supplier"
-  | "freelanceEngineer"
-  | "engineeringOffice"
+  | "freelance_engineer"
+  | "engineering_office"
   | "contractor";
 
 // طرق التوثيق
@@ -98,7 +98,14 @@ export interface BaseRegistrationState {
   isLoading: boolean;
   error: string | null;
 }
-
+export interface PersonalInfo {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phoneNumber: string;
+  password: string;
+  confirmPassword: string;
+}
 // بيانات خاصة بكل دور (تجمع كل أنواع الـ info)
 export interface RoleSpecificData {
   personalInfo?: Record<string, any>;

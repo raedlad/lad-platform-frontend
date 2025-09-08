@@ -34,7 +34,7 @@ export const roleFlowMeta: Record<
       description: "تحقق من حسابك",
     },
   ],
-  institution: [
+  organization: [
     {
       key: "authMethod",
       showInUI: true,
@@ -80,7 +80,7 @@ export const roleFlowMeta: Record<
       description: "تحقق من حسابك",
     },
   ],
-  freelanceEngineer: [
+  freelance_engineer: [
     {
       key: "authMethod",
       showInUI: true,
@@ -103,7 +103,7 @@ export const roleFlowMeta: Record<
       description: "تحقق من حسابك",
     },
   ],
-  engineeringOffice: [
+  engineering_office: [
     {
       key: "authMethod",
       showInUI: true,

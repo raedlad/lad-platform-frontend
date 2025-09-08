@@ -80,12 +80,12 @@ export const useUserRollSelection = () => {
           ],
         },
         {
-          role: UserRole.INSTITUTION,
-          title: "Institution",
-          description: "For government and educational institutions",
+          role: UserRole.ORGANIZATION,
+          title: "Organization",
+          description: "For government and educational organizations",
           icon: "🏛️",
           features: [
-            "Institutional access",
+            "Organizational access",
             "Multi-user management",
             "Compliance tools",
             "Reporting features",
@@ -142,12 +142,12 @@ export const useUserRollSelection = () => {
           "Flexible workflow",
         ],
       },
-      [UserRole.INSTITUTION]: {
-        title: "Institution",
-        description: "For government and educational institutions",
+      [UserRole.ORGANIZATION]: {
+        title: "Organization",
+        description: "For government and educational organizations",
         icon: "🏛️",
         features: [
-          "Institutional access",
+          "Organizational access",
           "Multi-user management",
           "Compliance tools",
           "Reporting features",

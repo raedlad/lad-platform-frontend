@@ -65,7 +65,7 @@ const OnboardingStepper: React.FC<OnboardingStepperProps> = ({
   }
 
   return (
-    <div className="rounded-lg w-full h-full bg-n-1 dark:bg-[#101010] section py-[10vh] p-6">
+    <div className="rounded-lg w-full h-full section py-[10vh] p-6">
       <div className="space-y-12">
         {stepperSteps.map((step, index) => {
           const IconComponent = getIconComponent(step.key);
@@ -76,7 +76,7 @@ const OnboardingStepper: React.FC<OnboardingStepperProps> = ({
             <div key={step.key} className="relative group">
               {/* Progress Line */}
               {index < stepperSteps.length - 1 && (
-                <div className="absolute right-[1.05rem] top-8 w-0.5 h-16 bg-n-4 dark:bg-n-6">
+                <div className="absolute start-[1.05rem] top-8 w-0.5 h-16 bg-n-4 dark:bg-n-6">
                   <div
                     className={`h-full bg-p-5 dark:bg-p-4 transition-all duration-700 ease-in-out ${
                       currentStep &&
@@ -102,7 +102,7 @@ const OnboardingStepper: React.FC<OnboardingStepperProps> = ({
                     className={`size-5 transition-all duration-300 ${
                       isActive
                         ? "text-n-9 dark:text-n-1"
-                        : "text-n-6 dark:text-n-4 opacity-80"
+                        : "text-n-6 dark:text-n-4 opacity-50"
                     }`}
                   />
                 </div>

@@ -1,14 +1,35 @@
 "use client";
 
-import React from "react";
-import { useForm } from "react-hook-form";
+import React, { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { useAuthStore } from "@auth/store";
 import { useTranslations } from "next-intl";
+import GoogleAuthButton from "../common/GoogleAuthButton";
+import { useGoogleAuth } from "@/features/auth/hooks";
+import AppleAuthButton from "../common/AppleAuthButton";
+import { Input } from "@/shared/components/ui/input";
+import { useRoleRedirect } from "@/hooks/useRoleRedirect";
+import {
+  Form,
+  FormMessage,
+  FormItem,
+  FormControl,
+  FormLabel,
+  FormField,
+} from "@/shared/components/ui/form";
+import { useForm } from "react-hook-form";
+import { Button } from "@/shared/components/ui/button";
+import { Eye, EyeOff } from "lucide-react";
+import Link from "next/link";
+import { authApi } from "@auth/services/authApi";
+import { tokenStorage } from "@auth/utils/tokenStorage";
+import { useRouter } from "next/navigation";
 
 const loginSchema = z.object({
-  email: z.string().email("Please enter a valid email address"),
+  emailOrPhone: z
+    .string()
+    .email("Please enter a valid email address")
+    .or(z.string().min(1, "Phone number is required")),
   password: z.string().min(1, "Password is required"),
 });
 
@@ -20,88 +41,248 @@ interface LoginFormProps {
 }
 
 const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, onError }) => {
-  const { login, isLoading, error } = useAuthStore();
+  useRoleRedirect();
   const t = useTranslations("auth");
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const { signInWithGoogle } = useGoogleAuth();
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<LoginFormData>({
+  const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
+    defaultValues: {
+      emailOrPhone: "",
+      password: "",
+    },
   });
 
-  const onSubmit = async (data: LoginFormData) => {
+  const handleSubmit = async (data: LoginFormData) => {
     try {
-      await login(data);
-      onSuccess?.();
+      setIsLoading(true);
+      setError(null);
+
+      // Determine if input is email or phone
+      const isEmail = data.emailOrPhone.includes("@");
+      const loginData = {
+        email: isEmail ? data.emailOrPhone : undefined,
+        phoneNumber: !isEmail ? data.emailOrPhone : undefined,
+        password: data.password,
+      };
+
+      console.log("Login attempt with:", loginData);
+
+      const result = await authApi.login(loginData);
+
+      if (result.success && result.data) {
+        // Store tokens and user data
+        if (result.data.response.extra.tokens && result.data.response) {
+          tokenStorage.storeTokens(
+            result.data.response.extra.tokens,
+            result.data.response
+          );
+        }
+
+        // Check if verification is required
+        if (result.data.response.account_overview.verification_required) {
+          // Determine what type of verification is needed
+          const user = result.data.response;
+          const verificationStatus =
+            user?.account_overview?.verification_status;
+
+          let verificationType = "email";
+          let contactInfo = user?.email;
+
+          // Check if phone verification is required and not verified
+          if (
+            verificationStatus?.verification_required === true &&
+            verificationStatus?.phone_verified === false
+          ) {
+            verificationType = "phone";
+            contactInfo = user?.phone;
+          }
+          // Check if email verification is required and not verified
+          else if (
+            verificationStatus?.verification_required === true &&
+            verificationStatus?.email_verified === false
+          ) {
+            verificationType = "email";
+            contactInfo = user?.email;
+          }
+
+          if (contactInfo) {
+            // Redirect to verification page with specific contact info and type
+            router.push(
+              `/verify-otp?contact=${contactInfo}&type=${verificationType}`
+            );
+          } else {
+            // Fallback to general verification page
+            router.push("/verify-otp");
+          }
+        } else {
+          // No verification required, redirect to dashboard
+          router.push(`/dashboard/${result.data.response.user_type}`);
+        }
+
+        onSuccess?.();
+      } else {
+        throw new Error(result.message || "Login failed");
+      }
     } catch (err) {
-      onError?.(err instanceof Error ? err.message : t("errors.loginFailed"));
+      const errorMessage =
+        err instanceof Error ? err.message : t("errors.loginFailed");
+      setError(errorMessage);
+      onError?.(errorMessage);
+    } finally {
+      setIsLoading(false);
     }
   };
 
+  function handleGoogleSignUp(): void {
+    signInWithGoogle();
+  }
+
+  function handleAppleSignUp(): void {
+    console.log("Apple Sign Up");
+  }
+
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-      <div>
-        <label
-          htmlFor="email"
-          className="block text-sm font-medium text-gray-700 mb-1"
-        >
-          {t("personalInfo.email")}
-        </label>
-        <input
-          {...register("email")}
-          type="email"
-          id="email"
-          className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-            errors.email ? "border-red-500" : "border-gray-300"
-          }`}
-          placeholder={t("form.placeholders.email")}
-        />
-        {errors.email && (
-          <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>
-        )}
-      </div>
-
-      <div>
-        <label
-          htmlFor="password"
-          className="block text-sm font-medium text-gray-700 mb-1"
-        >
-          {t("personalInfo.password")}
-        </label>
-        <input
-          {...register("password")}
-          type="password"
-          id="password"
-          className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-            errors.password ? "border-red-500" : "border-gray-300"
-          }`}
-          placeholder={t("form.placeholders.password")}
-        />
-        {errors.password && (
-          <p className="mt-1 text-sm text-red-600">{errors.password.message}</p>
-        )}
-      </div>
-
-      {error && (
-        <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
-          <p className="text-sm text-red-600">{error}</p>
+    <div className="min-h-[93vh] w-full py-12 px-4 sm:px-6 lg:px-8 flex items-center justify-center">
+      <div className="w-full max-w-md p-2 flex flex-col gap-8">
+        <div className="text-center space-y-2">
+          <h1 className="text-2xl font-bold">{t("title")}</h1>
+          <p className="text-n-7">{t("subtitle")}</p>
         </div>
-      )}
 
-      <button
-        type="submit"
-        disabled={isLoading}
-        className={`w-full px-4 py-2 rounded-lg font-medium transition-colors ${
-          isLoading
-            ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-            : "bg-blue-500 text-white hover:bg-blue-600"
-        }`}
-      >
-        {isLoading ? t("common.loading") : t("login")}
-      </button>
-    </form>
+        <div className="space-y-4">
+          {/* Social Login Buttons */}
+          <div className="space-y-3 flex flex-col items-center justify-center">
+            <GoogleAuthButton handleGoogleSignUp={handleGoogleSignUp} />
+            <AppleAuthButton handleAppleSignUp={handleAppleSignUp} />
+          </div>
+
+          {/* Divider */}
+          <div className="relative">
+            <div className="absolute inset-0 flex items-center">
+              <span className="w-full border-t" />
+            </div>
+            <div className="relative flex justify-center text-xs uppercase">
+              <span className="bg-n-1 px-2 text-n-6">
+                {t("roleSelection.or")}
+              </span>
+            </div>
+          </div>
+
+          {/* Email + Password */}
+          <Form {...form}>
+            <form
+              onSubmit={form.handleSubmit(handleSubmit, (errors) => {
+                console.log("❌ Validation errors:", errors);
+              })}
+              className="space-y-4"
+            >
+              <FormField
+                control={form.control}
+                name="emailOrPhone"
+                render={({ field }) => (
+                  <FormItem className="flex flex-col">
+                    <FormLabel>
+                      {t("personalInfo.email")} or{" "}
+                      {t("personalInfo.phoneNumber")}
+                    </FormLabel>
+                    <FormControl>
+                      <Input {...field} disabled={isLoading} />
+                    </FormControl>
+                    <FormMessage className="min-h-5" />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{t("personalInfo.password")}</FormLabel>
+                    <FormControl>
+                      <div className="relative">
+                        <Input
+                          type={showPassword ? "text" : "password"}
+                          {...field}
+                          disabled={isLoading}
+                        />
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="sm"
+                          className="absolute end-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                          onClick={() => setShowPassword(!showPassword)}
+                          disabled={isLoading}
+                        >
+                          {showPassword ? (
+                            <EyeOff className="h-4 w-4" />
+                          ) : (
+                            <Eye className="h-4 w-4" />
+                          )}
+                        </Button>
+                      </div>
+                    </FormControl>
+
+                    {/* Forgot Password link */}
+                    <div className="flex justify-end mt-1 text-p-7">
+                      <Link
+                        href="/forgot-password"
+                        className="text-xs text-p-7 hover:underline hover:text-p-5"
+                      >
+                        {t("forgotPassword")}
+                      </Link>
+                    </div>
+
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              {/* Error Display */}
+              {error && (
+                <div className="mt-4 p-3 bg-red-50 border border-red-200 rounded-md">
+                  <p className="text-red-800 text-sm">{error}</p>
+                </div>
+              )}
+
+              <Button type="submit" className="w-full" disabled={isLoading}>
+                {isLoading ? "Loading..." : t("login")}
+              </Button>
+            </form>
+          </Form>
+
+          {/* Already have account? / Create account */}
+          <div className="text-center text-sm">
+            <p className="text-n-6">
+              {t("noAccount")}{" "}
+              <Link
+                href="/signup"
+                className="font-medium text-p-7 hover:underline hover:text-p-5"
+              >
+                {t("createAccount")}
+              </Link>
+            </p>
+          </div>
+
+          {/* Terms and Privacy */}
+          <p className="text-xs text-center text-n-6">
+            {t("terms.text")}{" "}
+            <a href="#" className="underline text-p-7 hover:text-p-5">
+              {t("terms.termsLink")}
+            </a>{" "}
+            {t("terms.and")}{" "}
+            <a href="#" className="underline text-p-7 hover:text-p-5">
+              {t("terms.privacyLink")}
+            </a>
+          </p>
+        </div>
+      </div>
+    </div>
   );
 };
 

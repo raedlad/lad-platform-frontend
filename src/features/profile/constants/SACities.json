@@ -1,0 +1,2680 @@
+{
+  "success": true,
+  "message": "تم استرجاع قائمة المدن بنجاح",
+  "response": [
+    {
+      "id": 107148,
+      "country_id": "194",
+      "state_id": "3503",
+      "name": "`Ajmiyah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107149,
+      "country_id": "194",
+      "state_id": "3503",
+      "name": "`Alya'",
+      "country_code": "SA"
+    },
+    {
+      "id": 107150,
+      "country_id": "194",
+      "state_id": "3503",
+      "name": "`Ushash",
+      "country_code": "SA"
+    },
+    {
+      "id": 107151,
+      "country_id": "194",
+      "state_id": "3503",
+      "name": "`Ushayrah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107129,
+      "country_id": "194",
+      "state_id": "3500",
+      "name": "Abha",
+      "country_code": "SA"
+    },
+    {
+      "id": 107220,
+      "country_id": "194",
+      "state_id": "3505",
+      "name": "Abqaiq",
+      "country_code": "SA"
+    },
+    {
+      "id": 107328,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Abu `Urwah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107262,
+      "country_id": "194",
+      "state_id": "3507",
+      "name": "Abū ‘Arīsh",
+      "country_code": "SA"
+    },
+    {
+      "id": 107329,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Abu Hisani",
+      "country_code": "SA"
+    },
+    {
+      "id": 107330,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Abu Qirfah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107263,
+      "country_id": "194",
+      "state_id": "3507",
+      "name": "Abu Radif",
+      "country_code": "SA"
+    },
+    {
+      "id": 107152,
+      "country_id": "194",
+      "state_id": "3503",
+      "name": "Abū Shayţānah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107331,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Abu Shu`ayb",
+      "country_code": "SA"
+    },
+    {
+      "id": 107153,
+      "country_id": "194",
+      "state_id": "3503",
+      "name": "Abyar 'Ali",
+      "country_code": "SA"
+    },
+    {
+      "id": 107332,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Ad Dabbah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107264,
+      "country_id": "194",
+      "state_id": "3507",
+      "name": "Ad Darb",
+      "country_code": "SA"
+    },
+    {
+      "id": 107482,
+      "country_id": "194",
+      "state_id": "3511",
+      "name": "Ad Dawādimī",
+      "country_code": "SA"
+    },
+    {
+      "id": 107333,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Ad Dawh",
+      "country_code": "SA"
+    },
+    {
+      "id": 107483,
+      "country_id": "194",
+      "state_id": "3511",
+      "name": "Ad Dilam",
+      "country_code": "SA"
+    },
+    {
+      "id": 107154,
+      "country_id": "194",
+      "state_id": "3503",
+      "name": "Ad Dulu`",
+      "country_code": "SA"
+    },
+    {
+      "id": 107334,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Ad Dur",
+      "country_code": "SA"
+    },
+    {
+      "id": 107265,
+      "country_id": "194",
+      "state_id": "3507",
+      "name": "Ad Dur`iyah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107266,
+      "country_id": "194",
+      "state_id": "3507",
+      "name": "Adh Dhagharir",
+      "country_code": "SA"
+    },
+    {
+      "id": 107208,
+      "country_id": "194",
+      "state_id": "3504",
+      "name": "Adh Dhibiyah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107484,
+      "country_id": "194",
+      "state_id": "3511",
+      "name": "Afif",
+      "country_code": "SA"
+    },
+    {
+      "id": 107485,
+      "country_id": "194",
+      "state_id": "3511",
+      "name": "Ain AlBaraha",
+      "country_code": "SA"
+    },
+    {
+      "id": 107155,
+      "country_id": "194",
+      "state_id": "3503",
+      "name": "Al `Awali",
+      "country_code": "SA"
+    },
+    {
+      "id": 107267,
+      "country_id": "194",
+      "state_id": "3507",
+      "name": "Al `Ulayin",
+      "country_code": "SA"
+    },
+    {
+      "id": 107156,
+      "country_id": "194",
+      "state_id": "3503",
+      "name": "Al `Uqul",
+      "country_code": "SA"
+    },
+    {
+      "id": 107268,
+      "country_id": "194",
+      "state_id": "3507",
+      "name": "Al `Usaylah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107335,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Al Ābār",
+      "country_code": "SA"
+    },
+    {
+      "id": 107336,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Al Adl",
+      "country_code": "SA"
+    },
+    {
+      "id": 107157,
+      "country_id": "194",
+      "state_id": "3503",
+      "name": "Al Akhal",
+      "country_code": "SA"
+    },
+    {
+      "id": 107486,
+      "country_id": "194",
+      "state_id": "3511",
+      "name": "Al Arţāwīyah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107337,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Al Ashraf",
+      "country_code": "SA"
+    },
+    {
+      "id": 107221,
+      "country_id": "194",
+      "state_id": "3505",
+      "name": "Al Awjām",
+      "country_code": "SA"
+    },
+    {
+      "id": 107269,
+      "country_id": "194",
+      "state_id": "3507",
+      "name": "Al Badawi",
+      "country_code": "SA"
+    },
+    {
+      "id": 107137,
+      "country_id": "194",
+      "state_id": "3501",
+      "name": "Al Bahah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107338,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Al Balad",
+      "country_code": "SA"
+    },
+    {
+      "id": 107339,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Al Barabir",
+      "country_code": "SA"
+    },
+    {
+      "id": 107158,
+      "country_id": "194",
+      "state_id": "3503",
+      "name": "Al Bardiyah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107222,
+      "country_id": "194",
+      "state_id": "3505",
+      "name": "Al Baţţālīyah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107340,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Al Bi'ar",
+      "country_code": "SA"
+    },
+    {
+      "id": 107159,
+      "country_id": "194",
+      "state_id": "3503",
+      "name": "Al Biqa'",
+      "country_code": "SA"
+    },
+    {
+      "id": 107487,
+      "country_id": "194",
+      "state_id": "3511",
+      "name": "Al Bir",
+      "country_code": "SA"
+    },
+    {
+      "id": 107341,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Al Birk",
+      "country_code": "SA"
+    },
+    {
+      "id": 107209,
+      "country_id": "194",
+      "state_id": "3504",
+      "name": "Al Bukayrīyah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107342,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Al Buraykah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107160,
+      "country_id": "194",
+      "state_id": "3503",
+      "name": "Al Bustan",
+      "country_code": "SA"
+    },
+    {
+      "id": 107161,
+      "country_id": "194",
+      "state_id": "3503",
+      "name": "Al Faqirah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107343,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Al Fawwarah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107344,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Al Faydah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107345,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Al Fazz",
+      "country_code": "SA"
+    },
+    {
+      "id": 107162,
+      "country_id": "194",
+      "state_id": "3503",
+      "name": "Al Furaysh",
+      "country_code": "SA"
+    },
+    {
+      "id": 107210,
+      "country_id": "194",
+      "state_id": "3504",
+      "name": "Al Fuwayliq",
+      "country_code": "SA"
+    },
+    {
+      "id": 107346,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Al Gharith",
+      "country_code": "SA"
+    },
+    {
+      "id": 107347,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Al Ghassalah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107348,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Al Ghulah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107349,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Al Hadā",
+      "country_code": "SA"
+    },
+    {
+      "id": 107270,
+      "country_id": "194",
+      "state_id": "3507",
+      "name": "Al Hadrur",
+      "country_code": "SA"
+    },
+    {
+      "id": 107488,
+      "country_id": "194",
+      "state_id": "3511",
+      "name": "Al Hair",
+      "country_code": "SA"
+    },
+    {
+      "id": 107350,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Al Halaqah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107351,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Al Hamimah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107271,
+      "country_id": "194",
+      "state_id": "3507",
+      "name": "Al Hanashah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107272,
+      "country_id": "194",
+      "state_id": "3507",
+      "name": "Al Harani",
+      "country_code": "SA"
+    },
+    {
+      "id": 107352,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Al Harra' Makkah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107273,
+      "country_id": "194",
+      "state_id": "3507",
+      "name": "Al Hasamah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107353,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Al Hawiyah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107274,
+      "country_id": "194",
+      "state_id": "3507",
+      "name": "Al Hijfar",
+      "country_code": "SA"
+    },
+    {
+      "id": 107223,
+      "country_id": "194",
+      "state_id": "3505",
+      "name": "Al Hufūf",
+      "country_code": "SA"
+    },
+    {
+      "id": 107140,
+      "country_id": "194",
+      "state_id": "3502",
+      "name": "Al Isawiyah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107354,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Al Iskan",
+      "country_code": "SA"
+    },
+    {
+      "id": 107163,
+      "country_id": "194",
+      "state_id": "3503",
+      "name": "Al Jabriyah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107275,
+      "country_id": "194",
+      "state_id": "3507",
+      "name": "Al Jadi",
+      "country_code": "SA"
+    },
+    {
+      "id": 107355,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Al Jadidah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107224,
+      "country_id": "194",
+      "state_id": "3505",
+      "name": "Al Jafr",
+      "country_code": "SA"
+    },
+    {
+      "id": 107356,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Al Jami`ah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107276,
+      "country_id": "194",
+      "state_id": "3507",
+      "name": "Al Jarādīyah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107277,
+      "country_id": "194",
+      "state_id": "3507",
+      "name": "Al Jawah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107357,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Al Jid`",
+      "country_code": "SA"
+    },
+    {
+      "id": 107278,
+      "country_id": "194",
+      "state_id": "3507",
+      "name": "Al Jirbah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107164,
+      "country_id": "194",
+      "state_id": "3503",
+      "name": "Al Jissah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107358,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Al Ju`ranah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107225,
+      "country_id": "194",
+      "state_id": "3505",
+      "name": "Al Jubayl",
+      "country_code": "SA"
+    },
+    {
+      "id": 107359,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Al Jumūm",
+      "country_code": "SA"
+    },
+    {
+      "id": 107489,
+      "country_id": "194",
+      "state_id": "3511",
+      "name": "Al Jurayfah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107279,
+      "country_id": "194",
+      "state_id": "3507",
+      "name": "Al Karbus",
+      "country_code": "SA"
+    },
+    {
+      "id": 107280,
+      "country_id": "194",
+      "state_id": "3507",
+      "name": "Al Kawahilah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107281,
+      "country_id": "194",
+      "state_id": "3507",
+      "name": "Al Khadra' Jizan",
+      "country_code": "SA"
+    },
+    {
+      "id": 107360,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Al Khadra' Makkah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107226,
+      "country_id": "194",
+      "state_id": "3505",
+      "name": "Al Khafjī",
+      "country_code": "SA"
+    },
+    {
+      "id": 107361,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Al Khalas",
+      "country_code": "SA"
+    },
+    {
+      "id": 107362,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Al Khamrah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107282,
+      "country_id": "194",
+      "state_id": "3507",
+      "name": "Al Kharabah Jizan",
+      "country_code": "SA"
+    },
+    {
+      "id": 107283,
+      "country_id": "194",
+      "state_id": "3507",
+      "name": "Al Kharadilah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107490,
+      "country_id": "194",
+      "state_id": "3511",
+      "name": "Al Kharj",
+      "country_code": "SA"
+    },
+    {
+      "id": 107165,
+      "country_id": "194",
+      "state_id": "3503",
+      "name": "Al Kharma'",
+      "country_code": "SA"
+    },
+    {
+      "id": 107284,
+      "country_id": "194",
+      "state_id": "3507",
+      "name": "Al Khashabiyah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107363,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Al Khaydar",
+      "country_code": "SA"
+    },
+    {
+      "id": 107364,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Al Khayf",
+      "country_code": "SA"
+    },
+    {
+      "id": 107285,
+      "country_id": "194",
+      "state_id": "3507",
+      "name": "Al Khubah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107365,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Al Khulasah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107366,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Al Kidwah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107286,
+      "country_id": "194",
+      "state_id": "3507",
+      "name": "Al Kirs",
+      "country_code": "SA"
+    },
+    {
+      "id": 107367,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Al Kura`",
+      "country_code": "SA"
+    },
+    {
+      "id": 107287,
+      "country_id": "194",
+      "state_id": "3507",
+      "name": "Al Luqiyah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107288,
+      "country_id": "194",
+      "state_id": "3507",
+      "name": "Al Ma`ayin",
+      "country_code": "SA"
+    },
+    {
+      "id": 107368,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Al Ma`rash",
+      "country_code": "SA"
+    },
+    {
+      "id": 107289,
+      "country_id": "194",
+      "state_id": "3507",
+      "name": "Al Madaya",
+      "country_code": "SA"
+    },
+    {
+      "id": 107369,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Al Madiq Makkah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107370,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Al Maghal",
+      "country_code": "SA"
+    },
+    {
+      "id": 107371,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Al Mahjar",
+      "country_code": "SA"
+    },
+    {
+      "id": 107130,
+      "country_id": "194",
+      "state_id": "3500",
+      "name": "Al Majāridah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107166,
+      "country_id": "194",
+      "state_id": "3503",
+      "name": "Al Malbanah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107290,
+      "country_id": "194",
+      "state_id": "3507",
+      "name": "Al Mali",
+      "country_code": "SA"
+    },
+    {
+      "id": 107372,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Al Maqrah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107227,
+      "country_id": "194",
+      "state_id": "3505",
+      "name": "Al Markaz",
+      "country_code": "SA"
+    },
+    {
+      "id": 107373,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Al Masarrah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107374,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Al Masfalah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107375,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Al Mashayikh",
+      "country_code": "SA"
+    },
+    {
+      "id": 107376,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Al Mathnah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107291,
+      "country_id": "194",
+      "state_id": "3507",
+      "name": "Al Mayasam",
+      "country_code": "SA"
+    },
+    {
+      "id": 107138,
+      "country_id": "194",
+      "state_id": "3501",
+      "name": "Al Mindak",
+      "country_code": "SA"
+    },
+    {
+      "id": 107211,
+      "country_id": "194",
+      "state_id": "3504",
+      "name": "Al Mithnab",
+      "country_code": "SA"
+    },
+    {
+      "id": 107377,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Al Mubarak",
+      "country_code": "SA"
+    },
+    {
+      "id": 107228,
+      "country_id": "194",
+      "state_id": "3505",
+      "name": "Al Mubarraz",
+      "country_code": "SA"
+    },
+    {
+      "id": 107378,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Al Mudawwarah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107167,
+      "country_id": "194",
+      "state_id": "3503",
+      "name": "Al Mufrihat",
+      "country_code": "SA"
+    },
+    {
+      "id": 107379,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Al Mulayha'",
+      "country_code": "SA"
+    },
+    {
+      "id": 107168,
+      "country_id": "194",
+      "state_id": "3503",
+      "name": "Al Multasa",
+      "country_code": "SA"
+    },
+    {
+      "id": 107229,
+      "country_id": "194",
+      "state_id": "3505",
+      "name": "Al Munayzilah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107380,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Al Mundassah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107381,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Al Muqayti`",
+      "country_code": "SA"
+    },
+    {
+      "id": 107382,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Al Muqr",
+      "country_code": "SA"
+    },
+    {
+      "id": 107169,
+      "country_id": "194",
+      "state_id": "3503",
+      "name": "Al Musayjid",
+      "country_code": "SA"
+    },
+    {
+      "id": 107230,
+      "country_id": "194",
+      "state_id": "3505",
+      "name": "Al Muţayrifī",
+      "country_code": "SA"
+    },
+    {
+      "id": 107383,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Al Muwayh",
+      "country_code": "SA"
+    },
+    {
+      "id": 107292,
+      "country_id": "194",
+      "state_id": "3507",
+      "name": "Al Qa'im",
+      "country_code": "SA"
+    },
+    {
+      "id": 107384,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Al Qadimah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107131,
+      "country_id": "194",
+      "state_id": "3500",
+      "name": "Al Qahab",
+      "country_code": "SA"
+    },
+    {
+      "id": 107231,
+      "country_id": "194",
+      "state_id": "3505",
+      "name": "Al Qārah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107385,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Al Qararah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107386,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Al Qaryat",
+      "country_code": "SA"
+    },
+    {
+      "id": 107232,
+      "country_id": "194",
+      "state_id": "3505",
+      "name": "Al Qaţīf",
+      "country_code": "SA"
+    },
+    {
+      "id": 107387,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Al Qawba`iyah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107388,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Al Qirshan",
+      "country_code": "SA"
+    },
+    {
+      "id": 107389,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Al Qu`tubah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107390,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Al Qufayf",
+      "country_code": "SA"
+    },
+    {
+      "id": 107293,
+      "country_id": "194",
+      "state_id": "3507",
+      "name": "Al Quful",
+      "country_code": "SA"
+    },
+    {
+      "id": 107294,
+      "country_id": "194",
+      "state_id": "3507",
+      "name": "Al Qurayb",
+      "country_code": "SA"
+    },
+    {
+      "id": 107233,
+      "country_id": "194",
+      "state_id": "3505",
+      "name": "Al Qurayn",
+      "country_code": "SA"
+    },
+    {
+      "id": 107391,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Al Qushashiyah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107295,
+      "country_id": "194",
+      "state_id": "3507",
+      "name": "Al Quwah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107212,
+      "country_id": "194",
+      "state_id": "3504",
+      "name": "Al Thybiyah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107234,
+      "country_id": "194",
+      "state_id": "3505",
+      "name": "Al Ubaylah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107392,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Al Ukhaydir",
+      "country_code": "SA"
+    },
+    {
+      "id": 107393,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Al Waht",
+      "country_code": "SA"
+    },
+    {
+      "id": 107507,
+      "country_id": "194",
+      "state_id": "3512",
+      "name": "Al Wajh",
+      "country_code": "SA"
+    },
+    {
+      "id": 107296,
+      "country_id": "194",
+      "state_id": "3507",
+      "name": "Al Wasili",
+      "country_code": "SA"
+    },
+    {
+      "id": 107170,
+      "country_id": "194",
+      "state_id": "3503",
+      "name": "Al Wuday",
+      "country_code": "SA"
+    },
+    {
+      "id": 107235,
+      "country_id": "194",
+      "state_id": "3505",
+      "name": "Al-Awamiyah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107236,
+      "country_id": "194",
+      "state_id": "3505",
+      "name": "Al-Awjam",
+      "country_code": "SA"
+    },
+    {
+      "id": 107141,
+      "country_id": "194",
+      "state_id": "3502",
+      "name": "Al-Haditha",
+      "country_code": "SA"
+    },
+    {
+      "id": 107171,
+      "country_id": "194",
+      "state_id": "3503",
+      "name": "Al-Jafr",
+      "country_code": "SA"
+    },
+    {
+      "id": 107237,
+      "country_id": "194",
+      "state_id": "3505",
+      "name": "Al-Mubarraz",
+      "country_code": "SA"
+    },
+    {
+      "id": 107172,
+      "country_id": "194",
+      "state_id": "3503",
+      "name": "Al-Ula",
+      "country_code": "SA"
+    },
+    {
+      "id": 107297,
+      "country_id": "194",
+      "state_id": "3507",
+      "name": "An Najamiyah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107394,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Ar Rabwah as Sufla",
+      "country_code": "SA"
+    },
+    {
+      "id": 107395,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Ar Rafah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107213,
+      "country_id": "194",
+      "state_id": "3504",
+      "name": "Ar Rass",
+      "country_code": "SA"
+    },
+    {
+      "id": 107396,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Ar Rawdah ash Shamaliyah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107491,
+      "country_id": "194",
+      "state_id": "3511",
+      "name": "Ar Rayn",
+      "country_code": "SA"
+    },
+    {
+      "id": 107397,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Ar Rudaymah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107298,
+      "country_id": "194",
+      "state_id": "3507",
+      "name": "Ar Rukubah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107478,
+      "country_id": "194",
+      "state_id": "3510",
+      "name": "Arar",
+      "country_code": "SA"
+    },
+    {
+      "id": 107398,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Arya`",
+      "country_code": "SA"
+    },
+    {
+      "id": 107173,
+      "country_id": "194",
+      "state_id": "3503",
+      "name": "As Sadayir",
+      "country_code": "SA"
+    },
+    {
+      "id": 107399,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "As Sadr",
+      "country_code": "SA"
+    },
+    {
+      "id": 107238,
+      "country_id": "194",
+      "state_id": "3505",
+      "name": "As Saffānīyah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107174,
+      "country_id": "194",
+      "state_id": "3503",
+      "name": "As Safra'",
+      "country_code": "SA"
+    },
+    {
+      "id": 107492,
+      "country_id": "194",
+      "state_id": "3511",
+      "name": "As Salamiyah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107400,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "As Samd ash Shamali",
+      "country_code": "SA"
+    },
+    {
+      "id": 107401,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "As Sayl al Kabir",
+      "country_code": "SA"
+    },
+    {
+      "id": 107402,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "As Sayl as Saghir",
+      "country_code": "SA"
+    },
+    {
+      "id": 107403,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "As Sifyani",
+      "country_code": "SA"
+    },
+    {
+      "id": 107404,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "As Sudayrah Makkah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107493,
+      "country_id": "194",
+      "state_id": "3511",
+      "name": "As Sulayyil",
+      "country_code": "SA"
+    },
+    {
+      "id": 107175,
+      "country_id": "194",
+      "state_id": "3503",
+      "name": "As Sumariyah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107405,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "As Suwadah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107176,
+      "country_id": "194",
+      "state_id": "3503",
+      "name": "As Suwayriqiyah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107406,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Ash Shafā",
+      "country_code": "SA"
+    },
+    {
+      "id": 107407,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Ash Shajwah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107408,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Ash Shamiyah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107409,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Ash Shara'i`",
+      "country_code": "SA"
+    },
+    {
+      "id": 107410,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Ash Shaybi",
+      "country_code": "SA"
+    },
+    {
+      "id": 107411,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Ash Shi`b",
+      "country_code": "SA"
+    },
+    {
+      "id": 107412,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Ash Shishah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107177,
+      "country_id": "194",
+      "state_id": "3503",
+      "name": "Ash Shufayyah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107413,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Ash Shumaysi",
+      "country_code": "SA"
+    },
+    {
+      "id": 107299,
+      "country_id": "194",
+      "state_id": "3507",
+      "name": "Ash Shuqayq",
+      "country_code": "SA"
+    },
+    {
+      "id": 107414,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Ash Shuwaybit",
+      "country_code": "SA"
+    },
+    {
+      "id": 107178,
+      "country_id": "194",
+      "state_id": "3503",
+      "name": "Asira",
+      "country_code": "SA"
+    },
+    {
+      "id": 107415,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "At Tan`im",
+      "country_code": "SA"
+    },
+    {
+      "id": 107239,
+      "country_id": "194",
+      "state_id": "3505",
+      "name": "Aţ Ţaraf",
+      "country_code": "SA"
+    },
+    {
+      "id": 107416,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "At Tarfa'",
+      "country_code": "SA"
+    },
+    {
+      "id": 107240,
+      "country_id": "194",
+      "state_id": "3505",
+      "name": "At Tūbī",
+      "country_code": "SA"
+    },
+    {
+      "id": 107417,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "At Turqi",
+      "country_code": "SA"
+    },
+    {
+      "id": 107418,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Az Zaymah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107419,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Az Zilal",
+      "country_code": "SA"
+    },
+    {
+      "id": 107420,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Az Zughbah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107494,
+      "country_id": "194",
+      "state_id": "3511",
+      "name": "Az Zulfī",
+      "country_code": "SA"
+    },
+    {
+      "id": 107421,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Az Zurra`",
+      "country_code": "SA"
+    },
+    {
+      "id": 107422,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Az Zuwayb",
+      "country_code": "SA"
+    },
+    {
+      "id": 107423,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Bahrat al Qadimah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107424,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Bahwil",
+      "country_code": "SA"
+    },
+    {
+      "id": 107300,
+      "country_id": "194",
+      "state_id": "3507",
+      "name": "Bakhshat Yamani",
+      "country_code": "SA"
+    },
+    {
+      "id": 107179,
+      "country_id": "194",
+      "state_id": "3503",
+      "name": "Baq`a'",
+      "country_code": "SA"
+    },
+    {
+      "id": 107425,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Baranah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107180,
+      "country_id": "194",
+      "state_id": "3503",
+      "name": "Bartiyah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107426,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Barzah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107427,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Bashm",
+      "country_code": "SA"
+    },
+    {
+      "id": 107181,
+      "country_id": "194",
+      "state_id": "3503",
+      "name": "Bi'r al Mashi",
+      "country_code": "SA"
+    },
+    {
+      "id": 107182,
+      "country_id": "194",
+      "state_id": "3503",
+      "name": "Birkah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107214,
+      "country_id": "194",
+      "state_id": "3504",
+      "name": "Buraidah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107215,
+      "country_id": "194",
+      "state_id": "3504",
+      "name": "Buraydah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107428,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Buraykah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107429,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Burayman",
+      "country_code": "SA"
+    },
+    {
+      "id": 107430,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "CITY GHRAN",
+      "country_code": "SA"
+    },
+    {
+      "id": 107431,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Dabyah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107432,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Dahaban",
+      "country_code": "SA"
+    },
+    {
+      "id": 107241,
+      "country_id": "194",
+      "state_id": "3505",
+      "name": "Dammam",
+      "country_code": "SA"
+    },
+    {
+      "id": 107495,
+      "country_id": "194",
+      "state_id": "3511",
+      "name": "Dawadmi",
+      "country_code": "SA"
+    },
+    {
+      "id": 107242,
+      "country_id": "194",
+      "state_id": "3505",
+      "name": "Dhahran",
+      "country_code": "SA"
+    },
+    {
+      "id": 107496,
+      "country_id": "194",
+      "state_id": "3511",
+      "name": "Diriyah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107508,
+      "country_id": "194",
+      "state_id": "3512",
+      "name": "Duba",
+      "country_code": "SA"
+    },
+    {
+      "id": 107433,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Dughaybjah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107216,
+      "country_id": "194",
+      "state_id": "3504",
+      "name": "Dukhnah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107183,
+      "country_id": "194",
+      "state_id": "3503",
+      "name": "Far`",
+      "country_code": "SA"
+    },
+    {
+      "id": 107301,
+      "country_id": "194",
+      "state_id": "3507",
+      "name": "Farasān",
+      "country_code": "SA"
+    },
+    {
+      "id": 107434,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Fayd",
+      "country_code": "SA"
+    },
+    {
+      "id": 107184,
+      "country_id": "194",
+      "state_id": "3503",
+      "name": "Fiji",
+      "country_code": "SA"
+    },
+    {
+      "id": 107302,
+      "country_id": "194",
+      "state_id": "3507",
+      "name": "Ghawiyah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107435,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Ghran",
+      "country_code": "SA"
+    },
+    {
+      "id": 107243,
+      "country_id": "194",
+      "state_id": "3505",
+      "name": "Ha'il",
+      "country_code": "SA"
+    },
+    {
+      "id": 107436,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Hadda'",
+      "country_code": "SA"
+    },
+    {
+      "id": 107437,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Haddat ash Sham",
+      "country_code": "SA"
+    },
+    {
+      "id": 107438,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Hadhah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107244,
+      "country_id": "194",
+      "state_id": "3505",
+      "name": "Hafar Al-Batin",
+      "country_code": "SA"
+    },
+    {
+      "id": 107139,
+      "country_id": "194",
+      "state_id": "3501",
+      "name": "Hajrah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107439,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Hajur",
+      "country_code": "SA"
+    },
+    {
+      "id": 107440,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Halamah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107142,
+      "country_id": "194",
+      "state_id": "3502",
+      "name": "Halat Ammar",
+      "country_code": "SA"
+    },
+    {
+      "id": 107303,
+      "country_id": "194",
+      "state_id": "3507",
+      "name": "Hamayyah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107304,
+      "country_id": "194",
+      "state_id": "3507",
+      "name": "Hamdah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107245,
+      "country_id": "194",
+      "state_id": "3505",
+      "name": "Haradh",
+      "country_code": "SA"
+    },
+    {
+      "id": 107497,
+      "country_id": "194",
+      "state_id": "3511",
+      "name": "Harmah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107185,
+      "country_id": "194",
+      "state_id": "3503",
+      "name": "Harthiyah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107186,
+      "country_id": "194",
+      "state_id": "3503",
+      "name": "Haylat Radi al Baham",
+      "country_code": "SA"
+    },
+    {
+      "id": 107187,
+      "country_id": "194",
+      "state_id": "3503",
+      "name": "Husayniyah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107441,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Husnah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107188,
+      "country_id": "194",
+      "state_id": "3503",
+      "name": "Jadidah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107498,
+      "country_id": "194",
+      "state_id": "3511",
+      "name": "Jalajil",
+      "country_code": "SA"
+    },
+    {
+      "id": 107442,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Jarwal",
+      "country_code": "SA"
+    },
+    {
+      "id": 107443,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Jeddah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107305,
+      "country_id": "194",
+      "state_id": "3507",
+      "name": "Jizan",
+      "country_code": "SA"
+    },
+    {
+      "id": 107258,
+      "country_id": "194",
+      "state_id": "3506",
+      "name": "Jubbah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107306,
+      "country_id": "194",
+      "state_id": "3507",
+      "name": "Juha Saudi Arabia",
+      "country_code": "SA"
+    },
+    {
+      "id": 107246,
+      "country_id": "194",
+      "state_id": "3505",
+      "name": "Julayjilah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107444,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Julayyil",
+      "country_code": "SA"
+    },
+    {
+      "id": 107307,
+      "country_id": "194",
+      "state_id": "3507",
+      "name": "Ka`lul",
+      "country_code": "SA"
+    },
+    {
+      "id": 107308,
+      "country_id": "194",
+      "state_id": "3507",
+      "name": "Khabath Sa`id",
+      "country_code": "SA"
+    },
+    {
+      "id": 107309,
+      "country_id": "194",
+      "state_id": "3507",
+      "name": "Khalfah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107132,
+      "country_id": "194",
+      "state_id": "3500",
+      "name": "Khamis Mushait",
+      "country_code": "SA"
+    },
+    {
+      "id": 107310,
+      "country_id": "194",
+      "state_id": "3507",
+      "name": "Khatib Saudi Arabia",
+      "country_code": "SA"
+    },
+    {
+      "id": 107189,
+      "country_id": "194",
+      "state_id": "3503",
+      "name": "Khayf Fadil",
+      "country_code": "SA"
+    },
+    {
+      "id": 107247,
+      "country_id": "194",
+      "state_id": "3505",
+      "name": "Khobar",
+      "country_code": "SA"
+    },
+    {
+      "id": 107445,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Khumrah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107311,
+      "country_id": "194",
+      "state_id": "3507",
+      "name": "Khumsiyah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107312,
+      "country_id": "194",
+      "state_id": "3507",
+      "name": "Khushaym",
+      "country_code": "SA"
+    },
+    {
+      "id": 107446,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Kulakh",
+      "country_code": "SA"
+    },
+    {
+      "id": 107499,
+      "country_id": "194",
+      "state_id": "3511",
+      "name": "Layla",
+      "country_code": "SA"
+    },
+    {
+      "id": 107133,
+      "country_id": "194",
+      "state_id": "3500",
+      "name": "Ma`riyah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107447,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Madrakah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107190,
+      "country_id": "194",
+      "state_id": "3503",
+      "name": "Madsus",
+      "country_code": "SA"
+    },
+    {
+      "id": 107448,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Mafruq",
+      "country_code": "SA"
+    },
+    {
+      "id": 107313,
+      "country_id": "194",
+      "state_id": "3507",
+      "name": "Mahatah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107191,
+      "country_id": "194",
+      "state_id": "3503",
+      "name": "Mahattat al Hafah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107449,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Malakan",
+      "country_code": "SA"
+    },
+    {
+      "id": 107314,
+      "country_id": "194",
+      "state_id": "3507",
+      "name": "Malgocta",
+      "country_code": "SA"
+    },
+    {
+      "id": 107500,
+      "country_id": "194",
+      "state_id": "3511",
+      "name": "Manfuha",
+      "country_code": "SA"
+    },
+    {
+      "id": 107192,
+      "country_id": "194",
+      "state_id": "3503",
+      "name": "Maqrah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107193,
+      "country_id": "194",
+      "state_id": "3503",
+      "name": "Maqshush",
+      "country_code": "SA"
+    },
+    {
+      "id": 107501,
+      "country_id": "194",
+      "state_id": "3511",
+      "name": "Marāt",
+      "country_code": "SA"
+    },
+    {
+      "id": 107194,
+      "country_id": "194",
+      "state_id": "3503",
+      "name": "Masahili",
+      "country_code": "SA"
+    },
+    {
+      "id": 107450,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Mashajji",
+      "country_code": "SA"
+    },
+    {
+      "id": 107451,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Masihat Mahd al Hayl",
+      "country_code": "SA"
+    },
+    {
+      "id": 107452,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Maskar",
+      "country_code": "SA"
+    },
+    {
+      "id": 107453,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Matiyah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107195,
+      "country_id": "194",
+      "state_id": "3503",
+      "name": "Mawarah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107259,
+      "country_id": "194",
+      "state_id": "3506",
+      "name": "Mawqaq",
+      "country_code": "SA"
+    },
+    {
+      "id": 107454,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Mecca",
+      "country_code": "SA"
+    },
+    {
+      "id": 107196,
+      "country_id": "194",
+      "state_id": "3503",
+      "name": "Medina",
+      "country_code": "SA"
+    },
+    {
+      "id": 107134,
+      "country_id": "194",
+      "state_id": "3500",
+      "name": "Mifa",
+      "country_code": "SA"
+    },
+    {
+      "id": 107197,
+      "country_id": "194",
+      "state_id": "3503",
+      "name": "Milhah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107455,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Mina",
+      "country_code": "SA"
+    },
+    {
+      "id": 107315,
+      "country_id": "194",
+      "state_id": "3507",
+      "name": "Mislīyah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107316,
+      "country_id": "194",
+      "state_id": "3507",
+      "name": "Mizhirah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107317,
+      "country_id": "194",
+      "state_id": "3507",
+      "name": "Mukambal",
+      "country_code": "SA"
+    },
+    {
+      "id": 107248,
+      "country_id": "194",
+      "state_id": "3505",
+      "name": "Mulayjah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107135,
+      "country_id": "194",
+      "state_id": "3500",
+      "name": "Munayzir",
+      "country_code": "SA"
+    },
+    {
+      "id": 107318,
+      "country_id": "194",
+      "state_id": "3507",
+      "name": "Mundaraq",
+      "country_code": "SA"
+    },
+    {
+      "id": 107456,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Murshidiyah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107457,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Mushrif",
+      "country_code": "SA"
+    },
+    {
+      "id": 107319,
+      "country_id": "194",
+      "state_id": "3507",
+      "name": "Muwassam",
+      "country_code": "SA"
+    },
+    {
+      "id": 107502,
+      "country_id": "194",
+      "state_id": "3511",
+      "name": "Najan",
+      "country_code": "SA"
+    },
+    {
+      "id": 107477,
+      "country_id": "194",
+      "state_id": "3509",
+      "name": "Najrān",
+      "country_code": "SA"
+    },
+    {
+      "id": 107249,
+      "country_id": "194",
+      "state_id": "3505",
+      "name": "Nariyah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107479,
+      "country_id": "194",
+      "state_id": "3510",
+      "name": "Nisab",
+      "country_code": "SA"
+    },
+    {
+      "id": 107458,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Nughayshiyah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107198,
+      "country_id": "194",
+      "state_id": "3503",
+      "name": "Nujayl",
+      "country_code": "SA"
+    },
+    {
+      "id": 107459,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Nuzlat al Faqin",
+      "country_code": "SA"
+    },
+    {
+      "id": 107199,
+      "country_id": "194",
+      "state_id": "3503",
+      "name": "Qaba'",
+      "country_code": "SA"
+    },
+    {
+      "id": 107250,
+      "country_id": "194",
+      "state_id": "3505",
+      "name": "Qaisumah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107217,
+      "country_id": "194",
+      "state_id": "3504",
+      "name": "Qiba",
+      "country_code": "SA"
+    },
+    {
+      "id": 107320,
+      "country_id": "194",
+      "state_id": "3507",
+      "name": "Qitabir",
+      "country_code": "SA"
+    },
+    {
+      "id": 107460,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Qiya",
+      "country_code": "SA"
+    },
+    {
+      "id": 107260,
+      "country_id": "194",
+      "state_id": "3506",
+      "name": "Qufar",
+      "country_code": "SA"
+    },
+    {
+      "id": 107143,
+      "country_id": "194",
+      "state_id": "3502",
+      "name": "Qurayyat",
+      "country_code": "SA"
+    },
+    {
+      "id": 107321,
+      "country_id": "194",
+      "state_id": "3507",
+      "name": "Quwayda'",
+      "country_code": "SA"
+    },
+    {
+      "id": 107461,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Quwayzah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107462,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Rābigh",
+      "country_code": "SA"
+    },
+    {
+      "id": 107463,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Rabwah Ghran",
+      "country_code": "SA"
+    },
+    {
+      "id": 107251,
+      "country_id": "194",
+      "state_id": "3505",
+      "name": "Raḩīmah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107322,
+      "country_id": "194",
+      "state_id": "3507",
+      "name": "Rahwan",
+      "country_code": "SA"
+    },
+    {
+      "id": 107464,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Raqiyah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107323,
+      "country_id": "194",
+      "state_id": "3507",
+      "name": "Rawkhah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107200,
+      "country_id": "194",
+      "state_id": "3503",
+      "name": "Rayyis",
+      "country_code": "SA"
+    },
+    {
+      "id": 107503,
+      "country_id": "194",
+      "state_id": "3511",
+      "name": "Riyadh",
+      "country_code": "SA"
+    },
+    {
+      "id": 107465,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Sabuhah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107324,
+      "country_id": "194",
+      "state_id": "3507",
+      "name": "Şabyā",
+      "country_code": "SA"
+    },
+    {
+      "id": 107325,
+      "country_id": "194",
+      "state_id": "3507",
+      "name": "Sadiliyah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107252,
+      "country_id": "194",
+      "state_id": "3505",
+      "name": "Şafwá",
+      "country_code": "SA"
+    },
+    {
+      "id": 107504,
+      "country_id": "194",
+      "state_id": "3511",
+      "name": "Sājir",
+      "country_code": "SA"
+    },
+    {
+      "id": 107144,
+      "country_id": "194",
+      "state_id": "3502",
+      "name": "Sakakah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107326,
+      "country_id": "194",
+      "state_id": "3507",
+      "name": "Salamah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107327,
+      "country_id": "194",
+      "state_id": "3507",
+      "name": "Şāmitah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107253,
+      "country_id": "194",
+      "state_id": "3505",
+      "name": "Sayhāt",
+      "country_code": "SA"
+    },
+    {
+      "id": 107201,
+      "country_id": "194",
+      "state_id": "3503",
+      "name": "Sha`tha'",
+      "country_code": "SA"
+    },
+    {
+      "id": 107466,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Shi`b `amir",
+      "country_code": "SA"
+    },
+    {
+      "id": 107467,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Shira`ayn",
+      "country_code": "SA"
+    },
+    {
+      "id": 107505,
+      "country_id": "194",
+      "state_id": "3511",
+      "name": "shokhaibٍ",
+      "country_code": "SA"
+    },
+    {
+      "id": 107202,
+      "country_id": "194",
+      "state_id": "3503",
+      "name": "Sidi Hamzah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107261,
+      "country_id": "194",
+      "state_id": "3506",
+      "name": "Simira",
+      "country_code": "SA"
+    },
+    {
+      "id": 107468,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Sulaym",
+      "country_code": "SA"
+    },
+    {
+      "id": 107469,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Sumaymah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107203,
+      "country_id": "194",
+      "state_id": "3503",
+      "name": "Suq Suwayq",
+      "country_code": "SA"
+    },
+    {
+      "id": 107204,
+      "country_id": "194",
+      "state_id": "3503",
+      "name": "Suqubiya",
+      "country_code": "SA"
+    },
+    {
+      "id": 107205,
+      "country_id": "194",
+      "state_id": "3503",
+      "name": "Suwadah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107145,
+      "country_id": "194",
+      "state_id": "3502",
+      "name": "Şuwayr",
+      "country_code": "SA"
+    },
+    {
+      "id": 107470,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Suways",
+      "country_code": "SA"
+    },
+    {
+      "id": 107471,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Ta'if",
+      "country_code": "SA"
+    },
+    {
+      "id": 107136,
+      "country_id": "194",
+      "state_id": "3500",
+      "name": "Tabālah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107146,
+      "country_id": "194",
+      "state_id": "3502",
+      "name": "Tabarjal",
+      "country_code": "SA"
+    },
+    {
+      "id": 107509,
+      "country_id": "194",
+      "state_id": "3512",
+      "name": "Tabuk",
+      "country_code": "SA"
+    },
+    {
+      "id": 107218,
+      "country_id": "194",
+      "state_id": "3504",
+      "name": "Tanūmah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107254,
+      "country_id": "194",
+      "state_id": "3505",
+      "name": "Tārūt",
+      "country_code": "SA"
+    },
+    {
+      "id": 107472,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Tharwah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107473,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Thuwal",
+      "country_code": "SA"
+    },
+    {
+      "id": 107147,
+      "country_id": "194",
+      "state_id": "3502",
+      "name": "Ţubarjal",
+      "country_code": "SA"
+    },
+    {
+      "id": 107506,
+      "country_id": "194",
+      "state_id": "3511",
+      "name": "Tumayr",
+      "country_code": "SA"
+    },
+    {
+      "id": 107474,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Turabah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107480,
+      "country_id": "194",
+      "state_id": "3510",
+      "name": "Turaif",
+      "country_code": "SA"
+    },
+    {
+      "id": 107255,
+      "country_id": "194",
+      "state_id": "3505",
+      "name": "Udhailiyah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107256,
+      "country_id": "194",
+      "state_id": "3505",
+      "name": "Umm as Sāhik",
+      "country_code": "SA"
+    },
+    {
+      "id": 107510,
+      "country_id": "194",
+      "state_id": "3512",
+      "name": "Umm Lajj",
+      "country_code": "SA"
+    },
+    {
+      "id": 107481,
+      "country_id": "194",
+      "state_id": "3510",
+      "name": "Umm Radamah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107257,
+      "country_id": "194",
+      "state_id": "3505",
+      "name": "Uqair",
+      "country_code": "SA"
+    },
+    {
+      "id": 107475,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Usfan",
+      "country_code": "SA"
+    },
+    {
+      "id": 107476,
+      "country_id": "194",
+      "state_id": "3508",
+      "name": "Wadi al Jalil",
+      "country_code": "SA"
+    },
+    {
+      "id": 107206,
+      "country_id": "194",
+      "state_id": "3503",
+      "name": "Wasitah",
+      "country_code": "SA"
+    },
+    {
+      "id": 107219,
+      "country_id": "194",
+      "state_id": "3504",
+      "name": "Wed Alnkil",
+      "country_code": "SA"
+    },
+    {
+      "id": 107207,
+      "country_id": "194",
+      "state_id": "3503",
+      "name": "Yanbu",
+      "country_code": "SA"
+    }
+  ]
+}

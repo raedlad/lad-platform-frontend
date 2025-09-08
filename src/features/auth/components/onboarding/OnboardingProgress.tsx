@@ -18,7 +18,7 @@ const OnboardingProgress = ({total } : {total : number}) => {
 
   return (
     <div className="w-full flex  max-w-md ">
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 ">
 
       <Button
         variant="ghost"
@@ -27,7 +27,7 @@ const OnboardingProgress = ({total } : {total : number}) => {
         className="p-1"
         disabled={isLoading}
       >
-        <ArrowLeft className="h-4 w-4" />
+        <ArrowLeft className="h-4 w-4 rtl:rotate-180" />
       </Button>
       <div className="text-lg text-muted-foreground">
         {getStepNumber()} / {total}

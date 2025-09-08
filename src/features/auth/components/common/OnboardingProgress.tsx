@@ -20,7 +20,6 @@ export const OnboardingProgress: React.FC<OnboardingProgressProps> = ({
         {steps.map((step, index) => {
           const isCompleted = index + 1 < currentStep;
           const isCurrent = index + 1 === currentStep;
-          const isUpcoming = index + 1 > currentStep;
 
           return (
             <div key={index} className="flex flex-col items-center">

@@ -11,11 +11,13 @@ import {
 import { useAuthStore } from "@auth/store/authStore";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
+import { useGoogleAuth } from "@/features/auth/hooks";
 
 export default function AuthMethodSelector() {
   const { setAuthMethod, goToNextStep } = useAuthStore();
   const router = useRouter();
   const t = useTranslations("auth");
+  const { signInWithGoogle } = useGoogleAuth();
 
   const handleAuthMethodSelect = (method: "email" | "phone" | "thirdParty") => {
     setAuthMethod(method);
@@ -28,8 +30,7 @@ export default function AuthMethodSelector() {
   };
 
   const handleGoogleSignUp = () => {
-    // In a real app, this would initiate Google OAuth
-    console.log("Google OAuth would be initiated here");
+    signInWithGoogle();
     handleAuthMethodSelect("thirdParty");
   };
 
@@ -40,18 +41,18 @@ export default function AuthMethodSelector() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <Card className="w-full max-w-md bg-transparent shadow-none border-none">
+    <div className="screen-center">
+      <Card className="container-narrow bg-transparent shadow-none border-none">
         <CardHeader className="text-center">
-          <CardTitle className="text-2xl font-bold">{t("title")}</CardTitle>
+          <CardTitle className="heading-section">{t("title")}</CardTitle>
           <CardDescription>{t("subtitle")}</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           {/* Social Login Buttons */}
-          <div className="space-x-3 flex items-center justify-center gap-2">
+          <div className="flex-center gap-2 space-x-3">
             <Button
               variant="outline"
-              className=" flex items-center justify-center gap-2"
+              className="flex-center gap-2"
               onClick={handleGoogleSignUp}
             >
               <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24">
@@ -77,7 +78,7 @@ export default function AuthMethodSelector() {
 
             <Button
               variant="outline"
-              className="flex items-center justify-center gap-2"
+              className="flex-center gap-2"
               onClick={handleAppleSignUp}
             >
               <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
@@ -121,11 +122,11 @@ export default function AuthMethodSelector() {
           {/* Terms and Privacy */}
           <p className="text-xs text-center text-muted-foreground">
             {t("terms.text")}{" "}
-            <a href="#" className="underline hover:text-primary">
+            <a href="#" className="underline text-p-7 hover:text-p-5">
               {t("terms.termsLink")}
             </a>{" "}
             {t("terms.and")}{" "}
-            <a href="#" className="underline hover:text-primary">
+            <a href="#" className="underline text-p-7 hover:text-p-5">
               {t("terms.privacyLink")}
             </a>
           </p>

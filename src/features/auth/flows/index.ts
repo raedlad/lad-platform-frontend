@@ -4,4 +4,4 @@
 // export * from "./engineering-office";
 // export * from "./freelance-engineer";
 // export * from "./individual";
-// export * from "./institution";
+// export * from "./organization";

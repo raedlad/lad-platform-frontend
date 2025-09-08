@@ -11,7 +11,7 @@ import {
 import { Check, Globe } from "lucide-react";
 
 export default function LanguageSwitcher() {
-  const t = useTranslations("common");
+  const t = useTranslations("common.ui");
   const { currentLocale, changeLocale, locales } = useLocale();
 
   const getLocaleDisplayName = (locale: string) => {
@@ -28,7 +28,7 @@ export default function LanguageSwitcher() {
         <Button
           variant="ghost"
           size="sm"
-          className="flex items-center gap-2 px-3 py-2"
+          className="!justify-start !px-0"
           aria-label={t("changeLanguage")}
         >
           <Globe className="h-4 w-4" />
@@ -38,13 +38,13 @@ export default function LanguageSwitcher() {
           <span className="sm:hidden">{getLocaleFlag(currentLocale)}</span>
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-48 p-2" align="end">
+      <PopoverContent className="w-48 p-2" align={`${currentLocale === "ar" ? "start" : "start"}`}>
         <div className="space-y-1">
           {locales.map((locale) => (
             <button
               key={locale}
               onClick={() => changeLocale(locale)}
-              className={`w-full flex items-center justify-between px-3 py-2 text-sm rounded-md transition-colors ${
+              className={`w-full flex items-center justify-between gap-2 px-3 py-2 text-sm rounded-md transition-colors ${
                 locale === currentLocale
                   ? "bg-primary text-primary-foreground"
                   : "hover:bg-muted"

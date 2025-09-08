@@ -1,75 +1,57 @@
 import { create } from "zustand";
-import { devtools } from "zustand/middleware";
-import type {
-  IndividualRegistrationState,
-  PersonalInfo,
+  
+import {
+  IndividualProfileState,
+  IndividualDocumentUpload,
 } from "../types/individual";
 
-export interface IndividualRegistrationStoreState
-  extends IndividualRegistrationState {
-  // UI-specific states
-  showPassword: boolean;
-  showConfirmPassword: boolean;
+export interface IndividualProfileStoreState extends IndividualProfileState {
+  // UI-specific file states
   nationalIdFile: File | null;
 
-  // Actions for UI states
-  setShowPassword: (show: boolean) => void;
-  setShowConfirmPassword: (show: boolean) => void;
+  // Actions for file states
   setNationalIdFile: (file: File | null) => void;
 
   // Form state management
-  setPersonalInfo: (info: PersonalInfo) => void;
-  setPhoneInfo: (info: PersonalInfo) => void;
-  setThirdPartyInfo: (info: PersonalInfo) => void;
+  setDocumentUpload: (info: IndividualDocumentUpload) => void;
+
+  // Loading and error management
+  setLoading: (loading: boolean) => void;
+  setError: (error: string | null) => void;
+  clearError: () => void;
 
   // Reset
-  resetForm: () => void;
+  resetProfile: () => void;
 }
 
-export const useIndividualRegistrationStore =
-  create<IndividualRegistrationStoreState>()(
-    devtools((set, get) => ({
-      // Initial state from IndividualRegistrationState
-      currentStep: "authMethod",
-      authMethod: null,
-      personalInfo: null,
-      phoneInfo: null,
-      thirdPartyInfo: null,
-      verificationCode: "",
-      isVerified: false,
-      isLoading: false,
-      error: null,
+export const useIndividualProfileStore = create<IndividualProfileStoreState>()(
+  (set) => ({
+    // Initial state from IndividualProfileState
+    documentUpload: null,
+    isLoading: false,
+    error: null,
 
-      // UI-specific states
-      showPassword: false,
-      showConfirmPassword: false,
-      nationalIdFile: null,
+    // UI-specific file states
+    nationalIdFile: null,
 
-      // Actions for UI states
-      setShowPassword: (show) => set({ showPassword: show }),
-      setShowConfirmPassword: (show) => set({ showConfirmPassword: show }),
-      setNationalIdFile: (file) => set({ nationalIdFile: file }),
+    // Actions for file states
+    setNationalIdFile: (file) => set({ nationalIdFile: file }),
 
-      // Form state management
-      setPersonalInfo: (info) => set({ personalInfo: info }),
-      setPhoneInfo: (info) => set({ phoneInfo: info }),
-      setThirdPartyInfo: (info) => set({ thirdPartyInfo: info }),
+    // Form state management
+    setDocumentUpload: (info) => set({ documentUpload: info }),
 
-      // Reset
-      resetForm: () =>
-        set({
-          currentStep: "authMethod",
-          authMethod: null,
-          personalInfo: null,
-          phoneInfo: null,
-          thirdPartyInfo: null,
-          verificationCode: "",
-          isVerified: false,
-          isLoading: false,
-          error: null,
-          showPassword: false,
-          showConfirmPassword: false,
-          nationalIdFile: null,
-        }),
-    }))
-  );
+    // Loading and error management
+    setLoading: (loading) => set({ isLoading: loading }),
+    setError: (error) => set({ error }),
+    clearError: () => set({ error: null }),
+
+    // Reset
+    resetProfile: () =>
+      set({
+        documentUpload: null,
+        isLoading: false,
+        error: null,
+        nationalIdFile: null,
+      }),
+  })
+);

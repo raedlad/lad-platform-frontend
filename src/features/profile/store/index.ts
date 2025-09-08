@@ -1,7 +1,7 @@
-export { useAuthStore } from "./profileStore";
-export { useIndividualRegistrationStore } from "./individualProfileStore";
-export { useContractorRegistrationStore } from "./contractorProfileStore";
-export { useEngineeringOfficeRegistrationStore } from "./engineeringOfficePeofileStore";
-export { useFreelanceEngineerRegistrationStore } from "./freelanceEngineerProfileStore";
-export { useInstitutionRegistrationStore } from "./institutionProfileStore";
-export { useSupplierRegistrationStore } from "./supplierProfileStore";
+export { useProfileStore } from "./profileStore";
+export { useIndividualProfileStore } from "./individualProfileStore";
+export { useOrganizationProfileStore } from "./organizationProfileStore";
+export { useFreelanceEngineerProfileStore } from "./freelanceEngineerProfileStore";
+export { useEngineeringOfficeProfileStore } from "./engineeringOfficePeofileStore";
+export { useContractorProfileStore } from "./contractorProfileStore";
+export { useSupplierProfileStore } from "./supplierProfileStore";

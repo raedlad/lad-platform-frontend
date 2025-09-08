@@ -14,11 +14,11 @@ export function OnboardingLayout({ children }: { children: React.ReactNode }) {
   const steps = roleFlowMeta[currentRole];
 
   return (
-    <div className="min-h-[93vh] grid grid-cols-1 lg:grid-cols-12 gap-2 p-2">
+    <div className="grid grid-cols-1 lg:grid-cols-12 gap-2 p-2">
       <div className="hidden lg:block lg:col-span-3 w-full ">
         <OnboardingStepper stepperSteps={steps} />
       </div>
-      <div className="lg:col-span-9 py-12 px-4 sm:px-6 lg:px-8  space-y-6 flex flex-col items-center justify-center">
+      <div className="lg:col-span-9 space-y-6 flex flex-col items-center justify-center">
         <OnboardingProgress total={steps.length} />
         <div className="w-full flex items-center justify-center max-w-md">
           {children}
