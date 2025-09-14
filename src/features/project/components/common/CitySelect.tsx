@@ -2,7 +2,7 @@
 
 import React, { useEffect, useMemo, useCallback, useState } from "react";
 import { useTranslations } from "next-intl";
-import {  Search, X } from "lucide-react";
+import { Search, X } from "lucide-react";
 import { Button } from "@/shared/components/ui/button";
 import {
   Popover,
@@ -46,12 +46,20 @@ export const CitySelect: React.FC<CitySelectProps> = React.memo(
     // Search state
     const [citySearchOpen, setCitySearchOpen] = useState(false);
 
-    // Load cities when country or state changes
+    // Load cities when country or state changes, but only if we don't have cities yet
     useEffect(() => {
-      if (selectedCountry) {
+      if (selectedCountry && (!cities || cities.length === 0)) {
+        console.log(
+          "🏙️ Loading cities for country:",
+          selectedCountry,
+          "state:",
+          selectedState
+        );
         loadCities(selectedCountry, selectedState);
+      } else if (cities && cities.length > 0) {
+        console.log("📦 Using cached cities from store");
       }
-    }, [selectedCountry, selectedState, loadCities]);
+    }, [selectedCountry, selectedState, loadCities, cities]);
 
     const handleCityChange = useCallback(
       (cityCode: string) => {
@@ -175,6 +183,12 @@ export const CitySelect: React.FC<CitySelectProps> = React.memo(
 
         const handleItemClick = React.useCallback(
           (item: { id: string | number; name: string }) => {
+            console.log("🏙️ City selected:", item.name, "ID:", item.id);
+            // Clear any pending blur timeout to prevent interference
+            if (blurTimeoutRef.current) {
+              clearTimeout(blurTimeoutRef.current);
+              blurTimeoutRef.current = null;
+            }
             onSelect(item.id.toString());
             setOpen(false);
             setSearchValue("");
@@ -204,7 +218,7 @@ export const CitySelect: React.FC<CitySelectProps> = React.memo(
             setOpen(false);
             setSearchValue("");
             setLocalFocusedIndex(-1);
-          }, 150);
+          }, 200);
         }, [setOpen, setSearchValue]);
 
         const handleOpenChange = React.useCallback(
@@ -251,7 +265,7 @@ export const CitySelect: React.FC<CitySelectProps> = React.memo(
                   variant="outline"
                   role="combobox"
                   aria-expanded={open}
-                  className="w-full justify-between"
+                  className="w-full justify-between h-full"
                   disabled={disabled}
                 >
                   <span className="truncate">
@@ -305,7 +319,14 @@ export const CitySelect: React.FC<CitySelectProps> = React.memo(
                         {filteredData.map((item, index) => (
                           <div
                             key={item.id}
-                            onClick={() => handleItemClick(item)}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              handleItemClick(item);
+                            }}
+                            onMouseDown={(e) => {
+                              e.preventDefault();
+                            }}
                             className={`relative flex select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-accent hover:text-accent-foreground cursor-pointer ${
                               index === localFocusedIndex
                                 ? "bg-accent text-accent-foreground"
@@ -334,7 +355,7 @@ export const CitySelect: React.FC<CitySelectProps> = React.memo(
             open={citySearchOpen}
             setOpen={setCitySearchOpen}
             placeholder={
-              placeholder || 
+              placeholder ||
               (cities && cities.length > 0
                 ? t("common.select.city")
                 : "Loading cities...")
@@ -358,7 +379,7 @@ export const CitySelect: React.FC<CitySelectProps> = React.memo(
             <div className="flex h-10 w-full items-center justify-center rounded-md border border-input bg-background px-3 py-2 text-sm">
               <span className="text-muted-foreground">
                 {cities && cities.length > 0
-                  ? (placeholder || t("common.select.city"))
+                  ? placeholder || t("common.select.city")
                   : "Loading cities..."}
               </span>
             </div>
@@ -372,4 +393,3 @@ export const CitySelect: React.FC<CitySelectProps> = React.memo(
 CitySelect.displayName = "CitySelect";
 
 export default CitySelect;
-

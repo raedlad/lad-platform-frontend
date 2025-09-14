@@ -3,6 +3,7 @@
 import { NextIntlClientProvider } from "next-intl";
 import { ReactNode, useEffect, useState } from "react";
 import { getLocaleFromClient, getTextDirection } from "@/i18n";
+import { useGlobalStore } from "@/shared/store/globalStore";
 
 interface I18nProviderProps {
   children: ReactNode;
@@ -12,9 +13,9 @@ interface I18nProviderProps {
 export const LOCALE_CHANGE_EVENT = "localeChange";
 
 export default function I18nProvider({ children }: I18nProviderProps) {
-  const [locale, setLocale] = useState<string>("en");
   const [messages, setMessages] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const {locale, setLocale } = useGlobalStore();
 
   // Function to update HTML attributes
   const updateHtmlAttributes = (newLocale: string) => {
@@ -28,9 +29,7 @@ export default function I18nProvider({ children }: I18nProviderProps) {
   const loadLocale = async (newLocale?: string) => {
     try {
       const currentLocale = newLocale || getLocaleFromClient();
-      setLocale(currentLocale);
-
-      // Update HTML attributes
+      setLocale(currentLocale);      // Update HTML attributes
       updateHtmlAttributes(currentLocale);
 
       // Dynamically import messages

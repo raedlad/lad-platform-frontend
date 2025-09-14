@@ -1,9 +1,7 @@
 import { Metadata } from "next";
 import { AppSidebar } from "@/components/dashboard/nav/AppSidebar";
-
-import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
-import { SiteHeader } from "@/components/dashboard/nav/SiteHeader";
 import RequireAuth from "@/features/auth/components/RequireAuth";
+import DashboardHeader from "@/components/dashboard/nav/DashboardHeader";
 
 export const metadata: Metadata = {
   title: "Dashboard",
@@ -17,20 +15,21 @@ interface DashboardLayoutProps {
 export default function DashboardLayout({ children }: DashboardLayoutProps) {
   return (
     <RequireAuth>
-      <SidebarProvider
-        style={
-          {
-            "--sidebar-width": "calc(var(--spacing) * 72)",
-            "--header-height": "calc(var(--spacing) * 12)",
-          } as React.CSSProperties
-        }
-      >
-        <AppSidebar variant="inset" />
-        <SidebarInset>
-          <SiteHeader />
-          {children}
-        </SidebarInset>
-      </SidebarProvider>
+      <div className="flex h-screen overflow-hidden">
+        {/* Sidebar - Handles both desktop and mobile */}
+        <AppSidebar />
+
+        {/* Main content area */}
+        <div className="flex flex-col flex-1 min-w-0 overflow-hidden">
+          {/* Header */}
+          <DashboardHeader />
+
+          {/* Main content */}
+          <main className="flex-1 overflow-auto">
+            <div className="p-4 lg:p-6 max-w-7xl mx-auto">{children}</div>
+          </main>
+        </div>
+      </div>
     </RequireAuth>
   );
 }

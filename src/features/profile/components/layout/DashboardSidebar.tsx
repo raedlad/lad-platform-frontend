@@ -95,7 +95,8 @@ export function DashboardSidebar() {
         {navigation.map((item) => {
           const isActive =
             pathname === item.href ||
-            (item.href !== "/dashboard" && pathname.startsWith(item.href));
+            (item.href !== "/dashboard" &&
+              pathname.startsWith(item.href + "/"));
 
           return (
             <Link key={item.name} href={item.href}>
@@ -119,7 +120,8 @@ export function DashboardSidebar() {
         {bottomNavigation.map((item) => {
           const isActive =
             pathname === item.href ||
-            (pathname.startsWith(item.href) && item.href !== "/dashboard");
+            (item.href !== "/dashboard" &&
+              pathname.startsWith(item.href + "/"));
 
           return (
             <Link key={item.name} href={item.href}>

@@ -3,6 +3,7 @@ import "./globals.css";
 import ThemeProvider from "@shared/components/ThemeProvider";
 import AuthProvider from "@/features/auth/provider/AuthProvider";
 import I18nProvider from "@/components/I18nProvider";
+import DirectionProvider from "@shared/components/DirectionProvider";
 import { getServerLocale, getTextDirection } from "@/lib/server-locale";
 
 export const metadata: Metadata = {
@@ -23,7 +24,9 @@ export default async function RootLayout({
       <body>
         <I18nProvider>
           <ThemeProvider>
-            <AuthProvider>{children}</AuthProvider>
+            <DirectionProvider>
+              <AuthProvider>{children}</AuthProvider>
+            </DirectionProvider>
           </ThemeProvider>
         </I18nProvider>
       </body>

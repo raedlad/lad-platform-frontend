@@ -1,55 +1,55 @@
 "use client";
-
-import * as React from "react";
-
-import { NavMain } from "@/components/dashboard/nav/NavMain";
-import { NavSecondary } from "@/components/dashboard/nav/NavSecondary";
-import NavUser from "@/components/dashboard/nav/NavUser";
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarFooter,
-  SidebarHeader,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-} from "@/components/ui/sidebar";
-import { useAuthStore } from "@/features/auth/store/authStore";
-import { roleNav, secondaryNav, sharedNav } from "./navConfig";
+import NavUser from "./NavUser";
+import NavMain from "./NavMain";
+import { useGlobalStore } from "@/shared/store/globalStore";
 import { useEffect } from "react";
 
+export function AppSidebar() {
+  const { isSidebarOpen, setIsSidebarOpen } = useGlobalStore();
 
+  // Close sidebar on escape key
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setIsSidebarOpen(false);
+      }
+    };
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const { currentRole } = useAuthStore();
+    document.addEventListener("keydown", handleEscape);
+    return () => document.removeEventListener("keydown", handleEscape);
+  }, [setIsSidebarOpen]);
 
-  const mainNavItems = [
-    ...(roleNav[currentRole as keyof typeof roleNav] || []),
-  ];
   return (
-    <Sidebar collapsible="offcanvas" {...props}>
-      <SidebarHeader>
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton
-              asChild
-              className="data-[slot=sidebar-menu-button]:!p-1.5"
-            >
-              <a href="#">
-                {/* <IconInnerShadowTop className="!size-5" /> */}
-                <span className="text-base font-semibold">LAD inc</span>
-              </a>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        </SidebarMenu>
-      </SidebarHeader>
-      <SidebarContent>
-        <NavMain items={mainNavItems} />
-        <NavSecondary className="mt-auto" />
-      </SidebarContent>
-      <SidebarFooter>
-        <NavUser />
-      </SidebarFooter>
-    </Sidebar>
+    <>
+      {/* Mobile overlay */}
+      {isSidebarOpen && (
+        <div
+          className="fixed inset-0 bg-opacity-50 z-40 lg:hidden"
+          onClick={() => setIsSidebarOpen(false)}
+        />
+      )}
+
+      {/* Sidebar */}
+      <div
+        className={`
+          fixed lg:relative inset-y-0 left-0 z-50 lg:z-auto
+          w-72 sm:w-80 bg-design-secondary text-white
+          transform transition-transform duration-300 ease-in-out
+          ${
+            isSidebarOpen
+              ? "translate-x-0"
+              : "-translate-x-full lg:translate-x-0"
+          }
+          flex flex-col shadow-xl lg:shadow-none
+        `}
+      >
+        <div className="flex flex-col gap-4 py-4 px-4 lg:px-6 h-full overflow-y-auto">
+          <NavUser />
+          <div className="flex-1">
+            <NavMain />
+          </div>
+        </div>
+      </div>
+    </>
   );
 }

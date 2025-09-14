@@ -111,7 +111,10 @@ export function NavSecondary({
 
           {/* Help Navigation Link */}
           <SidebarMenuItem>
-            <SidebarMenuButton asChild isActive={pathname === "/help"}>
+            <SidebarMenuButton
+              asChild
+              isActive={pathname === "/help" || pathname.startsWith("/help/")}
+            >
               <a href="/help">
                 <HelpCircle className="h-4 w-4" />
                 <span>Get Help</span>

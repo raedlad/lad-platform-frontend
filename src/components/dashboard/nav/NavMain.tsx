@@ -1,67 +1,80 @@
 "use client";
-
-import {
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-  useSidebar,
-} from "@/components/ui/sidebar";
-
+import React from "react";
+import { roleNav } from "./navConfig";
 import Link from "next/link";
+import Image from "next/image";
+import { useTranslations } from "next-intl";
 import { usePathname } from "next/navigation";
-import { type LucideIcon } from "lucide-react";
+import { twMerge } from "tailwind-merge";
+import { useGlobalStore } from "@/shared/store/globalStore";
 
-export function NavMain({
-  items,
-}: {
-  items: {
-    title: string;
-    url: string;
-    icon?: LucideIcon;
-  }[];
-}) {
+const NavMain = () => {
+  const t = useTranslations();
   const pathname = usePathname();
-  const { isMobile, setOpenMobile, setOpen } = useSidebar();
+  const renderIcon = (icon: any) => {
+    // Check if it's a React component (Lucide icons)
+    if (typeof icon === "function" || (icon && icon.$$typeof)) {
+      const IconComponent = icon;
+      return <IconComponent className="h-6 w-6" />;
+    }
+
+    // Check if it's an SVG asset object
+    if (icon && typeof icon === "object" && icon.src) {
+      return (
+        <Image
+          src={icon.src}
+          alt="icon"
+          width={16}
+          height={16}
+          className=" h-6 w-6"
+        />
+      );
+    }
+
+    // Fallback for other cases
+    return null;
+  };
 
   return (
-    <SidebarGroup>
-      <SidebarGroupContent className="flex flex-col gap-2">
-        <SidebarMenu className="gap-2">
-          {items.map((item) => {
-            const isActive = pathname === item.url;
-
-            return (
-              <SidebarMenuItem
-                className="flex items-center gap-2"
-                key={item.title}
+    <nav className="flex flex-col gap-1">
+      {roleNav.individual.map((item) => {
+        const isActive =
+          item.url === "/dashboard/individual"
+            ? pathname === item.url
+            : pathname === item.url || pathname.startsWith(item.url + "/");
+        return (
+          <Link
+            key={item.title}
+            href={item.url}
+            className={`p-3 flex items-center gap-3 transition-all duration-200 rounded-lg mx-2 ${
+              isActive
+                ? "bg-white text-gray-900 shadow-sm"
+                : "text-white hover:bg-white/10 hover:text-white"
+            }`}
+            onClick={() => {
+              // Close sidebar on mobile when navigating
+              if (window.innerWidth < 1024) {
+                const { setIsSidebarOpen } = useGlobalStore.getState();
+                setIsSidebarOpen(false);
+              }
+            }}
+          >
+            <div className="flex-shrink-0">{renderIcon(item.icon)}</div>
+            <div className="flex-1 min-w-0">
+              <span
+                className={twMerge(
+                  "text-sm lg:text-base font-medium truncate",
+                  isActive && "font-semibold"
+                )}
               >
-                <SidebarMenuButton
-                  asChild
-                  isActive={isActive}
-                  tooltip={item.title}
-                  className=" data-[active=true]:bg-primary data-[active=true]:font-semibold data-[active=true]:text-primary-foreground"
-                >
-                  <Link
-                    href={item.url}
-                    onClick={() => {
-                      if (isMobile) {
-                        setOpenMobile(false);
-                      } else {
-                        setOpen(false);
-                      }
-                    }}
-                  >
-                    {item.icon && <item.icon />}
-                    <span>{item.title}</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            );
-          })}
-        </SidebarMenu>
-      </SidebarGroupContent>
-    </SidebarGroup>
+                {t(item.title)}
+              </span>
+            </div>
+          </Link>
+        );
+      })}
+    </nav>
   );
-}
+};
+
+export default NavMain;

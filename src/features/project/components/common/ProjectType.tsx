@@ -1,10 +1,25 @@
 "use client";
-import { Select, SelectItem, SelectContent, SelectTrigger, SelectValue } from '@/shared/components/ui/select'
-import React, { useEffect } from 'react'
-import { useProjectStore } from '@/features/project/store/projectStore'
-import { projectApi } from '../../services/projectApi';
+import {
+  Select,
+  SelectItem,
+  SelectContent,
+  SelectTrigger,
+  SelectValue,
+} from "@/shared/components/ui/select";
+import React, { useEffect } from "react";
+import { useProjectStore } from "@/features/project/store/projectStore";
+import { projectApi } from "../../services/projectApi";
+import { cn } from "@/lib/utils";
 
-const ProjectType = ({ onSelect }: { onSelect: (value: number) => void }) => {
+const ProjectType = ({
+  onSelect,
+  className,
+  value,
+}: {
+  onSelect: (value: number) => void;
+  className?: string;
+  value?: number;
+}) => {
   const { projectTypes, setProjectTypes } = useProjectStore();
   useEffect(() => {
     if (projectTypes) return;
@@ -17,19 +32,24 @@ const ProjectType = ({ onSelect }: { onSelect: (value: number) => void }) => {
     fetchProjectTypes();
   }, []);
   return (
-    <Select onValueChange={(value) => {
+    <Select
+      value={value?.toString()}
+      onValueChange={(value) => {
         onSelect(parseInt(value));
-    }} >
-        <SelectTrigger className='w-full'>
-            <SelectValue placeholder="Select a project type" className='w-full'/>
-        </SelectTrigger>
-        <SelectContent className='w-full'>
-            {projectTypes?.map((projectType) => (
-                <SelectItem key={projectType.id} value={projectType.id.toString()}>{projectType.name}</SelectItem>
-            ))}
-        </SelectContent>
+      }}
+    >
+      <SelectTrigger className={cn("w-full !h-10", className)}>
+        <SelectValue />
+      </SelectTrigger>
+      <SelectContent className="w-full ">
+        {projectTypes?.map((projectType) => (
+          <SelectItem key={projectType.id} value={projectType.id.toString()}>
+            {projectType.name}
+          </SelectItem>
+        ))}
+      </SelectContent>
     </Select>
-  )
-}
+  );
+};
 
-export default ProjectType
+export default ProjectType;

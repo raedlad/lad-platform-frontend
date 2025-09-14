@@ -8,6 +8,9 @@ import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 import LanguageSwitcher from "./LanguageSwitcher";
 import { ThemeToggle } from "@/shared/components/ThemeToggle";
+import { assets } from "@/constants/assets";
+import Image from "next/image";
+import { usePathname } from "next/navigation";
 
 export default function Header() {
   const [menuState, setMenuState] = React.useState(false);
@@ -15,9 +18,11 @@ export default function Header() {
 
   const t = useTranslations("Header");
   const menuItems = [
-    { name: t("features"), href: "#link" },
-    { name: t("pricing"), href: "#link" },
-    { name: t("about"), href: "#link" },
+    { name: t("home"), href: "/" },
+    { name: t("aboutus"), href: "/" },
+    { name: t("services"), href: "/" },
+    { name: t("contactus"), href: "/" },
+    { name: t("login"), href: "/" },
   ];
   React.useEffect(() => {
     const handleScroll = () => {
@@ -26,21 +31,24 @@ export default function Header() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+  const active = usePathname();
+  const isHome = active === "/home";
   return (
     <header>
       <nav
         data-state={menuState && "active"}
         className={cn(
-          "fixed z-20 w-full transition-all duration-300",
+          "fixed z-50 w-full transition-all duration-300",
           isScrolled &&
-            "bg-background/75 border-b border-black/5 backdrop-blur-lg"
+            "bg-background/75 border-b border-black/5 backdrop-blur-lg",
+          isHome && !isScrolled && "text-white"
         )}
       >
         <div className="mx-auto max-w-5xl px-6">
           <div
             className={cn(
-              "relative flex flex-wrap items-center justify-between gap-6 py-6 transition-all duration-200 lg:gap-0",
-              isScrolled && "py-3"
+              "relative flex flex-wrap items-center justify-between gap-6  transition-all duration-200 lg:gap-0",
+              isScrolled && "py-0"
             )}
           >
             <div className="flex w-full justify-between gap-6 lg:w-auto">
@@ -49,7 +57,13 @@ export default function Header() {
                 aria-label="home"
                 className="flex items-center space-x-2"
               >
-                <Logo />
+                <Image
+                  src={assets.logo}
+                  alt="logo"
+                  width={100}
+                  height={100}
+                  className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24"
+                />
               </Link>
 
               <button
@@ -60,13 +74,19 @@ export default function Header() {
                 <Menu className="in-data-[state=active]:rotate-180 in-data-[state=active]:scale-0 in-data-[state=active]:opacity-0 m-auto size-6 duration-200" />
                 <X className="in-data-[state=active]:rotate-0 in-data-[state=active]:scale-100 in-data-[state=active]:opacity-100 absolute inset-0 m-auto size-6 -rotate-180 scale-0 opacity-0 duration-200" />
               </button>
-
               <div className="m-auto hidden size-fit lg:block">
                 <ul className="flex gap-1">
                   {menuItems.map((item, index) => (
                     <li key={index}>
                       <Button asChild variant="ghost" size="sm">
-                        <Link href={item.href} className="text-base">
+                        <Link
+                          href={item.href}
+                          className={cn(
+                            "text-base transition-all duration-200 hover:text-design-main relative hover:bg-transparent",
+                            active === item.href &&
+                              " font-semibold after:absolute after:-bottom-1 after:left-0 after:w-full after:h-1 after:bg-design-main after:rounded-full after:animate-[slideIn_0.3s_ease-out]"
+                          )}
+                        >
                           <span>{item.name}</span>
                         </Link>
                       </Button>
@@ -76,14 +96,17 @@ export default function Header() {
               </div>
             </div>
 
-            <div className="bg-background in-data-[state=active]:block lg:in-data-[state=active]:flex mb-6 hidden w-full flex-wrap items-center justify-end space-y-8 rounded-3xl border p-6 shadow-2xl shadow-zinc-300/20 md:flex-nowrap lg:m-0 lg:flex lg:w-fit lg:gap-6 lg:space-y-0 lg:border-transparent lg:bg-transparent lg:p-0 lg:shadow-none dark:shadow-none dark:lg:bg-transparent">
+            <div className="bg-background/90 text-foreground backdrop-blur-lg in-data-[state=active]:block lg:in-data-[state=active]:flex mb-6 hidden w-full flex-wrap items-center justify-end space-y-8 rounded-3xl border p-6 shadow-2xl shadow-zinc-300/20 md:flex-nowrap lg:m-0 lg:flex lg:w-fit lg:gap-6 lg:space-y-0 lg:border-transparent lg:bg-transparent lg:p-0 lg:shadow-none dark:shadow-none dark:lg:bg-transparent">
               <div className="lg:hidden">
                 <ul className="space-y-6 text-base">
                   {menuItems.map((item, index) => (
                     <li key={index}>
                       <Link
                         href={item.href}
-                        className="text-muted-foreground hover:text-accent-foreground block duration-150"
+                        className={cn(
+                          "hover:text-design-main block duration-200 transition-all py-2 px-3 rounded-lg relative",
+                          active === item.href && "text-design-main"
+                        )}
                       >
                         <span>{item.name}</span>
                       </Link>
@@ -91,35 +114,28 @@ export default function Header() {
                   ))}
                 </ul>
               </div>
+
               <div className="flex w-full flex-col space-y-3 sm:flex-row sm:gap-3 sm:space-y-0 md:w-fit">
-                <LanguageSwitcher />
-                <ThemeToggle />
                 <Button
                   asChild
-                  variant="ghost"
+                  variant="outline"
                   size="sm"
-                  className={cn(isScrolled && "lg:hidden")}
+                  className={cn("h-10 rounded-full px-6 bg-transparent", isHome && !isScrolled && "text-white")}
+                >
+                  <Link href="/browse">
+                    <span>{t("browse")}</span>
+                  </Link>
+                </Button>
+                <Button
+                  asChild
+                  size="sm"
+                  className={cn(
+                    isScrolled && "lg:hidden",
+                    "h-10 rounded-full px-6 text-white"
+                  )}
                 >
                   <Link href="/login">
                     <span>{t("login")}</span>
-                  </Link>
-                </Button>
-                <Button
-                  asChild
-                  size="sm"
-                  className={cn(isScrolled && "lg:hidden")}
-                >
-                  <Link href="/signup">
-                    <span>{t("signup")}</span>
-                  </Link>
-                </Button>
-                <Button
-                  asChild
-                  size="sm"
-                  className={cn(isScrolled ? "lg:inline-flex" : "hidden")}
-                >
-                  <Link href="#">
-                    <span>{t("getStarted")}</span>
                   </Link>
                 </Button>
               </div>
@@ -129,4 +145,4 @@ export default function Header() {
       </nav>
     </header>
   );
-};
+}

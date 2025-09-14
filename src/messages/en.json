@@ -6,6 +6,7 @@
       "continue": "Continue",
       "back": "Back",
       "next": "Next",
+      "previous": "Previous",
       "cancel": "Cancel",
       "save": "Save",
       "edit": "Edit",
@@ -22,7 +23,12 @@
     "select": {
       "country": "Select Country",
       "state": "Select State",
-      "city": "Select City"
+      "city": "Select City",
+      "duration": "Select Duration",
+      "day": "Day",
+      "week": "Week",
+      "month": "Month",
+      "year": "Year"
     },
     "ui": {
       "search": "Search",
@@ -38,30 +44,91 @@
 
   "Header": {
     "l": "L",
-    "logo": "LAD",
-    "features": "Features",
-    "pricing": "Pricing",
-    "about": "About",
-    "login": "Login",
-    "signup": "Sign up",
-    "getStarted": "Get Started"
+    "logo": "شركة لاد للمقاولات",
+    "browse": "Browse Projects",
+    "home": "Home",
+    "aboutus": "About Us",
+    "services": "Services",
+    "contactus": "Contact Us",
+    "login": "Login"
   },
+
   "hero": {
-    "title": "Build Smarter. Connect Faster. Grow Bigger.",
-    "description": "A unified platform for contractors, engineers, suppliers, and individuals to collaborate, find opportunities, and deliver success.",
-    "createAccount": "Create Account",
-    "login": "Login",
+    "title": "Your project starts with LAD...",
+    "title2": "Where clients meet a select group of contractors and engineers",
+    "description": "We provide you with a secure and professional space that connects you directly with the best specialized contractors and engineers in all fields. Easily request your project, transparently compare bids and prices, and choose the most suitable option to execute your idea with the highest quality and least effort. LAD... your trusted partner to build your projects with confidence and peace of mind.",
+    "createAccount": "Create an account",
+    "login": "Log in",
     "partners": "Trusted partners"
   },
+
   "features": {
-    "title": "Built for Legal, Architecture & Design Professionals",
-    "description": " A unified platform that empowers individuals, firms, and contractors to collaborate and grow.",
-    "legalConsultancy": "Legal Consultancy",
-    "legalConsultancyDescription": "access expert legal services, compliance tools, and documentation support tailored to your sector.",
-    "architectureEngineering": "Architecture & Engineering",
-    "architectureEngineeringDescription": "Tools and collaboration features for engineers, contractors, and design offices to deliver projects efficiently.",
-    "openMarketWorkflow": "Open Market & Workflow",
-    "openMarketWorkflowDescription": "A seamless marketplace to connect suppliers, freelancers, and clients with AI-powered project tracking."
+    "title": "Diverse Features and Endless Possibilities",
+    "description": "A unified platform that enables individuals, companies, and contractors to collaborate and grow.",
+    "feature1": "Accountability",
+    "feature1Description": "We provide you with a reliable database of contractors in various fields, with ratings and reviews from previous clients to help you choose the best fit for your project.",
+    "feature2": "Project Coordination and Organization",
+    "feature2Description": "We follow up on project stages and coordinate between the client and the contractor, ensuring clear requirements and deadlines for delivering high-quality work.",
+    "feature3": "Contract and Payment Management",
+    "feature3Description": "We help you draft contracts and guarantee the rights of all parties, in addition to managing payment processes in a safe and reliable way."
+  },
+  "aboutUs": {
+    "title": "Everything About LAD",
+    "description": "Our company aims to achieve customer satisfaction where our strategy and policies are the constant pursuit of customer satisfaction in the execution of our projects in terms of quality, deadlines, and during the project implementation stages."
+  },
+
+  "howItWorks": {
+    "title": "How does LAD work ?",
+    "description": "After creating your user account, you can upload your project details. The site will then match your request with qualified contractors and display the offers submitted to you. You can compare bids and negotiate with contractors.",
+    "watchVideo": "Watch the video now",
+    "step1": "Define your project",
+    "step1Description": "Choose the type of service you need and add your project details with photos and the expected budget.",
+    "step2": "Receive offers",
+    "step2Description": "Qualified contractors will submit their competitive and professional offers for your project.",
+    "step3": "Choose a contractor",
+    "step3Description": "Review the offers and previous ratings, then choose the contractor that best fits your needs.",
+    "step4": "Project execution",
+    "step4Description": "Follow the project's execution step by step with contractor ratings and full"
+  },
+
+  "browseProjects": {
+    "title": "Browse Projects",
+    "viewAll": "View All",
+    "name": "Ahmed Construction Company for General Construction",
+    "location": "Najran, Saudi Arabia",
+    "badge": "Experienced Contractor",
+    "sales": "+50 Sales",
+    "type": "Specialized Type",
+    "company": "Construction Company",
+    "specialization": "Specialization",
+    "specializationType": "Interior Construction",
+    "desc": "Description",
+    "description": "Experienced contractor with over 15 years of experience in general construction. Specialized in project execution.",
+    "conbutton": "Contact Now",
+    "viewMore": "View More",
+    "viewAllOffers": "View All Offers"
+  },
+  "appFeatures": {
+    "title": "App Features",
+    "description": "Browse contractor profiles and ratings to choose the best fit for your project.",
+    "feature1": "ISO and Android version",
+    "feature1Description": "Available on all stores and can be downloaded easily",
+    "feature2": "24/7 support",
+    "feature2Description": "24/7 support and complete customer support",
+    "feature3": "Secure and reliable payment",
+    "feature3Description": "Secure and reliable payment and can be paid easily",
+    "feature4": "Beautiful user interface",
+    "feature4Description": "Easy browsing with easy use and can review notifications and offers easily"
+  },
+  "downloadApp": {
+    "title": "Download the LAD app",
+    "googlePlay": "Google Play",
+    "googlePlayGetIt": "GET IT ON",
+    "appleStore": "Apple Store",
+    "appleStoreGetIt": "Download on the",
+    "like": "Like",
+    "download": "Download",
+    "review": "Review"
   },
 
   "testimonials": {
@@ -86,6 +153,21 @@
       "quote": "Finding the right contractor for my home project was easy with LAD. The process was clear, fast, and transparent.",
       "name": "Sara Mohamed",
       "role": "Individual Client"
+    },
+    "testimonial5": {
+      "quote": "Thanks to LAD, I expanded my business and started supplying materials directly to contractors and offices. The platform saves time and builds trust.",
+      "name": "Hassan Ali",
+      "role": "Building Materials Supplier"
+    },
+    "testimonial6": {
+      "quote": "Finding the right contractor for my home project was easy with LAD. The process was clear, fast, and transparent.",
+      "name": "Sara Mohamed",
+      "role": "Individual Client"
+    },
+    "testimonial7": {
+      "quote": "Thanks to LAD, I expanded my business and started supplying materials directly to contractors and offices. The platform saves time and builds trust.",
+      "name": "Hassan Ali",
+      "role": "Building Materials Supplier"
     }
   },
   "cta": {
@@ -95,13 +177,28 @@
 
   "footer": {
     "copyright": "© {year} LAD, All rights reserved",
-    "links": {
-      "features": "Features",
-      "solutions": "Solutions",
-      "marketplace": "Marketplace",
-      "pricing": "Pricing",
-      "help": "Help & Support",
-      "about": "About LAD"
+    "description": "Connecting construction professionals with quality projects and opportunities across the region.",
+    "social": {
+      "follow": "Follow Us",
+      "instagram": "Instagram",
+      "facebook": "Facebook",
+      "twitter": "X (Twitter)"
+    },
+    "quickLinks": {
+      "title": "Quick Links",
+      "home": "Home",
+      "about": "About Us",
+      "projects": "Projects",
+      "contact": "Contact",
+      "help": "Help & Support"
+    },
+    "company": {
+      "title": "Company",
+      "privacy": "Privacy Policy",
+      "terms": "Terms of Service",
+      "careers": "Careers",
+      "blog": "Blog",
+      "news": "News"
     }
   },
 
@@ -340,13 +437,14 @@
   },
 
   "navigation": {
-    "home": "Home",
     "dashboard": "Dashboard",
-    "profile": "Profile",
-    "settings": "Settings",
-    "help": "Help",
-    "about": "About",
-    "contact": "Contact"
+    "projects": "My Projects",
+    "offers": "Received Offers",
+    "contracts": "Active Contracts",
+    "payments": "Payments & Invoices",
+    "materials": "Request Building Materials",
+    "messages": "Messages",
+    "reviews": "Reviews"
   },
 
   "dashboard": {
@@ -362,16 +460,45 @@
       "verificationsComplete": "Verifications Complete",
       "accountStatus": "Account Status"
     },
-    "quickActions": {
-      "title": "Quick Actions",
-      "editProfile": "Edit Profile",
-      "uploadDocument": "Upload Document",
-      "viewProjects": "View Projects",
-      "manageSettings": "Manage Settings"
+    "navigation": {
+      "dashboard": "Dashboard",
+      "projects": "My Projects",
+      "offers": "Received Offers",
+      "contracts": "Active Contracts",
+      "payments": "Payments & Invoices",
+      "materials": "Request Building Materials",
+      "messages": "Messages",
+      "reviews": "Reviews"
     },
-    "recentActivity": {
-      "title": "Recent Activity",
-      "noActivity": "No recent activity"
+    "individual": {
+      "welcome": "Welcome back, {name}!",
+      "description": "Here's a look at your recent projects",
+      "quickActions": {
+        "createProject": {
+          "description": "Create your project now with ease and receive great offers at the lowest prices.",
+          "button": "New Project"
+        },
+        "requestMaterials": {
+          "description": "Order building materials now with the best quality, in the fastest time, and with complete ease.",
+          "button": "Request Services / Materials"
+        }
+      },
+      "statistics": {
+        "activeProjects": "Active Projects",
+        "activeProjectsCount": " +{count} this month",
+        "receivedOffers": "Received Offers",
+        "receivedOffersCount": " {count} Pending",
+        "signedContracts": "Signed Contracts",
+        "signedContractsCount": " {count} Completed"
+      },
+      "recentProjects": {
+        "title": "Recent Projects",
+        "noProjects": "No projects",
+        "viewAll": "View All",
+        "allProjects": "All Projects",
+        "activeProjects": "Viewed Recently",
+        "completedProjects": "Completed Projects"
+      }
     }
   },
 
@@ -505,6 +632,40 @@
       "privacy": "Privacy",
       "dataManagement": "Data Management",
       "dangerZone": "Danger Zone"
+    }
+  },
+  "project": {
+    "title": "Create New Project",
+    "description": "Follow the steps below to create your new project and send it to the appropriate contractors",
+    "step1": {
+      "title": "Essential Information",
+      "name": "Project Name",
+      "namePlaceholder": "Enter project name",
+      "type": "Project Type",
+      "typePlaceholder": "Select project type",
+      "city": "City",
+      "cityPlaceholder": "Select project city",
+      "district": "District",
+      "districtPlaceholder": "Select project district",
+      "location": "Location",
+      "locationPlaceholder": "Enter project location",
+      "budget": "Budget",
+      "budgetPlaceholder": "Enter project budget",
+      "duration": "Duration",
+      "durationPlaceholder": "Enter project duration",
+      "area_sqm": "Area (sqm)",
+      "area_sqmPlaceholder": "Enter area (sqm)",
+      "description": "Description",
+      "descriptionPlaceholder": "Enter project description"
+    },
+    "step2": {
+      "title": "Select Executing Entity",
+      "contractorType": "Contractor Type",
+      "jobSelect": "Select Contractor Type",
+      "jobLoading": "Loading contractor types...",
+      "contractorLevel": "Contractor Classification",
+      "workType": "Work Type",
+      "notes": "Special Requirements"
     }
   },
 
@@ -657,31 +818,52 @@
         "minLength": "Contact person full name must be at least 2 characters"
       },
       "projectName": {
+        "required": "Project name is required",
         "minLength": "Project name must be at least 2 characters"
       },
       "projectType": {
+        "required": "Please select project type",
         "minLength": "Project type must be at least 2 characters"
       },
+      "city": {
+        "required": "Please select city",
+        "minLength": "City must be at least 2 characters"
+      },
+      "district": {
+        "required": "Please enter project district",
+        "minLength": "District must be at least 2 characters"
+      },
       "location": {
+        "required": "Please enter project location",
         "minLength": "Location must be at least 2 characters"
       },
       "budget": {
+        "required": "Please enter project budget",
         "minLength": "Budget must be at least 2 characters"
       },
       "duration": {
+        "required": "Please enter project duration",
         "minLength": "Duration must be at least 2 characters"
       },
-      "duration_unit": {
-        "minLength": "Duration unit must be at least 2 characters"
-      },
       "area_sqm": {
+        "required": "Please enter project area",
         "minLength": "Area must be at least 2 characters"
       },
       "description": {
+        "required": "Please enter project description",
         "minLength": "Description must be at least 2 characters"
       },
-      "budget_unit": {
-        "minLength": "Budget unit must be at least 2 characters"
+      "jobId": {
+        "required": "Please select job"
+      },
+      "levelId": {
+        "required": "Please select level"
+      },
+      "workTypeId": {
+        "required": "Please select work type"
+      },
+      "notes": {
+        "minLength": "Notes must be at least 2 characters"
       }
     }
   },

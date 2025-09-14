@@ -4,6 +4,13 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
+  /* design */
+  --design-main: #ac8852;
+  --design-main-dark: #794f10;
+  --design-secondary: #0d123d;
+  --design-tertiary: #afafaf;
+  --design-gray: #767373;
+  --design-green: #05a718;
   /* Primary */
   --p-1: #faf4e0;
   --p-2: #f6e8c3;
@@ -99,7 +106,7 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
-  --background: oklch(98.5% 0.002 247.839);
+  --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
 }
 
@@ -109,7 +116,16 @@
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 
+  /* Design */
+  --color-design-main: var(--design-main);
+  --color-design-main-dark: var(--design-main-dark);
+  --color-design-secondary: var(--design-secondary);
+  --color-design-tertiary: var(--design-tertiary);
+  --color-design-gray: var(--design-gray);
+  --color-design-green: var(--design-green);
+
   /* Primary */
+
   --color-p-1: var(--p-1);
   --color-p-2: var(--p-2);
   --color-p-3: var(--p-3);
@@ -210,39 +226,53 @@
 }
 
 @font-face {
-  font-family: Cairo;
-  src: url("/fonts/Cairo-Light.woff2") format("woff2");
+  font-family: "Tajawal";
+  src: url("/fonts/Tajawal-ExtraLight.woff2") format("woff2");
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Tajawal";
+  src: url("/fonts/Tajawal-Light.woff2") format("woff2");
   font-weight: 300;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: Cairo;
-  src: url("/fonts/Cairo-Regular.woff2") format("woff2");
+  font-family: "Tajawal";
+  src: url("/fonts/Tajawal-Regular.woff2") format("woff2");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
-  font-family: Cairo;
-  src: url("/fonts/Cairo-Medium.woff2") format("woff2");
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: Cairo;
-  src: url("/fonts/Cairo-SemiBold.woff2") format("woff2");
-  font-weight: 600;
+  font-family: "Tajawal";
+  src: url("/fonts/Tajawal-Medium.woff2") format("woff2");
+  font-weight: 500, 600;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: Cairo;
-  src: url("/fonts/Cairo-Bold.woff2") format("woff2");
+  font-family: "Tajawal";
+  src: url("/fonts/Tajawal-Bold.woff2") format("woff2");
   font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Tajawal";
+  src: url("/fonts/Tajawal-ExtraBold.woff2") format("woff2");
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Tajawal";
+  src: url("/fonts/Tajawal-Black.woff2") format("woff2");
+  font-weight: 900;
   font-style: normal;
   font-display: swap;
 }
@@ -251,7 +281,7 @@ body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: Cairo, sans-serif;
+  font-family: "Tajawal", sans-serif;
 }
 
 .dark {
@@ -618,7 +648,7 @@ body {
   }
 
   .form-item-vertical {
-    @apply flex flex-col;
+    @apply flex flex-col !space-y-2;
   }
 
   .form-message-min-height {
@@ -733,6 +763,57 @@ body {
   .text-green-600 {
     @apply text-green-600;
   }
+
+  /* Scrollbar Utilities */
+  .no-scrollbar {
+    -ms-overflow-style: none; /* Internet Explorer 10+ */
+    scrollbar-width: none; /* Firefox */
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none; /* Safari and Chrome */
+  }
+
+  /* Shimmer Loading Utilities */
+  .shimmer-skeleton {
+    @apply bg-gradient-to-r from-muted via-muted/50 to-muted;
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+  }
+
+  .dark .shimmer-skeleton {
+    @apply bg-gradient-to-r from-muted via-muted/30 to-muted;
+  }
+
+  @keyframes shimmer {
+    0% {
+      background-position: -200% 0;
+    }
+    100% {
+      background-position: 200% 0;
+    }
+  }
+
+  @keyframes slideIn {
+    0% {
+      transform: scaleX(0);
+      opacity: 0;
+    }
+    100% {
+      transform: scaleX(1);
+      opacity: 1;
+    }
+  }
+
+  @keyframes slideInVertical {
+    0% {
+      transform: scaleY(0);
+      opacity: 0;
+    }
+    100% {
+      transform: scaleY(1);
+      opacity: 1;
+    }
+  }
 }
 
 @layer base {
@@ -743,4 +824,3 @@ body {
     @apply bg-background text-foreground;
   }
 }
-

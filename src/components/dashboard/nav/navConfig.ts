@@ -9,34 +9,47 @@ import {
   HelpCircle,
   Search,
 } from "lucide-react";
-
-// Shared navigation items that appear for all roles
-export const sharedNav = [
-  {
-    title: "Notifications",
-    url: "/dashboard/notifications", // Generic notifications URL
-    icon: Bell,
-  },
-];
+import { assets } from '@/constants/assets'
 
 export const roleNav = {
   individual: [
-    { title: "Home", url: "/dashboard/individual", icon: Home },
+    { title: "navigation.dashboard", url: "/dashboard/individual", icon: Home },
     {
-      title: "Profile",
-      url: "/dashboard/individual/profile",
-      icon: User,
+      title: "navigation.projects",
+      url: "/dashboard/individual/projects",
+      icon: assets.projects,
     },
     {
-      title: "Applications",
-      url: "/dashboard/individual/applications",
-      icon: FileText,
+      title: "navigation.offers",
+      url: "/dashboard/individual/offers",
+      icon: assets.offers,
     },
     {
-      title: "Notifications",
-      url: "/dashboard/individual/notifications",
-      icon: Bell,
+      title: "navigation.contracts",
+      url: "/dashboard/individual/contracts",
+      icon: assets.contract,
     },
+    {
+      title: "navigation.payments",
+      url: "/dashboard/individual/payments",
+      icon: assets.payment,
+    },
+    {
+      title: "navigation.materials",
+      url: "/dashboard/individual/materials",
+      icon: assets.materials,
+    },
+    {
+      title: "navigation.messages",
+      url: "/dashboard/individual/messages",
+      icon: assets.messages,
+    },
+    {
+      title: "navigation.reviews",
+      url: "/dashboard/individual/reviews",
+      icon: assets.reviews,
+    },
+    
   ],
   contractor: [
     {
