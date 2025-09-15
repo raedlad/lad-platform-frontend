@@ -1,5 +1,5 @@
 "use client";
-import React, { useCallback, useEffect } from "react";
+import React, { useEffect } from "react";
 import {
   Form,
   FormField,
@@ -9,7 +9,6 @@ import {
   FormMessage,
 } from "@shared/components/ui/form";
 import { Input } from "@shared/components/ui/input";
-import { Button } from "@shared/components/ui/button";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -17,7 +16,6 @@ import { useTranslations } from "next-intl";
 import { createProjectValidationSchemas } from "@/features/project/utils/validation";
 import { useProjectStore } from "@/features/project/store/projectStore";
 import { useCreateProject } from "@/features/project/hooks/useCreateProject";
-import { useProjectData } from "@/features/project/hooks/useProjectData";
 import ProjectType from "../../common/ProjectType";
 import CitySelect from "../../common/CitySelect";
 import {
@@ -34,14 +32,13 @@ import NavigationButtons from "../../common/NavigationButtons";
 const EssentialInfoForm = () => {
   const t = useTranslations("");
   const { ProjectEssentialInfoSchema } = createProjectValidationSchemas(t);
-  const { originalEssentialInfoData, projectId } = useProjectStore();
+  const { originalEssentialInfoData, projectId, isLoading } = useProjectStore();
   const { error, submitEssentialInfo } = useCreateProject();
-  const { isLoading } = useProjectData();
   const form = useForm<z.infer<typeof ProjectEssentialInfoSchema>>({
     resolver: zodResolver(ProjectEssentialInfoSchema),
     defaultValues: {
       name: originalEssentialInfoData?.name || "",
-      type: originalEssentialInfoData?.type?.[0]?.id || 0,
+      type: originalEssentialInfoData?.type || 0,
       city: originalEssentialInfoData?.city || "",
       district: originalEssentialInfoData?.district || "",
       location: originalEssentialInfoData?.location || "",
@@ -54,8 +51,6 @@ const EssentialInfoForm = () => {
     },
   });
 
-  // Data loading is now handled automatically by useProjectData hook
-
   useEffect(() => {
     if (originalEssentialInfoData) {
       console.log(
@@ -64,7 +59,7 @@ const EssentialInfoForm = () => {
       );
       form.reset({
         name: originalEssentialInfoData.name || "",
-        type: originalEssentialInfoData.type?.[0]?.id || 0,
+        type: originalEssentialInfoData.type || 0,
         city: originalEssentialInfoData.city || "",
         district: originalEssentialInfoData.district || "",
         location: originalEssentialInfoData.location || "",
@@ -94,7 +89,7 @@ const EssentialInfoForm = () => {
 
   return (
     <div className="w-full flex flex-col gap-8 ">
-      <div className="flex gap-2 text-lg font-bold">
+      <div className="flex gap-2 text-base lg:text-lg font-bold">
         <span className="text-design-main">01 -</span>
         <h1>{t("project.step1.title")}</h1>
       </div>
@@ -149,7 +144,7 @@ const EssentialInfoForm = () => {
                         <CitySelect
                           className="!"
                           selectedCountry="SA"
-                          selectedState="3500"
+                          selectedState="3501"
                           selectedCity={field.value}
                           onCityChange={field.onChange}
                           enableSearch={true}

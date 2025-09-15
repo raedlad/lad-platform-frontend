@@ -14,10 +14,7 @@ export const createProjectValidationSchemas = (t: (key: string) => string) => {
         error: messages.projectType.required,
       })
       .min(1, messages.projectType.required),
-    city: z
-      .string()
-      .min(1, messages.city.required)
-      .min(2, messages.city.minLength),
+    city: z.string().min(1, messages.city.required),
     district: z
       .string()
       .min(1, messages.district.required)
@@ -59,12 +56,130 @@ export const createProjectValidationSchemas = (t: (key: string) => string) => {
       .or(z.literal(""))
       .optional(),
   });
-  const ProjectDocumentsSchema = z.object({
-    documentType: z.string({
-      error: "messages.documentType.required",
-    }),
-    document: z.instanceof(File),
+  // File metadata schema for backend data
+  const FileMetadataSchema = z.object({
+    id: z.string(),
+    name: z.string(),
+    size: z.number(),
+    type: z.string(),
+    uploadStatus: z.enum(["pending", "uploading", "completed", "error"]),
+    uploadProgress: z.number(),
+    url: z.string().optional(),
+    error: z.string().optional(),
   });
+
+  const ProjectDocumentsSchema = z.object({
+    architectural_plans: z
+      .array(
+        z.union([
+          // File instance for new uploads
+          z
+            .instanceof(File)
+            .refine((file) => file.size <= 1024 * 1024 * 5, {
+              message: messages.architectural_plans.maxSize,
+            })
+            .refine(
+              (file) => {
+                const allowedTypes = [
+                  "application/pdf",
+                  "application/dwg",
+                  "application/dxf",
+                  "image/jpeg", // covers .jpg & .jpeg
+                  "image/png",
+                ];
+                return allowedTypes.includes(file.type);
+              },
+              {
+                message: messages.architectural_plans.invalidType,
+              }
+            ),
+          // File metadata for existing files from backend
+          FileMetadataSchema,
+        ])
+      )
+      .min(1, messages.architectural_plans.minFiles),
+    licenses: z
+      .array(
+        z.union([
+          // File instance for new uploads
+          z
+            .instanceof(File)
+            .refine((file) => file.size <= 1024 * 1024 * 5, {
+              message: messages.licenses.maxSize,
+            })
+            .refine(
+              (file) => {
+                const allowedTypes = [
+                  "application/pdf",
+                  "image/jpeg",
+                  "image/png",
+                ];
+                return allowedTypes.includes(file.type);
+              },
+              {
+                message: messages.licenses.invalidType,
+              }
+            ),
+          // File metadata for existing files from backend
+          FileMetadataSchema,
+        ])
+      )
+      .min(1, messages.licenses.minFiles),
+    specifications: z
+      .array(
+        z.union([
+          // File instance for new uploads
+          z
+            .instanceof(File)
+            .refine((file) => file.size <= 1024 * 1024 * 5, {
+              message: messages.specifications.maxSize,
+            })
+            .refine(
+              (file) => {
+                const allowedTypes = [
+                  "application/pdf",
+                  "application/msword",
+                  "application/vnd.openxmlformats-officedocument.wordprocessingml.document", // .docx
+                  "application/vnd.ms-excel", // .xls
+                  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", // .xlsx
+                ];
+                return allowedTypes.includes(file.type);
+              },
+              {
+                message: messages.specifications.invalidType,
+              }
+            ),
+          // File metadata for existing files from backend
+          FileMetadataSchema,
+        ])
+      )
+      .min(1, messages.specifications.minFiles),
+    site_photos: z
+      .array(
+        z.union([
+          // File instance for new uploads
+          z
+            .instanceof(File)
+            .refine((file) => file.size <= 1024 * 1024 * 5, {
+              message: messages.site_photos.maxSize,
+            })
+            .refine(
+              (file) => {
+                const allowedTypes = ["image/jpeg", "image/png"];
+                return allowedTypes.includes(file.type);
+              },
+              {
+                message: messages.site_photos.invalidType,
+              }
+            ),
+          // File metadata for existing files from backend
+          FileMetadataSchema,
+        ])
+      )
+      .min(1, messages.site_photos.minFiles),
+  });
+
+  // File Upload Validation Schema - Array of files with constraints
   return {
     ProjectEssentialInfoSchema,
     ProjectClassificationSchema,

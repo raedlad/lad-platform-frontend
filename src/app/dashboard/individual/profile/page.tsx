@@ -1,113 +1,265 @@
+"use client";
 import React from "react";
 import AvatarUpload from "@/features/profile/components/common/AvatarUpload";
-import { User, FileText, Shield, Settings } from "lucide-react";
+import {
+  User,
+  Bell,
+  Shield,
+  Globe,
+  FileText,
+  HelpCircle,
+  LogOut,
+  ArrowRight,
+  CheckCircle2,
+} from "lucide-react";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
+import { useAuthStore } from "@/features/auth/store";
+import { ThemeToggle } from "@/shared/components/ThemeToggle";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 
-const user = {
-  name: "John Doe",
-  email: "john.doe@example.com",
+// Helper function to get user display name
+const getUserDisplayName = (user: any) => {
+  if (user?.full_name) return user.full_name;
+  if (user?.firstName && user?.lastName)
+    return `${user.firstName} ${user.lastName}`;
+  if (user?.first_name && user?.last_name)
+    return `${user.first_name} ${user.last_name}`;
+  if (user?.name) return user.name;
+  return "المستخدم";
 };
 
-const navigationItems = [
-  {
-    title: "Personal Info",
-    description: "Update your basic information and contact details",
-    icon: User,
-    url: "/dashboard/individual/profile/personal-info",
-  },
-  {
-    title: "Documents & Verification",
-    description: "Manage your documents and verification status",
-    icon: FileText,
-    url: "/dashboard/individual/profile/documents",
-  },
-  {
-    title: "Security",
-    description: "Password, 2FA, and security preferences",
-    icon: Shield,
-    url: "/dashboard/individual/profile/security",
-  },
-  {
-    title: "Settings",
-    description: "Account preferences and notification settings",
-    icon: Settings,
-    url: "/dashboard/individual/profile/settings",
-  },
-];
+// Helper function to get user phone
+const getUserPhone = (user: any) => {
+  return user?.phone || user?.phoneNumber || user?.phone_number || "";
+};
+
+// Progress bar component
+const ProgressBar = ({ percentage }: { percentage: number }) => (
+  <div className="w-full bg-gray-200 rounded-full h-2 mb-4">
+    <div
+      className="bg-green-500 h-2 rounded-full transition-all duration-300"
+      style={{ width: `${percentage}%` }}
+    />
+  </div>
+);
 
 export default function page() {
+  const t = useTranslations("profile");
+  const { user } = useAuthStore();
+
+  // Navigation items with translations
+  const navigationItems = [
+    {
+      title: t("menu.personalData.title"),
+      description: t("menu.personalData.description"),
+      icon: User,
+      url: "/dashboard/individual/profile/personal-info",
+      type: "link",
+    },
+    {
+      title: t("menu.notifications.title"),
+      description: t("menu.notifications.description"),
+      icon: Bell,
+      url: "/dashboard/individual/profile/notifications",
+      type: "link",
+    },
+    {
+      title: t("menu.privacySecurity.title"),
+      description: t("menu.privacySecurity.description"),
+      icon: Shield,
+      url: "/dashboard/individual/profile/security",
+      type: "link",
+    },
+    {
+      title: t("menu.convertToDafin.title"),
+      description: t("menu.convertToDafin.description"),
+      icon: ArrowRight,
+      url: "/dashboard/individual/profile/convert",
+      type: "link",
+    },
+    {
+      title: t("menu.privacyPolicy.title"),
+      description: t("menu.privacyPolicy.description"),
+      icon: FileText,
+      url: "/dashboard/individual/profile/privacy-policy",
+      type: "link",
+    },
+    {
+      title: t("menu.faq.title"),
+      description: t("menu.faq.description"),
+      icon: HelpCircle,
+      url: "/dashboard/individual/profile/faq",
+      type: "link",
+    },
+    {
+      title: t("menu.helpCenter.title"),
+      description: t("menu.helpCenter.description"),
+      icon: HelpCircle,
+      url: "/dashboard/individual/profile/help-center",
+      type: "link",
+    },
+    {
+      title: t("menu.language.title"),
+      description: t("menu.language.description"),
+      type: "language-switcher",
+    },
+    {
+      title: t("menu.theme.title"),
+      description: t("menu.theme.description"),
+      type: "theme-toggle",
+    },
+    {
+      title: t("menu.logout.title"),
+      description: t("menu.logout.description"),
+      icon: LogOut,
+      url: "/auth/logout",
+      type: "link",
+      isLogout: true,
+    },
+  ];
+
   return (
     <div className="w-full h-full py-4 sm:py-6 lg:py-8 px-3 sm:px-4">
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-2xl mx-auto border border-border rounded-xl mt-20">
         {/* Profile Header Card */}
-        <div className="bg-muted/30 rounded-xl border border-border shadow-sm p-4 sm:p-6 lg:p-8 mb-4 sm:mb-6">
-          <div className="flex flex-col lg:flex-row items-center lg:items-start gap-4 sm:gap-6 lg:gap-8">
+        <div className="relative">
+          <div className="flex flex-col items-center text-center">
             {/* Avatar Section */}
-            <div className="flex-shrink-0">
-              <AvatarUpload />
+            <div className="absolute inset-0 -top-16">
+              <div className="mb-4 relative">
+                <AvatarUpload />
+              </div>
             </div>
 
             {/* User Info Section */}
-            <div className="flex-1 text-center lg:text-left">
-              <div className="mb-3 sm:mb-4">
-                <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-foreground mb-1 sm:mb-2">
-                  {user.name}
-                </h1>
-                <p className="text-sm sm:text-base lg:text-lg text-muted-foreground">
-                  {user.email}
+            <div className="mt-20">
+              <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-foreground mb-2">
+                {getUserDisplayName(user)}
+              </h1>
+              <p className="text-sm sm:text-base text-muted-foreground mb-2">
+                {getUserPhone(user)}
+              </p>
+
+              {/* Progress Section */}
+              <div className="mb-4">
+                <ProgressBar percentage={85} />
+                <p className="text-sm text-muted-foreground">
+                  {t("completion.text", { percentage: 85 })}
                 </p>
               </div>
-
-              {/* Profile Stats */}
-              {/* <div className="flex flex-wrap justify-center lg:justify-start gap-6">
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-foreground">85%</div>
-                  <div className="text-sm text-muted-foreground">
-                    Profile Complete
-                  </div>
-                </div>
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-foreground">12</div>
-                  <div className="text-sm text-muted-foreground">Documents</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-foreground">3</div>
-                  <div className="text-sm text-muted-foreground">
-                    Verifications
-                  </div>
-                </div>
-              </div> */}
             </div>
           </div>
         </div>
 
         {/* Navigation Section */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
-          {navigationItems.map((item) => (
-            <Link
-              key={item.title}
-              href={item.url}
-              className="group bg-muted/30 border border-border rounded-xl p-3 sm:p-4  text-left hover:border-primary/50 hover:shadow-md transition-all duration-200 hover:-translate-y-1 block"
-            >
-              <div className="flex items-center gap-3 sm:gap-4">
-                <div className="p-2 sm:p-3 bg-primary/10 rounded-lg group-hover:bg-primary/20 transition-colors flex-shrink-0">
-                  <item.icon className="w-5 h-5 sm:w-6 sm:h-6 text-primary" />
+        <div className="space-y-1.5">
+          {navigationItems.map((item) => {
+            const baseClasses = `group rounded-xl p-4 text-right hover:border-primary/50 hover:shadow-md transition-all duration-200 block ${
+              item.isLogout ? "hover:border-red-500/50" : ""
+            }`;
+
+            // Render different components based on type
+            if (item.type === "language-switcher") {
+              return (
+                <div key={item.title} className={baseClasses}>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-">
+                      <div className="flex items-center gap-3">
+                        {item.icon && (
+                          <div className="p-2 rounded-lg flex-shrink-0 bg-primary/10 group-hover:bg-primary/20 transition-colors">
+                            <item.icon className="w-5 h-5 text-primary" />
+                          </div>
+                        )}
+                      </div>
+                      <div className="text-right">
+                        <h3 className="font-semibold text-base text-foreground">
+                          {item.title}
+                        </h3>
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-start">
+                      <LanguageSwitcher />
+                    </div>
+                  </div>
                 </div>
-                <div className="flex-1">
-                  <h3 className="font-semibold text-base sm:text-lg text-foreground">
-                    {item.title}
-                  </h3>
-                  <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
-                    {item.description}
-                  </p>
+              );
+            }
+
+            if (item.type === "theme-toggle") {
+              return (
+                <div key={item.title} className={baseClasses}>
+                  <div className="flex items-center justify-between">
+                    <div className="text-start">
+                      <h3 className="font-semibold text-base text-foreground">
+                        {item.title}
+                      </h3>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <div className="flex items-center gap-3">
+                        <div className="flex-shrink-0">
+                          <ThemeToggle />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </Link>
-          ))}
+              );
+            }
+
+            // Default link rendering
+            return (
+              <Link
+                key={item.title}
+                href={item.url || "#"}
+                className={baseClasses}
+              >
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-3">
+                      <div
+                        className={`p-2 rounded-lg flex-shrink-0 ${
+                          item.isLogout
+                            ? "bg-red-100 group-hover:bg-red-200"
+                            : "bg-primary/10 group-hover:bg-primary/20"
+                        } transition-colors`}
+                      >
+                        {item.icon && (
+                          <item.icon
+                            className={`w-5 h-5 ${
+                              item.isLogout ? "text-red-500" : "text-primary"
+                            }`}
+                          />
+                        )}
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <h3
+                        className={`font-semibold text-base ${
+                          item.isLogout ? "text-red-500" : "text-foreground"
+                        }`}
+                      >
+                        {item.title}
+                      </h3>
+                    </div>
+                  </div>
+                  <div className="flex items-center">
+                    {!item.isLogout && (
+                      <ArrowRight
+                        className={`w-4 h-4 ${
+                          item.isLogout
+                            ? "text-red-400"
+                            : "text-muted-foreground"
+                        } transform rtl:rotate-180`}
+                      />
+                    )}
+                  </div>
+                </div>
+              </Link>
+            );
+          })}
         </div>
       </div>
     </div>
   );
-};
-
-
+}

@@ -294,7 +294,7 @@ export const authApi = {
 
     try {
       const response = await api.post("/auth/verification/send-phone", {
-        phoneNumber: phoneNumber,
+        phone: phoneNumber,
       });
 
       return {

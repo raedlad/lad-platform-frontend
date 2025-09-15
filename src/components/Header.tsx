@@ -18,11 +18,11 @@ export default function Header() {
 
   const t = useTranslations("Header");
   const menuItems = [
-    { name: t("home"), href: "/" },
-    { name: t("aboutus"), href: "/" },
-    { name: t("services"), href: "/" },
-    { name: t("contactus"), href: "/" },
-    { name: t("login"), href: "/" },
+    { name: t("home"), href: "/home" },
+    { name: t("aboutus"), href: "/aboutus" },
+    { name: t("services"), href: "/services" },
+    { name: t("contactus"), href: "/contactus" },
+    { name: t("login"), href: "/login" },
   ];
   React.useEffect(() => {
     const handleScroll = () => {
@@ -122,7 +122,7 @@ export default function Header() {
                   size="sm"
                   className={cn("h-10 rounded-full px-6 bg-transparent", isHome && !isScrolled && "text-white")}
                 >
-                  <Link href="/browse">
+                  <Link href="/browse-products">
                     <span>{t("browse")}</span>
                   </Link>
                 </Button>

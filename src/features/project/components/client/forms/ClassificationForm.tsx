@@ -19,23 +19,21 @@ import Job from "../../common/Job";
 import Levels from "../../common/Levels";
 import WorkType from "../../common/WorkType";
 import { useCreateProject } from "@/features/project/hooks/useCreateProject";
-import { useProjectData } from "@/features/project/hooks/useProjectData";
 import NavigationButtons from "../../common/NavigationButtons";
 
 const ClassificationForm = () => {
   const t = useTranslations("");
   const { ProjectClassificationSchema } = createProjectValidationSchemas(t);
-  const { originalClassificationData, completedSteps, currentStep, projectId } =
+  const { originalClassificationData, completedSteps, currentStep, projectId, isLoading } =
     useProjectStore();
   const { error, submitClassification } = useCreateProject();
-  const { isLoading } = useProjectData();
 
   const form = useForm<z.infer<typeof ProjectClassificationSchema>>({
     resolver: zodResolver(ProjectClassificationSchema),
     defaultValues: {
-      jobId: originalClassificationData?.job?.id || 0,
-      levelId: originalClassificationData?.level?.id || 0,
-      workTypeId: originalClassificationData?.workType?.id || 0,
+      jobId: originalClassificationData?.jobId || 0,
+      levelId: originalClassificationData?.levelId || 0,
+      workTypeId: originalClassificationData?.workTypeId || 0,
       notes: originalClassificationData?.notes || "",
     },
   });
@@ -51,9 +49,9 @@ const ClassificationForm = () => {
         originalClassificationData
       );
       form.reset({
-        jobId: originalClassificationData.job?.id || 0,
-        levelId: originalClassificationData.level?.id || 0,
-        workTypeId: originalClassificationData.workType?.id || 0,
+        jobId: originalClassificationData.jobId || 0,
+        levelId: originalClassificationData.levelId || 0,
+        workTypeId: originalClassificationData.workTypeId || 0,
         notes: originalClassificationData.notes || "",
       });
     }
@@ -77,7 +75,7 @@ const ClassificationForm = () => {
 
   return (
     <div className="w-full flex flex-col gap-8 ">
-      <div className="flex gap-2 text-lg font-bold">
+      <div className="flex gap-2 text-base lg:text-lg font-bold">
         <span className="text-design-main">02 -</span>
         <h1>{t("project.step2.title")}</h1>
       </div>

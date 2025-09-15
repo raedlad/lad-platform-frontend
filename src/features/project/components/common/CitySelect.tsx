@@ -9,8 +9,22 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { usePersonalInfoStore } from "@/features/profile/store/personalInfoStore";
-import { City } from "@/features/profile/services/personalInfoApi";
+// import { usePersonalInfoStore } from "@/features/profile/store/personalInfoStore";
+// import { City } from "@/features/profile/services/personalInfoApi";
+
+// Mock data for Saudi cities
+const MOCK_SAUDI_CITIES = [
+  { id: 1, name: "Riyadh" },
+  { id: 2, name: "Jeddah" },
+  { id: 3, name: "Mecca" },
+  { id: 4, name: "Medina" },
+  { id: 5, name: "Dammam" },
+  { id: 6, name: "Khobar" },
+  { id: 7, name: "Tabuk" },
+  { id: 8, name: "Abha" },
+  { id: 9, name: "Khamis Mushait" },
+  { id: 10, name: "Najran" },
+];
 
 interface CitySelectProps {
   onCityChange?: (cityCode: string) => void;
@@ -28,8 +42,6 @@ export const CitySelect: React.FC<CitySelectProps> = React.memo(
   ({
     onCityChange,
     selectedCity,
-    selectedCountry,
-    selectedState,
     disabled = false,
     className = "",
     enableSearch = true,
@@ -38,28 +50,31 @@ export const CitySelect: React.FC<CitySelectProps> = React.memo(
   }) => {
     const t = useTranslations();
 
-    // Use selectors to prevent unnecessary re-renders
-    const cities = usePersonalInfoStore((state) => state.cities);
-    const isLoading = usePersonalInfoStore((state) => state.isLoading);
-    const loadCities = usePersonalInfoStore((state) => state.loadCities);
+    // Use mock cities data instead of store
+    const cities = MOCK_SAUDI_CITIES;
+    const isLoading = false; // Never loading since we're using mock data
 
     // Search state
     const [citySearchOpen, setCitySearchOpen] = useState(false);
 
-    // Load cities when country or state changes, but only if we don't have cities yet
+    // Disabled loadCities - using mock data instead
+    // useEffect(() => {
+    //   if (selectedCountry && (!cities || cities.length === 0)) {
+    //     console.log(
+    //       "🏙️ Loading cities for country:",
+    //       selectedCountry,
+    //       "state:",
+    //       selectedState
+    //     );
+    //     loadCities(selectedCountry, selectedState);
+    //   } else if (cities && cities.length > 0) {
+    //     console.log("📦 Using cached cities from store");
+    //   }
+    // }, [selectedCountry, selectedState, loadCities, cities]);
+
     useEffect(() => {
-      if (selectedCountry && (!cities || cities.length === 0)) {
-        console.log(
-          "🏙️ Loading cities for country:",
-          selectedCountry,
-          "state:",
-          selectedState
-        );
-        loadCities(selectedCountry, selectedState);
-      } else if (cities && cities.length > 0) {
-        console.log("📦 Using cached cities from store");
-      }
-    }, [selectedCountry, selectedState, loadCities, cities]);
+      console.log("🏙️ Using mock Saudi cities data");
+    }, []);
 
     const handleCityChange = useCallback(
       (cityCode: string) => {

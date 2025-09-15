@@ -75,7 +75,7 @@ export const IndividualPersonalInfo = () => {
     inputRef.current?.blur();
   };
   return (
-    <div className={cn("space-y-4 sm:space-y-6")}>
+    <div className={cn("space-y-4 sm:space-y-6 flex items-center justify-center")}>
       <div className="w-full form-container max-w-md sm:min-w-xs">
         <Form {...form}>
           <form

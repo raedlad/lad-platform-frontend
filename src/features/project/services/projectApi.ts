@@ -208,4 +208,122 @@ export const projectApi = {
       throw error;
     }
   },
+
+  // Fake API methods for file operations
+  uploadFile: async (projectId: string, file: File, collection: string) => {
+    try {
+      //   const response = await api.post(
+      //     `/projects/owner/${projectId}/files/upload-single`,
+      //     {
+      //       file,
+      //       collection: collection,
+      //     }
+      //   );
+      //   return response.data;
+      return new Promise<{ success: boolean; data: any; message: string }>(
+        (resolve) => {
+          const interval = setInterval(() => {
+            clearInterval(interval);
+            // Simulate successful upload
+            resolve({
+              success: true,
+              data: {
+                fileId: `file_${projectId}_${Date.now()}_${Math.random()
+                  .toString(36)
+                  .substr(2, 9)}`,
+                fileName: file.name,
+                fileSize: file.size,
+                fileType: file.type,
+                collection: collection,
+                url: `https://fake-cdn.com/uploads/${collection}/${file.name}`,
+              },
+              message: "File uploaded successfully",
+            });
+          }, 2000); // Simulate 2 second upload delay
+        }
+      );
+    } catch (error) {
+      console.error("Error uploading file:", error);
+      return {
+        success: false,
+        data: null,
+        message: "Error uploading file",
+      };
+    }
+  },
+
+  removeFile: async (projectId: string, fileId: string, collection: string) => {
+    try {
+      // return new Promise<{ success: boolean; message: string }>((resolve) => {
+      //   setTimeout(() => {
+      //     resolve({
+      //       success: true,
+      //       message: "File removed successfully",
+      //     });
+      //   }, 1000); // Simulate API delay
+      // });
+      const response = await api.delete(
+        `/projects/owner/${projectId}/files/${fileId}`,
+        {
+          data: {
+            collection,
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Error removing file:", error);
+      return {
+        success: false,
+        message: "Error removing file",
+      };
+    }
+  },
+
+  reuploadFile: async (
+    projectId: string,
+    fileId: string,
+    newFile: File,
+    collection: string
+  ) => {
+    try {
+      const response = await api.post(
+        `/projects/owner/${projectId}/files/upload-single`,
+        {
+          file: newFile,
+          collection: collection,
+        }
+      );
+      return response.data;
+      // return new Promise<{ success: boolean; data: any; message: string }>(
+      //   (resolve) => {
+      //     const interval = setInterval(() => {
+      //       clearInterval(interval);
+      //       // Simulate successful reupload
+      //       resolve({
+      //         success: true,
+      //         data: {
+      //           fileId: fileId, // Keep same ID for reupload
+      //           fileName: newFile.name,
+      //           fileSize: newFile.size,
+      //           fileType: newFile.type,
+      //           collection: collection,
+      //           url: `https://fake-cdn.com/uploads/${collection}/${
+      //             newFile.name
+      //           }?updated=${Date.now()}`,
+      //         },
+      //         message: "File reuploaded successfully",
+      //       });
+      //     }, 1500); // Slightly faster for reupload (1.5 seconds)
+      //   }
+      // );
+    } catch (error) {
+      console.error("Error reuploading file:", error);
+      return {
+        success: false,
+        data: null,
+        message: "Error reuploading file",
+      };
+    }
+  },
 };

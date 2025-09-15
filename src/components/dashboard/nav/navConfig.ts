@@ -9,7 +9,7 @@ import {
   HelpCircle,
   Search,
 } from "lucide-react";
-import { assets } from '@/constants/assets'
+import { assets } from "@/constants/assets";
 
 export const roleNav = {
   individual: [
@@ -49,7 +49,12 @@ export const roleNav = {
       url: "/dashboard/individual/reviews",
       icon: assets.reviews,
     },
-    
+  
+    {
+      title: "navigation.settings",
+      url: "/dashboard/individual/profile",
+      icon: Settings,
+    },
   ],
   contractor: [
     {

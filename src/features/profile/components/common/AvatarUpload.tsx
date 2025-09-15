@@ -59,7 +59,7 @@ export default function AvatarUpload({
       <div className="relative ">
         <div
           className={cn(
-            "size-32 rounded-full overflow-hidden border-4 transition-all",
+            "size-32 rounded-full overflow-hidden transition-all",
             isDragging
               ? "border-primary bg-primary/5"
               : "border-muted-foreground/25"

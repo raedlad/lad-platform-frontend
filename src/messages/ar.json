@@ -438,7 +438,8 @@
     "payments": "الدفعات والفواتير",
     "materials": "طلب مواد بناء",
     "messages": "الرسائل",
-    "reviews": "التقييمات"
+    "reviews": "التقييمات",
+    "settings": "الاعدادات"
   },
 
   "dashboard": {
@@ -462,7 +463,8 @@
       "payments": "الدفعات والفواتير",
       "materials": "طلب مواد بناء",
       "messages": "الرسائل",
-      "reviews": "التقييمات"
+      "reviews": "التقييمات",
+      "settings": "الاعدادات"
     },
     "individual": {
       "welcome": "مرحباً بعودتك، {name}!",
@@ -638,6 +640,51 @@
       "privacy": "الخصوصية",
       "dataManagement": "إدارة البيانات",
       "dangerZone": "منطقة الخطر"
+    },
+    "menu": {
+      "personalData": {
+        "title": "تعديل البيانات الشخصية",
+        "description": "تعديل المعلومات الأساسية وتفاصيل الاتصال"
+      },
+      "notifications": {
+        "title": "الاشعارات",
+        "description": "إدارة الإشعارات والتنبيهات"
+      },
+      "privacySecurity": {
+        "title": "الخصوصية والامان",
+        "description": "كلمة المرور والإعدادات الأمنية"
+      },
+      "language": {
+        "title": "اللغة",
+        "description": "English (US)"
+      },
+      "convertToDafin": {
+        "title": "تحويل الى دافين",
+        "description": "تحويل حسابك الى دافين للأعمال"
+      },
+      "privacyPolicy": {
+        "title": "سياسة الخصوصية",
+        "description": "اقرأ سياسة الخصوصية والشروط"
+      },
+      "faq": {
+        "title": "الاسئلة الشائعة",
+        "description": "الحصول على إجابات للأسئلة الشائعة"
+      },
+      "helpCenter": {
+        "title": "مركز المساعدة",
+        "description": "الحصول على المساعدة والدعم"
+      },
+      "logout": {
+        "title": "تسجيل الخروج",
+        "description": "تسجيل الخروج من الحساب"
+      },
+      "theme": {
+        "title": "المظهر",
+        "description": "تبديل بين الوضع الفاتح والداكن"
+      }
+    },
+    "completion": {
+      "text": "حسابك مكتمل بنسبة {percentage}%"
     }
   },
   "project": {
@@ -672,6 +719,38 @@
       "contractorLevel": "تصنيف المقاول",
       "workType": "نوع العمل",
       "notes": "المتطلبات الخاصة"
+    },
+    "step3": {
+      "title": "الوثائق والمرفقات",
+      "architectural_plans": "المخططات المعمارية",
+      "licenses": "التراخيص والموافقات",
+      "specifications": "المواصفات الفنية",
+      "dropFiles": "اسحب وأفلت الملفات هنا أو ",
+      "browse": "تصفح",
+      "site_photos": "صور الموقع",
+      "accept": "الملفات المقبولة: ",
+      "maxFiles": "الحد الأقصى 10 ملفات",
+      "maxSize": "حجم الملف يجب ألا يتجاوز ",
+      "files": "ملفات",
+      "fileError": " حدث خطأ اثناء رفع الملف يرجى المحاولة مرة أخرى",
+      "uploading": "جاري الرفع...",
+      "reuploadFileFailed": "فشل رفع الملف {fileName}",
+      "reuploadFileError": " حدث خطأ اثناء رفع الملف {fileName}",
+      "fileReuploadedSuccessfully": "تم رفع الملف {fileName} بنجاح",
+      "fileNotFound": "الملف غير موجود",
+      "cannotRemoveUploading": "لا يمكن حذف الملف الذي يتم رفعه حاليا",
+      "removeFile": "حذف الملف",
+      "removingFile": "جاري حذف الملف...",
+      "uploadFileFailed": "فشل رفع الملف {fileName}",
+      "fileUploadedSuccessfully": "تم رفع الملف {fileName} بنجاح",
+      "uploadFileError": " حدث خطأ اثناء رفع الملف {fileName}",
+      "removeFileFailed": "فشل حذف الملف {fileName}",
+      "fileRemovedSuccessfully": "تم حذف الملف {fileName} بنجاح",
+      "removeFileError": " حدث خطأ اثناء حذف الملف {fileName}",
+      "fileRemovedLocally": "تم حذف الملف {fileName} محليا"
+    },
+    "step4": {
+      "title": "جدول المواصفات والكميات (BOQ)"
     }
   },
   "feedback": {
@@ -868,6 +947,30 @@
       },
       "notes": {
         "minLength": "الملاحظات يجب أن يكون على الأقل 2 أحرف"
+      },
+      "architectural_plans": {
+        "minFiles": "مطلوب ملف واحد على الأقل",
+        "maxSize": "حجم ملف المخططات المعمارية يجب ألا يتجاوز 5 ميجابايت",
+        "maxFiles": "الحد الأقصى 10 ملفات",
+        "invalidType": "نوع الملف غير مسموح. الأنواع المقبولة: PDF، DWG، DXF، JPEG، JPG، PNG"
+      },
+      "licenses": {
+        "minFiles": "مطلوب ملف واحد على الأقل",
+        "maxSize": "حجم ملف الرخصة يجب ألا يتجاوز 5 ميجابايت",
+        "maxFiles": "الحد الأقصى 10 ملفات",
+        "invalidType": "نوع الملف غير مسموح. الأنواع المقبولة: PDF، JPEG، PNG"
+      },
+      "specifications": {
+        "minFiles": "مطلوب ملف واحد على الأقل",
+        "maxSize": "حجم ملف المواصفات يجب ألا يتجاوز 5 ميجابايت",
+        "maxFiles": "الحد الأقصى 10 ملفات",
+        "invalidType": "نوع الملف غير مسموح. الأنواع المقبولة: PDF, JPEG, PNG"
+      },
+      "site_photos": {
+        "minFiles": "مطلوب صورة واحدة على الأقل للموقع",
+        "maxFiles": "الحد الأقصى 10 صور للموقع",
+        "maxSize": "حجم كل صورة للموقع يجب ألا يتجاوز 10 ميجابايت",
+        "invalidType": "نوع الملف غير مسموح. الأنواع المقبولة: JPEG, PNG"
       }
     }
   },

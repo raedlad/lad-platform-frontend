@@ -7,7 +7,7 @@ export interface Project {
 
 export interface ProjectEssentialInfo {
   name: string;
-  type: ProjectType[];
+  type: number; // Just the ID, not the full object
   city: string;
   district: string;
   location: string;
@@ -42,19 +42,20 @@ export interface Level {
 }
 export interface ProjectClassification {
   id: number;
-  job: ProjectClassificationJob;
-  workType: WorkType;
-  level: Level;
+  jobId: number; // Just the ID, not the full object
+  workTypeId: number; // Just the ID, not the full object
+  levelId: number; // Just the ID, not the full object
   notes: string;
 }
 
 export interface ProjectDocuments {
-  id: string;
-  file_name: string;
-  file: File;
+  architectural_plans?: File[];
+  licenses?: File[];
+  specifications?: File[];
+  site_photos?: File[];
 }
 
-export interface ProjectType{
+export interface ProjectType {
   id: number;
   name: string;
   description: string;

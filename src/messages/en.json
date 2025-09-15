@@ -468,7 +468,8 @@
       "payments": "Payments & Invoices",
       "materials": "Request Building Materials",
       "messages": "Messages",
-      "reviews": "Reviews"
+      "reviews": "Reviews",
+      "settings": "Settings"
     },
     "individual": {
       "welcome": "Welcome back, {name}!",
@@ -632,6 +633,51 @@
       "privacy": "Privacy",
       "dataManagement": "Data Management",
       "dangerZone": "Danger Zone"
+    },
+    "menu": {
+      "personalData": {
+        "title": "Edit Personal Information",
+        "description": "Update your basic information and contact details"
+      },
+      "notifications": {
+        "title": "Notifications",
+        "description": "Manage notifications and alerts"
+      },
+      "privacySecurity": {
+        "title": "Privacy and Security",
+        "description": "Password and security settings"
+      },
+      "language": {
+        "title": "Language",
+        "description": "English (US)"
+      },
+      "convertToDafin": {
+        "title": "Convert to Dafin",
+        "description": "Convert your account to Dafin for Business"
+      },
+      "privacyPolicy": {
+        "title": "Privacy Policy",
+        "description": "Read privacy policy and terms"
+      },
+      "faq": {
+        "title": "FAQ",
+        "description": "Get answers to frequently asked questions"
+      },
+      "helpCenter": {
+        "title": "Help Center",
+        "description": "Get help and support"
+      },
+      "logout": {
+        "title": "Logout",
+        "description": "Sign out of your account"
+      },
+      "theme": {
+        "title": "Theme",
+        "description": "Switch between light and dark mode"
+      }
+    },
+    "completion": {
+      "text": "Your account is {percentage}% complete"
     }
   },
   "project": {
@@ -666,6 +712,35 @@
       "contractorLevel": "Contractor Classification",
       "workType": "Work Type",
       "notes": "Special Requirements"
+    },
+    "step3": {
+      "title": "Documents & Attachments",
+      "architectural_plans": "Architectural Plans",
+      "licenses": "Licenses & Permits",
+      "specifications": "Technical Specifications",
+      "dropFiles": "Drag and drop files here or ",
+      "browse": "browse",
+      "site_photos": "Site Photos",
+      "accept": "Accepted files: ",
+      "maxFiles": "Maximum 10 files",
+      "maxSize": "File size must not exceed 10MB",
+      "files": "files",
+      "fileError": "An error occurred while uploading the file. Please try again.",
+      "uploading": "Uploading...",
+      "reuploadFileFailed": "Failed to reupload file {fileName}",
+      "reuploadFileError": "An error occurred while reuploading the file {fileName}",
+      "fileReuploadedSuccessfully": "File {fileName} reuploaded successfully",
+      "fileRemovedSuccessfully": "File {fileName} removed successfully",
+      "fileRemovedLocally": "File {fileName} removed locally",
+      "fileNotFound": "File not found",
+      "cannotRemoveUploading": "Cannot remove file that is currently uploading",
+      "removeFile": "Remove file",
+      "removingFile": "Removing file...",
+      "uploadFileFailed": "Failed to upload file {fileName}",
+      "fileUploadedSuccessfully": "File {fileName} uploaded successfully",
+      "uploadFileError": "An error occurred while uploading the file {fileName}",
+      "removeFileFailed": "Failed to remove file {fileName}",
+      "removeFileError": "An error occurred while removing the file {fileName}"
     }
   },
 
@@ -864,6 +939,30 @@
       },
       "notes": {
         "minLength": "Notes must be at least 2 characters"
+      },
+      "architectural_plans": {
+        "minFiles": "At least 1 architectural plan is required",
+        "maxFiles": "Maximum 10 architectural plans are allowed",
+        "maxSize": "Architectural plans file size must not exceed 5MB",
+        "invalidType": "File type not allowed. Accepted types: PDF, DWG, DXF, JPEG, PNG"
+      },
+      "licenses": {
+        "minFiles": "At least 1 license is required",
+        "maxSize": "License file size must not exceed 5MB",
+        "maxFiles": "Maximum 10 licenses are allowed",
+        "invalidType": "File type not allowed. Accepted types: PDF, JPEG, JPG, PNG"
+      },
+      "specifications": {
+        "minFiles": "At least 1 specification is required",
+        "maxSize": "Specifications file size must not exceed 5MB",
+        "maxFiles": "Maximum 10 specifications are allowed",
+        "invalidType": "File type not allowed. Accepted types: PDF, DOC, DOCX, XLS, XLSX"
+      },
+      "site_photos": {
+        "minFiles": "At least 1 site photo is required",
+        "maxFiles": "Maximum 10 site photos are allowed",
+        "maxSize": "Each site photo file size must not exceed 10MB",
+        "invalidType": "File type not allowed. Accepted types: JPEG, PNG"
       }
     }
   },
