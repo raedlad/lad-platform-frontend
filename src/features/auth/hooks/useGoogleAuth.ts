@@ -26,7 +26,16 @@ export const useGoogleAuth = () => {
           }
         );
         if (!profileRes.ok) throw new Error("Failed to fetch Google profile");
-        const profile = (await profileRes.json()) as any;
+        const profile = (await profileRes.json()) as {
+          email?: string;
+          given_name?: string;
+          givenName?: string;
+          family_name?: string;
+          familyName?: string;
+          name?: string;
+          picture?: string;
+          sub: string;
+        };
 
         const email: string | undefined = profile.email;
         const givenName: string | undefined =
@@ -52,14 +61,14 @@ export const useGoogleAuth = () => {
           lastName,
           email: email || "",
           provider: "google",
-        } as any);
+        });
         store.setAuthMethod("thirdParty");
 
         if (!inRegistrationFlow) {
           // Login context: exchange for app tokens and redirect
           const response = await authApi.socialLogin("google", accessToken);
-          if (response.success && (response as any).data) {
-            const data: any = (response as any).data;
+          if (response.success && response.data) {
+            const data = response.data;
             if (data.tokens && data.user) {
               tokenStorage.storeTokens(data.tokens, data.user);
             }

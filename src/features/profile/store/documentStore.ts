@@ -15,6 +15,108 @@ import {
 } from "@/features/profile/services/documentApi";
 import { getDocumentsByRole } from "@/features/profile/constants/mockDocuments";
 
+// Backend response interfaces
+interface BackendDocument {
+  id: number;
+  name: string;
+  description: string;
+  code: string;
+  category: string;
+  accepted_file_types: string[];
+  max_file_size_mb: number;
+  allow_multiple_files: boolean;
+  icon: string;
+  sort_order: number;
+  is_active: boolean;
+  instructions: string;
+  validation_rules: any;
+  max_files_count: number | null;
+  user_has_uploaded: boolean;
+  user_document_status: string;
+  uploaded_documents: BackendUploadedDocument[];
+  created_at: string;
+  updated_at: string;
+}
+
+interface BackendUploadedDocument {
+  id: number;
+  name: string;
+  type: string | null;
+  type_label: string;
+  description: string;
+  file_size: number;
+  file_size_formatted: string;
+  mime_type: string;
+  original_filename: string;
+  is_required: boolean;
+  expiry_date: string | null;
+  status: string;
+  status_label: string;
+  admin_notes: string | null;
+  reviewed_at: string | null;
+  created_at: string;
+  updated_at: string;
+  expiry_info: {
+    has_expiry: boolean;
+    is_expired: boolean;
+    expires_soon: boolean;
+    days_until_expiry: number | null;
+  };
+  file_info: {
+    extension: string;
+    is_image: boolean;
+    is_pdf: boolean;
+    is_document: boolean;
+    can_preview: boolean;
+    icon: string;
+  };
+  user: {
+    id: number;
+    name: string;
+    email: string;
+    user_type: string;
+  };
+  actions: any[];
+}
+
+// Transform backend data to frontend format
+const transformBackendDocument = (
+  backendDoc: BackendDocument
+): DocumentRequirement => {
+  const uploadedFiles: UploadedFile[] = (
+    backendDoc.uploaded_documents || []
+  ).map((file) => ({
+    id: file.id.toString(),
+    fileName: file.original_filename,
+    customName: file.name,
+    description: file.description,
+    fileUrl: "", // This would need to be provided by the backend or constructed
+    uploadedAt: file.created_at,
+    expiryDate: file.expiry_date || undefined,
+    status: file.status as DocumentStatus,
+    size: file.file_size,
+  }));
+
+  // Extract review comment from the first uploaded document's admin_notes
+  const reviewComment =
+    uploadedFiles.length > 0
+      ? backendDoc.uploaded_documents[0]?.admin_notes || undefined
+      : undefined;
+
+  return {
+    id: backendDoc.id.toString(),
+    label: backendDoc.name,
+    mandatory: backendDoc.category === "mandatory",
+    maxFiles:
+      backendDoc.max_files_count || (backendDoc.allow_multiple_files ? 5 : 1),
+    maxFileSize: backendDoc.max_file_size_mb,
+    acceptTypes: backendDoc.accepted_file_types,
+    status: backendDoc.user_document_status as DocumentStatus,
+    uploadedFiles: uploadedFiles,
+    reviewComment: reviewComment,
+  };
+};
+
 // Enhanced document store interface
 interface DocumentsStoreState {
   // Document data
@@ -163,11 +265,14 @@ export const useDocumentsStore = create<DocumentsStore>((set, get) => ({
 
       if (state.useRealApi) {
         // Use real API with retry logic
-        documents = await documentsService.withRetry(
-          () => documentsService.fetchDocuments(role),
-          3, // max retries
-          1000 // initial delay
-        );
+        const backendDocuments: BackendDocument[] =
+          await documentsService.withRetry(
+            () => documentsService.fetchDocuments(role),
+            3, // max retries
+            1000 // initial delay
+          );
+        // Transform backend data to frontend format
+        documents = backendDocuments.map(transformBackendDocument);
       } else {
         // Use mock data
         documents = await getDocumentsByRole(role as Role);

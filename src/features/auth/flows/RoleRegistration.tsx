@@ -8,19 +8,20 @@ import { OnboardingLayout } from "@auth/components/onboarding/OnboardingLayout";
 import AuthMethodSelection from "./common/AuthMethodSelection";
 import PersonalInfoStep from "./PersonalInfoStep";
 import { SignupOTPVerificationStep } from "./common/OTPVerificationStep";
+import { RegistrationStore, RoleSpecificData } from "@auth/types/auth";
 
 const RoleRegistration: React.FC = () => {
   const store = useAuthStore();
   const { handleAuthMethodSelect } = useRoleRegistration();
   const hook = useRoleRegistration();
-  
+
   const adaptedStore = {
     currentStep: store.currentStep || "",
     authMethod: store.authMethod,
     personalInfo:
       store.roleData.personalInfo ||
       store.roleData.phoneInfo ||
-      store.roleData.thirdPartyInfo,
+      store.roleData.thirdPartyInfo as RoleSpecificData,
     phoneInfo: store.roleData.phoneInfo,
     thirdPartyInfo: store.roleData.thirdPartyInfo,
     isLoading: store.isLoading,
@@ -36,7 +37,7 @@ const RoleRegistration: React.FC = () => {
       case "personalInfo":
         return <PersonalInfoStep />;
       case "verification":
-        return <SignupOTPVerificationStep store={adaptedStore} hook={hook} />;
+        return <SignupOTPVerificationStep store={adaptedStore as RegistrationStore} hook={hook} />;
       default:
         return (
           <AuthMethodSelection onAuthMethodSelect={handleAuthMethodSelect} />

@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { useTranslations } from "next-intl";
 import {
   Card,
   CardContent,
@@ -59,6 +60,7 @@ type ContractorOperationalFormData = z.infer<
 >;
 
 const ContractorOperational = () => {
+  const t = useTranslations("profile.contractorOperational");
   const {
     operationalData,
     setOperationalData,
@@ -155,7 +157,7 @@ const ContractorOperational = () => {
       // You could add a success toast here
     } catch (error) {
       console.error("Error updating operational profile:", error);
-      setError("Failed to update operational profile. Please try again.");
+      setError(t("errors.updateFailed"));
       // You could add an error toast here
     } finally {
       setLoading(false);
@@ -207,10 +209,10 @@ const ContractorOperational = () => {
 
   if (!operationalData) {
     return (
-      <div className="flex items-center justify-center p-8">
+      <div className="flex items-center justify-center min-h-[400px]">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
-          <p>Loading operational data...</p>
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-design-main mx-auto mb-4"></div>
+          <p className="text-muted-foreground">{t("loading")}</p>
         </div>
       </div>
     );
@@ -218,9 +220,9 @@ const ContractorOperational = () => {
 
   if (error) {
     return (
-      <div className="flex items-center justify-center p-8">
+      <div className="flex items-center justify-center">
         <div className="text-center">
-          <div className="text-red-500 mb-4">
+          <div className="text-destructive mb-4">
             <svg
               className="w-12 h-12 mx-auto"
               fill="none"
@@ -235,25 +237,30 @@ const ContractorOperational = () => {
               />
             </svg>
           </div>
-          <p className="text-red-600 mb-4">{error}</p>
-          <Button onClick={() => window.location.reload()}>Retry</Button>
+          <p className="text-destructive mb-4">{error}</p>
+          <Button
+            onClick={() => window.location.reload()}
+            className="bg-design-main hover:bg-design-main-dark"
+          >
+            {t("retry")}
+          </Button>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen  py-8">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className=" rounded-xl  overflow-hidden">
-          <div className="px-8 py-6 border-b border-gray-200 bg-gradient-to-r from-blue-50 to-indigo-50">
-            <div className="flex items-center justify-between">
-              <div>
-                <h1 className="text-2xl font-bold text-gray-900 mb-2">
-                  Operational Information
+    <div className="overflow-hidden py-4">
+      <div className="max-w-7xl mx-auto">
+        <div className="rounded-xl overflow-hidden">
+          <div className="">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div className="flex-1">
+                <h1 className="text-xl sm:text-2xl font-bold text-foreground mb-2">
+                  {t("title")}
                 </h1>
-                <p className="text-gray-600 text-sm">
-                  Manage your contractor operational details and capabilities
+                <p className="text-muted-foreground text-sm">
+                  {t("description")}
                 </p>
               </div>
               <div className="flex items-center gap-3">
@@ -261,10 +268,13 @@ const ContractorOperational = () => {
                   <Button
                     type="button"
                     onClick={() => setIsEditing(true)}
-                    className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors duration-200 shadow-sm"
+                    className="bg-design-main hover:bg-design-main-dark text-white px-3 sm:px-4 py-2 rounded-lg font-medium transition-colors duration-200 shadow-sm w-full sm:w-auto"
                   >
                     <Pencil className="w-4 h-4 mr-2" />
-                    Edit Information
+                    <span className="hidden sm:inline">
+                      {t("editInformation")}
+                    </span>
+                    <span className="sm:hidden">{t("editInformation")}</span>
                   </Button>
                 )}
                 {isEditing && (
@@ -272,50 +282,52 @@ const ContractorOperational = () => {
                     type="button"
                     onClick={() => setIsEditing(false)}
                     variant="outline"
-                    className="border-gray-300 text-gray-700 hover:bg-gray-50 px-4 py-2 rounded-lg font-medium transition-colors duration-200"
+                    className="border-border text-foreground hover:bg-muted px-3 sm:px-4 py-2 rounded-lg font-medium transition-colors duration-200 w-full sm:w-auto"
                   >
                     <X className="w-4 h-4 mr-2" />
-                    Cancel
+                    {t("cancel")}
                   </Button>
                 )}
               </div>
             </div>
           </div>
 
-          <div className="p-8">
+          <div className="">
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(onSubmit)}
-                className="space-y-8"
+                className="space-y-6 sm:space-y-8"
               >
                 {/* Project Information */}
-                <div className="bg-white border border-gray-200 rounded-lg shadow-sm">
-                  <div className="px-6 py-4 border-b border-gray-200 bg-gray-50/50">
+                <div className="bg-card border border-border rounded-lg shadow-sm">
+                  <div className="px-4 sm:px-6 py-4 border-b border-border bg-muted/30">
                     <div className="flex items-center gap-3">
-                      <div className="p-2 bg-blue-100 rounded-lg">
-                        <Building className="h-5 w-5 text-blue-600" />
+                      <div className="p-2 bg-design-main/10 rounded-lg flex-shrink-0">
+                        <Building className="h-5 w-5 text-design-main" />
                       </div>
-                      <div>
-                        <h3 className="text-lg font-semibold text-gray-900">
-                          Project Information
+                      <div className="min-w-0">
+                        <h3 className="text-base sm:text-lg font-semibold text-foreground">
+                          {t("sections.projectInfo.title")}
                         </h3>
-                        <p className="text-sm text-gray-600">
-                          Details about your project execution capabilities
+                        <p className="text-sm text-muted-foreground">
+                          {t("sections.projectInfo.description")}
                         </p>
                       </div>
                     </div>
                   </div>
-                  <div className="p-6 space-y-6">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="p-4 sm:p-6 space-y-4 sm:space-y-6">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
                       <FormField
                         control={form.control}
                         name="executed_project_range_id"
                         render={({ field }) => (
                           <FormItem className="space-y-2">
-                            <FormLabel className="text-sm font-medium text-gray-700 flex items-center gap-2">
-                              <Building className="h-4 w-4 text-gray-500" />
-                              Executed Project Value Range
-                              <span className="text-red-500">*</span>
+                            <FormLabel className="text-sm font-medium text-foreground flex items-center gap-2">
+                              <Building className="h-4 w-4 text-design-main flex-shrink-0" />
+                              <span className="truncate">
+                                {t("sections.projectInfo.executedProjectRange")}
+                              </span>
+                              <span className="text-destructive">*</span>
                             </FormLabel>
                             <Select
                               onValueChange={(value) =>
@@ -329,8 +341,12 @@ const ContractorOperational = () => {
                               disabled={isLoading || !isEditing}
                             >
                               <FormControl>
-                                <SelectTrigger className="h-11 border-gray-300 focus:border-blue-500 focus:ring-blue-500/20 rounded-lg">
-                                  <SelectValue placeholder="Select executed project value range" />
+                                <SelectTrigger className="h-11 border-border focus:border-design-main focus:ring-design-main/20 rounded-lg">
+                                  <SelectValue
+                                    placeholder={t(
+                                      "placeholders.selectExecutedProjectRange"
+                                    )}
+                                  />
                                 </SelectTrigger>
                               </FormControl>
                               <SelectContent>
@@ -346,7 +362,7 @@ const ContractorOperational = () => {
                                 )}
                               </SelectContent>
                             </Select>
-                            <FormMessage className="text-xs text-red-600" />
+                            <FormMessage className="text-xs text-destructive" />
                           </FormItem>
                         )}
                       />
@@ -356,10 +372,12 @@ const ContractorOperational = () => {
                         name="staff_size_range_id"
                         render={({ field }) => (
                           <FormItem className="space-y-2">
-                            <FormLabel className="text-sm font-medium text-gray-700 flex items-center gap-2">
-                              <Users className="h-4 w-4 text-gray-500" />
-                              Staff Size Range
-                              <span className="text-red-500">*</span>
+                            <FormLabel className="text-sm font-medium text-foreground flex items-center gap-2">
+                              <Users className="h-4 w-4 text-design-main flex-shrink-0" />
+                              <span className="truncate">
+                                {t("sections.projectInfo.staffSizeRange")}
+                              </span>
+                              <span className="text-destructive">*</span>
                             </FormLabel>
                             <Select
                               onValueChange={(value) =>
@@ -373,8 +391,12 @@ const ContractorOperational = () => {
                               disabled={isLoading || !isEditing}
                             >
                               <FormControl>
-                                <SelectTrigger className="h-11 border-gray-300 focus:border-blue-500 focus:ring-blue-500/20 rounded-lg">
-                                  <SelectValue placeholder="Select staff size range" />
+                                <SelectTrigger className="h-11 border-border focus:border-design-main focus:ring-design-main/20 rounded-lg">
+                                  <SelectValue
+                                    placeholder={t(
+                                      "placeholders.selectStaffSizeRange"
+                                    )}
+                                  />
                                 </SelectTrigger>
                               </FormControl>
                               <SelectContent>
@@ -390,7 +412,7 @@ const ContractorOperational = () => {
                                 )}
                               </SelectContent>
                             </Select>
-                            <FormMessage className="text-xs text-red-600" />
+                            <FormMessage className="text-xs text-destructive" />
                           </FormItem>
                         )}
                       />
@@ -400,10 +422,12 @@ const ContractorOperational = () => {
                         name="experience_years_range_id"
                         render={({ field }) => (
                           <FormItem className="space-y-2">
-                            <FormLabel className="text-sm font-medium text-gray-700 flex items-center gap-2">
-                              <Award className="h-4 w-4 text-gray-500" />
-                              Experience Years Range
-                              <span className="text-red-500">*</span>
+                            <FormLabel className="text-sm font-medium text-foreground flex items-center gap-2">
+                              <Award className="h-4 w-4 text-design-main flex-shrink-0" />
+                              <span className="truncate">
+                                {t("sections.projectInfo.experienceYearsRange")}
+                              </span>
+                              <span className="text-destructive">*</span>
                             </FormLabel>
                             <Select
                               onValueChange={(value) =>
@@ -417,8 +441,12 @@ const ContractorOperational = () => {
                               disabled={isLoading || !isEditing}
                             >
                               <FormControl>
-                                <SelectTrigger className="h-11 border-gray-300 focus:border-blue-500 focus:ring-blue-500/20 rounded-lg">
-                                  <SelectValue placeholder="Select experience years range" />
+                                <SelectTrigger className="h-11 border-border focus:border-design-main focus:ring-design-main/20 rounded-lg">
+                                  <SelectValue
+                                    placeholder={t(
+                                      "placeholders.selectExperienceYearsRange"
+                                    )}
+                                  />
                                 </SelectTrigger>
                               </FormControl>
                               <SelectContent>
@@ -434,7 +462,7 @@ const ContractorOperational = () => {
                                 )}
                               </SelectContent>
                             </Select>
-                            <FormMessage className="text-xs text-red-600" />
+                            <FormMessage className="text-xs text-destructive" />
                           </FormItem>
                         )}
                       />
@@ -444,10 +472,12 @@ const ContractorOperational = () => {
                         name="annual_projects_range_id"
                         render={({ field }) => (
                           <FormItem className="space-y-2">
-                            <FormLabel className="text-sm font-medium text-gray-700 flex items-center gap-2">
-                              <Briefcase className="h-4 w-4 text-gray-500" />
-                              Annual Projects Range
-                              <span className="text-red-500">*</span>
+                            <FormLabel className="text-sm font-medium text-foreground flex items-center gap-2">
+                              <Briefcase className="h-4 w-4 text-design-main flex-shrink-0" />
+                              <span className="truncate">
+                                {t("sections.projectInfo.annualProjectsRange")}
+                              </span>
+                              <span className="text-destructive">*</span>
                             </FormLabel>
                             <Select
                               onValueChange={(value) =>
@@ -461,8 +491,12 @@ const ContractorOperational = () => {
                               disabled={isLoading || !isEditing}
                             >
                               <FormControl>
-                                <SelectTrigger className="h-11 border-gray-300 focus:border-blue-500 focus:ring-blue-500/20 rounded-lg">
-                                  <SelectValue placeholder="Select annual projects range" />
+                                <SelectTrigger className="h-11 border-border focus:border-design-main focus:ring-design-main/20 rounded-lg">
+                                  <SelectValue
+                                    placeholder={t(
+                                      "placeholders.selectAnnualProjectsRange"
+                                    )}
+                                  />
                                 </SelectTrigger>
                               </FormControl>
                               <SelectContent>
@@ -478,7 +512,7 @@ const ContractorOperational = () => {
                                 )}
                               </SelectContent>
                             </Select>
-                            <FormMessage className="text-xs text-red-600" />
+                            <FormMessage className="text-xs text-destructive" />
                           </FormItem>
                         )}
                       />
@@ -489,20 +523,24 @@ const ContractorOperational = () => {
                       name="target_project_value_range_ids"
                       render={({ field }) => (
                         <FormItem className="space-y-3">
-                          <FormLabel className="text-sm font-medium text-gray-700 flex items-center gap-2">
-                            <FileText className="h-4 w-4 text-gray-500" />
-                            Target Project Value Ranges
-                            <span className="text-red-500">*</span>
+                          <FormLabel className="text-sm font-medium text-foreground flex items-center gap-2">
+                            <FileText className="h-4 w-4 text-design-main flex-shrink-0" />
+                            <span className="truncate">
+                              {t("sections.projectInfo.targetProjectRanges")}
+                            </span>
+                            <span className="text-destructive">*</span>
                           </FormLabel>
-                          <FormDescription className="text-sm text-gray-600">
-                            Select all applicable target project value ranges
+                          <FormDescription className="text-sm text-muted-foreground">
+                            {t(
+                              "sections.projectInfo.targetProjectRangesDescription"
+                            )}
                           </FormDescription>
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                             {operationalData.target_project_value_ranges.map(
                               (range) => (
                                 <div
                                   key={range.id}
-                                  className="flex items-center space-x-3 p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+                                  className="flex items-center space-x-3 p-3 border border-border rounded-lg hover:bg-muted/50 transition-colors"
                                 >
                                   <Checkbox
                                     id={`target-${range.id}`}
@@ -525,11 +563,11 @@ const ContractorOperational = () => {
                                       }
                                     }}
                                     disabled={isLoading || !isEditing}
-                                    className="border-gray-300"
+                                    className="border-border"
                                   />
                                   <Label
                                     htmlFor={`target-${range.id}`}
-                                    className="text-sm font-medium text-gray-700 cursor-pointer"
+                                    className="text-sm font-medium text-foreground cursor-pointer"
                                   >
                                     {range.label}
                                   </Label>
@@ -545,33 +583,36 @@ const ContractorOperational = () => {
                 </div>
 
                 {/* Classification & Accreditation */}
-                <div className="bg-white border border-gray-200 rounded-lg shadow-sm">
-                  <div className="px-6 py-4 border-b border-gray-200 bg-gray-50/50">
+                <div className="bg-card border border-border rounded-lg shadow-sm">
+                  <div className="px-4 sm:px-6 py-4 border-b border-border bg-muted/30">
                     <div className="flex items-center gap-3">
-                      <div className="p-2 bg-green-100 rounded-lg">
-                        <Award className="h-5 w-5 text-green-600" />
+                      <div className="p-2 bg-design-main/10 rounded-lg flex-shrink-0">
+                        <Award className="h-5 w-5 text-design-main" />
                       </div>
-                      <div>
-                        <h3 className="text-lg font-semibold text-gray-900">
-                          Classification & Accreditation
+                      <div className="min-w-0">
+                        <h3 className="text-base sm:text-lg font-semibold text-foreground">
+                          {t("sections.classification.title")}
                         </h3>
-                        <p className="text-sm text-gray-600">
-                          Your contractor classification and accreditation
-                          details
+                        <p className="text-sm text-muted-foreground">
+                          {t("sections.classification.description")}
                         </p>
                       </div>
                     </div>
                   </div>
-                  <div className="p-6 space-y-6">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="p-4 sm:p-6 space-y-4 sm:space-y-6">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
                       <FormField
                         control={form.control}
                         name="classification_level_id"
                         render={({ field }) => (
                           <FormItem className="space-y-2">
-                            <FormLabel className="text-sm font-medium text-gray-700 flex items-center gap-2">
-                              <Award className="h-4 w-4 text-gray-500" />
-                              Classification Level
+                            <FormLabel className="text-sm font-medium text-foreground flex items-center gap-2">
+                              <Award className="h-4 w-4 text-design-main flex-shrink-0" />
+                              <span className="truncate">
+                                {t(
+                                  "sections.classification.classificationLevel"
+                                )}
+                              </span>
                             </FormLabel>
                             <Select
                               onValueChange={(value) =>
@@ -585,8 +626,12 @@ const ContractorOperational = () => {
                               disabled={isLoading || !isEditing}
                             >
                               <FormControl>
-                                <SelectTrigger className="h-11 border-gray-300 focus:border-blue-500 focus:ring-blue-500/20 rounded-lg">
-                                  <SelectValue placeholder="Select classification level" />
+                                <SelectTrigger className="h-11 border-border focus:border-design-main focus:ring-design-main/20 rounded-lg">
+                                  <SelectValue
+                                    placeholder={t(
+                                      "placeholders.selectClassificationLevel"
+                                    )}
+                                  />
                                 </SelectTrigger>
                               </FormControl>
                               <SelectContent>
@@ -602,7 +647,7 @@ const ContractorOperational = () => {
                                 )}
                               </SelectContent>
                             </Select>
-                            <FormMessage className="text-xs text-red-600" />
+                            <FormMessage className="text-xs text-destructive" />
                           </FormItem>
                         )}
                       />
@@ -612,13 +657,18 @@ const ContractorOperational = () => {
                         name="classification_file"
                         render={({ field }) => (
                           <FormItem className="space-y-2">
-                            <FormLabel className="text-sm font-medium text-gray-700 flex items-center gap-2">
-                              <Upload className="h-4 w-4 text-gray-500" />
-                              Classification File
+                            <FormLabel className="text-sm font-medium text-foreground flex items-center gap-2">
+                              <Upload className="h-4 w-4 text-design-main flex-shrink-0" />
+                              <span className="truncate">
+                                {t(
+                                  "sections.classification.classificationFile"
+                                )}
+                              </span>
                             </FormLabel>
-                            <FormDescription className="text-sm text-gray-600">
-                              Upload your classification certificate (PDF, JPG,
-                              JPEG, PNG, WEBP, max 8MB)
+                            <FormDescription className="text-sm text-muted-foreground">
+                              {t(
+                                "sections.classification.classificationFileDescription"
+                              )}
                             </FormDescription>
                             <FormControl>
                               <Input
@@ -632,10 +682,10 @@ const ContractorOperational = () => {
                                   }
                                 }}
                                 disabled={isLoading || !isEditing}
-                                className="h-11 border-gray-300 focus:border-blue-500 focus:ring-blue-500/20 rounded-lg"
+                                className="h-11 border-border focus:border-design-main focus:ring-design-main/20 rounded-lg"
                               />
                             </FormControl>
-                            <FormMessage className="text-xs text-red-600" />
+                            <FormMessage className="text-xs text-destructive" />
                           </FormItem>
                         )}
                       />
@@ -646,21 +696,25 @@ const ContractorOperational = () => {
                         control={form.control}
                         name="has_government_accreditation"
                         render={({ field }) => (
-                          <FormItem className="flex flex-row items-start space-x-3 space-y-0 p-4 border border-gray-200 rounded-lg">
+                          <FormItem className="flex flex-row items-start space-x-3 space-y-0 p-4 border border-border rounded-lg">
                             <FormControl>
                               <Checkbox
                                 checked={field.value}
                                 onCheckedChange={field.onChange}
                                 disabled={isLoading || !isEditing}
-                                className="border-gray-300"
+                                className="border-border mt-1"
                               />
                             </FormControl>
                             <div className="space-y-1 leading-none">
-                              <FormLabel className="text-sm font-medium text-gray-700">
-                                Has Government Accreditation
+                              <FormLabel className="text-sm font-medium text-foreground">
+                                {t(
+                                  "sections.classification.hasGovernmentAccreditation"
+                                )}
                               </FormLabel>
-                              <FormDescription className="text-sm text-gray-600">
-                                Check if you have government accreditation
+                              <FormDescription className="text-sm text-muted-foreground">
+                                {t(
+                                  "sections.classification.hasGovernmentAccreditationDescription"
+                                )}
                               </FormDescription>
                             </div>
                           </FormItem>
@@ -671,21 +725,23 @@ const ContractorOperational = () => {
                         control={form.control}
                         name="covers_all_regions"
                         render={({ field }) => (
-                          <FormItem className="flex flex-row items-start space-x-3 space-y-0 p-4 border border-gray-200 rounded-lg">
+                          <FormItem className="flex flex-row items-start space-x-3 space-y-0 p-4 border border-border rounded-lg">
                             <FormControl>
                               <Checkbox
                                 checked={field.value}
                                 onCheckedChange={field.onChange}
                                 disabled={isLoading || !isEditing}
-                                className="border-gray-300"
+                                className="border-border mt-1"
                               />
                             </FormControl>
                             <div className="space-y-1 leading-none">
-                              <FormLabel className="text-sm font-medium text-gray-700">
-                                Covers All Regions
+                              <FormLabel className="text-sm font-medium text-foreground">
+                                {t("sections.classification.coversAllRegions")}
                               </FormLabel>
-                              <FormDescription className="text-sm text-gray-600">
-                                Check if your services cover all regions
+                              <FormDescription className="text-sm text-muted-foreground">
+                                {t(
+                                  "sections.classification.coversAllRegionsDescription"
+                                )}
                               </FormDescription>
                             </div>
                           </FormItem>
@@ -696,34 +752,35 @@ const ContractorOperational = () => {
                 </div>
 
                 {/* Work Fields */}
-                <div className="bg-white border border-gray-200 rounded-lg shadow-sm">
-                  <div className="px-6 py-4 border-b border-gray-200 bg-gray-50/50">
+                <div className="bg-card border border-border rounded-lg shadow-sm">
+                  <div className="px-4 sm:px-6 py-4 border-b border-border bg-muted/30">
                     <div className="flex items-center gap-3">
-                      <div className="p-2 bg-purple-100 rounded-lg">
-                        <Briefcase className="h-5 w-5 text-purple-600" />
+                      <div className="p-2 bg-design-main/10 rounded-lg flex-shrink-0">
+                        <Briefcase className="h-5 w-5 text-design-main" />
                       </div>
-                      <div>
-                        <h3 className="text-lg font-semibold text-gray-900">
-                          Work Fields & Experience
+                      <div className="min-w-0">
+                        <h3 className="text-base sm:text-lg font-semibold text-foreground">
+                          {t("sections.workFields.title")}
                         </h3>
-                        <p className="text-sm text-gray-600">
-                          Specify your work fields and years of experience in
-                          each
+                        <p className="text-sm text-muted-foreground">
+                          {t("sections.workFields.description")}
                         </p>
                       </div>
                     </div>
                   </div>
-                  <div className="p-6 space-y-6">
+                  <div className="p-4 sm:p-6 space-y-4 sm:space-y-6">
                     {workFields.map((workField, index) => (
                       <div
                         key={index}
-                        className="flex items-end gap-4 p-4 border border-gray-200 rounded-lg"
+                        className="flex flex-col sm:flex-row items-end gap-4 p-4 border border-border rounded-lg"
                       >
-                        <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-4">
                           <div className="space-y-2">
-                            <Label className="text-sm font-medium text-gray-700 flex items-center gap-2">
-                              <Briefcase className="h-4 w-4 text-gray-500" />
-                              Work Field
+                            <Label className="text-sm font-medium text-foreground flex items-center gap-2">
+                              <Briefcase className="h-4 w-4 text-design-main flex-shrink-0" />
+                              <span className="truncate">
+                                {t("sections.workFields.workField")}
+                              </span>
                             </Label>
                             <Select
                               value={
@@ -738,8 +795,12 @@ const ContractorOperational = () => {
                               }}
                               disabled={isLoading || !isEditing}
                             >
-                              <SelectTrigger className="h-11 border-gray-300 focus:border-blue-500 focus:ring-blue-500/20 rounded-lg">
-                                <SelectValue placeholder="Select work field" />
+                              <SelectTrigger className="h-11 border-border focus:border-design-main focus:ring-design-main/20 rounded-lg">
+                                <SelectValue
+                                  placeholder={t(
+                                    "placeholders.selectWorkField"
+                                  )}
+                                />
                               </SelectTrigger>
                               <SelectContent>
                                 {operationalData.work_fields.map((field) => (
@@ -754,9 +815,11 @@ const ContractorOperational = () => {
                             </Select>
                           </div>
                           <div className="space-y-2">
-                            <Label className="text-sm font-medium text-gray-700 flex items-center gap-2">
-                              <Award className="h-4 w-4 text-gray-500" />
-                              Years of Experience
+                            <Label className="text-sm font-medium text-foreground flex items-center gap-2">
+                              <Award className="h-4 w-4 text-design-main flex-shrink-0" />
+                              <span className="truncate">
+                                {t("sections.workFields.yearsOfExperience")}
+                              </span>
                             </Label>
                             <Input
                               type="number"
@@ -769,7 +832,7 @@ const ContractorOperational = () => {
                                 setWorkFields(updated);
                               }}
                               disabled={isLoading || !isEditing}
-                              className="h-11 border-gray-300 focus:border-blue-500 focus:ring-blue-500/20 rounded-lg"
+                              className="h-11 border-border focus:border-design-main focus:ring-design-main/20 rounded-lg"
                             />
                           </div>
                         </div>
@@ -779,7 +842,7 @@ const ContractorOperational = () => {
                             variant="outline"
                             size="sm"
                             onClick={() => removeWorkField(index)}
-                            className="border-red-200 text-red-600 hover:bg-red-50"
+                            className="border-destructive/20 text-destructive hover:bg-destructive/10 w-full sm:w-auto"
                           >
                             <Trash2 className="h-4 w-4" />
                           </Button>
@@ -791,42 +854,41 @@ const ContractorOperational = () => {
                         type="button"
                         variant="outline"
                         onClick={addWorkField}
-                        className="w-full h-11 border-gray-300 text-gray-700 hover:bg-gray-50 font-medium"
+                        className="w-full h-11 border-border text-foreground hover:bg-muted font-medium"
                       >
                         <Plus className="h-4 w-4 mr-2" />
-                        Add Work Field
+                        {t("sections.workFields.addWorkField")}
                       </Button>
                     )}
                   </div>
                 </div>
 
                 {/* Geographical Coverage */}
-                <div className="bg-white border border-gray-200 rounded-lg shadow-sm">
-                  <div className="px-6 py-4 border-b border-gray-200 bg-gray-50/50">
+                <div className="bg-card border border-border rounded-lg shadow-sm">
+                  <div className="px-4 sm:px-6 py-4 border-b border-border bg-muted/30">
                     <div className="flex items-center gap-3">
-                      <div className="p-2 bg-orange-100 rounded-lg">
-                        <MapPin className="h-5 w-5 text-orange-600" />
+                      <div className="p-2 bg-design-main/10 rounded-lg flex-shrink-0">
+                        <MapPin className="h-5 w-5 text-design-main" />
                       </div>
-                      <div>
-                        <h3 className="text-lg font-semibold text-gray-900">
-                          Geographical Coverage
+                      <div className="min-w-0">
+                        <h3 className="text-base sm:text-lg font-semibold text-foreground">
+                          {t("sections.geographicalCoverage.title")}
                         </h3>
-                        <p className="text-sm text-gray-600">
-                          Define your operational and contractor geographical
-                          coverage
+                        <p className="text-sm text-muted-foreground">
+                          {t("sections.geographicalCoverage.description")}
                         </p>
                       </div>
                     </div>
                   </div>
-                  <div className="p-6 space-y-6">
+                  <div className="p-4 sm:p-6 space-y-4 sm:space-y-6">
                     <div>
-                      <h4 className="font-medium text-gray-900 mb-4">
-                        Operational Coverage
+                      <h4 className="font-medium text-foreground mb-4">
+                        {t("sections.geographicalCoverage.operationalCoverage")}
                       </h4>
                       {geographicalCoverage.map((coverage, index) => (
                         <div
                           key={index}
-                          className="flex items-end gap-4 p-4 border border-gray-200 rounded-lg mb-4"
+                          className="flex flex-col sm:flex-row items-end gap-4 p-4 border border-border rounded-lg mb-4"
                         >
                           <div className="flex-1 space-y-4">
                             <LocationSelect
@@ -864,13 +926,15 @@ const ContractorOperational = () => {
                                   setGeographicalCoverage(updated);
                                 }}
                                 disabled={isLoading || !isEditing}
-                                className="border-gray-300"
+                                className="border-border"
                               />
                               <Label
                                 htmlFor={`covers-all-${index}`}
-                                className="text-sm font-medium text-gray-700"
+                                className="text-sm font-medium text-foreground"
                               >
-                                Covers All Areas
+                                {t(
+                                  "sections.geographicalCoverage.coversAllAreas"
+                                )}
                               </Label>
                             </div>
                           </div>
@@ -880,7 +944,7 @@ const ContractorOperational = () => {
                               variant="outline"
                               size="sm"
                               onClick={() => removeGeographicalCoverage(index)}
-                              className="border-red-200 text-red-600 hover:bg-red-50"
+                              className="border-destructive/20 text-destructive hover:bg-destructive/10 w-full sm:w-auto"
                             >
                               <Trash2 className="h-4 w-4" />
                             </Button>
@@ -892,22 +956,24 @@ const ContractorOperational = () => {
                           type="button"
                           variant="outline"
                           onClick={addGeographicalCoverage}
-                          className="w-full h-11 border-gray-300 text-gray-700 hover:bg-gray-50 font-medium"
+                          className="w-full h-11 border-border text-foreground hover:bg-muted font-medium"
                         >
                           <Plus className="h-4 w-4 mr-2" />
-                          Add Operational Coverage
+                          {t(
+                            "sections.geographicalCoverage.addOperationalCoverage"
+                          )}
                         </Button>
                       )}
                     </div>
 
                     <div>
-                      <h4 className="font-medium text-gray-900 mb-4">
-                        Contractor Geographic Coverage
+                      <h4 className="font-medium text-foreground mb-4">
+                        {t("sections.geographicalCoverage.contractorCoverage")}
                       </h4>
                       {contractorCoverage.map((coverage, index) => (
                         <div
                           key={index}
-                          className="flex items-end gap-4 p-4 border border-gray-200 rounded-lg mb-4"
+                          className="flex flex-col sm:flex-row items-end gap-4 p-4 border border-border rounded-lg mb-4"
                         >
                           <div className="flex-1 space-y-4">
                             <LocationSelect
@@ -945,13 +1011,15 @@ const ContractorOperational = () => {
                                   setContractorCoverage(updated);
                                 }}
                                 disabled={isLoading || !isEditing}
-                                className="border-gray-300"
+                                className="border-border"
                               />
                               <Label
                                 htmlFor={`contractor-covers-all-${index}`}
-                                className="text-sm font-medium text-gray-700"
+                                className="text-sm font-medium text-foreground"
                               >
-                                Covers All Areas
+                                {t(
+                                  "sections.geographicalCoverage.coversAllAreas"
+                                )}
                               </Label>
                             </div>
                           </div>
@@ -961,7 +1029,7 @@ const ContractorOperational = () => {
                               variant="outline"
                               size="sm"
                               onClick={() => removeContractorCoverage(index)}
-                              className="border-red-200 text-red-600 hover:bg-red-50"
+                              className="border-destructive/20 text-destructive hover:bg-destructive/10 w-full sm:w-auto"
                             >
                               <Trash2 className="h-4 w-4" />
                             </Button>
@@ -973,10 +1041,12 @@ const ContractorOperational = () => {
                           type="button"
                           variant="outline"
                           onClick={addContractorCoverage}
-                          className="w-full h-11 border-gray-300 text-gray-700 hover:bg-gray-50 font-medium"
+                          className="w-full h-11 border-border text-foreground hover:bg-muted font-medium"
                         >
                           <Plus className="h-4 w-4 mr-2" />
-                          Add Contractor Coverage
+                          {t(
+                            "sections.geographicalCoverage.addContractorCoverage"
+                          )}
                         </Button>
                       )}
                     </div>
@@ -984,22 +1054,23 @@ const ContractorOperational = () => {
                 </div>
 
                 {error && (
-                  <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
-                    <p className="text-red-800 text-sm">{error}</p>
+                  <div className="p-4 bg-destructive/10 border border-destructive/20 rounded-lg">
+                    <p className="text-destructive text-sm">{error}</p>
                   </div>
                 )}
 
                 {/* Validation Errors Summary */}
                 {Object.keys(form.formState.errors).length > 0 && (
-                  <div className="p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
-                    <p className="text-yellow-800 text-sm font-medium mb-2">
-                      Please fix the following errors:
+                  <div className="p-4 bg-warning/10 border border-warning/20 rounded-lg">
+                    <p className="text-warning-foreground text-sm font-medium mb-2">
+                      {t("errors.fixErrors")}
                     </p>
-                    <ul className="text-yellow-700 text-sm space-y-1">
+                    <ul className="text-warning-foreground/80 text-sm space-y-1">
                       {Object.entries(form.formState.errors).map(
                         ([field, error]) => (
                           <li key={field}>
-                            • {field}: {error?.message || "Invalid value"}
+                            • {field}:{" "}
+                            {error?.message || t("errors.invalidValue")}
                           </li>
                         )
                       )}
@@ -1008,23 +1079,23 @@ const ContractorOperational = () => {
                 )}
 
                 {isEditing && (
-                  <div className="flex justify-end pt-6 border-t border-gray-200">
+                  <div className="flex justify-end pt-6 border-t border-border">
                     <Button
                       type="submit"
                       className={cn(
-                        "px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg shadow-sm transition-all duration-200 min-w-[140px]",
+                        "px-6 sm:px-8 py-3 bg-design-main hover:bg-design-main-dark text-white font-medium rounded-lg shadow-sm transition-all duration-200 min-w-[140px] w-full sm:w-auto",
                         isLoading &&
-                          "cursor-not-allowed bg-gray-400 hover:bg-gray-400"
+                          "cursor-not-allowed bg-muted hover:bg-muted"
                       )}
                       disabled={isLoading}
                     >
                       {isLoading ? (
                         <div className="flex items-center gap-2">
                           <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                          Saving...
+                          {t("saving")}
                         </div>
                       ) : (
-                        "Save Changes"
+                        t("saveChanges")
                       )}
                     </Button>
                   </div>

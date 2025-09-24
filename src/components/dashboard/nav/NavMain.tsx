@@ -7,22 +7,62 @@ import { useTranslations } from "next-intl";
 import { usePathname } from "next/navigation";
 import { twMerge } from "tailwind-merge";
 import { useGlobalStore } from "@/shared/store/globalStore";
+import { LucideIcon } from "lucide-react";
+
+// Type definitions for icon handling
+type SvgAsset = {
+  src: string;
+};
+
+type IconType = LucideIcon | SvgAsset;
+
+// Utility function to extract role from pathname
+const getRoleFromPathname = (pathname: string): keyof typeof roleNav => {
+  const pathSegments = pathname.split("/");
+  const dashboardIndex = pathSegments.indexOf("dashboard");
+
+  if (dashboardIndex !== -1 && pathSegments[dashboardIndex + 1]) {
+    const role = pathSegments[dashboardIndex + 1];
+
+    // Map URL segments to roleNav keys
+    const roleMapping: Record<string, keyof typeof roleNav> = {
+      individual: "individual",
+      contractor: "contractor",
+      supplier: "supplier",
+      organization: "organization",
+      engineering_office: "engineering_office",
+      freelance_engineer: "freelance_engineer",
+    };
+
+    return roleMapping[role] || "individual"; // Default to individual if role not found
+  }
+
+  return "individual"; // Default fallback
+};
 
 const NavMain = () => {
   const t = useTranslations();
   const pathname = usePathname();
-  const renderIcon = (icon: any) => {
+
+  // Get the current role based on the pathname
+  const currentRole = getRoleFromPathname(pathname);
+
+  // Get the navigation items for the current role
+  const navigationItems = roleNav[currentRole] || roleNav.individual;
+
+  const renderIcon = (icon: IconType) => {
     // Check if it's a React component (Lucide icons)
-    if (typeof icon === "function" || (icon && icon.$$typeof)) {
-      const IconComponent = icon;
+    if (typeof icon === "function") {
+      const IconComponent = icon as LucideIcon;
       return <IconComponent className="h-6 w-6" />;
     }
 
     // Check if it's an SVG asset object
-    if (icon && typeof icon === "object" && icon.src) {
+    if (icon && typeof icon === "object" && "src" in icon) {
+      const svgAsset = icon as SvgAsset;
       return (
         <Image
-          src={icon.src}
+          src={svgAsset.src}
           alt="icon"
           width={16}
           height={16}
@@ -37,9 +77,9 @@ const NavMain = () => {
 
   return (
     <nav className="flex flex-col gap-1">
-      {roleNav.individual.map((item) => {
+      {navigationItems.map((item) => {
         const isActive =
-          item.url === "/dashboard/individual"
+          item.url === `/dashboard/${currentRole}`
             ? pathname === item.url
             : pathname === item.url || pathname.startsWith(item.url + "/");
         return (

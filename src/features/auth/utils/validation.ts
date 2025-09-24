@@ -7,7 +7,7 @@ export const createValidationSchemas = (t: (key: string) => string) => {
 
   const EmailLoginSchema = z.object({
     email: z.string().email(messages.email.invalid),
-    password: z.string().min(8, messages.password.minLength),
+    password: z.string().min(6, messages.password.minLength),
   });
 
   // Common validation schemas for reuse
@@ -18,7 +18,7 @@ export const createValidationSchemas = (t: (key: string) => string) => {
   };
 
   const PhoneLoginSchema = z.object({
-    phoneNumber: z.string().min(9, messages.phoneNumber.minLength),
+    phoneNumber: z.string().min(6, messages.phoneNumber.minLength),
     // Assuming OTP is used for login instead of a password for phone
   });
 
@@ -95,7 +95,18 @@ export const createValidationSchemas = (t: (key: string) => string) => {
       path: ["confirmPassword"],
     });
 
-  // Organization-specific Schemas
+    const passwordResetSchema = z.object({
+      emailOrPhone: z
+        .string()
+        .min(1, messages.emailOrPhone.required)
+        .refine((value) => {
+          // Check if it's a valid email
+          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+          // Check if it's a valid phone (simple check for digits and common phone chars)
+          const phoneRegex = /^[\+]?[0-9\s\-\(\)]{10,}$/;
+          return emailRegex.test(value) || phoneRegex.test(value);
+        }, messages.emailOrPhone.invalid),
+    });
 
   return {
     EmailLoginSchema,
@@ -107,5 +118,6 @@ export const createValidationSchemas = (t: (key: string) => string) => {
     OTPVerificationSchema,
     PasswordResetSchema,
     NewPasswordSchema,
+    passwordResetSchema,
   };
 };

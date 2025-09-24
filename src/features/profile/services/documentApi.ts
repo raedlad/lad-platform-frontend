@@ -8,7 +8,7 @@ import api from "@/lib/api";
 // API Response Types
 export interface ApiResponse<T = any> {
   success: boolean;
-  data: T;
+  response: T;
   message?: string;
   error?: string;
 }
@@ -40,46 +40,55 @@ export class ValidationError extends Error {
   }
 }
 
-// Utility functions
-const handleApiResponse = async <T>(response: Response): Promise<T> => {
-  if (!response.ok) {
-    let errorMessage = `HTTP ${response.status}: ${response.statusText}`;
-    let errorCode = response.status.toString();
-
-    try {
-      const errorData = await response.json();
-      errorMessage = errorData.message || errorData.error || errorMessage;
-      errorCode = errorData.code || errorCode;
-    } catch {
-      // If response is not JSON, use default error message
-    }
-
-    throw new ApiError(errorMessage, response.status, errorCode);
+// Utility functions for axios responses
+const handleApiResponse = <T>(response: any): T => {
+  // For axios, successful responses are already parsed
+  if (response.data) {
+    return response.data;
   }
+  throw new ApiError("Invalid response format", response.status);
+};
 
-  try {
-    return await response.json();
-  } catch (error) {
-    throw new ApiError("Invalid response format", response.status);
+const handleApiError = (error: any): never => {
+  if (error.response) {
+    // Server responded with error status
+    const status = error.response.status;
+    const errorData = error.response.data;
+    const errorMessage =
+      errorData?.message ||
+      errorData?.error ||
+      error.message ||
+      `HTTP ${status}`;
+    const errorCode = errorData?.code || status.toString();
+
+    throw new ApiError(errorMessage, status, errorCode);
+  } else if (error.request) {
+    // Network error - no response received
+    throw new NetworkError("Network connection failed");
+  } else {
+    // Other error
+    throw new ApiError(error.message || "Unknown error occurred", 0);
   }
 };
 
 // Enhanced Documents Service
 export const documentsService = {
-  // Fetch documents for a role
-  async fetchDocuments(role: string): Promise<DocumentRequirement[]> {
+  // Fetch documents for a role - returns raw backend data
+  async fetchDocuments(role: string): Promise<any[]> {
     try {
-      const response = await api.get(`/api/documents/${role}`);
+      const response = await api.get(`general-user/require-documents`);
+      const result = handleApiResponse<ApiResponse<any[]>>(response);
 
-      const data = await handleApiResponse<ApiResponse<DocumentRequirement[]>>(
-        response.data
-      );
-      return data.data;
+      if (!result.response) {
+        throw new ApiError("Failed to fetch documents", 400);
+      }
+      console.log("Backend response:", result.response);
+      return result.response;
     } catch (error) {
-      if (error instanceof ApiError) {
+      if (error instanceof ApiError || error instanceof NetworkError) {
         throw error;
       }
-      throw new NetworkError("Failed to fetch documents");
+      return handleApiError(error);
     }
   },
 
@@ -145,6 +154,13 @@ export const documentsService = {
     }
   ): Promise<UploadResponse> {
     try {
+      console.log("Starting file upload:", {
+        role,
+        docId,
+        fileName: file.name,
+        fileSize: file.size,
+      });
+
       // Validate file before upload
       if (!file) {
         throw new ValidationError("No file provided");
@@ -169,6 +185,10 @@ export const documentsService = {
         formData.append("expiry_date", metadata.expiryDate);
       }
 
+      console.log(
+        "FormData prepared, making API call to /base/document/upload-document"
+      );
+
       const response = await api.post(
         "/base/document/upload-document",
         formData,
@@ -179,31 +199,41 @@ export const documentsService = {
         }
       );
 
-      const result = await handleApiResponse<ApiResponse<UploadResponse>>(
-        response.data
-      );
+      console.log("Upload response received:", response);
+
+      const result = handleApiResponse<ApiResponse<any>>(response);
+
+      console.log("Parsed response:", result);
 
       // Transform the response to match our UploadResponse interface
+      // Backend returns file data directly in result.response, not result.response.file
+      const fileData = result.response;
+
       return {
         file: {
-          id: result.data.file.id || `${docId}-${Date.now()}`,
-          fileName: result.data.file.fileName || file.name,
-          customName: result.data.file.customName || metadata?.customName,
-          description:
-            result.data.file.description || metadata?.description || "",
-          fileUrl: result.data.file.fileUrl || "",
-          uploadedAt: result.data.file.uploadedAt || new Date().toISOString(),
-          expiryDate: result.data.file.expiryDate || metadata?.expiryDate,
-          status: result.data.file.status || DocumentStatus.PENDING,
-          size: result.data.file.size || file.size,
+          id: fileData.id?.toString() || `${docId}-${Date.now()}`,
+          fileName: fileData.original_filename || file.name,
+          customName: fileData.name || metadata?.customName || file.name,
+          description: fileData.description || metadata?.description || "",
+          fileUrl: fileData.file_path || "", // Use file_path from backend
+          uploadedAt: fileData.created_at || new Date().toISOString(),
+          expiryDate: fileData.expiry_date || metadata?.expiryDate,
+          status: (fileData.status as DocumentStatus) || DocumentStatus.PENDING,
+          size: fileData.file_size || file.size,
         },
         message: result.message || "File uploaded successfully",
       };
     } catch (error) {
-      if (error instanceof ApiError || error instanceof ValidationError) {
+      console.error("Upload error details:", error);
+      if (
+        error instanceof ApiError ||
+        error instanceof ValidationError ||
+        error instanceof NetworkError
+      ) {
         throw error;
       }
-      throw new NetworkError("Upload failed due to network error");
+      // Handle axios errors properly
+      return handleApiError(error);
     }
   },
 
@@ -214,18 +244,14 @@ export const documentsService = {
     fileId: string
   ): Promise<{ success: boolean; message: string }> {
     try {
-      const response = await api.delete(
-        `/files/${fileId}`,
-      );
+      const response = await api.delete(`/files/${fileId}`);
 
-      return await handleApiResponse<{ success: boolean; message: string }>(
-        response.data
-      );
+      return handleApiResponse<{ success: boolean; message: string }>(response);
     } catch (error) {
-      if (error instanceof ApiError) {
+      if (error instanceof ApiError || error instanceof NetworkError) {
         throw error;
       }
-      throw new NetworkError("Failed to remove file");
+      return handleApiError(error);
     }
   },
 
@@ -236,22 +262,26 @@ export const documentsService = {
     fileId: string
   ): Promise<string> {
     try {
-      const response = await api.get(`/files/${fileId}/download`);
+      console.log("Downloading file:", { role, docId, fileId });
 
-      if (response.status !== 200) {
-        throw new ApiError(
-          `Download failed: HTTP ${response.status}`,
-          response.status
-        );
-      }
+      const response = await api.get(`/files/${fileId}/download`, {
+        responseType: "blob", // Important for file downloads
+      });
 
-      const blob = await response.data.blob();
-      return window.URL.createObjectURL(blob);
+      console.log("Download response received:", response);
+
+      // For file downloads, we need to create a blob URL
+      const blob = new Blob([response.data]);
+      const downloadUrl = URL.createObjectURL(blob);
+
+      return downloadUrl;
     } catch (error) {
-      if (error instanceof ApiError) {
+      console.error("Download error details:", error);
+
+      if (error instanceof ApiError || error instanceof NetworkError) {
         throw error;
       }
-      throw new NetworkError("Failed to download file");
+      return handleApiError(error);
     }
   },
 
@@ -268,14 +298,12 @@ export const documentsService = {
         },
       });
 
-      return await handleApiResponse<{ success: boolean; message: string }>(
-        response
-      );
+      return handleApiResponse<{ success: boolean; message: string }>(response);
     } catch (error) {
-      if (error instanceof ApiError) {
+      if (error instanceof ApiError || error instanceof NetworkError) {
         throw error;
       }
-      throw new NetworkError("Failed to submit documents");
+      return handleApiError(error);
     }
   },
 

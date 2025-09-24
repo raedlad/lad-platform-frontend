@@ -8,13 +8,12 @@ import {
   CardTitle,
 } from "@/shared/components/ui/card";
 import { Button } from "@shared/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/shared/components/ui/progress";
 import { Upload, CheckCircle, AlertTriangle, RefreshCw } from "lucide-react";
 import { useDocumentsStore } from "@/features/profile/store/documentStore";
 import ManualFileUploadZone from "./ManualFileUploadZone";
 import DocumentList from "./DocumentList";
-// import UploadStatus from "../../upload/UploadStatus";
+import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
 
 interface DocumentUploadProps {
@@ -40,6 +39,7 @@ const DocumentUpload: React.FC<DocumentUploadProps> = ({
   description,
   className,
 }) => {
+  const t = useTranslations("profile.documents.upload");
   const {
     roleDocuments,
     isLoading,
@@ -80,12 +80,12 @@ const DocumentUpload: React.FC<DocumentUploadProps> = ({
 
   const getRoleTitle = () => {
     const titles: Record<string, string> = {
-      INDIVIDUAL: "Individual Documents",
-      ORGANIZATION: "Organization Documents",
-      ENGINEERING_OFFICE: "Engineering Office Documents",
-      FREELANCE_ENGINEER: "Freelance Engineer Documents",
-      CONTRACTOR: "Contractor Documents",
-      SUPPLIER: "Supplier Documents",
+      INDIVIDUAL: t("individualDocuments"),
+      ORGANIZATION: t("organizationDocuments"),
+      ENGINEERING_OFFICE: t("engineeringOfficeDocuments"),
+      FREELANCE_ENGINEER: t("freelanceEngineerDocuments"),
+      CONTRACTOR: t("contractorDocuments"),
+      SUPPLIER: t("supplierDocuments"),
     };
     return title || titles[role] || "Documents";
   };
@@ -106,7 +106,7 @@ const DocumentUpload: React.FC<DocumentUploadProps> = ({
         <CardContent className="flex items-center justify-center p-8">
           <div className="flex items-center gap-2">
             <RefreshCw className="w-5 h-5 animate-spin" />
-            <span>Loading document requirements...</span>
+            <span>{t("loading")}</span>
           </div>
         </CardContent>
       </Card>
@@ -119,14 +119,14 @@ const DocumentUpload: React.FC<DocumentUploadProps> = ({
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-destructive">
             <AlertTriangle className="w-5 h-5" />
-            Error Loading Documents
+            {t("errorLoading")}
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <p className="text-muted-foreground">{error}</p>
           <Button onClick={handleRetry} variant="outline">
             <RefreshCw className="w-4 h-4 mr-2" />
-            Try Again
+            {t("tryAgain")}
           </Button>
         </CardContent>
       </Card>
@@ -139,38 +139,41 @@ const DocumentUpload: React.FC<DocumentUploadProps> = ({
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Upload className="w-5 h-5" />
-            {getRoleTitle()}
+            <Upload className="w-5 h-5 text-design-main" />
+            {t("title")}
           </CardTitle>
-          <p className="text-sm text-muted-foreground">
-            {getRoleDescription()}
-          </p>
+          <p className="text-sm text-muted-foreground">{t("description")}</p>
         </CardHeader>
         <CardContent>
           {/* Progress Overview - Responsive */}
           <div className="space-y-4">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
               <span className="text-sm font-medium">
-                Mandatory Documents Progress
+                {t("mandatoryProgress")}
               </span>
-              <span className="font-bold text-lg">
+              <span className="font-bold text-lg text-design-main">
                 {completed}/{total}
               </span>
             </div>
 
             <Progress
               value={total > 0 ? (completed / total) * 100 : 0}
-              className="h-3"
+              className="h-3 bg-design-main/20"
+              indicatorClassName="bg-design-main"
             />
 
             <div className="flex flex-col xs:flex-row items-start xs:items-center gap-2 xs:gap-4 text-xs">
               <div className="flex items-center gap-2">
-                <div className="w-3 h-3 bg-primary rounded-full" />
-                <span>Completed ({completed})</span>
+                <div className="w-3 h-3 bg-design-main rounded-full" />
+                <span>
+                  {t("completed")} ({completed})
+                </span>
               </div>
               <div className="flex items-center gap-2">
-                <div className="w-3 h-3 bg-muted rounded-full" />
-                <span>Pending ({total - completed})</span>
+                <div className="w-3 h-3 bg-design-main/10 rounded-full" />
+                <span>
+                  {t("pending")} ({total - completed})
+                </span>
               </div>
             </div>
           </div>
@@ -184,7 +187,7 @@ const DocumentUpload: React.FC<DocumentUploadProps> = ({
             <div className="flex items-center gap-2">
               <CheckCircle className="w-5 h-5 text-green-600" />
               <span className="text-green-800 dark:text-green-200 font-medium">
-                Documents submitted successfully!
+                {t("submittedSuccessfully")}
               </span>
             </div>
             <Button
@@ -193,14 +196,11 @@ const DocumentUpload: React.FC<DocumentUploadProps> = ({
               onClick={() => resetSubmitSuccess(role)}
               className="text-green-600 hover:text-green-700"
             >
-              Dismiss
+              {t("dismiss")}
             </Button>
           </CardContent>
         </Card>
       )}
-
-      {/* Upload Status - Shows global errors/progress
-      <UploadStatus role={role} /> */}
 
       {/* Document Requirements - Responsive Layout */}
       <div className="space-y-6">
@@ -209,33 +209,23 @@ const DocumentUpload: React.FC<DocumentUploadProps> = ({
             <CardHeader className="pb-4">
               {/* Responsive header layout */}
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                <CardTitle className="text-lg flex flex-col sm:flex-row sm:items-center gap-2">
+                <CardTitle className="text-lg flex items-center gap-2">
                   <span>{requirement.label}</span>
-                  {requirement.mandatory && (
-                    <Badge variant="destructive" className="text-xs w-fit">
-                      Required
-                    </Badge>
-                  )}
+                  {requirement.mandatory && <span className="text-d-6 inline-flex">*</span>}
                 </CardTitle>
-                <Badge
-                  variant={
-                    requirement.status === "approved" ? "success" : "secondary"
-                  }
-                  className="capitalize w-fit"
-                >
-                  {requirement.status || "pending"}
-                </Badge>
               </div>
 
               {/* File requirements - responsive text */}
               <div className="text-xs text-muted-foreground space-y-1 sm:space-y-0">
                 <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-4">
-                  <span>Max {requirement.maxFiles} file(s)</span>
+                  <span>{t("maxFiles", { count: requirement.maxFiles })}</span>
                   <span className="hidden sm:inline">•</span>
-                  <span>Max {requirement.maxFileSize}MB</span>
+                  <span>{t("maxSize", { size: requirement.maxFileSize })}</span>
                   <span className="hidden sm:inline">•</span>
                   <span className="break-all">
-                    {requirement.acceptTypes.join(", ")}
+                    {t("acceptedTypes", {
+                      types: requirement.acceptTypes.join(", "),
+                    })}
                   </span>
                 </div>
               </div>
@@ -250,7 +240,7 @@ const DocumentUpload: React.FC<DocumentUploadProps> = ({
                       <AlertTriangle className="w-4 h-4 text-destructive mt-0.5 flex-shrink-0" />
                       <div className="text-sm min-w-0">
                         <p className="font-medium text-destructive mb-2">
-                          Review Comment:
+                          {t("reviewComment")}
                         </p>
                         <p className="text-destructive/80 break-words">
                           {requirement.reviewComment}
@@ -294,8 +284,8 @@ const DocumentUpload: React.FC<DocumentUploadProps> = ({
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div className="text-sm text-muted-foreground">
               {completed === total
-                ? "All mandatory documents completed. Ready to submit."
-                : `${total - completed} mandatory document(s) remaining`}
+                ? t("allCompleted")
+                : t("remaining", { count: total - completed })}
             </div>
             <Button
               onClick={handleSubmit}
@@ -303,8 +293,8 @@ const DocumentUpload: React.FC<DocumentUploadProps> = ({
               className="min-w-[140px] w-full sm:w-auto"
             >
               {completed === total
-                ? "Submit Documents"
-                : "Complete Required Documents"}
+                ? t("submitDocuments")
+                : t("completeRequired")}
             </Button>
           </div>
         </CardContent>

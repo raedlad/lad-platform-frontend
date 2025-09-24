@@ -49,7 +49,7 @@ export const roleNav = {
       url: "/dashboard/individual/reviews",
       icon: assets.reviews,
     },
-  
+
     {
       title: "navigation.settings",
       url: "/dashboard/individual/profile",
@@ -58,31 +58,45 @@ export const roleNav = {
   ],
   contractor: [
     {
-      title: "Home",
+      title: "navigation.dashboard",
       url: "/dashboard/contractor",
       icon: Home,
     },
     {
-      title: "Profile",
+      title: "navigation.myOffers",
+      url: "/dashboard/contractor/offers",
+      icon: assets.offers,
+    },
+    {
+      title: "navigation.browseProjects",
+      url: "/dashboard/contractor/browse-projects",
+      icon: assets.projects,
+    },
+    {
+      title: "navigation.contracts",
+      url: "/dashboard/contractor/contracts",
+      icon: assets.contract,
+    },
+    {
+      title: "navigation.payments",
+      url: "/dashboard/contractor/payments",
+      icon: assets.payment,
+    },
+    {
+      title: "navigation.messages",
+      url: "/dashboard/contractor/messages",
+      icon: assets.messages,
+    },
+    {
+      title: "navigation.profile",
       url: "/dashboard/contractor/profile",
       icon: User,
     },
     {
-      title: "Applications",
-      url: "/dashboard/contractor/applications",
-      icon: FileText,
+      title: "navigation.settings",
+      url: "/dashboard/contractor/settings",
+      icon: Settings,
     },
-    {
-      title: "Notifications",
-      url: "/dashboard/contractor/notifications",
-      icon: Bell,
-    },
-    {
-      title: "Projects",
-      url: "/dashboard/contractor/projects",
-      icon: Briefcase,
-    },
-    { title: "Team", url: "/dashboard/contractor/team", icon: User },
   ],
   supplier: [
     { title: "Home", url: "/dashboard/supplier", icon: Home },
@@ -114,6 +128,65 @@ export const roleNav = {
       title: "Departments",
       url: "/dashboard/organization/departments",
       icon: Briefcase,
+    },
+  ],
+  engineering_office: [
+    {
+      title: "Home",
+      url: "/dashboard/engineering_office",
+      icon: Home,
+    },
+    {
+      title: "Profile",
+      url: "/dashboard/engineering_office/profile",
+      icon: User,
+    },
+    {
+      title: "Projects",
+      url: "/dashboard/engineering_office/projects",
+      icon: Briefcase,
+    },
+    {
+      title: "Applications",
+      url: "/dashboard/engineering_office/applications",
+      icon: FileText,
+    },
+    {
+      title: "Notifications",
+      url: "/dashboard/engineering_office/notifications",
+      icon: Bell,
+    },
+    {
+      title: "Team",
+      url: "/dashboard/engineering_office/team",
+      icon: User,
+    },
+  ],
+  freelance_engineer: [
+    {
+      title: "Home",
+      url: "/dashboard/freelance_engineer",
+      icon: Home,
+    },
+    {
+      title: "Profile",
+      url: "/dashboard/freelance_engineer/profile",
+      icon: User,
+    },
+    {
+      title: "Projects",
+      url: "/dashboard/freelance_engineer/projects",
+      icon: Briefcase,
+    },
+    {
+      title: "Applications",
+      url: "/dashboard/freelance_engineer/applications",
+      icon: FileText,
+    },
+    {
+      title: "Notifications",
+      url: "/dashboard/freelance_engineer/notifications",
+      icon: Bell,
     },
   ],
 };

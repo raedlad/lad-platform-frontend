@@ -15,7 +15,8 @@ const NavigationButtons = ({
   isLoading: boolean;
 }) => {
   const t = useTranslations("");
-  const { currentStep, setCurrentStep } = useProjectStore();
+  const { currentStep, setCurrentStep, projectStatus, completedSteps } =
+    useProjectStore();
   const { locale } = useGlobalStore();
   const onBack = () => {
     if (currentStep === 1) return;
@@ -23,27 +24,37 @@ const NavigationButtons = ({
   };
 
   useEffect(() => {
-    console.log(currentStep)
-  }, [currentStep])
+    console.log(currentStep);
+  }, [currentStep]);
   return (
     <div className="w-full grid grid-cols-2 gap-4 items-center">
-      {currentStep !== 1 ? (
-      <Button
-        variant="outline"
-        className="w-full max-w-xs mx-auto"
-        onClick={onBack}
-      >
-        <ArrowLeft className={twMerge("h-4 w-4", locale === "ar" && "rotate-180")} />
-        {t("common.actions.previous")}
-      </Button>
-      ) : <div></div>}
+      {currentStep !== 1 && projectStatus.status === "in_progress" ? (
+        <Button
+          variant="outline"
+          className="w-full max-w-xs mx-auto"
+          onClick={onBack}
+        >
+          <ArrowLeft
+            className={twMerge("h-4 w-4", locale === "ar" && "rotate-180")}
+          />
+          {t("common.actions.previous")}
+        </Button>
+      ) : (
+        <div></div>
+      )}
       <Button
         onClick={onSubmit}
         type="submit"
         variant="default"
-        className="w-full max-w-xs mx-auto"
+        className={twMerge("w-full max-w-xs mx-auto", projectStatus.status === "pending_review" && "bg-p-7")}
       >
-        {isLoading ? t("common.actions.loading") : t("common.actions.continue")}
+        {isLoading
+          ? t("common.actions.loading")
+          : currentStep === 6 && projectStatus.status === "in_progress"
+          ? t("project.step6.submit")
+          : currentStep === 6 && projectStatus.status === "pending_review"
+          ? t("project.step6.pending_review")
+          : t("common.actions.continue")}
       </Button>
     </div>
   );

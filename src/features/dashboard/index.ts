@@ -1,5 +1,5 @@
 // Main dashboard component
-export * from "./components/DashboardPage";
+// export * from "./components/DashboardPage"; // File doesn't exist
 
 // Role-specific dashboard pages
 export * from "./components/IndividualDashboardPage";

@@ -10,3 +10,11 @@ const page = () => {
 }
 
 export default page
+
+// export default function LoginPage() {
+//   return (
+//     <div className="screen-center">
+//      login page
+//     </div>
+//   )
+// }

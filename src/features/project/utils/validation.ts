@@ -56,7 +56,6 @@ export const createProjectValidationSchemas = (t: (key: string) => string) => {
       .or(z.literal(""))
       .optional(),
   });
-  // File metadata schema for backend data
   const FileMetadataSchema = z.object({
     id: z.string(),
     name: z.string(),
@@ -72,7 +71,6 @@ export const createProjectValidationSchemas = (t: (key: string) => string) => {
     architectural_plans: z
       .array(
         z.union([
-          // File instance for new uploads
           z
             .instanceof(File)
             .refine((file) => file.size <= 1024 * 1024 * 5, {
@@ -93,7 +91,6 @@ export const createProjectValidationSchemas = (t: (key: string) => string) => {
                 message: messages.architectural_plans.invalidType,
               }
             ),
-          // File metadata for existing files from backend
           FileMetadataSchema,
         ])
       )
@@ -128,7 +125,6 @@ export const createProjectValidationSchemas = (t: (key: string) => string) => {
     specifications: z
       .array(
         z.union([
-          // File instance for new uploads
           z
             .instanceof(File)
             .refine((file) => file.size <= 1024 * 1024 * 5, {
@@ -157,7 +153,6 @@ export const createProjectValidationSchemas = (t: (key: string) => string) => {
     site_photos: z
       .array(
         z.union([
-          // File instance for new uploads
           z
             .instanceof(File)
             .refine((file) => file.size <= 1024 * 1024 * 5, {
@@ -172,17 +167,61 @@ export const createProjectValidationSchemas = (t: (key: string) => string) => {
                 message: messages.site_photos.invalidType,
               }
             ),
-          // File metadata for existing files from backend
           FileMetadataSchema,
         ])
       )
       .min(1, messages.site_photos.minFiles),
   });
 
-  // File Upload Validation Schema - Array of files with constraints
+  const BOQItemSchema = z.object({
+    name: z
+      .string()
+      .min(1, messages.boqItem.name.required)
+      .min(2, messages.boqItem.name.minLength),
+    description: z
+      .string()
+      .min(1, messages.boqItem.description.required)
+      .min(2, messages.boqItem.description.minLength),
+    unit_id: z
+      .number({
+        error: messages.boqItem.unit_id.required,
+      })
+      .min(1, messages.boqItem.unit_id.required),
+    quantity: z
+      .number({
+        error: messages.boqItem.quantity.required,
+      })
+      .min(0.01, messages.boqItem.quantity.minValue),
+    unit_price: z
+      .number({
+        error: messages.boqItem.unit_price.required,
+      })
+      .min(0, messages.boqItem.unit_price.minValue),
+    sort_order: z.number().min(1, messages.boqItem.sort_order.minValue),
+    is_required: z.boolean(),
+  });
+
+  const BOQFormSchema = z.object({
+    items: z.array(BOQItemSchema).min(1, messages.boqForm.items.minItems),
+    total_amount: z.number().min(0, messages.boqForm.total_amount.minValue),
+    template_id: z.number().optional(),
+  });
+
+  const ProjectPublishSchema = z.object({
+    offers_window_days: z.number({ 
+      error: messages.publish.offers_window_days.required,
+    }).min(1, messages.publish.offers_window_days.minValue),
+    notify_matching_contractors: z.boolean(),
+    notify_client_on_offer: z.boolean(),
+  });
+
+
   return {
     ProjectEssentialInfoSchema,
     ProjectClassificationSchema,
     ProjectDocumentsSchema,
+    BOQItemSchema,
+    BOQFormSchema,
+    ProjectPublishSchema,
   };
 };

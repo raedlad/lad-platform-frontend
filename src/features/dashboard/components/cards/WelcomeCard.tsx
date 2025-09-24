@@ -114,8 +114,8 @@ export function WelcomeCard({ user, className }: WelcomeCardProps) {
       </CardHeader>
       <CardContent>
         <div className="text-sm text-gray-600">
-          Welcome back to your dashboard. Here's what's happening with your
-          projects today.
+          Welcome back to your dashboard. Here&apos;s what&apos;s happening with
+          your projects today.
         </div>
         {lastLoginDate && (
           <div className="text-xs text-gray-500 mt-2">

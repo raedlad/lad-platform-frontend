@@ -53,6 +53,8 @@ const mockDocumentsByRole: Record<Role, DocumentRequirement[]> = {
       status: DocumentStatus.APPROVED,
       uploadedFiles: [
         {
+          id: "1",
+          status: DocumentStatus.APPROVED,
           fileName: "sce-license.pdf",
           fileUrl: "/uploads/sce-license.pdf",
           uploadedAt: "2025-08-15T12:00:00Z",

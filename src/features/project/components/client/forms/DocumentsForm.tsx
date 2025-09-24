@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect } from "react";
-import NavigationButtons from "../../common/NavigationButtons";
+import NavigationButtons from "@/features/project/components/common/NavigationButtons";
 import { useTranslations } from "next-intl";
 import {
   Form,
@@ -13,7 +13,7 @@ import {
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createProjectValidationSchemas } from "@/features/project/utils/validation";
-import FileUpload from "../../common/FileUpload";
+import FileUpload from "@/features/project/components/common/FileUpload";
 import { useCreateProject } from "@/features/project/hooks/useCreateProject";
 import { useProjectStore } from "@/features/project/store/projectStore";
 import { toast } from "react-hot-toast";

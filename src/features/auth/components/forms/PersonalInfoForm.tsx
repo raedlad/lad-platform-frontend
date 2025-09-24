@@ -35,6 +35,7 @@ import {
   getPasswordStrengthText,
 } from "../../utils/getPasswordStrength";
 import { useTranslations } from "next-intl";
+import { E164Number } from "libphonenumber-js";
 
 const PersonalInfoForm: React.FC<{ role: string }> = ({ role }) => {
   const store = useAuthStore();
@@ -234,7 +235,7 @@ const PersonalInfoForm: React.FC<{ role: string }> = ({ role }) => {
                     </FormLabel>
                     <FormControl>
                       <PhoneInput
-                        value={field.value}
+                        value={field.value as E164Number}
                         onChange={field.onChange}
                         disabled={isLoading}
                         smartCaret={true}

@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 import { useAuthStore } from "@auth/store/authStore";
-import { PersonalInfo } from "@auth/types/auth";
+import { AuthUser, PersonalInfo, RoleSpecificData } from "@auth/types/auth";
 import { authApi } from "@auth/services/authApi";
 import { createValidationSchemas } from "@auth/utils/validation";
 import { useTranslations } from "next-intl";
@@ -64,8 +64,8 @@ export const useRoleRegistration = () => {
             role: store.currentRole!,
             authMethod: store.authMethod!,
             data: {
-              firstName: data.firstName,
-              lastName: data.lastName,
+              firstName: data.firstName!,
+              lastName: data.lastName!,
               email: data.email!,
               password: data.password!,
               phoneNumber: data.phoneNumber!,
@@ -87,7 +87,7 @@ export const useRoleRegistration = () => {
             );
           }
           if (registrationResult.data?.response) {
-            store.setUserData(registrationResult.data.response);
+            store.setUserData(registrationResult.data.response as unknown as AuthUser);
           }
 
           if (
@@ -157,10 +157,10 @@ export const useRoleRegistration = () => {
 
         const userFromStorage = tokenStorage.getUser();
         const emailFromStore =
-          (store.roleData as any).personalInfo?.email ||
-          (store.roleData as any).thirdPartyInfo?.email ||
-          (store.roleData as any).thirdPartyInfo?.email;
-        const phoneFromStore = (store.roleData as any).phoneInfo?.phoneNumber;
+          (store.roleData as RoleSpecificData).personalInfo?.email ||
+          (store.roleData as RoleSpecificData).thirdPartyInfo?.email ||
+          (store.roleData as RoleSpecificData).thirdPartyInfo?.email;
+        const phoneFromStore = (store.roleData as RoleSpecificData).phoneInfo?.phoneNumber;
         const contactInfo =
           store.authMethod === "phone"
             ? phoneFromStore || userFromStorage?.phone
@@ -172,7 +172,7 @@ export const useRoleRegistration = () => {
         }
         if (store.authMethod === "email") {
           const verificationResult = await authApi.verifyEmail({
-            email: contactInfo,
+            email: contactInfo as string,
             token: code,
           });
 
@@ -190,7 +190,7 @@ export const useRoleRegistration = () => {
           }
         } else {
           const verificationResult = await authApi.verifyPhone({
-            phoneNumber: contactInfo,
+            phoneNumber: contactInfo as string,
             token: code,
           });
 
@@ -226,9 +226,9 @@ export const useRoleRegistration = () => {
 
       const userFromStorage = tokenStorage.getUser();
       const emailFromStore =
-        (store.roleData as any).personalInfo?.email ||
-        (store.roleData as any).thirdPartyInfo?.email;
-      const phoneFromStore = (store.roleData as any).phoneInfo?.phoneNumber;
+        (store.roleData as RoleSpecificData).personalInfo?.email ||
+        (store.roleData as RoleSpecificData).thirdPartyInfo?.email;
+      const phoneFromStore = (store.roleData as RoleSpecificData).phoneInfo?.phoneNumber;
       const contactInfo =
         store.authMethod === "phone"
           ? phoneFromStore || userFromStorage?.phone
@@ -238,7 +238,7 @@ export const useRoleRegistration = () => {
       }
 
       if (store.authMethod === "phone") {
-        const resendResult = await authApi.sendPhoneOtp(contactInfo);
+        const resendResult = await authApi.sendPhoneOtp(contactInfo as string);
         if (resendResult.success) {
           return { success: true };
         } else {

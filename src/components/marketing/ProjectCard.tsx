@@ -9,7 +9,22 @@ import {
   Star,
 } from "lucide-react";
 import { Button } from "@shared/components/ui/button";
-const ProjectCard = ({ project }: { project: any }) => {
+interface Project {
+  logo: string;
+  name: string;
+  badge: string;
+  location: string;
+  sales: string;
+  type: string;
+  company: string;
+  specialization: string;
+  specializationType: string;
+  desc: string;
+  description: string;
+  conbutton: string;
+  viewMore: string;
+}
+const ProjectCard = ({ project }: { project: Project }) => {
   return (
     <div className="w-full border border-[#AFAFAF] dark:border-[#454444] rounded-md p-4 shadow-sm">
       <div className="flex flex-col gap-4">

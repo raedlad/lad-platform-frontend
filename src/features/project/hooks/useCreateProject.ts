@@ -1,13 +1,22 @@
 import { useCallback } from "react";
+import { useRouter } from "next/navigation";
+import { useProjectStore } from "../store/projectStore";
+import { projectApi } from "../services/projectApi";
 import {
-  useProjectStore,
+  ProjectClassification,
+  ProjectEssentialInfo,
+  PublishSettings,
   DocumentFile,
   DocumentsState,
-} from "../store/projectStore";
-import { projectApi } from "../services/projectApi";
-import { ProjectClassification, ProjectEssentialInfo } from "../types/project";
+  Project,
+  ProjectStatus,
+  BOQData,
+  UserProject,
+} from "../types/project";
+import { useProjectsStore } from "../store/ProjectsStore";
 
 export const useCreateProject = () => {
+  const router = useRouter();
   const {
     isLoading,
     error,
@@ -33,7 +42,27 @@ export const useCreateProject = () => {
     addDocumentFile,
     updateDocumentFile,
     removeDocumentFile,
+    hasBOQDataChanged,
+    setOriginalBOQData,
+    hasPublishSettingsChanged,
+    publishSettings,
+    setPublishSettings,
+    setProjectStatus,
+    project,
+    setProject,
+    resetProjectCreation,
+    isProjectCreationComplete,
+    projectStatus,
+    boqData,
   } = useProjectStore();
+  const {
+    addProject,
+    updateProject,
+    setLoading: setProjectsLoading,
+    setError: setProjectsError,
+    setProjects,
+    projects,
+  } = useProjectsStore();
 
   const submitClassification = useCallback(
     async (data: {
@@ -66,14 +95,20 @@ export const useCreateProject = () => {
           id: originalClassificationData?.id || 0,
           jobId:
             projectClassificationJobs?.find((job) => job.id === data.jobId)
-              ?.id || originalClassificationData?.jobId!,
+              ?.id ||
+            originalClassificationData?.jobId ||
+            0,
           workTypeId:
             workTypes?.find((workType) => workType.id === data.workTypeId)
-              ?.id || originalClassificationData?.workTypeId!,
+              ?.id ||
+            originalClassificationData?.workTypeId ||
+            0,
           levelId:
             projectClassificationLevels?.find(
               (level) => level.id === data.levelId
-            )?.id || originalClassificationData?.levelId!,
+            )?.id ||
+            originalClassificationData?.levelId ||
+            0,
           notes: data.notes || "",
         };
 
@@ -92,7 +127,6 @@ export const useCreateProject = () => {
 
         if (response.success) {
           setOriginalClassificationData(classificationData);
-
           if (shouldCreate) {
             setCompletedSteps(currentStep);
           }
@@ -164,13 +198,31 @@ export const useCreateProject = () => {
           hasChanged,
           completedSteps,
           currentStep,
+          originalData: originalEssentialInfoData,
+          currentData: data,
         });
 
         if (projectId && !shouldCreate && !hasChanged) {
+          console.log(
+            "✅ Step already completed with no changes, moving to next step"
+          );
           setCurrentStep(currentStep + 1);
+          setLoading(false); 
           return {
             success: true,
             message: "No changes detected, navigating to next step",
+          };
+        }
+        if (projectId && !hasChanged && shouldCreate) {
+          console.log(
+            "✅ No changes detected, marking step as completed and moving to next step"
+          );
+          setCompletedSteps(currentStep);
+          setCurrentStep(currentStep + 1);
+          setLoading(false); 
+          return {
+            success: true,
+            message: "Step completed, navigating to next step",
           };
         }
 
@@ -194,12 +246,33 @@ export const useCreateProject = () => {
           response = await projectApi.createEssentialInfoProject(
             essentialInfoData
           );
-          if (response.success && response.data?.projectId) {
-            setProjectId(response.data.projectId);
-            // Note: loadAllProjectData will be called by the forms when they detect the new projectId
+          if (response.success) {
+            const newProjectId = response.data.projectId;
+            const newProject = response.data.project;
+            if (shouldCreate) {
+              const projectIdToRedirect = newProjectId;
+              // Update URL without full page reload to avoid double API call
+              router.replace(
+                `/dashboard/individual/projects/${projectIdToRedirect}/edit`
+              );
+              setCompletedSteps(currentStep);
+            }
+            setCurrentStep(2);
+
+            setProjectId(newProjectId);
+            setProject(newProject);
+
+            // Add the new project to the projects list
+            const userProject = {
+              project: newProject,
+              created_at: new Date().toISOString(),
+              updated_at: new Date().toISOString(),
+            };
+            addProject(userProject);
           }
         } else {
           if (!projectId) {
+            setLoading(false); // Reset loading state
             return {
               success: false,
               message: "No project ID available for update",
@@ -209,21 +282,22 @@ export const useCreateProject = () => {
             projectId,
             essentialInfoData
           );
+          if (response.success) {
+            updateProject(projectId, {
+              essential_info: essentialInfoData,
+            });
+          }
         }
-
         if (response.success) {
           setOriginalEssentialInfoData(essentialInfoData);
-          if (shouldCreate) {
-            setCompletedSteps(currentStep);
-          }
-          setCurrentStep(currentStep + 1);
-
+          setLoading(false); // Reset loading state
           return {
             success: true,
             message: "Essential info saved successfully",
           };
         } else {
           console.error("API Error:", response.message);
+          setLoading(false); // Reset loading state
           return { success: false, message: response.message || "API Error" };
         }
       } catch (error) {
@@ -461,16 +535,299 @@ export const useCreateProject = () => {
     ]
   );
 
+  const submitBOQ = useCallback(
+    async (data: {
+      items: Array<{
+        name: string;
+        description: string;
+        unit_id: number;
+        quantity: number;
+        unit_price: number;
+        sort_order: number;
+        is_required: boolean;
+      }>;
+      total_amount: number;
+      template_id?: number;
+    }) => {
+      try {
+        clearError();
+        setLoading(true);
+
+        if (!projectId) {
+          return {
+            success: false,
+            message: "No project ID available",
+          };
+        }
+
+        console.log("🔍 BOQ Debug:", {
+          projectId,
+          boqData: data,
+          completedSteps: completedSteps,
+          currentStep: currentStep,
+        });
+
+        // Here you would typically make an API call to save the BOQ data
+        // For now, we'll just simulate success
+        const shouldCreate = completedSteps < currentStep;
+        const hasChanged = hasBOQDataChanged(data);
+
+        let response: any;
+        if (!shouldCreate && !hasChanged) {
+          setCurrentStep(currentStep + 1);
+          console.log("No changes detected, navigating to next step");
+          return {
+            success: true,
+            message: "No changes detected, navigating to next step",
+          };
+        }
+
+        // Simulate API call
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+
+        if (shouldCreate) {
+          setCompletedSteps(currentStep);
+          // Set original data for change detection
+          setOriginalBOQData(data);
+          response = await projectApi.createBOQProject(projectId, data);
+          if (response.success) {
+            setCompletedSteps(currentStep);
+            setOriginalBOQData(data);
+            setCurrentStep(currentStep + 1);
+            return {
+              success: true,
+              message: "BOQ saved successfully",
+            };
+            // Note: loadAllProjectData will be called by the forms when they detect the new projectId
+          }
+        } else {
+          response = await projectApi.updateBOQProject(projectId, data);
+          if (response.success) {
+            setOriginalBOQData(data);
+            setCurrentStep(currentStep + 1);
+            return {
+              success: true,
+              message: "BOQ saved successfully",
+            };
+          }
+        }
+
+        return {
+          success: false,
+          message: response.message || "Failed to save BOQ",
+        };
+      } catch (error) {
+        console.error("❌ Error:", error);
+        return {
+          success: false,
+          message:
+            error instanceof Error
+              ? error.message
+              : "An unexpected error occurred",
+        };
+      } finally {
+        setLoading(false);
+      }
+    },
+    [
+      projectId,
+      completedSteps,
+      currentStep,
+      clearError,
+      setLoading,
+      setCompletedSteps,
+      setCurrentStep,
+      hasBOQDataChanged,
+    ]
+  );
+  const submitPublishSettings = useCallback(
+    async (data: {
+      notify_matching_contractors: boolean;
+      notify_client_on_offer: boolean;
+      offers_window_days: number;
+    }) => {
+      try {
+        clearError();
+        setLoading(true);
+
+        if (!projectId) {
+          return {
+            success: false,
+            message: "No project ID available",
+          };
+        }
+        const shouldCreate = completedSteps < currentStep;
+        const hasChanged = hasPublishSettingsChanged(data);
+
+        console.log("🔍 Publish Settings Debug:", {
+          projectId,
+          shouldCreate,
+          hasChanged,
+          completedSteps,
+          currentStep,
+        });
+
+        if (projectId && !shouldCreate && !hasChanged) {
+          setCurrentStep(currentStep + 1);
+          return {
+            success: true,
+            message: "No changes detected, navigating to next step",
+          };
+        }
+        const publishSettingsData: PublishSettings = {
+          notify_matching_contractors: data.notify_matching_contractors,
+          notify_client_on_offer: data.notify_client_on_offer,
+          offers_window_days: data.offers_window_days,
+        };
+        let response: any;
+        response = await projectApi.handlePublishSettingsProject(
+          projectId,
+          publishSettingsData
+        );
+        if (response.success) {
+          setPublishSettings(publishSettingsData);
+          setCompletedSteps(currentStep);
+          setCurrentStep(currentStep + 1);
+          return {
+            success: true,
+            message: "Publish Settings step completed successfully",
+          };
+        } else {
+          return {
+            success: false,
+            message: response.message || "Failed to save publish settings",
+          };
+        }
+      } catch (error) {
+        console.error("❌ Error:", error);
+        return {
+          success: false,
+          message:
+            error instanceof Error
+              ? error.message
+              : "An unexpected error occurred",
+        };
+      } finally {
+        setLoading(false);
+      }
+    },
+    [
+      clearError,
+      setLoading,
+      setCompletedSteps,
+      setCurrentStep,
+      setPublishSettings,
+      hasPublishSettingsChanged,
+      projectId,
+      completedSteps,
+      currentStep,
+      setPublishSettings,
+    ]
+  );
+
+  const submitSendProjectToReview = useCallback(async () => {
+    try {
+      clearError();
+      setLoading(true);
+      if (!projectId) {
+        return {
+          success: false,
+          message: "No project ID available",
+        };
+      }
+      const newProject: Project = {
+        id: projectId,
+        essential_info: originalEssentialInfoData as ProjectEssentialInfo,
+        classification: originalClassificationData as ProjectClassification,
+        documents: documents as DocumentsState,
+        status: projectStatus as ProjectStatus,
+        publish_settings: publishSettings as PublishSettings,
+        boq: boqData as BOQData,
+      };
+
+      const response = await projectApi.handleSendProjectToReview(projectId);
+      if ((response as any).success) {
+        setProjectStatus({ status: "pending_review" });
+        updateProject(projectId, { status: { status: "pending_review" } });
+
+        // Complete the project creation flow
+        console.log("Project sent to review successfully :", newProject);
+        setProjects([
+          ...projects,
+          {
+            project: newProject,
+            created_at: new Date().toISOString(),
+            updated_at: new Date().toISOString(),
+          },
+        ]);
+        setCompletedSteps(currentStep);
+
+        // Reset the project creation state for next project
+        resetProjectCreation();
+
+        return {
+          success: true,
+          message: "Project sent to review successfully",
+        };
+      }
+
+      return {
+        success: false,
+        message:
+          (response as any).message || "Failed to send project to review",
+      };
+    } catch (error) {
+      console.error("❌ Error:", error);
+      return {
+        success: false,
+        message:
+          error instanceof Error
+            ? error.message
+            : "An unexpected error occurred",
+      };
+    } finally {
+      setLoading(false);
+    }
+  }, [
+    projectId,
+    clearError,
+    setLoading,
+    setProjectStatus,
+    updateProject,
+    setCompletedSteps,
+    currentStep,
+    resetProjectCreation,
+  ]);
+
+  const getCurrentProject = useCallback(() => {
+    return project;
+  }, [project]);
+
+  const isProjectComplete = useCallback(() => {
+    return isProjectCreationComplete();
+  }, [isProjectCreationComplete]);
+
   return {
     error,
     loading: isLoading,
+    project,
+    projectId,
+    currentStep,
+    completedSteps,
+    isProjectComplete,
+    getCurrentProject,
     submitClassification,
     submitEssentialInfo,
     submitDocuments,
+    submitBOQ,
+    submitPublishSettings,
     uploadFile,
     removeFile,
     removeFileLocal,
     reuploadFile,
     documents,
+    publishSettings,
+    submitSendProjectToReview,
+    resetProjectCreation,
   };
 };

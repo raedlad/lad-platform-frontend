@@ -29,7 +29,7 @@ import DurationSelect from "../../common/DurationSelect";
 import { Textarea } from "@/shared/components/ui/textarea";
 import NavigationButtons from "../../common/NavigationButtons";
 
-const EssentialInfoForm = () => {
+const EssentialInfoForm = ({ create }: { create?: boolean }) => {
   const t = useTranslations("");
   const { ProjectEssentialInfoSchema } = createProjectValidationSchemas(t);
   const { originalEssentialInfoData, projectId, isLoading } = useProjectStore();
@@ -37,27 +37,32 @@ const EssentialInfoForm = () => {
   const form = useForm<z.infer<typeof ProjectEssentialInfoSchema>>({
     resolver: zodResolver(ProjectEssentialInfoSchema),
     defaultValues: {
-      name: originalEssentialInfoData?.name || "",
-      type: originalEssentialInfoData?.type || 0,
-      city: originalEssentialInfoData?.city || "",
-      district: originalEssentialInfoData?.district || "",
-      location: originalEssentialInfoData?.location || "",
-      budget: originalEssentialInfoData?.budget || 0,
-      budget_unit: originalEssentialInfoData?.budget_unit || "SAR",
-      duration: originalEssentialInfoData?.duration || 0,
-      duration_unit: originalEssentialInfoData?.duration_unit || "day",
-      area_sqm: originalEssentialInfoData?.area_sqm || 0,
-      description: originalEssentialInfoData?.description || "",
+      name: create ? "" : originalEssentialInfoData?.name || "",
+      type: create ? 0 : originalEssentialInfoData?.type || 0,
+      city: create ? "" : originalEssentialInfoData?.city || "",
+      district: create ? "" : originalEssentialInfoData?.district || "",
+      location: create ? "" : originalEssentialInfoData?.location || "",
+      budget: create ? 0 : originalEssentialInfoData?.budget || 0,
+      budget_unit: create
+        ? "SAR"
+        : originalEssentialInfoData?.budget_unit || "SAR",
+      duration: create ? 0 : originalEssentialInfoData?.duration || 0,
+      duration_unit: create
+        ? "day"
+        : originalEssentialInfoData?.duration_unit || "day",
+      area_sqm: create ? 0 : originalEssentialInfoData?.area_sqm || 0,
+      description: create ? "" : originalEssentialInfoData?.description || "",
     },
   });
 
   useEffect(() => {
-    if (originalEssentialInfoData) {
+    // Only load original data when editing an existing project (not creating new)
+    if (originalEssentialInfoData && !create) {
       console.log(
-        "🔄 Resetting EssentialInfoForm with data:",
+        "🔄 Resetting EssentialInfoForm with existing project data:",
         originalEssentialInfoData
       );
-      form.reset({
+      const formData = {
         name: originalEssentialInfoData.name || "",
         type: originalEssentialInfoData.type || 0,
         city: originalEssentialInfoData.city || "",
@@ -69,12 +74,21 @@ const EssentialInfoForm = () => {
         duration_unit: originalEssentialInfoData.duration_unit || "day",
         area_sqm: originalEssentialInfoData.area_sqm || 0,
         description: originalEssentialInfoData.description || "",
-      });
+      };
+
+      console.log("📝 Setting form data for editing:", formData);
+      form.reset(formData);
+    } else if (create) {
+      console.log(
+        "🆕 Creating new project - form will use default empty values"
+      );
     }
-  }, [originalEssentialInfoData, form]);
+  }, [originalEssentialInfoData, form, create]);
 
   const onSubmit = async (data: z.infer<typeof ProjectEssentialInfoSchema>) => {
     console.log("🚀 Submitting essential info:", data);
+    console.log("📊 Original data for comparison:", originalEssentialInfoData);
+    console.log("🔍 Form values:", form.getValues());
     const result = await submitEssentialInfo(data);
     if (!result.success) {
       console.error("❌ Submission failed:", result.message);
@@ -122,7 +136,6 @@ const EssentialInfoForm = () => {
                       <FormLabel>{t("project.step1.type") + " *"}</FormLabel>
                       <FormControl className="w-full">
                         <ProjectType
-                          className="!"
                           value={field.value}
                           onSelect={(value) => {
                             field.onChange(value);
@@ -142,7 +155,6 @@ const EssentialInfoForm = () => {
                     <FormItem className="form-item-vertical">
                       <FormControl>
                         <CitySelect
-                          className="!"
                           selectedCountry="SA"
                           selectedState="3501"
                           selectedCity={field.value}
@@ -251,7 +263,6 @@ const EssentialInfoForm = () => {
                       <FormControl>
                         <div className="relative">
                           <Input
-                            dir="ltr"
                             type="number"
                             min={1}
                             inputMode="numeric"

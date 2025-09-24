@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/shared/components/ui/textarea";
+import { useTranslations } from "next-intl";
+import toast from "react-hot-toast";
 import {
   Upload,
   Plus,
@@ -91,6 +93,7 @@ const ManualFileUploadZone: React.FC<ManualFileUploadZoneProps> = ({
   getDocumentRequirement,
   getErrorMessage,
 }) => {
+  const t = useTranslations("profile.documents.uploadZone");
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [fileItems, setFileItems] = useState<FileItem[]>([]);
@@ -249,19 +252,32 @@ const ManualFileUploadZone: React.FC<ManualFileUploadZoneProps> = ({
       // Upload file with metadata - store will now throw errors
       await uploadFile(safeRole, safeDocId, fileItem.file, fileItem.metadata);
 
-      // Upload successful
-      setFileItems((prev) =>
-        prev.map((f) =>
-          f.id === fileItem.id
-            ? { ...f, isUploading: false, isUploaded: true }
-            : f
-        )
-      );
+      // Upload successful - show toast and remove from local state
+      toast.success(t("toast.uploadSuccess"), {
+        duration: 3000,
+        position: "top-right",
+      });
+
+      // Remove the uploaded file from local state since it's now in the store
+      setFileItems((prev) => {
+        const updated = prev.filter((f) => f.id !== fileItem.id);
+        // Clean up preview URL
+        if (fileItem.preview) {
+          URL.revokeObjectURL(fileItem.preview);
+        }
+        return updated;
+      });
     } catch (error) {
       // Handle error from store
       console.log("Upload error caught in component:", error);
       const errorMessage = getErrorMessage(error);
       console.log("Formatted error message:", errorMessage);
+
+      // Show error toast
+      toast.error(t("toast.uploadError"), {
+        duration: 4000,
+        position: "top-right",
+      });
 
       setFileItems((prev) =>
         prev.map((f) =>
@@ -329,15 +345,14 @@ const ManualFileUploadZone: React.FC<ManualFileUploadZoneProps> = ({
 
   const validFiles = fileItems.filter((f) => !f.error);
   const hasErrors = fileItems.some((f) => f.error);
+  // Note: uploadedFiles is now 0 since we remove uploaded files from local state
   const uploadedFiles = fileItems.filter((f) => f.isUploaded);
 
   if (!allowUpload) {
     return (
       <div className={cn("p-4 border rounded-lg bg-muted/20", className)}>
         <p className="text-sm text-muted-foreground text-center">
-          {!role || !docId
-            ? "Upload configuration incomplete - role and document ID required"
-            : "Upload disabled for this document"}
+          {!role || !docId ? t("configIncomplete") : t("uploadDisabled")}
         </p>
       </div>
     );
@@ -353,10 +368,10 @@ const ManualFileUploadZone: React.FC<ManualFileUploadZoneProps> = ({
         onDrop={handleDrop}
         className={cn(
           "relative border-2 border-dashed rounded-lg p-6 transition-all cursor-pointer",
-          "hover:bg-muted/50 hover:border-muted-foreground/50",
+          "hover:bg-design-main/5 hover:border-design-main/50",
           isDragging
-            ? "border-primary bg-primary/10"
-            : "border-muted-foreground/25",
+            ? "border-design-main bg-design-main/10"
+            : "border-design-main/50",
           disabled && "opacity-50 cursor-not-allowed"
         )}
         onClick={handleFileSelect}
@@ -372,24 +387,26 @@ const ManualFileUploadZone: React.FC<ManualFileUploadZoneProps> = ({
         />
 
         <div className="flex flex-col items-center gap-3 text-center">
-          <div className="w-12 h-12 rounded-full bg-muted flex items-center justify-center">
-            <Plus className="w-6 h-6 text-muted-foreground" />
+          <div className="w-12 h-12 rounded-full bg-design-main/10 flex items-center justify-center">
+            <Plus className="w-6 h-6 text-design-main" />
           </div>
 
           <div className="space-y-1">
-            <p className="text-sm font-medium">
-              Click to select or drag & drop files
+            <p className="text-sm font-medium">{t("title")}</p>
+            <p className="text-xs text-muted-foreground">
+              {t("maxFiles", {
+                maxFiles,
+                uploaded: currentUploadedCount,
+                selected: fileItems.length,
+              })}{" "}
+              • {t("maxSize", { size: formatBytes(maxSize) })}
             </p>
             <p className="text-xs text-muted-foreground">
-              Max {maxFiles} file(s) ({currentUploadedCount} uploaded,{" "}
-              {fileItems.length} selected) • Up to {formatBytes(maxSize)} each
-            </p>
-            <p className="text-xs text-muted-foreground">
-              {acceptTypes.join(", ")}
+              {t("acceptedTypes", { types: acceptTypes.join(", ") })}
             </p>
             {(!role || !docId) && (
-              <p className="text-xs text-amber-600 font-medium">
-                ⚠️ Role and document ID required for proper functionality
+              <p className="text-xs text-d-5 font-medium">
+                {t("configWarning")}
               </p>
             )}
           </div>
@@ -402,16 +419,16 @@ const ManualFileUploadZone: React.FC<ManualFileUploadZoneProps> = ({
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
             <div>
               <h4 className="text-sm font-medium">
-                Selected Files ({fileItems.length})
+                {t("selectedFiles", { count: fileItems.length })}
               </h4>
               <p className="text-xs text-muted-foreground">
-                Fill in metadata and upload each file individually
+                {t("fillMetadata")}
               </p>
             </div>
 
-            {uploadedFiles.length > 0 && (
+            {fileItems.length === 0 && currentUploadedCount > 0 && (
               <Badge variant="outline" className="text-xs">
-                {uploadedFiles.length} uploaded successfully
+                {t("uploadedSuccessfully", { count: currentUploadedCount })}
               </Badge>
             )}
           </div>
@@ -421,13 +438,21 @@ const ManualFileUploadZone: React.FC<ManualFileUploadZoneProps> = ({
               <div
                 key={fileItem.id}
                 className={cn(
-                  "border rounded-lg bg-background transition-all",
+                  "border rounded-lg bg-background transition-all duration-300",
                   fileItem.error && "border-destructive/30 bg-destructive/5",
-                  fileItem.isUploaded && "border-green-500/30 bg-green-50/50"
+                  fileItem.isUploaded &&
+                    "border-green-500/50 bg-green-50/80 dark:bg-green-950/20"
                 )}
               >
                 {/* File Header */}
-                <div className="flex items-center gap-3 p-3 border-b bg-muted/30">
+                <div
+                  className={cn(
+                    "flex items-center gap-3 p-3 border-b",
+                    fileItem.isUploaded
+                      ? "bg-green-100/50 dark:bg-green-950/30"
+                      : "bg-muted/30"
+                  )}
+                >
                   {/* File Icon/Preview */}
                   <div className="flex-shrink-0">
                     {fileItem.preview ? (
@@ -447,12 +472,6 @@ const ManualFileUploadZone: React.FC<ManualFileUploadZoneProps> = ({
                       <p className="text-sm font-medium break-all line-clamp-1">
                         {fileItem.file.name}
                       </p>
-                      {fileItem.isUploaded && (
-                        <CheckCircle className="w-4 h-4 text-green-500" />
-                      )}
-                      {fileItem.isUploading && (
-                        <Upload className="w-4 h-4 text-blue-500 animate-spin" />
-                      )}
                     </div>
                     <p className="text-xs text-muted-foreground">
                       {formatBytes(fileItem.file.size)}
@@ -476,40 +495,50 @@ const ManualFileUploadZone: React.FC<ManualFileUploadZoneProps> = ({
                         size="sm"
                         onClick={() => downloadFileItem(fileItem)}
                         className="h-8 w-8 p-0 text-muted-foreground hover:text-primary"
-                        title="Download file"
+                        title={t("downloadFile")}
                       >
                         <Download className="w-4 h-4" />
                       </Button>
                     )}
 
                     {/* Upload Button */}
-                    {!fileItem.isUploaded && !fileItem.isUploading && (
+                    {!fileItem.isUploaded && (
                       <Button
                         variant={fileItem.error ? "destructive" : "primary"}
                         size="sm"
                         onClick={() => uploadSingleFile(fileItem)}
                         className="h-8 px-3 text-xs"
-                        title={fileItem.error ? "Retry upload" : "Upload file"}
+                        title={
+                          fileItem.error ? t("retryUpload") : t("uploadFile")
+                        }
                       >
                         {fileItem.error ? (
                           <RefreshCwIcon className="w-3 h-3 mr-1" />
+                        ) : fileItem.isUploading ? (
+                          <Upload className="w-3 h-3 mr-1 animate-bounce" />
                         ) : (
                           <Upload className="w-3 h-3 mr-1" />
                         )}
-                        {fileItem.error ? "Retry" : "Upload"}
+                        {fileItem.error
+                          ? t("retry")
+                          : fileItem.isUploading
+                          ? t("uploading")
+                          : t("upload")}
                       </Button>
                     )}
 
                     {/* Remove Button */}
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => removeFileItem(fileItem.id)}
-                      className="h-8 w-8 p-0 text-muted-foreground hover:text-destructive"
-                      title="Remove file"
-                    >
-                      <X className="w-4 h-4" />
-                    </Button>
+                    {!fileItem.isUploaded && !fileItem.isUploading && (
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => removeFileItem(fileItem.id)}
+                        className="h-8 w-8 p-0 text-muted-foreground hover:text-destructive"
+                        title={t("removeFile")}
+                      >
+                        <X className="w-4 h-4" />
+                      </Button>
+                    )}
                   </div>
                 </div>
 
@@ -520,7 +549,7 @@ const ManualFileUploadZone: React.FC<ManualFileUploadZoneProps> = ({
                     <div>
                       <label className="text-xs font-medium text-muted-foreground mb-1 flex items-center gap-1">
                         <Edit className="w-3 h-3" />
-                        Custom Name
+                        {t("customName")}
                       </label>
                       <Input
                         value={fileItem.metadata.customName}
@@ -529,7 +558,7 @@ const ManualFileUploadZone: React.FC<ManualFileUploadZoneProps> = ({
                             customName: e.target.value,
                           })
                         }
-                        placeholder="Enter custom name..."
+                        placeholder={t("customNamePlaceholder")}
                         className="text-sm"
                         disabled={fileItem.isUploaded}
                       />
@@ -539,7 +568,7 @@ const ManualFileUploadZone: React.FC<ManualFileUploadZoneProps> = ({
                     <div>
                       <label className="text-xs font-medium text-muted-foreground mb-1 flex items-center gap-1">
                         <FileText className="w-3 h-3" />
-                        Description (Optional)
+                        {t("description")}
                       </label>
                       <Textarea
                         value={fileItem.metadata.description}
@@ -548,7 +577,7 @@ const ManualFileUploadZone: React.FC<ManualFileUploadZoneProps> = ({
                             description: e.target.value,
                           })
                         }
-                        placeholder="Add description (optional)..."
+                        placeholder={t("descriptionPlaceholder")}
                         className="text-sm min-h-[60px]"
                         disabled={fileItem.isUploaded}
                       />
@@ -558,7 +587,7 @@ const ManualFileUploadZone: React.FC<ManualFileUploadZoneProps> = ({
                     <div>
                       <label className="text-xs font-medium text-muted-foreground mb-1 flex items-center gap-1">
                         <Calendar className="w-3 h-3" />
-                        Expiry Date (Optional)
+                        {t("expiryDate")}
                       </label>
                       <Input
                         type="date"
@@ -582,22 +611,23 @@ const ManualFileUploadZone: React.FC<ManualFileUploadZoneProps> = ({
           <div className="bg-muted/30 p-4 rounded-lg border-t">
             <div className="text-sm">
               <p className="font-medium">
-                {uploadedFiles.length} of {fileItems.length} files uploaded
+                {t("summary.uploaded", {
+                  uploaded: currentUploadedCount,
+                  total: currentUploadedCount + fileItems.length,
+                })}
               </p>
-              {validFiles.length > 0 &&
-                !hasErrors &&
-                uploadedFiles.length < fileItems.length && (
-                  <p className="text-xs text-muted-foreground mt-1">
-                    {validFiles.length - uploadedFiles.length} files ready to
-                    upload
-                  </p>
-                )}
-              {uploadedFiles.length === fileItems.length &&
-                fileItems.length > 0 && (
-                  <p className="text-xs text-green-600 mt-1">
-                    All files uploaded successfully!
-                  </p>
-                )}
+              {validFiles.length > 0 && !hasErrors && (
+                <p className="text-xs text-muted-foreground mt-1">
+                  {t("summary.readyToUpload", {
+                    count: validFiles.length,
+                  })}
+                </p>
+              )}
+              {fileItems.length === 0 && currentUploadedCount > 0 && (
+                <p className="text-xs text-green-600 dark:text-green-400 mt-1 font-medium">
+                  ✓ {t("summary.allUploaded")}
+                </p>
+              )}
             </div>
           </div>
         </div>

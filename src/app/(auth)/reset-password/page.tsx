@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useTranslations } from "next-intl";
 import NewPasswordForm from "@/features/auth/components/forms/NewPasswordForm";
 
 export default function ResetPasswordPage() {
@@ -11,7 +10,6 @@ export default function ResetPasswordPage() {
   const [error, setError] = useState("");
   const router = useRouter();
   const searchParams = useSearchParams();
-  const t = useTranslations("auth");
 
   // Get token from URL params
   const token = searchParams.get("token") || "";
@@ -69,3 +67,7 @@ export default function ResetPasswordPage() {
     </div>
   );
 }
+
+// export default function ResetPasswordPage() {
+//   return <div>reset password page</div>;
+// }

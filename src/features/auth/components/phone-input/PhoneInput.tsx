@@ -5,8 +5,11 @@ import { Input } from "@shared/components/ui/input";
 import { cn } from "@/lib/utils";
 import { CountrySelect } from "./CountrySelect";
 import { FlagComponent } from "./Flags";
+import { CustomInputProps } from "@auth/types/auth";
+import { PhoneInputProps } from "@auth/types/auth";
+import { Country } from "react-phone-number-input";
 
-const CustomInput = ({ className, ...props }: any) => (
+const CustomInput = ({ className, ...props }: CustomInputProps) => (
   <Input
     dir="ltr"
     className={cn("rounded-l-none", "flex-1", className)}
@@ -14,7 +17,7 @@ const CustomInput = ({ className, ...props }: any) => (
   />
 );
 
-export const PhoneInput = (props: any) => (
+export const PhoneInput = (props: PhoneInputProps) => (
   <div dir="ltr" className="h-full w-full">
     <PhoneInputComponent
       international
@@ -23,7 +26,7 @@ export const PhoneInput = (props: any) => (
       countrySelectComponent={CountrySelect}
       inputComponent={CustomInput}
       smartCaret={false}
-      defaultCountry="SA"
+      defaultCountry={"SA" as Country}
       {...props}
     />
   </div>

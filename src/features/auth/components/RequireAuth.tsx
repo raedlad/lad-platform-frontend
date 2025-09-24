@@ -49,7 +49,7 @@ export default function RequireAuth({ children }: RequireAuthProps) {
       const verificationRequired = JSON.parse(
         localStorage.getItem("verification_required") || "false"
       );
-      if (verificationRequired === false) {
+      if (verificationRequired === true) {
         setRedirecting(true);
         router.replace("/verify-otp");
         return;

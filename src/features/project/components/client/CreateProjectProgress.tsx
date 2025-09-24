@@ -22,7 +22,7 @@ const CreateProjectProgress: React.FC = () => {
             <React.Fragment key={step}>
               <div
                 className={twMerge(
-                  "relative z-10 shadow-md flex h-10 w-10 items-center justify-center rounded-full border ",
+                  "relative z-10 shadow-md flex h-8 w-8 lg:h-10 lg:w-10 items-center justify-center rounded-full border ",
                   circleClasses,
                   isCompleted &&
                     "bg-design-green text-white border-design-green"

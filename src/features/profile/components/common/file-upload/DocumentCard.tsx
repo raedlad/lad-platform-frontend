@@ -28,6 +28,8 @@ import {
 import { useDocumentsStore } from "@/features/profile/store/documentStore";
 import { UploadedFile } from "@/features/profile/types/documents";
 import { formatBytes } from "@/features/profile/utils/documents";
+import DeleteConfirmationDialog from "@/shared/components/ui/delete-confirmation-dialog";
+import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
 
 interface DocumentCardProps {
@@ -50,6 +52,7 @@ const DocumentCard: React.FC<DocumentCardProps> = ({
   canRemove = true,
   className,
 }) => {
+  const t = useTranslations("profile.documents.upload");
   const {
     removeFile,
     downloadFile,
@@ -73,14 +76,14 @@ const DocumentCard: React.FC<DocumentCardProps> = ({
     const extension = fileName.split(".").pop()?.toLowerCase() || "";
 
     if (["jpg", "jpeg", "png", "gif", "webp", "svg"].includes(extension)) {
-      return <Image className="w-5 h-5" />;
+      return <Image className="w-5 h-5 text-design-main" />;
     }
 
     if (["pdf", "doc", "docx", "txt"].includes(extension)) {
-      return <FileText className="w-5 h-5" />;
+      return <FileText className="w-5 h-5 text-design-main" />;
     }
 
-    return <File className="w-5 h-5" />;
+    return <File className="w-5 h-5 text-design-main" />;
   };
 
   const getStatusIcon = (status: string) => {
@@ -88,11 +91,11 @@ const DocumentCard: React.FC<DocumentCardProps> = ({
       case "approved":
         return <CheckCircle className="w-4 h-4 text-green-600" />;
       case "rejected":
-        return <AlertTriangle className="w-4 h-4 text-red-600" />;
+        return <AlertTriangle className="w-4 h-4 text-d-5" />;
       case "pending":
-        return <Clock className="w-4 h-4 text-orange-600" />;
+        return <Clock className="w-4 h-4 text-design-main" />;
       default:
-        return <Clock className="w-4 h-4 text-gray-600" />;
+        return <Clock className="w-4 h-4 text-design-main" />;
     }
   };
 
@@ -101,32 +104,32 @@ const DocumentCard: React.FC<DocumentCardProps> = ({
       case "approved":
         return (
           <Badge variant="success" className="text-xs">
-            Approved
+            {t("status.approved")}
           </Badge>
         );
       case "rejected":
         return (
           <Badge variant="destructive" className="text-xs">
-            Rejected
+            {t("status.rejected")}
           </Badge>
         );
       case "pending":
         return (
           <Badge variant="secondary" className="text-xs">
-            Pending
+            {t("status.pending")}
           </Badge>
         );
       default:
         return (
           <Badge variant="outline" className="text-xs">
-            Uploaded
+            {t("status.uploaded")}
           </Badge>
         );
     }
   };
 
-  const handleRemove = () => {
-    removeFile(role, docId, file.id);
+  const handleRemove = async () => {
+    await removeFile(role, docId, file.id);
   };
 
   const handleDownload = () => {
@@ -150,11 +153,11 @@ const DocumentCard: React.FC<DocumentCardProps> = ({
   const isExpired = file.expiryDate && new Date(file.expiryDate) < new Date();
 
   return (
-    <Card className={cn("w-full transition-all hover:shadow-md", className)}>
+    <Card className={cn("w-full transition-all shadow-xs", className)}>
       <CardHeader className="pb-3">
         <div className="flex items-start gap-3">
           {/* File Icon */}
-          <div className="flex-shrink-0 text-muted-foreground mt-1">
+          <div className="flex-shrink-0 text-muted-foreground mt-1 ">
             {getFileIcon(file.fileName)}
           </div>
 
@@ -172,30 +175,13 @@ const DocumentCard: React.FC<DocumentCardProps> = ({
                     placeholder="Custom name"
                   />
                 ) : (
-                  <CardTitle className="text-sm font-medium break-words line-clamp-2 leading-tight">
+                  <CardTitle className="text-sm font-medium break-all line-clamp-1 leading-tight">
                     {file.customName || file.fileName}
                   </CardTitle>
                 )}
                 <p className="text-xs text-muted-foreground mt-1 break-all line-clamp-1">
-                  Original: {file.fileName}
+                  {t("fileDetails.original")} {file.fileName}
                 </p>
-              </div>
-
-              <div className="flex items-center gap-2">
-                {getStatusBadge(file.status)}
-                {isExpired && (
-                  <Badge variant="destructive" className="text-xs">
-                    Expired
-                  </Badge>
-                )}
-                {isApprovedMandatory && (
-                  <Badge
-                    variant="outline"
-                    className="text-xs border-yellow-500 text-yellow-700"
-                  >
-                    Protected
-                  </Badge>
-                )}
               </div>
             </div>
 
@@ -222,30 +208,32 @@ const DocumentCard: React.FC<DocumentCardProps> = ({
             {/* File Details */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs text-muted-foreground mb-3">
               <div>
-                <span className="font-medium">Uploaded:</span>
+                <span className="font-medium">{t("fileDetails.uploaded")}</span>
                 <br />
                 {new Date(file.uploadedAt).toLocaleDateString()}
               </div>
 
               {file.size && (
                 <div>
-                  <span className="font-medium">Size:</span>
+                  <span className="font-medium">{t("fileDetails.size")}</span>
                   <br />
                   {formatBytes(file.size)}
                 </div>
               )}
 
               <div>
-                <span className="font-medium">Status:</span>
+                <span className="font-medium">{t("fileDetails.status")}</span>
                 <br />
                 <div className="flex items-center gap-1 mt-1">
                   {getStatusIcon(file.status)}
-                  <span className="capitalize">{file.status}</span>
+                  <span className="capitalize">
+                    {t(`status.${file.status}`)}
+                  </span>
                 </div>
               </div>
 
               <div>
-                <span className="font-medium">Expiry:</span>
+                <span className="font-medium">{t("fileDetails.expiry")}</span>
                 <br />
                 {isEditing ? (
                   <Input
@@ -260,13 +248,13 @@ const DocumentCard: React.FC<DocumentCardProps> = ({
                   <span
                     className={cn(
                       "flex items-center gap-1 mt-1",
-                      isExpired && "text-red-600"
+                      isExpired && "text-d-5"
                     )}
                   >
                     <Calendar className="w-3 h-3" />
                     {file.expiryDate
                       ? new Date(file.expiryDate).toLocaleDateString()
-                      : "Not set"}
+                      : t("fileDetails.notSet")}
                   </span>
                 )}
               </div>
@@ -289,7 +277,7 @@ const DocumentCard: React.FC<DocumentCardProps> = ({
                 title="Edit metadata"
               >
                 <Edit className="w-3 h-3 mr-1" />
-                Edit
+                {t("actions.edit")}
               </Button>
             )}
 
@@ -304,7 +292,7 @@ const DocumentCard: React.FC<DocumentCardProps> = ({
                   title="Save changes"
                 >
                   <Save className="w-3 h-3 mr-1" />
-                  Save
+                  {t("actions.save")}
                 </Button>
                 <Button
                   variant="ghost"
@@ -314,7 +302,7 @@ const DocumentCard: React.FC<DocumentCardProps> = ({
                   title="Cancel editing"
                 >
                   <X className="w-3 h-3 mr-1" />
-                  Cancel
+                  {t("actions.cancel")}
                 </Button>
               </>
             )}
@@ -327,33 +315,47 @@ const DocumentCard: React.FC<DocumentCardProps> = ({
               size="sm"
               onClick={handleDownload}
               className="h-8 w-8 p-0"
-              title="Download file"
+              title={t("actions.download")}
             >
               <Download className="w-4 h-4" />
             </Button>
 
             {/* Remove */}
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={handleRemove}
-              disabled={!allowRemove}
-              className={cn(
-                "h-8 w-8 p-0",
-                allowRemove
-                  ? "text-destructive hover:text-destructive hover:bg-destructive/10"
-                  : "text-muted-foreground/30 cursor-not-allowed"
-              )}
-              title={
+            <DeleteConfirmationDialog
+              itemTitle={file.customName || file.fileName}
+              itemDescription={
                 isApprovedMandatory
-                  ? "Cannot delete: Mandatory document is approved"
-                  : allowRemove
-                  ? "Remove file"
-                  : "Cannot delete this file"
+                  ? t("deleteDialog.protectedDescription")
+                  : t("deleteDialog.description", {
+                      fileName: file.customName || file.fileName,
+                    })
               }
+              onConfirm={handleRemove}
+              disabled={!allowRemove}
+              deleteButtonText={t("deleteDialog.deleteFile")}
+              cancelButtonText={t("deleteDialog.cancel")}
             >
-              <Trash2 className="w-4 h-4" />
-            </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                disabled={!allowRemove}
+                className={cn(
+                  "h-8 w-8 p-0",
+                  allowRemove
+                    ? "text-destructive hover:text-destructive hover:bg-destructive/10"
+                    : "text-muted-foreground/30 cursor-not-allowed"
+                )}
+                title={
+                  isApprovedMandatory
+                    ? t("actions.cannotDeleteApproved")
+                    : allowRemove
+                    ? t("actions.remove")
+                    : t("actions.cannotDelete")
+                }
+              >
+                <Trash2 className="w-4 h-4" />
+              </Button>
+            </DeleteConfirmationDialog>
           </div>
         </div>
       </CardContent>

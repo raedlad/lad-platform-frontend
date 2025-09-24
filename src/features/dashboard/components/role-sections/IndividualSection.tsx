@@ -1,6 +1,11 @@
 "use client";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@shared/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@shared/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/shared/components/ui/progress";
@@ -21,7 +26,7 @@ interface IndividualSectionProps {
   offers: Offer[];
   className?: string;
   onCreateProject?: () => void;
-  onViewProject?: (projectId: string) => void;
+  onViewProject?: (projectId: string, projectStatus?: string) => void;
   onViewOffer?: (offerId: string) => void;
 }
 
@@ -213,7 +218,7 @@ export function IndividualSection({
                     <Button
                       variant="ghost"
                       className="w-full"
-                      onClick={() => onViewProject?.("")}
+                      onClick={() => onViewProject?.("", "draft")}
                     >
                       View {activeProjects.length - 3} more projects
                     </Button>
@@ -265,7 +270,7 @@ export function IndividualSection({
                 <div
                   key={project.id}
                   className="flex items-center justify-between p-3 bg-white rounded-lg border border-orange-200 cursor-pointer hover:shadow-sm"
-                  onClick={() => onViewProject?.(project.id)}
+                  onClick={() => onViewProject?.(project.id, project.status)}
                 >
                   <div>
                     <h4 className="font-medium text-sm text-gray-900">

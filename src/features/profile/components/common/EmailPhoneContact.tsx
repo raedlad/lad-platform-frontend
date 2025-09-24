@@ -6,6 +6,7 @@ import { Label } from "@/shared/components/ui/label";
 import { Mail, Phone } from "lucide-react";
 import { PhoneInput } from "@/features/auth/components/phone-input/PhoneInput";
 import { cn } from "@/lib/utils";
+import { E164Number } from "libphonenumber-js";
 
 export interface ContactData {
   email: string;
@@ -63,7 +64,7 @@ export const EmailPhoneContact: React.FC<EmailPhoneContactProps> = ({
         <div className="flex flex-col gap-3">
           <div className="relative flex w-full items-center">
             <PhoneInput
-              value={data.phone}
+              value={data.phone as E164Number}
               onChange={handlePhoneChange}
               placeholder="Enter phone number"
             />

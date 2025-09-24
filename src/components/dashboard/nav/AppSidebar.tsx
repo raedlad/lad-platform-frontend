@@ -33,7 +33,7 @@ export function AppSidebar() {
       <div
         className={`
           fixed lg:relative inset-y-0 left-0 z-50 lg:z-auto
-          w-72 sm:w-80 bg-design-secondary dark:bg-gray-900 text-white dark:text-gray-100
+          w-72 sm:w-80 bg-design-secondary  dark:bg-gray-900 text-white dark:text-gray-100
           border-r border-gray-200 dark:border-gray-700
           transform transition-transform duration-300 ease-in-out
           ${

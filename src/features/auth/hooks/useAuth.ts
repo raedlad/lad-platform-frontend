@@ -8,37 +8,37 @@ export const useAuth = () => {
   const refreshTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Schedule token refresh ~1 minute before expiry
-  useEffect(() => {
-    if (typeof window === "undefined") return;
+  // useEffect(() => {
+  //   if (typeof window === "undefined") return;
 
-    const schedule = () => {
-      const msUntilExpiry = tokenStorage.getTimeUntilAccessTokenExpiryMs();
-      if (msUntilExpiry == null) return;
+  //   const schedule = () => {
+  //     const msUntilExpiry = tokenStorage.getTimeUntilAccessTokenExpiryMs();
+  //     if (msUntilExpiry == null) return;
 
-      // Refresh 60s before expiry, but not sooner than 1s
-      const refreshInMs = Math.max(msUntilExpiry - 60 * 1000, 1000);
-      if (refreshTimerRef.current) clearTimeout(refreshTimerRef.current);
-      refreshTimerRef.current = setTimeout(async () => {
-        await authApi.refreshTokens();
-        // Re-schedule after refresh
-        schedule();
-      }, refreshInMs);
-    };
+  //     // Refresh 60s before expiry, but not sooner than 1s
+  //     const refreshInMs = Math.max(msUntilExpiry - 60 * 1000, 1000);
+  //     if (refreshTimerRef.current) clearTimeout(refreshTimerRef.current);
+  //     refreshTimerRef.current = setTimeout(async () => {
+  //       await authApi.refreshTokens();
+  //       // Re-schedule after refresh
+  //       schedule();
+  //     }, refreshInMs);
+  //   };
 
-    schedule();
+  //   schedule();
 
-    const onStorage = (e: StorageEvent) => {
-      if (e.key === "access_token" || e.key === "token_expires_at") {
-        schedule();
-      }
-    };
-    window.addEventListener("storage", onStorage);
+  //   const onStorage = (e: StorageEvent) => {
+  //     if (e.key === "access_token" || e.key === "token_expires_at") {
+  //       schedule();
+  //     }
+  //   };
+  //   window.addEventListener("storage", onStorage);
 
-    return () => {
-      if (refreshTimerRef.current) clearTimeout(refreshTimerRef.current);
-      window.removeEventListener("storage", onStorage);
-    };
-  }, [store.isAuthenticated]);
+  //   return () => {
+  //     if (refreshTimerRef.current) clearTimeout(refreshTimerRef.current);
+  //     window.removeEventListener("storage", onStorage);
+  //   };
+  // }, [store.isAuthenticated]);
 
   const handleForgotPassword = useCallback(
     async (arg1?: string, arg2?: string) => {

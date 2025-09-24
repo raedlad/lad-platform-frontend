@@ -20,10 +20,13 @@ import { IndividualProfilePersonalInfo } from "@/features/profile/types/individu
 import { createProfileValidationSchemas } from "@/features/profile/utils/validation";
 import { useTranslations } from "next-intl";
 import { usePersonalInfoStore } from "@/features/profile/store/personalInfoStore";
+import { useAuthStore } from "@/features/auth/store/authStore";
+import { E164Number } from "libphonenumber-js";
 
 export const IndividualPersonalInfo = () => {
   const t = useTranslations();
   const store = usePersonalInfoStore();
+  const {user} = useAuthStore();
   const inputRef = useRef<HTMLInputElement>(null);
   const {
     individualPersonalInfo,
@@ -43,10 +46,9 @@ export const IndividualPersonalInfo = () => {
   const form = useForm<IndividualProfilePersonalInfo>({
     resolver: zodResolver(IndividualProfilePersonalInfoSchema),
     defaultValues: individualPersonalInfo ?? {
-      fullName: "",
-      phoneNumber: "",
-      email: "",
-      nationalId: "",
+      fullName: user?.name || "",
+      phoneNumber: user?.phone || "",
+      email: user?.email || "",
     },
     mode: "onSubmit",
     reValidateMode: "onChange",
@@ -160,7 +162,7 @@ export const IndividualPersonalInfo = () => {
                     <PhoneInput
                       inputMode="tel"
                       disabled={isLoading || !editing}
-                      value={field.value}
+                      value={field.value as E164Number}
                       onChange={field.onChange}
                       smartCaret={true}
                     />
@@ -170,7 +172,7 @@ export const IndividualPersonalInfo = () => {
               )}
             />
 
-            <FormField
+            {/* <FormField
               control={form.control}
               name="nationalId"
               render={({ field }) => (
@@ -193,7 +195,7 @@ export const IndividualPersonalInfo = () => {
                   <FormMessage className="text-xs" />
                 </FormItem>
               )}
-            />
+            /> */}
 
             {error && (
               <div className="m-2 p-3 bg-red-50 border border-red-200 rounded-md">

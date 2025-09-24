@@ -1,8 +1,10 @@
 import { api } from "@/lib/api";
 import {
+  BOQData,
   ProjectClassification,
-  ProjectDocuments,
+  DocumentsState,
   ProjectEssentialInfo,
+  PublishSettings,
 } from "../types/project";
 
 export const projectApi = {
@@ -82,25 +84,47 @@ export const projectApi = {
     try {
       const response = await new Promise((resolve) => {
         setTimeout(() => {
-          const projectId = `proj_${Date.now()}`; // Generate a unique project ID
+          const projectId = `proj_${Date.now()}`;
           resolve({
             success: true,
             message: "Project created successfully",
             data: {
               projectId,
-              essentialInfo: {
-                ...data,
-                id: Date.now(), // mock essential info ID
+              project: {
+                id: projectId,
+                essential_info: data,
+                classification: {
+                  id: 0,
+                  jobId: 0,
+                  workTypeId: 0,
+                  levelId: 0,
+                  notes: "",
+                },
+                documents: [],
+                status: { status: "in_progress" },
+                publish_settings: {
+                  notify_matching_contractors: false,
+                  notify_client_on_offer: false,
+                  offers_window_days: 0,
+                },
+                boq: {
+                  items: [],
+                  total_amount: 0,
+                },
               },
             },
           });
-        }, 2000); // 2 seconds
+        }, 2000);
       });
 
       return response;
     } catch (error) {
       console.error("Error creating project:", error);
-      throw error;
+      return {
+        success: false,
+        message: "Failed to create project",
+        data: null,
+      };
     }
   },
   updateEssentialInfoProject: async (
@@ -112,19 +136,23 @@ export const projectApi = {
         setTimeout(() => {
           resolve({
             success: true,
-            message: "Fake project created successfully",
+            message: "Essential info updated successfully",
             data: {
-              ...data,
-              id: Date.now(), // mock ID
+              projectId,
+              essential_info: data,
             },
           });
-        }, 3000); // 3 seconds
+        }, 1500);
       });
 
       return response;
     } catch (error) {
       console.error("Error updating project essential info:", error);
-      throw error;
+      return {
+        success: false,
+        message: "Failed to update essential info",
+        data: null,
+      };
     }
   },
   createClassificationProject: async (
@@ -136,19 +164,23 @@ export const projectApi = {
         setTimeout(() => {
           resolve({
             success: true,
-            message: "Fake project created successfully",
+            message: "Classification created successfully",
             data: {
-              ...data,
-              id: Date.now(), // mock ID
+              projectId,
+              classification: data,
             },
           });
-        }, 3000); // 3 seconds
+        }, 1500);
       });
 
       return response;
     } catch (error) {
       console.error("Error creating project classification:", error);
-      throw error;
+      return {
+        success: false,
+        message: "Failed to create classification",
+        data: null,
+      };
     }
   },
   updateClassificationProject: async (
@@ -160,22 +192,26 @@ export const projectApi = {
         setTimeout(() => {
           resolve({
             success: true,
-            message: "Fake project created successfully",
+            message: "Classification updated successfully",
             data: {
-              ...data,
-              id: Date.now(), // mock ID
+              projectId,
+              classification: data,
             },
           });
-        }, 3000); // 3 seconds
+        }, 1500);
       });
 
       return response;
     } catch (error) {
       console.error("Error updating project classification:", error);
-      throw error;
+      return {
+        success: false,
+        message: "Failed to update classification",
+        data: null,
+      };
     }
   },
-  updateDocumentsProject: async (projectId: string, data: ProjectDocuments) => {
+  updateDocumentsProject: async (projectId: string, data: DocumentsState) => {
     try {
       const response = await new Promise((resolve) => {
         setTimeout(() => {
@@ -196,7 +232,7 @@ export const projectApi = {
       throw error;
     }
   },
-  createDocumentsProject: async (projectId: string, data: ProjectDocuments) => {
+  createDocumentsProject: async (projectId: string, data: DocumentsState) => {
     try {
       const response = await api.post(
         `/projects/owner/${projectId}/documents`,
@@ -323,6 +359,113 @@ export const projectApi = {
         success: false,
         data: null,
         message: "Error reuploading file",
+      };
+    }
+  },
+  createBOQProject: async (projectId: string, data: BOQData) => {
+    try {
+      const response = await new Promise((resolve) => {
+        setTimeout(() => {
+          resolve({
+            success: true,
+            message: "BOQ created successfully",
+            data: {
+              projectId,
+              boq: data,
+            },
+          });
+        }, 1500);
+      });
+
+      return response;
+    } catch (error) {
+      console.error("Error creating BOQ project:", error);
+      return {
+        success: false,
+        message: "Failed to create BOQ",
+        data: null,
+      };
+    }
+  },
+  updateBOQProject: async (projectId: string, data: BOQData) => {
+    try {
+      const response = await new Promise((resolve) => {
+        setTimeout(() => {
+          resolve({
+            success: true,
+            message: "BOQ updated successfully",
+            data: {
+              projectId,
+              boq: data,
+            },
+          });
+        }, 1500);
+      });
+
+      return response;
+    } catch (error) {
+      console.error("Error updating BOQ project:", error);
+      return {
+        success: false,
+        message: "Failed to update BOQ",
+        data: null,
+      };
+    }
+  },
+  handlePublishSettingsProject: async (
+    projectId: string,
+    data: PublishSettings
+  ) => {
+    try {
+      const response = await new Promise((resolve) => {
+        setTimeout(() => {
+          resolve({
+            success: true,
+            message: "Publish settings saved successfully",
+            data: {
+              ...data,
+              projectId,
+              publish_settings: data,
+            },
+          });
+        }, 1500);
+      });
+
+      return response;
+    } catch (error) {
+      console.error("Error handling publish settings:", error);
+      return {
+        success: false,
+        message: "Failed to save publish settings",
+        data: null,
+      };
+    }
+  },
+  handleSendProjectToReview: async (projectId: string) => {
+    try {
+      const response = await new Promise((resolve) => {
+        setTimeout(() => {
+          resolve({
+            success: true,
+            message: "Project sent to review successfully",
+            data: {
+              projectId,
+              project: {
+                id: projectId,
+                status: { status: "pending_review" },
+              },
+            },
+          });
+        }, 2000);
+      });
+
+      return response;
+    } catch (error) {
+      console.error("Error sending project to review:", error);
+      return {
+        success: false,
+        message: "Failed to send project to review",
+        data: null,
       };
     }
   },

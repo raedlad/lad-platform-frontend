@@ -39,7 +39,14 @@
       "selectCountry": "اختر الدولة",
       "searchCountry": "البحث عن دولة...",
       "noCountryFound": "لم يتم العثور على دولة."
-    }
+    },
+    "days": "أيام",
+    "error": "خطأ",
+    "tryAgain": "حاول مرة أخرى",
+    "viewDetails": "عرض التفاصيل",
+    "edit": "تعديل",
+    "filters": "المرشحات",
+    "clearSearch": "مسح البحث"
   },
 
   "Header": {
@@ -49,14 +56,18 @@
     "home": "الرئيسية",
     "aboutus": "من نحن",
     "services": "خدماتنا",
+    "projectGallery": "معرض المشاريع",
+    "contractorDirectory": "دليل المقاولين",
+    "suppliers": "الموردين",
+    "buildingMaterials": "مواد البناء",
+    "customerReviews": "تقييمات العملاء",
     "contactus": "تواصل معنا",
     "login": "تسجيل الدخول"
   },
   "hero": {
-    "title": "مشروعك يبدأ من لاد… ",
-    "title2": "حيث يلتقي العملاء مع نخبة المقاولين والمهندسين",
-    "description": "نحن نوفر لك مساحة آمنة واحترافية تربطك مباشرةً مع أفضل المقاولين والمهندسين المتخصصين في جميع المجالات.  اطلب مشروعك بسهولة، قارن العروض والأسعار بشفافية، واختر الأنسب لتنفيذ فكرتك بأعلى جودة وأقل جهد. لاد… شريكك الموثوق لبناء مشاريعك بثقة واطمئنان",
-    "createAccount": "إنشاء حساب",
+    "title": "مشروعك جاهز للانطلاق؟ ابدأ الآن بخطوات سهلة.",
+    "description": "من عميل يبحث عن تنفيذ مشروعه إلى مهندس أو مقاول يسعى لإثبات خبرته — لاد تجمعكم في سوق واحد لبناء المشاريع بموثوقية وشفافية.",
+    "createAccount": "انشئ حسابك الآن",
     "login": "تسجيل الدخول",
     "partners": "الشركاء الموثوق بهم"
   },
@@ -69,6 +80,49 @@
     "feature2Description": "نقوم بمتابعة مراحل المشروع والتنسيق بين العميل والمقاول، وضمان وضوح المتطلبات والمواعيد النهائية لتسليم العمل بجودة عالية",
     "feature3": "إدارة العقود والمدفوعات",
     "feature3Description": "نساعدك في صياغة العقود وضمان حقوق جميع الأطراف، بالإضافة إلى إدارة عمليات الدفع بطريقة آمنة وموثوقة"
+  },
+  "servicesAndBenefits": {
+    "title": "خدماتنا ومميزاتنا",
+    "description": "اكتشف كيف يمكن لمنصة LAD أن تحول رحلتك في عالم البناء والهندسة",
+"services": {
+  "smartMatching": {
+    "title": "مطابقة ذكية للمشاريع",
+    "description": "النظام يربطك تلقائياً مع المقاول أو المكتب الهندسي الأنسب وفقاً لمتطلباتك.",
+    "label": "الخدمات",
+    "imageIdea": "AI network illustration showing project connected with contractor icons"
+  },
+  "contractorDirectory": {
+    "title": "دليل موثوق للمقاولين",
+    "description": "استعرض ملفات معتمدة تحتوي على تقييمات، شهادات، وأعمال سابقة موثوقة.",
+    "label": "الجودة",
+    "imageIdea": "Profile cards or directory illustration with stars/reviews"
+  },
+  "securePayments": {
+    "title": "مدفوعات آمنة وشفافة",
+    "description": "إدارة مالية كاملة تشمل الفواتير، الدفعات المرحلية، ونِسب الإنجاز.",
+    "label": "المالية",
+    "imageIdea": "Secure wallet or payment transaction illustration with shield"
+  },
+  "documentsVerification": {
+    "title": "تحقق وإدارة الوثائق",
+    "description": "رفع المستندات، التحقق التلقائي، وملاحظات المراجعة لضمان الامتثال.",
+    "label": "الامتثال",
+    "imageIdea": "Document stack with checkmarks and shield icon"
+  },
+  "integratedBOQ": {
+    "title": "جداول كميات (BOQ) متكاملة",
+    "description": "إنشاء وإدارة جداول كميات جاهزة مع حساب تلقائي للتكلفة والإجمالي.",
+    "label": "الإنتاجية",
+    "imageIdea": "Spreadsheet or table illustration with calculator and charts"
+  },
+  "messagingTracking": {
+    "title": "تواصل وتتبع التنفيذ",
+    "description": "محادثات مباشرة، إشعارات، وسجل نشاط لمتابعة المشروع خطوة بخطوة.",
+    "label": "التنسيق",
+    "imageIdea": "Chat bubbles with progress bar or activity timeline"
+  }
+}
+
   },
   "aboutUs": {
     "title": "كل شيء عن لاد ",
@@ -128,49 +182,72 @@
   },
   "testimonials": {
     "title": "موثوق من قبل المحترفين في البناء والهندسة",
-    "description": "LAD يجمع بين المقاولين والمهندسين والموردين والعملاء في مكان واحد. إليك ما يقوله المحترفون عن المنصة.",
+    "description": "لاد يجمع بين المقاولين والمهندسين والموردين والعملاء في مكان واحد. إليك ما يقوله المحترفون عن المنصة.",
     "testimonial1": {
-      "quote": "ساعدتني LAD في العثور على موردين موثوقين والتواصل مع المهندسين بسرعة أكبر. المنصة جعلت إدارة المشاريع أسهل بكثير.",
-      "name": "أحمد خالد",
-      "role": "مقاول عام"
+      "quote": "من خلال لاد، تمكنت من إنجاز 15 مشروعاً بقيمة إجمالية 2.5 مليون ريال خلال 8 أشهر فقط. المنصة وفرت لي عملاء جدد وزادت من أرباحي بنسبة 40%.",
+      "name": "أحمد خالد المطيري",
+      "role": "مقاول عام - الرياض"
     },
     "testimonial2": {
-      "quote": "كمهندسة مستقلة، وفّرت لي LAD الوصول إلى عملاء ومقاولين يقدّرون مهاراتي. إنها بالفعل بوابة للفرص.",
-      "name": "منى السيد",
-      "role": "مهندسة مستقلة"
+      "quote": "كمهندسة مستقلة، لاد غيّر مسيرتي المهنية تماماً. حصلت على 8 مشاريع تصميم بقيمة 800 ألف ريال في 6 أشهر. العملاء يثقون في المنصة وهذا يفتح أبواباً كثيرة.",
+      "name": "د. منى السيد العتيبي",
+      "role": "مهندسة معمارية مستقلة - جدة"
     },
     "testimonial3": {
-      "quote": "بفضل LAD تمكنت من توسيع نطاق عملي وتوريد المواد مباشرة للمقاولين والمكاتب. المنصة توفر الوقت وتبني الثقة.",
-      "name": "حسن علي",
-      "role": "مورد مواد بناء"
+      "quote": "بفضل لاد، توسع عملي من مورد محلي إلى مورد إقليمي. زادت مبيعاتي بنسبة 300% وأصبح لدي 50+ مقاول دائم. المنصة وفرت لي شبكة عملاء موثوقة.",
+      "name": "حسن علي الشمري",
+      "role": "مورد مواد بناء - الدمام"
     },
     "testimonial4": {
-      "quote": "إيجاد المقاول المناسب لمشروعي المنزلي كان سهلاً عبر LAD. العملية كانت واضحة وسريعة وشفافة.",
-      "name": "سارة محمد",
-      "role": "عميلة فردية"
+      "quote": "بناء منزل أحلامي كان حلمي لسنوات. لاد جعل الحلم حقيقة في 18 شهراً فقط. المقاول الذي اخترته كان محترفاً والجودة تفوق توقعاتي. أنصح الجميع بالمنصة.",
+      "name": "سارة محمد الأحمد",
+      "role": "عميلة - منزل بقيمة 1.2 مليون ريال"
     },
     "testimonial5": {
-      "quote": "إيجاد المقاول المناسب لمشروعي المنزلي كان سهلاً عبر LAD. العملية كانت واضحة وسريعة وشفافة.",
-      "name": "سارة محمد",
-      "role": "عميلة فردية"
+      "quote": "مكتبنا الهندسي حصل على 12 مشروع استشارات بقيمة 1.8 مليون ريال خلال سنة واحدة عبر لاد. المنصة وفرت لنا عملاء من القطاعين الحكومي والخاص.",
+      "name": "م. عبدالله النعيمي",
+      "role": "مدير مكتب هندسي - الخبر"
     },
     "testimonial6": {
-      "quote": "إيجاد المقاول المناسب لمشروعي المنزلي كان سهلاً عبر LAD. العملية كانت واضحة وسريعة وشفافة.",
-      "name": "سارة محمد",
-      "role": "عميلة فردية"
+      "quote": "لاد ساعدني في إدارة مشروع مجمع سكني بقيمة 15 مليون ريال بكفاءة عالية. التواصل مع المقاولين والموردين كان سلساً والنتيجة كانت مبهرة.",
+      "name": "خالد الفهد",
+      "role": "مطور عقاري - الرياض"
     },
     "testimonial7": {
-      "quote": "إيجاد المقاول المناسب لمشروعي المنزلي كان سهلاً عبر LAD. العملية كانت واضحة وسريعة وشفافة.",
-      "name": "سارة محمد",
-      "role": "عميلة فردية"
+      "quote": "كموظفة حكومية، لاد وفر لي شفافية كاملة في مشاريع البنية التحتية. تمكنت من توفير 20% من الميزانية مع ضمان الجودة العالية.",
+      "name": "نورا القحطاني",
+      "role": "مديرة مشاريع حكومية - الرياض"
     }
   },
   "cta": {
     "title": "فرص جديدة ومشاريع ناجحة في عالم البناء بانتظارك",
     "getStarted": "ابدأ الآن"
   },
+
+  "whoItsFor": {
+    "title": "منصة لاد للجميع",
+    "subtitle": "اكتشف كيف يمكن لـ لاد أن يحول رحلتك في عالم البناء والهندسة، سواء كنت تبحث عن خدمات أو تقدمها",
+    "serviceSeeker": "طالب خدمة",
+    "serviceProvider": "مقدم خدمة",
+    "individuals": "أفراد",
+    "individualsDescription": "احقق حلمك في بناء منزل أحلامك أو تجديد مساحتك مع أفضل المقاولين والمهندسين المعتمدين في المنطقة.",
+    "organizations": "مؤسسات",
+    "organizationsDescription": "طور مشاريعك التجارية والصناعية بثقة مع فريق من الخبراء المتخصصين في التنفيذ عالي الجودة.",
+    "government": "جهة حكومية",
+    "governmentDescription": "نفذ مشاريعك التنموية والبنية التحتية بكفاءة عالية مع شركاء موثوقين ومعتمدين من الحكومة.",
+    "contractors": "مقاولون",
+    "contractorsDescription": "اعرض خبراتك وابحث عن مشاريع جديدة مع ضمان الجودة والشفافية في كل خطوة من رحلتك المهنية.",
+    "freelanceEngineers": "مهندسون مستقلون",
+    "freelanceEngineersDescription": "اربط مواهبك التقنية مع فرص عمل حقيقية وطور مسيرتك المهنية في بيئة محترفة ومحفزة.",
+    "engineeringOffices": "مكاتب الهندسة",
+    "engineeringOfficesDescription": "وسع عملك واربط مكتبك الهندسي مع مشاريع كبيرة ومتنوعة في جميع أنحاء المنطقة.",
+    "suppliers": "موردون",
+    "suppliersDescription": "وسع نطاق عملك ووصل منتجاتك وموادك البناء مع شبكة واسعة من المقاولين والمطورين.",
+    "registerNow": "سجّل الآن",
+    "comingSoon": "قريباً"
+  },
   "footer": {
-    "copyright": "© {year} LAD، جميع الحقوق محفوظة",
+    "copyright": "© {year} لاد، جميع الحقوق محفوظة",
     "description": "نربط المهنيين في البناء بمشاريع وفرص عالية الجودة في جميع أنحاء المنطقة.",
     "social": {
       "follow": "تابعنا",
@@ -207,6 +284,14 @@
     "resendCode": "إعادة إرسال الرمز",
 
     "passwordReset": {
+      "sentPasswordReset": "لقد أرسلنا رابط إعادة التعيين إلى",
+      "checkEmail": "تحقق من بريدك الإلكتروني",
+      "checkMessages": "تحقق من رسائلك",
+      "clickResetLink": "انقر على رابط إعادة التعيين في البريد الإلكتروني",
+      "followInstructions": "اتبع التعليمات في الرسالة",
+      "createNewPassword": "أنشئ كلمة مرور جديدة",
+      "didNotReceive": "لم تستلم البريد الإلكتروني؟ تحقق من مجلد البريد المزعج أو",
+      "didNotReceiveSms": "لم تستلم الرسالة؟",
       "title": "إعادة تعيين كلمة المرور",
       "description": "أدخل بريدك الإلكتروني أو رقم هاتفك وسنرسل لك رابط إعادة التعيين أو رمز.",
       "emailSent": "تحقق من بريدك الإلكتروني",
@@ -270,8 +355,8 @@
 
     "roleSelection": {
       "description": "اختر دورك للمتابعة",
-      "serviceSeeker": "طالب خدمة",
-      "serviceProvider": "مقدم خدمة",
+      "serviceSeeker": "عميل",
+      "serviceProvider": "مقدم خدمات",
       "or": "أو",
       "haveAccount": "لديك حساب بالفعل؟"
     },
@@ -434,12 +519,85 @@
     "dashboard": "لوحة التحكم",
     "projects": "مشاريعي",
     "offers": " العروض المقدمة",
+    "myOffers": "عروضي",
+    "browseProjects": "تصفح المشاريع",
     "contracts": "العقود النشطة",
     "payments": "الدفعات والفواتير",
     "materials": "طلب مواد بناء",
     "messages": "الرسائل",
     "reviews": "التقييمات",
+    "profile": "الملف الشخصي",
     "settings": "الاعدادات"
+  },
+
+  "offers": {
+    "searchOffers": "البحث في العروض...",
+    "sortBy": "ترتيب حسب",
+    "sortByDate": "التاريخ",
+    "sortByAmount": "المبلغ",
+    "sortByStatus": "الحالة",
+    "sortByProject": "المشروع",
+    "showingResults": "عرض {count} من {total} عرض",
+    "noSearchResults": "لم يتم العثور على عروض",
+    "noOffers": "لا توجد عروض متاحة",
+    "tryDifferentSearch": "جرب مصطلح بحث مختلف",
+    "startBrowsingProjects": "ابدأ في تصفح المشاريع المتاحة",
+    "waitingForOffers": "في انتظار وصول العروض",
+    "createNew": "إنشاء جديد",
+    "yourOffer": "عرضك",
+    "offeredAmount": "المبلغ المعروض",
+    "projectBudget": "ميزانية المشروع",
+    "proposedTimeline": "الجدول الزمني المقترح",
+    "startDate": "تاريخ البداية",
+    "endDate": "تاريخ النهاية",
+    "description": "الوصف",
+    "submittedOn": "تم الإرسال في",
+    "receivedOn": "تم الاستلام في",
+    "accept": "قبول",
+    "reject": "رفض",
+    "withdraw": "سحب",
+    "counterOffer": "عرض مضاد",
+    "projectsCompleted": "مشروع مكتمل",
+    "submitOffer": "تقديم عرض",
+    "closed": "مغلق",
+    "bidders": "مقدمي عروض",
+    "notSpecified": "غير محدد",
+    "createCompleteOffer": {
+      "title": "إنشاء عرض شامل",
+      "basicInfo": "المعلومات الأساسية",
+      "offerAmount": "مبلغ العرض",
+      "qualityCertificate": "شهادة الجودة",
+      "qualityCertificatePlaceholder": "رقم الشهادة أو المرجع",
+      "expectedStartDate": "تاريخ البداية المتوقع",
+      "expectedEndDate": "تاريخ النهاية المتوقع",
+      "offerValidity": "صلاحية العرض",
+      "executionDuration": "مدة التنفيذ",
+      "projectDetails": "تفاصيل المشروع",
+      "projectDetailsPlaceholder": "اوصف نطاق المشروع والمتطلبات ومنهجيتك...",
+      "includeWarranty": "تضمين الضمان",
+      "projectPhases": "مراحل المشروع",
+      "addPhase": "إضافة مرحلة",
+      "phase": "المرحلة",
+      "phaseTitle": "عنوان المرحلة",
+      "phaseTitlePlaceholder": "مثل: التخطيط والتصميم",
+      "status": "الحالة",
+      "pending": "قيد الانتظار",
+      "inProgress": "قيد التنفيذ",
+      "completed": "مكتملة",
+      "onHold": "معلقة",
+      "phaseDescriptionPlaceholder": "اوصف ما سيتم تنفيذه في هذه المرحلة...",
+      "paymentPlans": "خطط الدفع",
+      "addPaymentPlan": "إضافة خطة دفع",
+      "payment": "الدفعة",
+      "paymentName": "اسم الدفعة",
+      "paymentNamePlaceholder": "مثل: الدفعة الأولى",
+      "amount": "المبلغ",
+      "percentageOfContract": "نسبة العقد",
+      "dueDate": "تاريخ الاستحقاق",
+      "bankAccountId": "رقم الحساب البنكي",
+      "referenceNote": "ملاحظة مرجعية",
+      "referenceNotePlaceholder": "ملاحظة مرجعية اختيارية"
+    }
   },
 
   "dashboard": {
@@ -607,6 +765,106 @@
         "pending": "قيد الانتظار",
         "verified": "تم التحقق",
         "rejected": "مرفوض"
+      },
+      "upload": {
+        "title": "رفع المستندات",
+        "description": "رفع وتحقق مستنداتك الخاصة بك",
+        "loading": "جاري تحميل متطلبات المستندات...",
+        "errorLoading": "خطأ في تحميل المستندات",
+        "tryAgain": "حاول مرة أخرى",
+        "mandatoryProgress": "تقدم المستندات الإلزامية",
+        "completed": "مكتمل",
+        "pending": "في الانتظار",
+        "required": "مطلوب",
+        "maxFiles": "الحد الأقصى {count} ملف",
+        "maxSize": "الحد الأقصى {size} ميجابايت",
+        "acceptedTypes": "الأنواع المقبولة: {types}",
+        "noFilesUploaded": "لم يتم رفع أي ملفات بعد",
+        "uploadInstructions": "ارفع الملفات باستخدام المنطقة أعلاه",
+        "uploadedFiles": "الملفات المرفوعة ({count})",
+        "editInstructions": "انقر على \"تعديل\" في أي ملف لإضافة اسم مخصص أو وصف أو تاريخ انتهاء الصلاحية",
+        "submitDocuments": "إرسال المستندات",
+        "completeRequired": "إكمال المستندات المطلوبة",
+        "allCompleted": "تم إكمال جميع المستندات الإلزامية. جاهز للإرسال.",
+        "remaining": "متبقي {count} مستند إلزامي",
+        "submittedSuccessfully": "تم إرسال المستندات بنجاح!",
+        "dismiss": "إغلاق",
+        "reviewComment": "تعليق المراجعة:",
+        "fileDetails": {
+          "uploaded": "تاريخ الرفع:",
+          "size": "الحجم:",
+          "status": "الحالة:",
+          "expiry": "انتهاء الصلاحية:",
+          "notSet": "غير محدد",
+          "expired": "منتهي الصلاحية",
+          "protected": "محمي",
+          "original": "الأصلي:"
+        },
+        "actions": {
+          "edit": "تعديل",
+          "save": "حفظ",
+          "cancel": "إلغاء",
+          "download": "تحميل الملف",
+          "remove": "حذف الملف",
+          "cannotDelete": "لا يمكن حذف هذا الملف",
+          "cannotDeleteApproved": "لا يمكن الحذف: المستند الإلزامي معتمد"
+        },
+        "deleteDialog": {
+          "title": "حذف {fileName}",
+          "description": "هل أنت متأكد من أنك تريد حذف \"{fileName}\"؟ لا يمكن التراجع عن هذا الإجراء.",
+          "protectedDescription": "هذا مستند إلزامي تم اعتماده ولا يمكن حذفه.",
+          "deleteFile": "حذف الملف",
+          "cancel": "إلغاء",
+          "deleting": "جاري الحذف...",
+          "deleteFailed": "فشل الحذف",
+          "retry": "إعادة المحاولة",
+          "retrying": "جاري إعادة المحاولة..."
+        },
+        "status": {
+          "approved": "معتمد",
+          "pending": "في الانتظار",
+          "rejected": "مرفوض",
+          "uploaded": "مرفوع"
+        }
+      },
+      "page": {
+        "title": "المستندات والتحقق",
+        "description": "ارفع وأدر مستندات التحقق الخاصة بك"
+      },
+      "uploadZone": {
+        "title": "انقر للاختيار أو اسحب وأفلت الملفات",
+        "maxFiles": "الحد الأقصى {maxFiles} ملف ({uploaded} مرفوع، {selected} محدد)",
+        "maxSize": "حتى {size} لكل ملف",
+        "acceptedTypes": "الأنواع المقبولة: {types}",
+        "configWarning": "⚠️ مطلوب الدور ومعرف المستند للوظائف المناسبة",
+        "uploadDisabled": "تم تعطيل الرفع لهذا المستند",
+        "configIncomplete": "إعدادات الرفع غير مكتملة - مطلوب الدور ومعرف المستند",
+        "selectedFiles": "الملفات المحددة ({count})",
+        "fillMetadata": "املأ البيانات الوصفية وارفع كل ملف على حدة",
+        "uploadedSuccessfully": "تم رفع {count} بنجاح",
+        "customName": "الاسم المخصص",
+        "customNamePlaceholder": "أدخل اسم مخصص...",
+        "description": "الوصف (اختياري)",
+        "descriptionPlaceholder": "أضف وصف (اختياري)...",
+        "expiryDate": "تاريخ انتهاء الصلاحية (اختياري)",
+        "downloadFile": "تحميل الملف",
+        "retryUpload": "إعادة محاولة الرفع",
+        "uploadFile": "رفع الملف",
+        "removeFile": "حذف الملف",
+        "retry": "إعادة المحاولة",
+        "upload": "رفع",
+        "summary": {
+          "uploaded": "تم رفع {uploaded} من أصل {total} ملف",
+          "readyToUpload": "{count} ملف جاهز للرفع",
+          "allUploaded": "تم رفع جميع الملفات بنجاح!"
+        },
+        "toast": {
+          "uploadSuccess": "تم رفع الملف بنجاح!",
+          "uploadError": "فشل في رفع الملف",
+          "removeSuccess": "تم حذف الملف بنجاح",
+          "removeError": "فشل في حذف الملف"
+        },
+        "uploading": "جاري الرفع..."
       }
     },
     "professional": {
@@ -683,6 +941,90 @@
         "description": "تبديل بين الوضع الفاتح والداكن"
       }
     },
+    "contractorMenu": {
+      "personalInfo": {
+        "title": "المعلومات الشخصية",
+        "description": "تحديث معلوماتك الأساسية وتفاصيل الاتصال"
+      },
+      "documents": {
+        "title": "المستندات والتحقق",
+        "description": "إدارة مستنداتك وحالة التحقق"
+      },
+      "operational": {
+        "title": "التفاصيل التشغيلية والتقنية",
+        "description": "إدارة التفاصيل التشغيلية والتقنية"
+      },
+      "security": {
+        "title": "الأمان",
+        "description": "كلمة المرور، المصادقة الثنائية، وإعدادات الأمان"
+      },
+      "settings": {
+        "title": "الإعدادات",
+        "description": "تفضيلات الحساب وإعدادات الإشعارات"
+      }
+    },
+    "contractorOperational": {
+      "title": "المعلومات التشغيلية",
+      "description": "إدارة التفاصيل التشغيلية وقدرات المقاول",
+      "editInformation": "تعديل المعلومات",
+      "cancel": "إلغاء",
+      "saveChanges": "حفظ التغييرات",
+      "saving": "جاري الحفظ...",
+      "loading": "جاري تحميل البيانات التشغيلية...",
+      "retry": "إعادة المحاولة",
+      "sections": {
+        "projectInfo": {
+          "title": "معلومات المشروع",
+          "description": "تفاصيل حول قدراتك في تنفيذ المشاريع",
+          "executedProjectRange": "نطاق قيمة المشاريع المنفذة",
+          "staffSizeRange": "نطاق حجم الموظفين",
+          "experienceYearsRange": "نطاق سنوات الخبرة",
+          "annualProjectsRange": "نطاق المشاريع السنوية",
+          "targetProjectRanges": "نطاقات قيمة المشاريع المستهدفة",
+          "targetProjectRangesDescription": "اختر جميع نطاقات قيمة المشاريع المستهدفة المناسبة"
+        },
+        "classification": {
+          "title": "التصنيف والاعتماد",
+          "description": "تفاصيل تصنيف واعتماد المقاول",
+          "classificationLevel": "مستوى التصنيف",
+          "classificationFile": "ملف التصنيف",
+          "classificationFileDescription": "رفع شهادة التصنيف (PDF, JPG, JPEG, PNG, WEBP, الحد الأقصى 8 ميجابايت)",
+          "hasGovernmentAccreditation": "لديه اعتماد حكومي",
+          "hasGovernmentAccreditationDescription": "حدد إذا كان لديك اعتماد حكومي",
+          "coversAllRegions": "يغطي جميع المناطق",
+          "coversAllRegionsDescription": "حدد إذا كانت خدماتك تغطي جميع المناطق"
+        },
+        "workFields": {
+          "title": "مجالات العمل والخبرة",
+          "description": "حدد مجالات عملك وسنوات الخبرة في كل منها",
+          "workField": "مجال العمل",
+          "yearsOfExperience": "سنوات الخبرة",
+          "addWorkField": "إضافة مجال عمل"
+        },
+        "geographicalCoverage": {
+          "title": "التغطية الجغرافية",
+          "description": "حدد التغطية الجغرافية التشغيلية والمقاول",
+          "operationalCoverage": "التغطية التشغيلية",
+          "contractorCoverage": "التغطية الجغرافية للمقاول",
+          "coversAllAreas": "يغطي جميع المناطق",
+          "addOperationalCoverage": "إضافة تغطية تشغيلية",
+          "addContractorCoverage": "إضافة تغطية مقاول"
+        }
+      },
+      "placeholders": {
+        "selectExecutedProjectRange": "اختر نطاق قيمة المشاريع المنفذة",
+        "selectStaffSizeRange": "اختر نطاق حجم الموظفين",
+        "selectExperienceYearsRange": "اختر نطاق سنوات الخبرة",
+        "selectAnnualProjectsRange": "اختر نطاق المشاريع السنوية",
+        "selectClassificationLevel": "اختر مستوى التصنيف",
+        "selectWorkField": "اختر مجال العمل"
+      },
+      "errors": {
+        "updateFailed": "فشل في تحديث الملف الشخصي التشغيلي. يرجى المحاولة مرة أخرى.",
+        "fixErrors": "يرجى إصلاح الأخطاء التالية:",
+        "invalidValue": "قيمة غير صالحة"
+      }
+    },
     "completion": {
       "text": "حسابك مكتمل بنسبة {percentage}%"
     }
@@ -750,7 +1092,102 @@
       "fileRemovedLocally": "تم حذف الملف {fileName} محليا"
     },
     "step4": {
-      "title": "جدول المواصفات والكميات (BOQ)"
+      "title": "جدول المواصفات والكميات (BOQ)",
+      "subtitle": "إنشاء جدول المواصفات والكميات للمشروع",
+      "templateSelection": {
+        "title": "اختيار طريقة إنشاء جدول المواصفات والكميات",
+        "fromTemplate": "من القالب",
+        "fromTemplateDescription": "اختر من القوالب المحددة مسبقا",
+        "manual": "إنشاء يدوي",
+        "manualDescription": "إنشاء جدول المواصفات والكميات يدويا",
+        "selectTemplate": "اختر القالب",
+        "templatePlaceholder": "اختر قالب",
+        "noTemplates": "لا يوجد قوالب متاحة"
+      },
+      "boqTable": {
+        "title": "عناصر جدول المواصفات والكميات",
+        "addItem": "إضافة بند",
+        "editItem": "تعديل البند",
+        "deleteItem": "حذف البند",
+        "confirmDelete": "هل أنت متأكد من حذف هذا البند؟",
+        "noItems": "لا يوجد عناصر في جدول المواصفات والكميات",
+        "totalAmount": "المبلغ الكلي",
+        "columns": {
+          "name": "اسم البند",
+          "description": "الوصف",
+          "unit": "الوحدة",
+          "quantity": "الكمية",
+          "unitPrice": "سعر الوحدة",
+          "totalPrice": "المبلغ الكلي",
+          "required": "مطلوب",
+          "actions": "الإجراءات"
+        },
+        "dialogs": {
+          "deleteTitle": "حذف بند من BOQ",
+          "deleteDescription": "هل أنت متأكد من حذف هذا البند من جدول المواصفات والكميات ، هذا الإجراء لا يمكن التراجع عنه؟",
+          "cancel": "إلغاء",
+          "delete": "حذف",
+          "editTooltip": "تعديل البند في BOQ",
+          "deleteTooltip": "حذف البند من BOQ"
+        }
+      },
+      "itemForm": {
+        "title1": "إضافة بند جديد",
+        "title2": "تعديل بند",
+        "name": "اسم البند",
+        "namePlaceholder": "أدخل اسم البند",
+        "description": "الوصف",
+        "descriptionPlaceholder": "أدخل الوصف",
+        "unit": "الوحدة",
+        "unitPlaceholder": "اختر الوحدة",
+        "quantity": "الكمية",
+        "quantityPlaceholder": "أدخل الكمية",
+        "unitPrice": "سعر الوحدة",
+        "unitPricePlaceholder": "أدخل سعر الوحدة",
+        "isRequired": "بند مطلوب",
+        "isRequiredDescription": "احذف البند من جدول المواصفات والكميات",
+        "add": "إضافة بند",
+        "update": "تعديل البند",
+        "cancel": "إلغاء"
+      },
+      "actions": {
+        "reset": "إعادة تعيين",
+        "resetConfirm": "هل أنت متأكد من إعادة تعيين جدول المواصفات والكميات؟",
+        "loadTemplate": "تحميل القالب",
+        "saveAsTemplate": "حفظ كقالب"
+      },
+      "dialogs": {
+        "resetTitle": "إعادة تعيين جدول المواصفات والكميات",
+        "resetDescription": "هل أنت متأكد من إعادة تعيين جدول المواصفات والكميات ، هذا الإجراء لا يمكن التراجع عنه؟",
+        "deleteTitle": "حذف بند من جدول المواصفات والكميات",
+        "deleteDescription": "هل أنت متأكد من حذف هذا البند؟",
+        "cancel": "إلغاء",
+        "reset": "إعادة تعيين",
+        "delete": "حذف"
+      }
+    },
+    "step5": {
+      "title": "اعدادات النشر",
+      "notify_matching_contractors": "إرسال المشروع للمقاولين المناسبين تلقائيا",
+      "notify_client_on_offer": "التنبيه عند وصول العروض",
+      "offers_window_days": "مدة استقبال العروض",
+      "offers_window_days_placeholder": "أدخل المدة بالأيام"
+    },
+    "step6": {
+      "title": " نظرة عامة على المشروع",
+      "name": "اسم المشروع",
+      "type": "نوع المشروع",
+      "budget": "الميزانية",
+      "location": "الموقع",
+      "duration": "المدة",
+      "area_sqm": "المساحة",
+      "description": "الوصف",
+      "city": "المدينة",
+      "district": "الحي",
+      "submit": "إرسال للمراجعة",
+      "pending_review": "قيد المراجعة",
+      "success": "تم إرسال المشروع للمراجعة بنجاح",
+      "error": "فشل إرسال المشروع للمراجعة"
     }
   },
   "feedback": {
@@ -788,6 +1225,10 @@
       "phoneNumber": {
         "required": "رقم الهاتف مطلوب",
         "minLength": "يرجى إدخال رقم هاتف صالح"
+      },
+      "emailOrPhone": {
+        "required": "البريد الإلكتروني أو رقم الهاتف مطلوب",
+        "invalid": "يرجى إدخال بريد إلكتروني أو رقم هاتف صالح"
       },
       "password": {
         "required": "كلمة المرور مطلوبة",
@@ -971,6 +1412,44 @@
         "maxFiles": "الحد الأقصى 10 صور للموقع",
         "maxSize": "حجم كل صورة للموقع يجب ألا يتجاوز 10 ميجابايت",
         "invalidType": "نوع الملف غير مسموح. الأنواع المقبولة: JPEG, PNG"
+      },
+      "boqItem": {
+        "name": {
+          "required": "اسم البند مطلوب",
+          "minLength": "اسم البند يجب أن يكون على الأقل حرفين"
+        },
+        "description": {
+          "required": "وصف البند مطلوب",
+          "minLength": "وصف البند يجب أن يكون على الأقل حرفين"
+        },
+        "unit_id": {
+          "required": "يرجى اختيار الوحدة"
+        },
+        "quantity": {
+          "required": "الكمية مطلوبة",
+          "minValue": "الكمية يجب أن تكون أكبر من 0"
+        },
+        "unit_price": {
+          "required": "سعر الوحدة مطلوب",
+          "minValue": "سعر الوحدة لا يمكن أن يكون سالباً"
+        },
+        "sort_order": {
+          "minValue": "ترتيب البند لا يمكن أن يكون سالباً"
+        }
+      },
+      "boqForm": {
+        "items": {
+          "minItems": "مطلوب بند واحد على الأقل في جدول المواصفات والكميات"
+        },
+        "total_amount": {
+          "minValue": "المبلغ الإجمالي يجب أن يكون أكبر من 0"
+        }
+      },
+      "publish": {
+        "offers_window_days": {
+          "minValue": "مدة استقبال العروض يجب أن يكون أكبر من 0",
+          "required": "مدة استقبال العروض مطلوبة"
+        }
       }
     }
   },

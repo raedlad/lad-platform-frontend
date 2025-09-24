@@ -16,6 +16,10 @@ export const getValidationMessages = (t: (key: string) => string) => ({
     required: t("feedback.validation.phoneNumber.required"),
     minLength: t("feedback.validation.phoneNumber.minLength"),
   },
+  emailOrPhone: {
+    required: t("feedback.validation.emailOrPhone.required"),
+    invalid: t("feedback.validation.emailOrPhone.invalid"),
+  },
   password: {
     required: t("feedback.validation.password.required"),
     minLength: t("feedback.validation.password.minLength"),

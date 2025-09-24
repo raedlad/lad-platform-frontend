@@ -15,11 +15,11 @@ import { useTranslations } from "next-intl";
 import { createProjectValidationSchemas } from "@/features/project/utils/validation";
 import { useProjectStore } from "@/features/project/store/projectStore";
 import { Textarea } from "@/shared/components/ui/textarea";
-import Job from "../../common/Job";
-import Levels from "../../common/Levels";
-import WorkType from "../../common/WorkType";
+import Job from "@/features/project/components/common/Job";
+import Levels from "@/features/project/components/common/Levels";
+import WorkType from "@/features/project/components/common/WorkType";
 import { useCreateProject } from "@/features/project/hooks/useCreateProject";
-import NavigationButtons from "../../common/NavigationButtons";
+import NavigationButtons from "@/features/project/components/common/NavigationButtons";
 
 const ClassificationForm = () => {
   const t = useTranslations("");

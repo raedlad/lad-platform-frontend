@@ -1,12 +1,13 @@
 "use client";
 import React from "react";
-import { Button } from "@/shared/components/ui/button";
+import { MovingBorderButton } from "@/components/ui/moving-border";
 import { useTranslations } from "next-intl";
 import { TextEffect } from "@/components/motion-primitives/text-effect";
 import { AnimatedGroup } from "@/components/motion-primitives/animated-group";
 import Link from "next/link";
 import { assets } from "@/constants/assets";
 import Image from "next/image";
+import { ArrowRightIcon } from "lucide-react";
 
 const transitionVariants = {
   item: {
@@ -34,28 +35,18 @@ export default function HeroSection() {
   return (
     <>
       <main className="relative overflow-hidden pt-16 lg:pt-24">
-        <div className="w-full h-full absolute inset-0 max-h-[calc(100%-20%)] top-0 bg-gradient-to-b from-[#4B7697] to-[#E8E8E8] dark:from-[#0f2433] dark:to-[#0f0f0f]"></div>
-        <section className="min-h- flex flex-col justify-between">
-          <div className="relative z-10 mx-auto py-16 text-center text-[#d9d9d9]">
-            <div className="flex flex-col items-center justify-center gap-4">
+        <div className="w-full h-full absolute inset-0 max-h-[calc(100%-30%)] top-0 bg-gradient-to-b from-[#4B7697] to-[#E8E8E8] dark:from-[#0f2433] dark:to-[#0f0f0f]"></div>
+        <section className=" flex flex-col justify-between">
+          <div className="relative z-10 mx-auto py-16 text-center text-white">
+            <div className="max-w-5xl flex flex-col items-center justify-center gap-2">
               <div className="px-4">
                 <TextEffect
                   preset="fade-in-blur"
                   speedSegment={0.3}
                   as="h1"
-                  className="text-balance text-2xl font-bold md:text-4xl"
+                  className="text-balance text-3xl font-bold md:text-5xl"
                 >
                   {t("title")}
-                </TextEffect>
-                <TextEffect
-                  per="line"
-                  preset="fade-in-blur"
-                  speedSegment={0.3}
-                  delay={0.2}
-                  as="h1"
-                  className="text-balance text-2xl font-bold md:text-4xl"
-                >
-                  {t("title2")}
                 </TextEffect>
               </div>
               <div className="max-w-4xl mx-auto px-4">
@@ -65,12 +56,12 @@ export default function HeroSection() {
                   speedSegment={0.3}
                   delay={0.5}
                   as="p"
-                  className="text-white mt-4 whitespace-pre-line md:text-lg font-light"
+                  className="text-white mt-4 whitespace-pre-line md:text-xl "
                 >
                   {t("description")}
                 </TextEffect>
               </div>
-              <div>
+              <div className="mt-4 lg:mt-6">
                 <AnimatedGroup
                   variants={{
                     container: {
@@ -84,9 +75,15 @@ export default function HeroSection() {
                     ...transitionVariants,
                   }}
                 >
-                  <Button asChild>
-                    <Link href="/">{t("createAccount")}</Link>
-                  </Button>
+                  <div></div>
+                  <Link href="/" className="block">
+                    <MovingBorderButton className="text-lg">
+                      <span className="flex items-center gap-2">
+                        {t("createAccount")}
+                        <ArrowRightIcon className="w-4 h-4 rtl:rotate-180" />
+                      </span>
+                    </MovingBorderButton>
+                  </Link>
                 </AnimatedGroup>
               </div>
             </div>

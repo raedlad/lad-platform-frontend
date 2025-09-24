@@ -39,7 +39,14 @@
       "selectCountry": "Select country",
       "searchCountry": "Search country...",
       "noCountryFound": "No country found."
-    }
+    },
+    "days": "days",
+    "error": "Error",
+    "tryAgain": "Try Again",
+    "viewDetails": "View Details",
+    "edit": "Edit",
+    "filters": "Filters",
+    "clearSearch": "Clear Search"
   },
 
   "Header": {
@@ -49,15 +56,19 @@
     "home": "Home",
     "aboutus": "About Us",
     "services": "Services",
+    "projectGallery": "Project Gallery",
+    "contractorDirectory": "Contractor Directory",
+    "suppliers": "Suppliers",
+    "buildingMaterials": "Building Materials",
+    "customerReviews": "Customer Reviews",
     "contactus": "Contact Us",
     "login": "Login"
   },
 
   "hero": {
-    "title": "Your project starts with LAD...",
-    "title2": "Where clients meet a select group of contractors and engineers",
-    "description": "We provide you with a secure and professional space that connects you directly with the best specialized contractors and engineers in all fields. Easily request your project, transparently compare bids and prices, and choose the most suitable option to execute your idea with the highest quality and least effort. LAD... your trusted partner to build your projects with confidence and peace of mind.",
-    "createAccount": "Create an account",
+    "title": "Your project is ready to launch? Start today with easy steps.",
+    "description": "From a client looking to execute their project to an engineer or contractor seeking to prove their expertise—Lad brings you together in one marketplace to build projects with reliability and transparency.",
+    "createAccount": "Create account now",
     "login": "Log in",
     "partners": "Trusted partners"
   },
@@ -71,6 +82,49 @@
     "feature2Description": "We follow up on project stages and coordinate between the client and the contractor, ensuring clear requirements and deadlines for delivering high-quality work.",
     "feature3": "Contract and Payment Management",
     "feature3Description": "We help you draft contracts and guarantee the rights of all parties, in addition to managing payment processes in a safe and reliable way."
+  },
+  "servicesAndBenefits": {
+    "title": "Our Services & Benefits",
+    "description": "Discover how the LAD platform can transform your journey in construction and engineering",
+
+    "services": {
+      "smartMatching": {
+        "title": "Smart Project Matching",
+        "description": "Automatically connects you with the most suitable contractor or engineering office.",
+        "label": "Services",
+        "imageIdea": "AI network illustration showing project connected with contractor icons"
+      },
+      "contractorDirectory": {
+        "title": "Trusted Contractor Directory",
+        "description": "Browse verified profiles with ratings, certifications, and past projects.",
+        "label": "Quality",
+        "imageIdea": "Profile cards or directory illustration with stars/reviews"
+      },
+      "securePayments": {
+        "title": "Secure & Transparent Payments",
+        "description": "Manage invoices, milestone payments, and progress tracking seamlessly.",
+        "label": "Finance",
+        "imageIdea": "Secure wallet or payment transaction illustration with shield"
+      },
+      "documentsVerification": {
+        "title": "Document Verification",
+        "description": "Upload documents, get automatic verification, and reviewer feedback.",
+        "label": "Compliance",
+        "imageIdea": "Document stack with checkmarks and shield icon"
+      },
+      "integratedBOQ": {
+        "title": "Integrated BOQ",
+        "description": "Create and manage Bills of Quantities with auto-calculated totals.",
+        "label": "Productivity",
+        "imageIdea": "Spreadsheet or table illustration with calculator and charts"
+      },
+      "messagingTracking": {
+        "title": "Messaging & Execution Tracking",
+        "description": "Chat, notifications, and activity logs to monitor project progress.",
+        "label": "Coordination",
+        "imageIdea": "Chat bubbles with progress bar or activity timeline"
+      }
+    }
   },
   "aboutUs": {
     "title": "Everything About LAD",
@@ -133,46 +187,69 @@
 
   "testimonials": {
     "title": "Trusted by Professionals in Construction & Engineering",
-    "description": "LAD brings together contractors, engineers, suppliers, and clients in one place. Here’s what professionals are saying about the platform.",
+    "description": "LAD brings together contractors, engineers, suppliers, and clients in one place. Here's what professionals are saying about the platform.",
     "testimonial1": {
-      "quote": "LAD helped me find reliable suppliers and connect with engineers much faster. The platform made project management far easier.",
-      "name": "Ahmed Khaled",
-      "role": "General Contractor"
+      "quote": "Through LAD, I've completed 15 projects worth $2.5M in just 8 months. The platform brought me new clients and increased my profits by 40%. The quality of leads is exceptional.",
+      "name": "Ahmed Khaled Al-Mutairi",
+      "role": "General Contractor - Riyadh"
     },
     "testimonial2": {
-      "quote": "As a freelance engineer, LAD gave me access to clients and contractors who truly value my skills. It’s a real gateway to opportunities.",
-      "name": "Mona El-Sayed",
-      "role": "Freelance Engineer"
+      "quote": "As a freelance architect, LAD completely transformed my career. I secured 8 design projects worth $800K in 6 months. Clients trust the platform, which opens countless doors.",
+      "name": "Dr. Mona Al-Sayed Al-Otaibi",
+      "role": "Freelance Architect - Jeddah"
     },
     "testimonial3": {
-      "quote": "Thanks to LAD, I expanded my business and started supplying materials directly to contractors and offices. The platform saves time and builds trust.",
-      "name": "Hassan Ali",
-      "role": "Building Materials Supplier"
+      "quote": "Thanks to LAD, I expanded from a local supplier to a regional one. My sales increased by 300% and I now have 50+ regular contractors. The platform built me a trusted client network.",
+      "name": "Hassan Ali Al-Shammari",
+      "role": "Building Materials Supplier - Dammam"
     },
     "testimonial4": {
-      "quote": "Finding the right contractor for my home project was easy with LAD. The process was clear, fast, and transparent.",
-      "name": "Sara Mohamed",
-      "role": "Individual Client"
+      "quote": "Building my dream home was a lifelong dream. LAD made it reality in just 18 months. The contractor I chose was professional and the quality exceeded my expectations. I recommend it to everyone.",
+      "name": "Sara Mohamed Al-Ahmad",
+      "role": "Client - $1.2M Home Project"
     },
     "testimonial5": {
-      "quote": "Thanks to LAD, I expanded my business and started supplying materials directly to contractors and offices. The platform saves time and builds trust.",
-      "name": "Hassan Ali",
-      "role": "Building Materials Supplier"
+      "quote": "Our engineering office secured 12 consultation projects worth $1.8M in one year through LAD. The platform connected us with both government and private sector clients.",
+      "name": "Eng. Abdullah Al-Naimi",
+      "role": "Engineering Office Director - Khobar"
     },
     "testimonial6": {
-      "quote": "Finding the right contractor for my home project was easy with LAD. The process was clear, fast, and transparent.",
-      "name": "Sara Mohamed",
-      "role": "Individual Client"
+      "quote": "LAD helped me manage a $15M residential complex project with exceptional efficiency. Communication with contractors and suppliers was seamless, and the results were outstanding.",
+      "name": "Khalid Al-Fahd",
+      "role": "Real Estate Developer - Riyadh"
     },
     "testimonial7": {
-      "quote": "Thanks to LAD, I expanded my business and started supplying materials directly to contractors and offices. The platform saves time and builds trust.",
-      "name": "Hassan Ali",
-      "role": "Building Materials Supplier"
+      "quote": "As a government employee, LAD provided complete transparency in infrastructure projects. I saved 20% of the budget while ensuring high quality standards.",
+      "name": "Nora Al-Qahtani",
+      "role": "Government Project Manager - Riyadh"
     }
   },
   "cta": {
     "title": "New Opportunities and Successful Projects in Construction Await You",
     "getStarted": "Get Started"
+  },
+
+  "whoItsFor": {
+    "title": "LAD Platform for Everyone",
+    "subtitle": "Discover how LAD can transform your journey in construction and engineering, whether you're seeking services or providing them",
+    "serviceSeeker": "Service Seeker",
+    "serviceProvider": "Service Provider",
+    "individuals": "Individuals",
+    "individualsDescription": "Turn your dream home into reality or transform your space with the region's most trusted and certified contractors and engineers.",
+    "organizations": "Organizations",
+    "organizationsDescription": "Develop your commercial and industrial projects with confidence using our network of specialized experts in high-quality execution.",
+    "government": "Government Entity",
+    "governmentDescription": "Execute your development and infrastructure projects efficiently with trusted, government-certified partners and contractors.",
+    "contractors": "Contractors",
+    "contractorsDescription": "Showcase your expertise and discover new projects with guaranteed quality and transparency at every step of your professional journey.",
+    "freelanceEngineers": "Freelance Engineers",
+    "freelanceEngineersDescription": "Connect your technical talents with real opportunities and advance your career in a professional and inspiring environment.",
+    "engineeringOffices": "Engineering Offices",
+    "engineeringOfficesDescription": "Expand your business and connect your engineering office with large and diverse projects across the region.",
+    "suppliers": "Suppliers",
+    "suppliersDescription": "Expand your business reach and connect your construction products and materials with a vast network of contractors and developers.",
+    "registerNow": "Register Now",
+    "comingSoon": "Coming Soon"
   },
 
   "footer": {
@@ -213,6 +290,14 @@
     "resendCode": "Resend code",
 
     "passwordReset": {
+      "sentPasswordReset": "We've sent a password reset link to",
+      "checkEmail": "Check Your Email",
+      "checkMessages": "Check Your Messages",
+      "clickResetLink": "Click the reset link in the email",
+      "followInstructions": "Follow the instructions in the message",
+      "createNewPassword": "Create a new password",
+      "didNotReceive": "Didn't receive the email? Check your spam folder or",
+      "didNotReceiveSms": "Didn't receive the message?",
       "title": "Reset your password",
       "description": "Enter your email address or phone number and we'll send you a reset link or code.",
       "emailSent": "Check Your Email",
@@ -234,10 +319,10 @@
       "didntReceiveSms": "Didn't receive the message?",
       "tryAgain": "Try again",
       "backToLogin": "Back to login",
-      "sendResetLink": "Send reset link",
-      "sendingResetLink": "Sending reset link...",
       "sendResetCode": "Send reset code",
       "sendingResetCode": "Sending reset code...",
+      "sendResetLink": "Send reset link",
+      "sendingResetLink": "Sending reset link...",
       "emailOrPhoneLabel": "Email or phone number"
     },
 
@@ -275,7 +360,7 @@
 
     "roleSelection": {
       "description": "Choose your role to continue",
-      "serviceSeeker": "Service Seeker",
+      "serviceSeeker": "Client",
       "serviceProvider": "Service Provider",
       "or": "or",
       "haveAccount": "Already have an account?"
@@ -440,11 +525,85 @@
     "dashboard": "Dashboard",
     "projects": "My Projects",
     "offers": "Received Offers",
+    "myOffers": "My Offers",
+    "browseProjects": "Browse Projects",
     "contracts": "Active Contracts",
     "payments": "Payments & Invoices",
     "materials": "Request Building Materials",
     "messages": "Messages",
-    "reviews": "Reviews"
+    "reviews": "Reviews",
+    "profile": "Profile",
+    "settings": "Settings"
+  },
+
+  "offers": {
+    "searchOffers": "Search offers...",
+    "sortBy": "Sort by",
+    "sortByDate": "Date",
+    "sortByAmount": "Amount",
+    "sortByStatus": "Status",
+    "sortByProject": "Project",
+    "showingResults": "Showing {count} of {total} offers",
+    "noSearchResults": "No offers found",
+    "noOffers": "No offers available",
+    "tryDifferentSearch": "Try a different search term",
+    "startBrowsingProjects": "Start browsing available projects",
+    "waitingForOffers": "Waiting for offers to arrive",
+    "createNew": "Create New",
+    "yourOffer": "Your Offer",
+    "offeredAmount": "Offered Amount",
+    "projectBudget": "Project Budget",
+    "proposedTimeline": "Proposed Timeline",
+    "startDate": "Start Date",
+    "endDate": "End Date",
+    "description": "Description",
+    "submittedOn": "Submitted on",
+    "receivedOn": "Received on",
+    "accept": "Accept",
+    "reject": "Reject",
+    "withdraw": "Withdraw",
+    "counterOffer": "Counter Offer",
+    "projectsCompleted": "projects completed",
+    "submitOffer": "Submit Offer",
+    "closed": "Closed",
+    "bidders": "bidders",
+    "notSpecified": "Not specified",
+    "createCompleteOffer": {
+      "title": "Create Complete Offer",
+      "basicInfo": "Basic Information",
+      "offerAmount": "Offer Amount",
+      "qualityCertificate": "Quality Certificate",
+      "qualityCertificatePlaceholder": "Certificate number or reference",
+      "expectedStartDate": "Expected Start Date",
+      "expectedEndDate": "Expected End Date",
+      "offerValidity": "Offer Validity",
+      "executionDuration": "Execution Duration",
+      "projectDetails": "Project Details",
+      "projectDetailsPlaceholder": "Describe the project scope, requirements, and your approach...",
+      "includeWarranty": "Include warranty",
+      "projectPhases": "Project Phases",
+      "addPhase": "Add Phase",
+      "phase": "Phase",
+      "phaseTitle": "Phase Title",
+      "phaseTitlePlaceholder": "e.g., Planning & Design",
+      "status": "Status",
+      "pending": "Pending",
+      "inProgress": "In Progress",
+      "completed": "Completed",
+      "onHold": "On Hold",
+      "phaseDescriptionPlaceholder": "Describe what will be done in this phase...",
+      "paymentPlans": "Payment Plans",
+      "addPaymentPlan": "Add Payment Plan",
+      "payment": "Payment",
+      "paymentName": "Payment Name",
+      "paymentNamePlaceholder": "e.g., Initial Payment",
+      "amount": "Amount",
+      "percentageOfContract": "Percentage of Contract",
+      "dueDate": "Due Date",
+      "bankAccountId": "Bank Account ID",
+      "referenceNote": "Reference Note",
+      "referenceNotePlaceholder": "Optional reference note"
+    }
   },
 
   "dashboard": {
@@ -600,6 +759,106 @@
         "pending": "Pending",
         "verified": "Verified",
         "rejected": "Rejected"
+      },
+      "upload": {
+        "title": "Document Upload",
+        "description": "Upload and verify your documents",
+        "loading": "Loading document requirements...",
+        "errorLoading": "Error Loading Documents",
+        "tryAgain": "Try Again",
+        "mandatoryProgress": "Mandatory Documents Progress",
+        "completed": "Completed",
+        "pending": "Pending",
+        "required": "Required",
+        "maxFiles": "Max {count} file(s)",
+        "maxSize": "Max {size}MB",
+        "acceptedTypes": "Accepted types: {types}",
+        "noFilesUploaded": "No files uploaded yet",
+        "uploadInstructions": "Upload files using the area above",
+        "uploadedFiles": "Uploaded Files ({count})",
+        "editInstructions": "Click \"Edit\" on any file to add custom name, description, or expiry date",
+        "submitDocuments": "Submit Documents",
+        "completeRequired": "Complete Required Documents",
+        "allCompleted": "All mandatory documents completed. Ready to submit.",
+        "remaining": "{count} mandatory document(s) remaining",
+        "submittedSuccessfully": "Documents submitted successfully!",
+        "dismiss": "Dismiss",
+        "reviewComment": "Review Comment:",
+        "fileDetails": {
+          "uploaded": "Uploaded:",
+          "size": "Size:",
+          "status": "Status:",
+          "expiry": "Expiry:",
+          "notSet": "Not set",
+          "expired": "Expired",
+          "protected": "Protected",
+          "original": "Original:"
+        },
+        "actions": {
+          "edit": "Edit",
+          "save": "Save",
+          "cancel": "Cancel",
+          "download": "Download file",
+          "remove": "Remove file",
+          "cannotDelete": "Cannot delete this file",
+          "cannotDeleteApproved": "Cannot delete: Mandatory document is approved"
+        },
+        "deleteDialog": {
+          "title": "Delete {fileName}",
+          "description": "Are you sure you want to delete \"{fileName}\"? This action cannot be undone.",
+          "protectedDescription": "This is a mandatory document that has been approved and cannot be deleted.",
+          "deleteFile": "Delete File",
+          "cancel": "Cancel",
+          "deleting": "Deleting...",
+          "deleteFailed": "Delete Failed",
+          "retry": "Retry",
+          "retrying": "Retrying..."
+        },
+        "status": {
+          "approved": "Approved",
+          "pending": "Pending",
+          "rejected": "Rejected",
+          "uploaded": "Uploaded"
+        }
+      },
+      "page": {
+        "title": "Documents & Verification",
+        "description": "Upload and manage your verification documents"
+      },
+      "uploadZone": {
+        "title": "Click to select or drag & drop files",
+        "maxFiles": "Max {maxFiles} file(s) ({uploaded} uploaded, {selected} selected)",
+        "maxSize": "Up to {size} each",
+        "acceptedTypes": "Accepted types: {types}",
+        "configWarning": "⚠️ Role and document ID required for proper functionality",
+        "uploadDisabled": "Upload disabled for this document",
+        "configIncomplete": "Upload configuration incomplete - role and document ID required",
+        "selectedFiles": "Selected Files ({count})",
+        "fillMetadata": "Fill in metadata and upload each file individually",
+        "uploadedSuccessfully": "{count} uploaded successfully",
+        "customName": "Custom Name",
+        "customNamePlaceholder": "Enter custom name...",
+        "description": "Description (Optional)",
+        "descriptionPlaceholder": "Add description (optional)...",
+        "expiryDate": "Expiry Date (Optional)",
+        "downloadFile": "Download file",
+        "retryUpload": "Retry upload",
+        "uploadFile": "Upload file",
+        "removeFile": "Remove file",
+        "retry": "Retry",
+        "upload": "Upload",
+        "uploading": "Uploading...",
+        "summary": {
+          "uploaded": "{uploaded} of {total} files uploaded",
+          "readyToUpload": "{count} files ready to upload",
+          "allUploaded": "All files uploaded successfully!"
+        },
+        "toast": {
+          "uploadSuccess": "File uploaded successfully!",
+          "uploadError": "Failed to upload file",
+          "removeSuccess": "File removed successfully",
+          "removeError": "Failed to remove file"
+        }
       }
     },
     "professional": {
@@ -676,6 +935,90 @@
         "description": "Switch between light and dark mode"
       }
     },
+    "contractorMenu": {
+      "personalInfo": {
+        "title": "Personal Info",
+        "description": "Update your basic information and contact details"
+      },
+      "documents": {
+        "title": "Documents & Verification",
+        "description": "Manage your documents and verification status"
+      },
+      "operational": {
+        "title": "Operational & Technical Details",
+        "description": "Manage your operational and technical details"
+      },
+      "security": {
+        "title": "Security",
+        "description": "Password, 2FA, and security preferences"
+      },
+      "settings": {
+        "title": "Settings",
+        "description": "Account preferences and notification settings"
+      }
+    },
+    "contractorOperational": {
+      "title": "Operational Information",
+      "description": "Manage your contractor operational details and capabilities",
+      "editInformation": "Edit Information",
+      "cancel": "Cancel",
+      "saveChanges": "Save Changes",
+      "saving": "Saving...",
+      "loading": "Loading operational data...",
+      "retry": "Retry",
+      "sections": {
+        "projectInfo": {
+          "title": "Project Information",
+          "description": "Details about your project execution capabilities",
+          "executedProjectRange": "Executed Project Value Range",
+          "staffSizeRange": "Staff Size Range",
+          "experienceYearsRange": "Experience Years Range",
+          "annualProjectsRange": "Annual Projects Range",
+          "targetProjectRanges": "Target Project Value Ranges",
+          "targetProjectRangesDescription": "Select all applicable target project value ranges"
+        },
+        "classification": {
+          "title": "Classification & Accreditation",
+          "description": "Your contractor classification and accreditation details",
+          "classificationLevel": "Classification Level",
+          "classificationFile": "Classification File",
+          "classificationFileDescription": "Upload your classification certificate (PDF, JPG, JPEG, PNG, WEBP, max 8MB)",
+          "hasGovernmentAccreditation": "Has Government Accreditation",
+          "hasGovernmentAccreditationDescription": "Check if you have government accreditation",
+          "coversAllRegions": "Covers All Regions",
+          "coversAllRegionsDescription": "Check if your services cover all regions"
+        },
+        "workFields": {
+          "title": "Work Fields & Experience",
+          "description": "Specify your work fields and years of experience in each",
+          "workField": "Work Field",
+          "yearsOfExperience": "Years of Experience",
+          "addWorkField": "Add Work Field"
+        },
+        "geographicalCoverage": {
+          "title": "Geographical Coverage",
+          "description": "Define your operational and contractor geographical coverage",
+          "operationalCoverage": "Operational Coverage",
+          "contractorCoverage": "Contractor Geographic Coverage",
+          "coversAllAreas": "Covers All Areas",
+          "addOperationalCoverage": "Add Operational Coverage",
+          "addContractorCoverage": "Add Contractor Coverage"
+        }
+      },
+      "placeholders": {
+        "selectExecutedProjectRange": "Select executed project value range",
+        "selectStaffSizeRange": "Select staff size range",
+        "selectExperienceYearsRange": "Select experience years range",
+        "selectAnnualProjectsRange": "Select annual projects range",
+        "selectClassificationLevel": "Select classification level",
+        "selectWorkField": "Select work field"
+      },
+      "errors": {
+        "updateFailed": "Failed to update operational profile. Please try again.",
+        "fixErrors": "Please fix the following errors:",
+        "invalidValue": "Invalid value"
+      }
+    },
     "completion": {
       "text": "Your account is {percentage}% complete"
     }
@@ -741,6 +1084,104 @@
       "uploadFileError": "An error occurred while uploading the file {fileName}",
       "removeFileFailed": "Failed to remove file {fileName}",
       "removeFileError": "An error occurred while removing the file {fileName}"
+    },
+    "step4": {
+      "title": "Bill of Quantities (BOQ)",
+      "subtitle": "Create your project's bill of quantities",
+      "templateSelection": {
+        "title": "Choose BOQ Creation Method",
+        "fromTemplate": "From Template",
+        "fromTemplateDescription": "Select from pre-defined BOQ templates",
+        "manual": "Manual Creation",
+        "manualDescription": "Create BOQ items manually",
+        "selectTemplate": "Select Template",
+        "templatePlaceholder": "Choose a template...",
+        "noTemplates": "No templates available"
+      },
+      "boqTable": {
+        "title": "BOQ Items",
+        "addItem": "Add Item",
+        "editItem": "Edit Item",
+        "deleteItem": "Delete Item",
+        "confirmDelete": "Are you sure you want to delete this item?",
+        "noItems": "No BOQ items added yet",
+        "totalAmount": "Total Amount",
+        "columns": {
+          "name": "Item Name",
+          "description": "Description",
+          "unit": "Unit",
+          "quantity": "Quantity",
+          "unitPrice": "Unit Price",
+          "totalPrice": "Total Price",
+          "required": "Required",
+          "actions": "Actions"
+        },
+        "dialogs": {
+          "deleteTitle": "Delete BOQ Item",
+          "deleteDescription": "Are you sure you want to delete this item from the BOQ? This action cannot be undone.",
+          "cancel": "Cancel",
+          "delete": "Delete",
+          "deleteTooltip": "Delete item from BOQ"
+        }
+      },
+      "itemForm": {
+        "title": "BOQ Item",
+        "name": "Item Name",
+        "namePlaceholder": "Enter item name",
+        "description": "Description",
+        "descriptionPlaceholder": "Enter item description",
+        "unit": "Unit",
+        "unitPlaceholder": "Select unit",
+        "quantity": "Quantity",
+        "quantityPlaceholder": "Enter quantity",
+        "unitPrice": "Unit Price",
+        "unitPricePlaceholder": "Enter unit price",
+        "isRequired": "Required Item",
+        "isRequiredDescription": "Mark this item as required for the project",
+        "add": "Add Item",
+        "update": "Update Item",
+        "cancel": "Cancel"
+      },
+      "actions": {
+        "reset": "Reset",
+        "resetConfirm": "Are you sure you want to reset all BOQ items? This action cannot be undone.",
+        "loadTemplate": "Load Template",
+        "saveAsTemplate": "Save as Template"
+      },
+      "dialogs": {
+        "resetTitle": "Reset BOQ",
+        "resetDescription": "Are you sure you want to reset all BOQ items? This action cannot be undone.",
+        "deleteTitle": "Delete BOQ Item",
+        "deleteDescription": "Are you sure you want to delete this item from the BOQ? This action cannot be undone.",
+        "cancel": "Cancel",
+        "reset": "Reset BOQ",
+        "delete": "Delete",
+        "editTooltip": "Edit item in BOQ",
+        "deleteTooltip": "Delete item from BOQ"
+      }
+    },
+    "step5": {
+      "title": "Publish Settings",
+      "notify_matching_contractors": "Send project to appropriate contractors automatically",
+      "notify_client_on_offer": "Notify when offers arrive",
+      "offers_window_days": "Offers receive duration",
+      "offers_window_days_placeholder": "Enter duration in days"
+    },
+    "step6": {
+      "title": "Project Overview",
+      "name": "Project Name",
+      "type": "Project Type",
+      "budget": "Budget",
+      "location": "Location",
+      "duration": "Duration",
+      "area_sqm": "Area (sqm)",
+      "description": "Description",
+      "city": "City",
+      "district": "District",
+      "submit": "Submit for Review",
+      "pending_review": "Pending Review",
+      "success": "Project sent to review successfully",
+      "error": "Failed to send project to review"
     }
   },
 
@@ -779,6 +1220,10 @@
       "phoneNumber": {
         "required": "Phone number is required",
         "minLength": "Please enter a valid phone number"
+      },
+      "emailOrPhone": {
+        "required": "Email or phone number is required",
+        "invalid": "Please enter a valid email address or phone number"
       },
       "password": {
         "required": "Password is required",
@@ -963,6 +1408,44 @@
         "maxFiles": "Maximum 10 site photos are allowed",
         "maxSize": "Each site photo file size must not exceed 10MB",
         "invalidType": "File type not allowed. Accepted types: JPEG, PNG"
+      },
+      "boqItem": {
+        "name": {
+          "required": "Item name is required",
+          "minLength": "Item name must be at least 2 characters"
+        },
+        "description": {
+          "required": "Item description is required",
+          "minLength": "Item description must be at least 2 characters"
+        },
+        "unit_id": {
+          "required": "Please select a unit"
+        },
+        "quantity": {
+          "required": "Quantity is required",
+          "minValue": "Quantity must be greater than 0"
+        },
+        "unit_price": {
+          "required": "Unit price is required",
+          "minValue": "Unit price cannot be negative"
+        },
+        "sort_order": {
+          "minValue": "Sort order cannot be negative"
+        }
+      },
+      "boqForm": {
+        "items": {
+          "minItems": "At least one BOQ item is required"
+        },
+        "total_amount": {
+          "minValue": "Total amount must be greater than 0"
+        }
+      },
+      "publish": {
+        "offers_window_days": {
+          "minValue": "Offers window days must be greater than 0",
+          "required": "Offers window days is required"
+        }
       }
     }
   },

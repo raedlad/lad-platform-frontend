@@ -21,8 +21,10 @@ export default function Header() {
     { name: t("home"), href: "/home" },
     { name: t("aboutus"), href: "/aboutus" },
     { name: t("services"), href: "/services" },
-    { name: t("contactus"), href: "/contactus" },
-    { name: t("login"), href: "/login" },
+    { name: t("projectGallery"), href: "/project-gallery" },
+    { name: t("contractorDirectory"), href: "/contractor-directory" },
+    { name: t("suppliers"), href: "/suppliers" },
+    { name: t("buildingMaterials"), href: "/building-materials" },
   ];
   React.useEffect(() => {
     const handleScroll = () => {
@@ -44,7 +46,7 @@ export default function Header() {
           isHome && !isScrolled && "text-white"
         )}
       >
-        <div className="mx-auto max-w-5xl px-6">
+        <div className="mx-auto max-w-7xl px-6">
           <div
             className={cn(
               "relative flex flex-wrap items-center justify-between gap-6  transition-all duration-200 lg:gap-0",
@@ -118,19 +120,8 @@ export default function Header() {
               <div className="flex w-full flex-col space-y-3 sm:flex-row sm:gap-3 sm:space-y-0 md:w-fit">
                 <Button
                   asChild
-                  variant="outline"
-                  size="sm"
-                  className={cn("h-10 rounded-full px-6 bg-transparent", isHome && !isScrolled && "text-white")}
-                >
-                  <Link href="/browse-products">
-                    <span>{t("browse")}</span>
-                  </Link>
-                </Button>
-                <Button
-                  asChild
                   size="sm"
                   className={cn(
-                    isScrolled && "lg:hidden",
                     "h-10 rounded-full px-6 text-white"
                   )}
                 >

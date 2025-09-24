@@ -90,7 +90,7 @@ export function ProfileSecurity() {
 
   const handlePasswordChange = async () => {
     if (passwordData.newPassword !== passwordData.confirmPassword) {
-      alert("New passwords don't match");
+      alert("New passwords don&apos;t match");
       return;
     }
 
@@ -405,7 +405,7 @@ export function ProfileSecurity() {
                 {passwordData.confirmPassword &&
                   passwordData.newPassword !== passwordData.confirmPassword && (
                     <p className="text-xs text-red-500">
-                      Passwords don't match
+                      Passwords don&apos;t match
                     </p>
                   )}
               </div>

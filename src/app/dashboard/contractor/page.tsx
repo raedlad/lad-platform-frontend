@@ -1,5 +1,9 @@
-import { ContractorDashboardPage } from "@/features/dashboard";
+// import { ContractorDashboardPage } from "@/features/dashboard";
+
+// export default function ContractorPage() {
+//   return <ContractorDashboardPage />;
+// }
 
 export default function ContractorPage() {
-  return <ContractorDashboardPage />;
+  return <div>contractor page</div>;
 }

@@ -11,69 +11,25 @@ import {
   ResendEmailVerificationRequest,
   ResendEmailVerificationResponse,
   ForgotPasswordResponse,
-  ForgotPasswordRequest,
-} from "./authApiTypes";
+  TokenData,
+  AuthUser,
+  ApiError,
+} from "../types/auth";
 
 import { api } from "@/lib/api";
 import { useAuthStore } from "@auth/store/authStore";
 import { tokenStorage } from "@/features/auth/utils/tokenStorage";
-import { useDocumentsStore } from "@/features/profile/store/documentStore";
-import { documentsService } from "@/features/profile/services/documentApi";
-
-// Helper function for simulating API calls
-const simulateApiCall = <T>(
-  data: T,
-  success: boolean,
-  message: string,
-  delay = 1000
-): Promise<ApiResponse<T>> => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      if (success) {
-        resolve({ success: true, data, message });
-      } else {
-        resolve({ success: false, message, errors: { general: [message] } });
-      }
-    }, delay);
-  });
-};
-
-// Common function to handle file uploads with FormData
-const createFormData = (data: Record<string, any>): FormData => {
-  const formData = new FormData();
-  for (const key in data) {
-    if (data.hasOwnProperty(key)) {
-      const value = data[key];
-      if (value instanceof File) {
-        formData.append(key, value, value.name);
-      } else if (Array.isArray(value)) {
-        value.forEach((item, index) => {
-          if (item instanceof File) {
-            formData.append(`${key}[${index}]`, item, item.name);
-          } else {
-            formData.append(`${key}[${index}]`, item);
-          }
-        });
-      } else if (value !== undefined && value !== null) {
-        formData.append(key, value);
-      }
-    }
-  }
-  return formData;
-};
 
 // --- Authentication API Service ---
 
 export const authApi = {
   // Refresh access token using refresh token
-  refreshTokens: async (): Promise<ApiResponse<{ tokens: any }>> => {
+  refreshTokens: async (): Promise<ApiResponse<{ tokens: TokenData }>> => {
     try {
       const refreshToken = tokenStorage.getRefreshToken();
       if (!refreshToken || tokenStorage.isRefreshTokenExpired()) {
         throw new Error("Refresh token missing or expired");
       }
-
-      // Adjust endpoint/body to match your backend
       const response = await api.post("/auth/refresh", {
         refresh_token: refreshToken,
       });
@@ -92,7 +48,7 @@ export const authApi = {
       if (currentUser) {
         // If backend rotates refresh token, prefer full store, else update access only
         if (tokens.refresh_token && tokens.refresh_token_expires_at) {
-          tokenStorage.storeTokens(tokens, currentUser as any);
+          tokenStorage.storeTokens(tokens, currentUser as AuthUser);
         } else {
           tokenStorage.updateAccessToken(
             tokens.access_token,
@@ -114,11 +70,12 @@ export const authApi = {
 
       return {
         success: true,
-        data: { tokens },
+        data: { tokens: tokens as TokenData },
         message: "Token refreshed",
       };
-    } catch (error: any) {
-      console.error("Token refresh error:", error);
+    } catch (error: unknown) {
+      const err = error as ApiError;
+      console.error("Token refresh error:", err.message);
       // On failure, clear auth state
       try {
         tokenStorage.clearAll();
@@ -128,10 +85,10 @@ export const authApi = {
       return {
         success: false,
         message:
-          error?.response?.data?.message ||
-          error?.message ||
+          err.response?.data?.message ||
+          err.message ||
           "Token refresh failed",
-        errors: error?.response?.data?.errors,
+        errors: err.response?.data?.errors,
       };
     }
   },
@@ -148,7 +105,7 @@ export const authApi = {
         access_token: accessToken,
       });
 
-      const userData = (response.data as any)?.response;
+      const userData = (response.data as AuthResponse)?.response;
       const tokens = userData?.extra?.tokens;
 
       useAuthStore.setState((state) => ({
@@ -172,7 +129,6 @@ export const authApi = {
       // Persist tokens and user
       if (tokens && userData) {
         tokenStorage.storeTokens(tokens, userData);
-
       }
 
       return {
@@ -182,13 +138,14 @@ export const authApi = {
           response: userData,
         },
       };
-    } catch (error: any) {
-      console.error("Social login error:", error);
-      if (error.response?.data) {
+    } catch (error: unknown) {
+      const err = error as ApiError;
+      console.error("Social login error:", err.message);
+      if (err.response?.data) {
         return {
           success: false,
-          message: error.response.data.message || "Social login failed",
-          errors: error.response.data.errors || {
+          message: err.response.data.message || "Social login failed",
+          errors: err.response.data.errors || {
             general: ["Social login failed"],
           },
         };
@@ -252,12 +209,13 @@ export const authApi = {
         },
         message: response.data?.message || "Registration successful",
       };
-    } catch (error: any) {
-      console.error("Registration error:", error);
+    } catch (error: unknown) {
+      const err = error as ApiError;
+      console.error("Registration error:", err.message);
 
       // Handle axios error response
-      if (error.response?.data) {
-        const backendError = error.response.data;
+      if (err.response?.data) {
+        const backendError = err.response.data;
         console.log("Backend error response:", backendError);
 
         return {
@@ -270,11 +228,11 @@ export const authApi = {
       }
 
       // Handle network or other errors
-      if (error.message) {
+      if (err.message) {
         return {
           success: false,
-          message: error.message,
-          errors: { general: [error.message] },
+          message: err.message,
+          errors: { general: [err.message] },
         };
       }
 
@@ -302,13 +260,14 @@ export const authApi = {
         data: { message: "Phone OTP sent successfully" },
         message: "Phone OTP sent",
       };
-    } catch (error: any) {
-      console.error("Send phone OTP error:", error);
-      if (error.response?.data) {
+    } catch (error: unknown) {
+      const err = error as ApiError;
+      console.error("Send phone OTP error:", err.message);
+      if (err.response?.data) {
         return {
           success: false,
-          message: error.response.data.message || "Failed to send phone OTP",
-          errors: error.response.data.errors || {
+          message: err.response.data.message || "Failed to send phone OTP",
+          errors: err.response.data.errors || {
             general: ["Failed to send phone OTP"],
           },
         };
@@ -341,15 +300,16 @@ export const authApi = {
         },
         message: "Email verification sent",
       };
-    } catch (error: any) {
-      console.error("Resend email verification error:", error);
-      if (error.response?.data) {
+    } catch (error: unknown) {
+      const err = error as ApiError;
+      console.error("Resend email verification error:", err.message);
+      if (err.response?.data) {
         return {
           success: false,
           message:
-            error.response.data.message ||
+              err.response.data.message ||
             "Failed to resend email verification",
-          errors: error.response.data.errors || {
+          errors: err.response.data.errors || {
             general: ["Failed to resend email verification"],
           },
         };
@@ -370,7 +330,7 @@ export const authApi = {
 
     try {
       const response = await api.post("/auth/verification/verify-phone", {
-        phoneNumber: data.phoneNumber,
+        phone: data.phoneNumber,
         token: data.token,
       });
 
@@ -400,7 +360,7 @@ export const authApi = {
               },
             },
           },
-        } as any;
+        } as AuthUser;
 
         // Persist updated user
         if (typeof window !== "undefined") {
@@ -428,13 +388,14 @@ export const authApi = {
         },
         message: "Phone verification successful",
       };
-    } catch (error: any) {
-      console.error("Phone verification error:", error);
-      if (error.response?.data) {
+    } catch (error: unknown) {
+      const err = error as ApiError;
+      console.error("Phone verification error:", err.message);
+      if (err.response?.data) {
         return {
           success: false,
-          message: error.response.data.message || "Phone verification failed",
-          errors: error.response.data.errors || {
+          message: err.response.data.message || "Phone verification failed",
+          errors: err.response.data.errors || {
             general: ["Phone verification failed"],
           },
         };
@@ -485,7 +446,7 @@ export const authApi = {
               },
             },
           },
-        } as any;
+        } as AuthUser;
 
         // Persist updated user
         if (typeof window !== "undefined") {
@@ -513,13 +474,14 @@ export const authApi = {
         },
         message: "Email verification successful",
       };
-    } catch (error: any) {
-      console.error("Email verification error:", error);
-      if (error.response?.data) {
+    } catch (error: unknown) {
+      const err = error as ApiError;
+      console.error("Email verification error:", err.message);
+      if (err.response?.data) {
         return {
           success: false,
-          message: error.response.data.message || "Email verification failed",
-          errors: error.response.data.errors || {
+          message: err.response.data.message || "Email verification failed",
+          errors: err.response.data.errors || {
             general: ["Email verification failed"],
           },
         };
@@ -551,7 +513,7 @@ export const authApi = {
       // Extract user data and tokens from the response
       const userData = response.data?.response;
       const tokens = userData?.extra?.tokens;
-      const currentRole = userData?.user_type
+      const currentRole = userData?.user_type;
       // Check if phone verification is required and automatically send OTP
       const verificationStatus =
         userData?.account_overview?.verification_status;
@@ -599,13 +561,14 @@ export const authApi = {
           response: userData,
         },
       };
-    } catch (error: any) {
-      console.error("Login error:", error);
-      if (error.response?.data) {
+    } catch (error: unknown) {
+      const err = error as ApiError;
+      console.error("Login error:", err.message);
+      if (err.response?.data) {
         return {
           success: false,
-          message: error.response.data.message || "Login failed",
-          errors: error.response.data.errors || { general: ["Login failed"] },
+          message: err.response.data.message || "Login failed",
+          errors: err.response.data.errors || { general: ["Login failed"] },
         };
       }
       return {
@@ -616,42 +579,12 @@ export const authApi = {
     }
   },
 
-  // Fetch and hydrate profile after auth (documents + personal info)
-  hydrateProfileFromBackend: async (role: string) => {
-    try {
-      const res = await api.get(`/${role}/profile`);
-      const payload = res.data?.response || res.data;
-      if (!payload) return;
-
-      // Personal info: payload.user
-      const user = payload.user;
-      if (user) {
-        useAuthStore.setState((state) => ({
-          ...state,
-          user: { ...(state as any).user, ...user },
-        }));
-      }
-
-      // Documents: payload.document_types + payload.documents
-      const types = payload.document_types || [];
-      const docs = payload.documents || [];
-      const mapped = documentsService.mapBackendDocuments(types, docs);
-      const documentsStore = useDocumentsStore.getState();
-      documentsStore.setRoleDocuments(role.toUpperCase(), mapped);
-    } catch (e) {
-      // Non-fatal
-      console.warn("Failed to hydrate profile", e);
-    }
-  },
-
   // Logout
   logout: async (): Promise<ApiResponse<{ message: string }>> => {
     console.log("API Call: logout");
 
     try {
-      const response = await api.post("/auth/logout");
-
-      // Clear local storage and reset auth store regardless of API response
+      await api.post("/auth/logout");
       tokenStorage.clearAll();
       const store = useAuthStore.getState();
       if (store.logout) store.logout();
@@ -661,8 +594,9 @@ export const authApi = {
         data: { message: "Logged out successfully" },
         message: "Logout successful",
       };
-    } catch (error: any) {
-      console.error("Logout error:", error);
+    } catch (error: unknown) {
+      const err = error as ApiError;
+      console.error("Logout error:", err.message);
       // Ensure client-side cleanup even on failure
       tokenStorage.clearAll();
       const store = useAuthStore.getState();
@@ -693,12 +627,13 @@ export const authApi = {
         message: response.data.message,
         data: response.data,
       };
-    } catch (error: any) {
-      console.error("Forgot password error:", error);
+    } catch (error: unknown) {
+      const err = error as ApiError;
+      console.error("Forgot password error:", err.message);
       return {
         success: false,
-        message: error.response.data.message || "Forgot password failed",
-        errors: error.response.data.errors || {
+        message: err.response?.data?.message || "Forgot password failed",
+        errors: err.response?.data?.errors || {
           general: ["Forgot password failed"],
         },
       };

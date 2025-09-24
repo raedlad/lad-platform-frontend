@@ -23,12 +23,13 @@ import {
 } from "../components";
 import { isProfileComplete, getProfileCompletionTasks } from "../utils";
 import { cn } from "@/lib/utils";
+import { DashboardUser } from "../types";
 
 function ProfileCompletionBanner({
   user,
   onComplete,
 }: {
-  user: any;
+  user: DashboardUser;
   onComplete: () => void;
 }) {
   const tasks = getProfileCompletionTasks(user);
@@ -299,9 +300,9 @@ export function ContractorDashboardPage() {
         </div>
 
         {/* Profile Completion Banner */}
-        {currentUser && !isProfileComplete(currentUser) && (
+        {currentUser && !isProfileComplete(currentUser as DashboardUser) && (
           <ProfileCompletionBanner
-            user={currentUser}
+            user={currentUser as DashboardUser}
             onComplete={handleCompleteProfile}
           />
         )}
@@ -348,7 +349,7 @@ export function ContractorDashboardPage() {
         )}
 
         {/* Welcome Section */}
-        {currentUser && <WelcomeCard user={currentUser} />}
+        {currentUser && <WelcomeCard user={currentUser as DashboardUser} />}
 
         {/* KPI Cards */}
         {kpis.length > 0 && (

@@ -10,7 +10,6 @@ export interface IndividualProfilePersonalInfo {
   fullName: string;
   phoneNumber: string;
   email?: string;
-  nationalId?: string;
 }
 
 // Individual Profile State - No auth-related fields

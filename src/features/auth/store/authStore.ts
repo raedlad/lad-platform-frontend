@@ -8,7 +8,8 @@ import {
   RegistrationRole,
   BaseRegistrationState,
   RoleSpecificData,
-  User,
+  TokenData,
+  AuthUser,
 } from "../types/auth";
 
 // Constants
@@ -18,7 +19,7 @@ import { roleFlowMeta } from "../constants/roleFlowMeta";
 
 export interface AuthStoreState extends BaseRegistrationState {
   // Shared
-  user: any | null;
+  user: AuthUser  | null;
   isAuthenticated: boolean;
   currentRole: RegistrationRole | null;
   currentStep: string | null;
@@ -27,7 +28,7 @@ export interface AuthStoreState extends BaseRegistrationState {
   isVerified: boolean;
   isLoading: boolean;
   error: string | null;
-  tokens?: any | null;
+  tokens?: TokenData | null;
   emailVerificationRequired?: boolean;
   phoneVerificationRequired?: boolean;
 
@@ -42,13 +43,13 @@ export interface AuthStoreState extends BaseRegistrationState {
   setRole: (role: RegistrationRole) => void;
   setCurrentStep: (step: string) => void;
   setAuthMethod: (method: AuthMethod) => void;
-  setRoleData: (key: keyof RoleSpecificData, data: any) => void;
+  setRoleData: (key: keyof RoleSpecificData, data: Record<string, unknown>) => void;
   setVerificationCode: (code: string) => void;
   setIsVerified: (verified: boolean) => void;
   setLoading: (loading: boolean) => void;
   setError: (error: string | null) => void;
   clearError: () => void;
-  setUserData: (userData: any) => void;
+  setUserData: (userData: AuthUser) => void;
   logout: () => void;
 
   // Flow actions
@@ -72,7 +73,7 @@ export interface AuthStoreState extends BaseRegistrationState {
 
 export const useAuthStore = create<AuthStoreState>()((set, get) => ({
   // Initial state
-  user:  tokenStorage.getUser() as User | null,
+  user: tokenStorage.getUser() as AuthUser | null,
   isAuthenticated: false,
   currentRole: tokenStorage.getCurrentRole() as RegistrationRole | null,
   currentStep: null,
@@ -125,7 +126,7 @@ export const useAuthStore = create<AuthStoreState>()((set, get) => ({
   clearError: () => set({ error: null }),
 
   // Set user data and verification status
-  setUserData: (userData: any) => {
+  setUserData: (userData: AuthUser) => {
     const verificationStatus = userData?.account_overview?.verification_status;
     set((state) => ({
       ...state,

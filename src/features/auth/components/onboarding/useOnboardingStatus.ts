@@ -47,7 +47,7 @@ export const useOnboardingStatus = () => {
   }, [store]);
 
   const getTotalSteps = useCallback(() => {
-  const steps = roleFlowMeta[store.currentRole];
+  const steps = roleFlowMeta[store.currentRole as keyof typeof roleFlowMeta];
   return steps.length;
   }, [store]);
 

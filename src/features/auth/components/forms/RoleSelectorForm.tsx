@@ -5,7 +5,7 @@ import { twMerge } from "tailwind-merge";
 import Link from "next/link";
 import { Button } from "@/shared/components/ui/button";
 import { useTranslations } from "next-intl";
-import { RegistrationRole } from "@auth/types/auth";
+import { RegistrationRole, UserRoleOption } from "@auth/types/auth";
 
 const serviceSeekerRoles = [
   {
@@ -30,6 +30,7 @@ const serviceProviderRoles = [
     id: "freelance_engineer" as RegistrationRole,
     icon: <User className="icon-md" />,
     comingSoon: false,
+    name: "Freelance Engineer",
   },
   {
     id: "engineering_office" as RegistrationRole,
@@ -90,7 +91,7 @@ const RoleSelectorForm = ({
     return t(`roleSelector.${selectedRole}ButtonText`);
   };
 
-  const renderUserRoleCard = (role: any) => {
+  const renderUserRoleCard = (role: UserRoleOption) => {
     const isSelected = selectedRole === role.id;
     const isDisabled = role.comingSoon;
     const hasTranslation = role.id !== "government-agency";

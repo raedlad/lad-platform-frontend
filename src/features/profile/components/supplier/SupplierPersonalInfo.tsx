@@ -28,6 +28,7 @@ import { SupplierProfilePersonalInfo } from "@/features/profile/types/supplier";
 import { createProfileValidationSchemas } from "@/features/profile/utils/validation";
 import { useTranslations } from "next-intl";
 import { usePersonalInfoStore } from "@/features/profile/store/personalInfoStore";
+import { E164Number } from "libphonenumber-js";
 
 export const SupplierPersonalInfo = () => {
   const t = useTranslations();
@@ -192,7 +193,7 @@ export const SupplierPersonalInfo = () => {
                     <PhoneInput
                       inputMode="tel"
                       disabled={isLoading || !editing}
-                      value={field.value}
+                      value={field.value as E164Number}
                       onChange={field.onChange}
                       smartCaret={true}
                     />

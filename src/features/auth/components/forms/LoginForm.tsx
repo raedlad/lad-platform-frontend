@@ -8,7 +8,6 @@ import GoogleAuthButton from "../common/GoogleAuthButton";
 import { useGoogleAuth } from "@/features/auth/hooks";
 import AppleAuthButton from "../common/AppleAuthButton";
 import { Input } from "@/shared/components/ui/input";
-import { useRoleRedirect } from "@/hooks/useRoleRedirect";
 import {
   Form,
   FormMessage,
@@ -41,7 +40,6 @@ interface LoginFormProps {
 }
 
 const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, onError }) => {
-  useRoleRedirect();
   const t = useTranslations("auth");
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);

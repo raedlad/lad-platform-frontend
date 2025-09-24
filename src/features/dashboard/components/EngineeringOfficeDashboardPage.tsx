@@ -23,6 +23,7 @@ import {
 } from "../components";
 import { isProfileComplete, getProfileCompletionTasks } from "../utils";
 import { cn } from "@/lib/utils";
+import { DashboardUser } from "../types";
 
 function ProfileCompletionBanner({
   user,
@@ -271,9 +272,9 @@ export function EngineeringOfficeDashboardPage() {
         </div>
 
         {/* Profile Completion Banner */}
-        {currentUser && !isProfileComplete(currentUser) && (
+        {currentUser && !isProfileComplete(currentUser as DashboardUser) && (
           <ProfileCompletionBanner
-            user={currentUser}
+            user={currentUser as DashboardUser}
             onComplete={handleCompleteProfile}
           />
         )}
@@ -316,7 +317,7 @@ export function EngineeringOfficeDashboardPage() {
         )}
 
         {/* Welcome Section */}
-        {currentUser && <WelcomeCard user={currentUser} />}
+        {currentUser && <WelcomeCard user={currentUser as DashboardUser} />}
 
         {/* KPI Cards */}
         {kpis.length > 0 && (

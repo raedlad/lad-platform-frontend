@@ -28,7 +28,7 @@ import subLocation from "@/assets/svg/sub-location.svg";
 import calender from "@/assets/svg/calender.svg";
 import subPayment from "@/assets/svg/sub-payment.svg";
 import user from "@/assets/images/user.jpg";
-
+import smartMatching from "@/assets/images/ai.png";
 export const assets = {
   logo,
   heroImage,
@@ -59,4 +59,5 @@ export const assets = {
   user,
   appFeaturesBg,
   appFeaturesPhone,
+  smartMatching,
 };

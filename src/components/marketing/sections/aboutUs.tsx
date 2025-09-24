@@ -5,7 +5,7 @@ import React from "react";
 import { assets } from "@/constants/assets";
 import Image from "next/image";
 
-const aboutUs = () => {
+const AboutUs = () => {
   const t = useTranslations("aboutUs");
   return (
     <motion.section className="py-16 md:py-24 bg-[#B4C9DC] dark:bg-black">
@@ -36,4 +36,4 @@ const aboutUs = () => {
   );
 };
 
-export default aboutUs;
+export default AboutUs;

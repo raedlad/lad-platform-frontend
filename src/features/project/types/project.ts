@@ -1,8 +1,20 @@
+export interface ProjectStatus {
+  status: "in_progress" | "pending_review" | "published";
+}
 export interface Project {
   id: string;
   essential_info: ProjectEssentialInfo;
-  classification: ProjectClassification[];
-  documents: ProjectDocuments[];
+  classification: ProjectClassification;
+  documents: DocumentsState;
+  status: ProjectStatus;
+  publish_settings: PublishSettings;
+  boq: BOQData;
+}
+
+export interface UserProject {
+  project: Project;
+  created_at: string;
+  updated_at: string;
 }
 
 export interface ProjectEssentialInfo {
@@ -48,13 +60,6 @@ export interface ProjectClassification {
   notes: string;
 }
 
-export interface ProjectDocuments {
-  architectural_plans?: File[];
-  licenses?: File[];
-  specifications?: File[];
-  site_photos?: File[];
-}
-
 export interface ProjectType {
   id: number;
   name: string;
@@ -63,4 +68,67 @@ export interface ProjectType {
   is_active: boolean;
   created_at: string;
   updated_at: string;
+}
+
+export interface DocumentFile {
+  id: string;
+  file: File | null; // Can be null when loaded from backend
+  name: string;
+  size: number;
+  type: string;
+  uploadStatus: "pending" | "uploading" | "completed" | "error";
+  uploadProgress: number;
+  url?: string;
+  error?: string;
+}
+
+export interface DocumentsState {
+  architectural_plans: DocumentFile[];
+  licenses: DocumentFile[];
+  specifications: DocumentFile[];
+  site_photos: DocumentFile[];
+}
+
+export interface BOQItem {
+  id?: string;
+  name: string;
+  description: string;
+  unit_id: number;
+  quantity: number;
+  unit_price: number;
+  sort_order: number;
+  is_required: boolean;
+}
+
+export interface BOQTemplate {
+  id: number;
+  name: string;
+  description: string;
+  category: string;
+  items: BOQItem[];
+  created_at: string;
+  updated_at: string;
+}
+
+export interface Unit {
+  id: number;
+  name: string;
+  symbol: string;
+  description: string;
+  is_active: boolean;
+}
+
+export interface BOQData {
+  items: BOQItem[];
+  total_amount: number;
+  template_id?: number;
+}
+
+// Form data type for BOQ item creation/editing
+export type BOQItemFormData = Omit<BOQItem, "id">;
+
+export interface PublishSettings {
+  notify_matching_contractors: boolean;
+  notify_client_on_offer: boolean;
+  offers_window_days: number;
 }

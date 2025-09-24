@@ -31,9 +31,6 @@ export interface UploadDocumentRequest {
 }
 
 class ProfileApiService {
-  private baseUrl = "/api/profile"; // Replace with actual API base URL
-
-  // Simulate network delay
   private delay = (ms: number) =>
     new Promise((resolve) => setTimeout(resolve, ms));
 

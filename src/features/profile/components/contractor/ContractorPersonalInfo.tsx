@@ -23,6 +23,7 @@ import { ContractorProfilePersonalInfo } from "@/features/profile/types/contract
 import { ContractorPersonalInfoApiData } from "@/features/profile/services/personalInfoApi";
 import LocationSelect from "@/features/profile/components/common/LocationSelect";
 import { Upload, X, FileText, Image } from "lucide-react";
+import { E164Number } from "libphonenumber-js";
 
 export const ContractorPersonalInfo = () => {
   const t = useTranslations();
@@ -245,7 +246,7 @@ export const ContractorPersonalInfo = () => {
                     <PhoneInput
                       inputMode="tel"
                       disabled={isLoading || !editing}
-                      value={field.value}
+                      value={field.value as E164Number}
                       onChange={field.onChange}
                       smartCaret={true}
                     />

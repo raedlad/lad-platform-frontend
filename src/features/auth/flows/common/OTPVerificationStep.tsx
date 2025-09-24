@@ -14,12 +14,13 @@ import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "@auth/store/authStore";
 // Generic interface for any registration store
+import { PersonalInfo } from "@auth/types/auth";
 interface RegistrationStore {
   currentStep: string;
   authMethod: "email" | "phone" | "thirdParty" | null;
-  personalInfo: any;
-  phoneInfo?: any; // Optional for freelance engineer store
-  thirdPartyInfo?: any; // Optional for freelance engineer store
+  personalInfo: PersonalInfo;
+  phoneInfo?: Record<string, unknown>; // Optional for freelance engineer store
+  thirdPartyInfo?: Record<string, unknown>; // Optional for freelance engineer store
   isLoading: boolean;
   error: string | null;
 }
@@ -181,7 +182,6 @@ const OTPVerificationStep: React.FC<VerificationStepProps> = ({
       return t("contactType.account");
     }
   };
-
 
   return (
     <div className="w-full h-full flex items-center justify-center">

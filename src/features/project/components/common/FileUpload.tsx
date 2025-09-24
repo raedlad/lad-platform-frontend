@@ -1,10 +1,9 @@
 "use client";
 import React, { useCallback, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
-import { DocumentFile, DocumentsState } from "../../store/projectStore";
+import { DocumentsState } from "@/features/project/types/project";
 import { useCreateProject } from "../../hooks/useCreateProject";
 import { Button } from "@shared/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
 import {
   X,
   Upload,
@@ -12,7 +11,6 @@ import {
   FileText,
   Image,
   Download,
-  CheckCircle,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { twMerge } from "tailwind-merge";

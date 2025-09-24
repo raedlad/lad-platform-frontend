@@ -150,7 +150,7 @@ export function useDashboardData() {
     // Data
     dashboardData,
     currentUser: currentUser || authUser,
-    userRole: userRole || authUser?.role,
+    userRole: userRole || authUser?.user_type,
     kpis,
     recentProjects,
     activeProjects,

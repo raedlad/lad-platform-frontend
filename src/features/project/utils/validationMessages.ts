@@ -48,7 +48,6 @@ export const getProjectValidationMessages = (t: (key: string) => string) => ({
   notes: {
     minLength: t("feedback.validation.notes.minLength"),
   },
-  // File upload validation messages
   architectural_plans: {
     maxSize: t("feedback.validation.architectural_plans.maxSize"),
     maxFiles: t("feedback.validation.architectural_plans.maxFiles"),
@@ -72,5 +71,45 @@ export const getProjectValidationMessages = (t: (key: string) => string) => ({
     maxFiles: t("feedback.validation.site_photos.maxFiles"),
     maxSize: t("feedback.validation.site_photos.maxSize"),
     invalidType: t("feedback.validation.site_photos.invalidType"),
+  },
+  boqItem: {
+    name: {
+      required: t("feedback.validation.boqItem.name.required"),
+      minLength: t("feedback.validation.boqItem.name.minLength"),
+    },
+    description: {
+      required: t("feedback.validation.boqItem.description.required"),
+      minLength: t("feedback.validation.boqItem.description.minLength"),
+    },
+    unit_id: {
+      required: t("feedback.validation.boqItem.unit_id.required"),
+    },
+    quantity: {
+      required: t("feedback.validation.boqItem.quantity.required"),
+      minValue: t("feedback.validation.boqItem.quantity.minValue"),
+    },
+    unit_price: {
+      required: t("feedback.validation.boqItem.unit_price.required"),
+      minValue: t("feedback.validation.boqItem.unit_price.minValue"),
+    },
+    sort_order: {
+      minValue: t("feedback.validation.boqItem.sort_order.minValue"),
+    },
+  },
+
+  boqForm: {
+    items: {
+      minItems: t("feedback.validation.boqForm.items.minItems"),
+    },
+    total_amount: {
+      minValue: t("feedback.validation.boqForm.total_amount.minValue"),
+    },
+  },
+
+  publish: {
+    offers_window_days: {
+    minValue: t("feedback.validation.publish.offers_window_days.minValue"),
+    required: t("feedback.validation.publish.offers_window_days.required"),
+    },
   },
 });

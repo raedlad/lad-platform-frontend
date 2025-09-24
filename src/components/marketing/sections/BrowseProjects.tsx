@@ -9,7 +9,7 @@ import { Button } from "@/shared/components/ui/button";
 const BrowseProjects = () => {
   const t = useTranslations("browseProjects");
   const project = {
-    logo: assets.user,
+    logo: assets.user.src,
     name: t("name"),
     location: t("location"),
     badge: t("badge"),
@@ -94,11 +94,7 @@ const BrowseProjects = () => {
             href="/"
             className="text-design-main hover:underline hover:scale-105 transition-all duration-300"
           >
-            <Button
-              size="lg"
-            >
-              {t("viewAllOffers")}
-            </Button>
+            <Button size="lg">{t("viewAllOffers")}</Button>
           </Link>
         </div>
       </div>

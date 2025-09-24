@@ -28,6 +28,7 @@ import { OrganizationProfilePersonalInfo } from "@/features/profile/types/organi
 import { createProfileValidationSchemas } from "@/features/profile/utils/validation";
 import { useTranslations } from "next-intl";
 import { usePersonalInfoStore } from "@/features/profile/store/personalInfoStore";
+import { E164Number } from "libphonenumber-js";
 
 export const OrganizationPersonalInfo = () => {
   const t = useTranslations();
@@ -191,7 +192,7 @@ export const OrganizationPersonalInfo = () => {
                     <PhoneInput
                       inputMode="tel"
                       disabled={isLoading || !editing}
-                      value={field.value}
+                      value={field.value as E164Number}
                       onChange={field.onChange}
                       smartCaret={true}
                     />
