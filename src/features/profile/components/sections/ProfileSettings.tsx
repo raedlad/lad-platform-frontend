@@ -38,7 +38,7 @@ export function ProfileSettings() {
 
   // Mock settings data - replace with actual data from store/API
   const [settings, setSettings] = useState({
-    language: "en",
+    language: "ar",
     theme: "system",
     emailNotifications: true,
     pushNotifications: true,

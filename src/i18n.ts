@@ -3,7 +3,7 @@ import { getRequestConfig } from "next-intl/server";
 export const locales = ["en", "ar"] as const;
 export type Locale = (typeof locales)[number];
 
-export const defaultLocale: Locale = "en";
+export const defaultLocale: Locale = "ar";
 
 // Function to get locale from client-side (for use in components)
 export function getLocaleFromClient(): Locale {

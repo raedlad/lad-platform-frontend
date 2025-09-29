@@ -12,7 +12,7 @@ import { LOCALE_CHANGE_EVENT } from "@/components/I18nProvider";
 
 export function useLocale() {
   const router = useRouter();
-  const [currentLocale, setCurrentLocale] = useState<Locale>("en");
+  const [currentLocale, setCurrentLocale] = useState<Locale>("ar");
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -27,16 +27,16 @@ export function useLocale() {
 
       // Set the cookie
       setLocaleCookie(newLocale);
-      
+
       // Update local state
       setCurrentLocale(newLocale);
-      
+
       // Dispatch custom event to notify I18nProvider
       const event = new CustomEvent(LOCALE_CHANGE_EVENT, {
-        detail: { locale: newLocale }
+        detail: { locale: newLocale },
       });
       window.dispatchEvent(event);
-      
+
       // No need to refresh the page anymore - I18nProvider will handle the change
     },
     [currentLocale]

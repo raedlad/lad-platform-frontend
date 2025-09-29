@@ -47,11 +47,11 @@ export default function I18nProvider({ children }: I18nProviderProps) {
       setMessages(messagesModule.default);
     } catch (error) {
       console.error("Failed to load locale:", error);
-      // Fallback to English
-      const fallbackMessages = await import("@/messages/en.json");
+      // Fallback to Arabic
+      const fallbackMessages = await import("@/messages/ar.json");
       setMessages(fallbackMessages.default);
-      setLocale("en");
-      updateHtmlAttributes("en");
+      setLocale("ar");
+      updateHtmlAttributes("ar");
     } finally {
       setIsLoading(false);
     }
