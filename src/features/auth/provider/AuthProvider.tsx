@@ -8,10 +8,17 @@ interface AuthProviderProps {
   children: ReactNode;
 }
 
-const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || "";
+// Internal component that uses useAuth hook inside the GoogleOAuthProvider context
+const AuthProviderContent: React.FC<{ children: ReactNode }> = ({
+  children,
+}) => {
   // Initialize auth effects (token refresh scheduler)
   useAuth();
+  return <>{children}</>;
+};
+
+const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+  const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || "";
 
   if (!clientId) {
     if (typeof window !== "undefined") {
@@ -24,7 +31,9 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   }
 
   return (
-    <GoogleOAuthProvider clientId={clientId}>{children}</GoogleOAuthProvider>
+    <GoogleOAuthProvider clientId={clientId}>
+      <AuthProviderContent>{children}</AuthProviderContent>
+    </GoogleOAuthProvider>
   );
 };
 
