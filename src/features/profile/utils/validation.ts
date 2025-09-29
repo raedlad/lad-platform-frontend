@@ -270,11 +270,9 @@ export const createProfileValidationSchemas = (t: (key: string) => string) => {
     country_id: z.number().optional().nullable(),
     city_id: z.number().optional().nullable(),
     state_id: z.number().optional().nullable(),
-    delegation_form: z
-      .instanceof(File)
-      .refine((file) => file.size > 0, {
-        message: messages.delegationForm.required,
-      }),
+    delegation_form: z.instanceof(File).refine((file) => file.size > 0, {
+      message: messages.delegationForm.required,
+    }),
     avatar: z.instanceof(File).refine((file) => file.size > 0, {
       message: messages.avatar.required,
     }),

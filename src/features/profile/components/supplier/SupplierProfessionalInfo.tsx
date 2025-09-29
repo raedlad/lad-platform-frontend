@@ -103,32 +103,32 @@ export const SupplierProfessionalInfo = () => {
     useExperienceYearsRanges();
   // Mock work fields for now - replace with useWorkFields when TypeScript issue is resolved
   const workFields: WorkFieldOption[] = [
-    { 
-      id: 1, 
-      name: "Construction", 
+    {
+      id: 1,
+      name: "Construction",
       name_en: "Construction",
       description: "Construction work",
       is_active: true,
       created_at: "2024-01-01T00:00:00Z",
-      updated_at: "2024-01-01T00:00:00Z"
+      updated_at: "2024-01-01T00:00:00Z",
     },
-    { 
-      id: 2, 
-      name: "Engineering", 
+    {
+      id: 2,
+      name: "Engineering",
       name_en: "Engineering",
       description: "Engineering work",
       is_active: true,
       created_at: "2024-01-01T00:00:00Z",
-      updated_at: "2024-01-01T00:00:00Z"
+      updated_at: "2024-01-01T00:00:00Z",
     },
-    { 
-      id: 3, 
-      name: "Consulting", 
+    {
+      id: 3,
+      name: "Consulting",
       name_en: "Consulting",
       description: "Consulting work",
       is_active: true,
       created_at: "2024-01-01T00:00:00Z",
-      updated_at: "2024-01-01T00:00:00Z"
+      updated_at: "2024-01-01T00:00:00Z",
     },
   ];
   const workFieldsLoading = false;
@@ -147,7 +147,8 @@ export const SupplierProfessionalInfo = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isDataLoading, setIsDataLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [supplierProfile, setSupplierProfile] = useState<SupplierProfileData | null>(null);
+  const [supplierProfile, setSupplierProfile] =
+    useState<SupplierProfileData | null>(null);
 
   // Validation schema
   const validationSchema = useMemo(() => {
