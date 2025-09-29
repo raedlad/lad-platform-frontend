@@ -194,7 +194,8 @@ export const IndividualPersonalInfo = () => {
       currentValues.country_id !== individualPersonalInfo.country_id ||
       currentValues.state_id !== individualPersonalInfo.state_id ||
       currentValues.city_id !== individualPersonalInfo.city_id ||
-      currentValues.national_id !== (individualPersonalInfo.national_id || "") ||
+      currentValues.national_id !==
+        (individualPersonalInfo.national_id || "") ||
       currentValues.detailed_address !==
         (individualPersonalInfo.detailed_address || "") ||
       currentValues.about_me !== (individualPersonalInfo.about_me || "")
@@ -302,7 +303,8 @@ export const IndividualPersonalInfo = () => {
                     position: "top-right",
                   });
                 }
-              } catch (error) {
+              } catch (error: unknown) {
+                console.error("Error submitting personal info:", error);
                 toast.error(t("common.actions.error"), {
                   duration: 4000,
                   position: "top-right",

@@ -56,7 +56,7 @@ export const EngineeringOfficeSpecializationsSection: React.FC<
   const updateSpecialization = (
     index: number,
     field: keyof (typeof specializations)[0],
-    value: any
+    value: string | number | boolean
   ) => {
     const updatedSpecializations = specializations.map((spec, i) =>
       i === index ? { ...spec, [field]: value } : spec

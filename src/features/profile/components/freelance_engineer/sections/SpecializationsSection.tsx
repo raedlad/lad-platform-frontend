@@ -59,7 +59,11 @@ export const SpecializationsSection: React.FC<SpecializationsSectionProps> = ({
     clearFormErrors(`specializations.${index}`);
   };
 
-  const updateSpecialization = (index: number, field: string, value: any) => {
+  const updateSpecialization = (
+    index: number,
+    field: string,
+    value: string | number | boolean
+  ) => {
     const updatedSpecializations = specializations.map((spec, i) =>
       i === index ? { ...spec, [field]: value } : spec
     );

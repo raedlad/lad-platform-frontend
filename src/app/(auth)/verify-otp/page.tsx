@@ -187,7 +187,7 @@ export default function VerifyOtpPage() {
   }
 
   return (
-    <div className="screen-center">
+    <div className="screen-center min-h-screen flex items-center justify-center">
       <OTPVerificationStep
         store={{
           currentStep: "otp",

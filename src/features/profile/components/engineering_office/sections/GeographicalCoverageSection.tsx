@@ -47,7 +47,7 @@ export const EngineeringOfficeGeographicalCoverageSection: React.FC<
   const updateGeographicalCoverage = (
     index: number,
     field: keyof (typeof geographicalCoverage)[0],
-    value: any
+    value: string | number
   ) => {
     const updatedCoverage = geographicalCoverage.map((coverage, i) =>
       i === index ? { ...coverage, [field]: value } : coverage

@@ -52,7 +52,7 @@ const FreelanceEngineerProfileTabContent: React.FC<
       id: 2,
       title: t("professionalInfo"),
       component: <FreelanceEngineerProfessionalInfo />,
-    },  
+    },
   ];
 
   const getContentForTab = (tabIndex: number) => {
@@ -90,7 +90,7 @@ const FreelanceEngineerProfileTabContent: React.FC<
     try {
       await handleFreelanceEngineerProfileFetch();
       setHasInitialLoad(true);
-    } catch (err) {
+    } catch (err: unknown) {
       console.error("Error loading freelance engineer profile content:", err);
       setHasInitialLoad(true);
     }

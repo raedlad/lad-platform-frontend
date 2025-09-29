@@ -6,7 +6,20 @@ import { EngineeringOfficeProfilePersonalInfo } from "@/features/profile/types/e
 
 interface PersonalInfoProps {
   personalInfo?: EngineeringOfficeProfilePersonalInfo | null;
-  profile?: any | null;
+  profile?: (EngineeringOfficeProfilePersonalInfo & {
+    engineering_type?: { name: string };
+    experience_years_range?: { label: string };
+    country_name?: string;
+    city_name?: string;
+    state_name?: string;
+    full_name?: string;
+    national_id?: string;
+    engineers_association_number?: string;
+    experience_years_range_id?: number;
+    is_associated_with_office?: boolean;
+    associated_office_name?: string;
+    about_me?: string;
+  }) | null;
 }
 
 const PersonalInfo: React.FC<PersonalInfoProps> = ({
@@ -29,7 +42,7 @@ const PersonalInfo: React.FC<PersonalInfoProps> = ({
   const getFullName = () => {
     return (
       currentPersonalInfo?.office_name ||
-      currentProfile?.full_name ||
+      profile?.full_name ||
       tCommon("notProvided")
     );
   };
@@ -38,7 +51,7 @@ const PersonalInfo: React.FC<PersonalInfoProps> = ({
   const getNationalId = () => {
     return (
       currentPersonalInfo?.license_number ||
-      currentProfile?.national_id ||
+      profile?.national_id ||
       tCommon("notProvided")
     );
   };
@@ -47,7 +60,7 @@ const PersonalInfo: React.FC<PersonalInfoProps> = ({
   const getEngineersAssociationNumber = () => {
     return (
       currentPersonalInfo?.authorized_person_name ||
-      currentProfile?.engineers_association_number ||
+      profile?.engineers_association_number ||
       tCommon("notProvided")
     );
   };
@@ -61,8 +74,8 @@ const PersonalInfo: React.FC<PersonalInfoProps> = ({
       return tCommon("notProvided");
     }
     // If we have the engineering_type object with name, use it
-    if (currentProfile?.engineering_type?.name) {
-      return currentProfile.engineering_type.name;
+    if (profile?.engineering_type?.name) {
+      return profile.engineering_type.name;
     }
     return engineeringTypeId;
   };
@@ -71,7 +84,7 @@ const PersonalInfo: React.FC<PersonalInfoProps> = ({
   const getExperienceYearsRange = () => {
     const experienceYearsRangeId =
       currentPersonalInfo?.office_name ??
-      currentProfile?.experience_years_range_id;
+      profile?.experience_years_range_id;
     if (
       experienceYearsRangeId === null ||
       experienceYearsRangeId === undefined
@@ -79,8 +92,8 @@ const PersonalInfo: React.FC<PersonalInfoProps> = ({
       return tCommon("notProvided");
     }
     // If we have the experience_years_range object with label, use it
-    if (currentProfile?.experience_years_range?.label) {
-      return currentProfile.experience_years_range.label;
+    if (profile?.experience_years_range?.label) {
+      return profile.experience_years_range.label;
     }
     return experienceYearsRangeId;
   };
@@ -89,7 +102,7 @@ const PersonalInfo: React.FC<PersonalInfoProps> = ({
   const getOfficeAssociation = () => {
     const isAssociated =
       currentPersonalInfo?.office_name ??
-      currentProfile?.is_associated_with_office;
+      profile?.is_associated_with_office;
     if (isAssociated === null || isAssociated === undefined) {
       return tCommon("notProvided");
     }
@@ -100,7 +113,7 @@ const PersonalInfo: React.FC<PersonalInfoProps> = ({
   const getAssociatedOfficeName = () => {
     return (
       currentPersonalInfo?.office_name ??
-      currentProfile?.associated_office_name ??
+      profile?.associated_office_name ??
       tCommon("notProvided")
     );
   };
@@ -110,11 +123,11 @@ const PersonalInfo: React.FC<PersonalInfoProps> = ({
     const countryId =
       currentPersonalInfo?.country_id ?? currentProfile?.country_id;
     if (countryId === null || countryId === undefined) {
-      return currentProfile?.country_name || tCommon("notProvided");
+      return profile?.country_name || tCommon("notProvided");
     }
     return (
       countries.find((country) => country.id === countryId)?.name ||
-      currentProfile?.country_name ||
+      profile?.country_name ||
       tCommon("notProvided")
     );
   };
@@ -123,25 +136,25 @@ const PersonalInfo: React.FC<PersonalInfoProps> = ({
   const getCityName = () => {
     const cityId = currentPersonalInfo?.city_id ?? currentProfile?.city_id;
     if (cityId === null || cityId === undefined) {
-      return currentProfile?.city_name || tCommon("notProvided");
+      return profile?.city_name || tCommon("notProvided");
     }
-    return currentProfile?.city_name || tCommon("notProvided");
+    return profile?.city_name || tCommon("notProvided");
   };
 
   // Helper function to get state name
   const getStateName = () => {
     const stateId = currentPersonalInfo?.state_id ?? currentProfile?.state_id;
     if (stateId === null || stateId === undefined) {
-      return currentProfile?.state_name || tCommon("notProvided");
+      return profile?.state_name || tCommon("notProvided");
     }
-    return currentProfile?.state_name || tCommon("notProvided");
+    return profile?.state_name || tCommon("notProvided");
   };
 
   // Helper function to get about me
   const getAboutMe = () => {
     return (
       currentPersonalInfo?.about_us ||
-      currentProfile?.about_me ||
+      profile?.about_me ||
       tCommon("notProvided")
     );
   };
@@ -202,7 +215,7 @@ const PersonalInfo: React.FC<PersonalInfoProps> = ({
             </p>
           </div>
           {(currentPersonalInfo?.office_name ?? false) ||
-          (currentProfile?.is_associated_with_office ?? false) ? (
+          (profile?.is_associated_with_office ?? false) ? (
             <div className="md:col-span-2">
               <label className="text-sm font-medium text-gray-600 dark:text-gray-400">
                 {t("associatedOfficeName")}

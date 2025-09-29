@@ -6,7 +6,15 @@ import { FreelanceEngineerProfilePersonalInfo } from "@/features/profile/types/f
 
 interface PersonalInfoProps {
   personalInfo?: FreelanceEngineerProfilePersonalInfo | null;
-  profile?: any | null;
+  profile?:
+    | (FreelanceEngineerProfilePersonalInfo & {
+        engineering_type?: { name: string };
+        experience_years_range?: { label: string };
+        country_name?: string;
+        city_name?: string;
+        state_name?: string;
+      })
+    | null;
 }
 
 const PersonalInfo: React.FC<PersonalInfoProps> = ({
@@ -69,8 +77,8 @@ const PersonalInfo: React.FC<PersonalInfoProps> = ({
       return tCommon("notProvided");
     }
     // If we have the engineering_type object with name, use it
-    if (currentProfile?.engineering_type?.name) {
-      return currentProfile.engineering_type.name;
+    if (profile?.engineering_type?.name) {
+      return profile.engineering_type.name;
     }
     return engineeringTypeId;
   };
@@ -87,8 +95,8 @@ const PersonalInfo: React.FC<PersonalInfoProps> = ({
       return tCommon("notProvided");
     }
     // If we have the experience_years_range object with label, use it
-    if (currentProfile?.experience_years_range?.label) {
-      return currentProfile.experience_years_range.label;
+    if (profile?.experience_years_range?.label) {
+      return profile.experience_years_range.label;
     }
     return experienceYearsRangeId;
   };
@@ -118,11 +126,11 @@ const PersonalInfo: React.FC<PersonalInfoProps> = ({
     const countryId =
       currentPersonalInfo?.country_id ?? currentProfile?.country_id;
     if (countryId === null || countryId === undefined) {
-      return currentProfile?.country_name || tCommon("notProvided");
+      return profile?.country_name || tCommon("notProvided");
     }
     return (
       countries.find((country) => country.id === countryId)?.name ||
-      currentProfile?.country_name ||
+      profile?.country_name ||
       tCommon("notProvided")
     );
   };
@@ -131,18 +139,18 @@ const PersonalInfo: React.FC<PersonalInfoProps> = ({
   const getCityName = () => {
     const cityId = currentPersonalInfo?.city_id ?? currentProfile?.city_id;
     if (cityId === null || cityId === undefined) {
-      return currentProfile?.city_name || tCommon("notProvided");
+      return profile?.city_name || tCommon("notProvided");
     }
-    return currentProfile?.city_name || tCommon("notProvided");
+    return profile?.city_name || tCommon("notProvided");
   };
 
   // Helper function to get state name
   const getStateName = () => {
     const stateId = currentPersonalInfo?.state_id ?? currentProfile?.state_id;
     if (stateId === null || stateId === undefined) {
-      return currentProfile?.state_name || tCommon("notProvided");
+      return profile?.state_name || tCommon("notProvided");
     }
-    return currentProfile?.state_name || tCommon("notProvided");
+    return profile?.state_name || tCommon("notProvided");
   };
 
   // Helper function to get about me

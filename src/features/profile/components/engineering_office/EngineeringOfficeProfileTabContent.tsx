@@ -90,7 +90,7 @@ const EngineeringOfficeProfileTabContent: React.FC<
     try {
       await handleEngineeringOfficeProfileFetch();
       setHasInitialLoad(true);
-    } catch (err) {
+    } catch (err: unknown) {
       console.error("Error loading engineering office profile content:", err);
       setHasInitialLoad(true);
     }

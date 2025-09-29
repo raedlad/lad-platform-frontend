@@ -48,7 +48,7 @@ export const GeographicalCoverageSection: React.FC<
   const updateGeographicalCoverage = (
     index: number,
     field: string,
-    value: any
+    value: string | number
   ) => {
     console.log(
       `🔍 Updating geographical coverage [${index}].${field} =`,

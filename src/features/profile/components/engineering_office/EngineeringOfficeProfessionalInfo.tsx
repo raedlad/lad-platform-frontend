@@ -129,7 +129,7 @@ const EngineeringOfficeProfessionalInfo = () => {
 
   // Function to clear form errors
   const clearFormErrors = (fieldName: string) => {
-    form.clearErrors(fieldName as any);
+    form.clearErrors(fieldName as keyof typeof form.getValues);
   };
 
   // Helper function to compare arrays deeply
@@ -202,7 +202,7 @@ const EngineeringOfficeProfessionalInfo = () => {
     classificationFile,
   ]);
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: Record<string, unknown>) => {
     // Prevent submission if no changes have been made
     if (!hasChanged) {
       toast(tCommon("actions.noChanges"), {
@@ -241,7 +241,7 @@ const EngineeringOfficeProfessionalInfo = () => {
 
     formData.append(
       "has_government_accreditation",
-      data.has_government_accreditation.toString()
+      (data.has_government_accreditation as boolean).toString()
     );
 
     // Add classification file if present
@@ -251,13 +251,13 @@ const EngineeringOfficeProfessionalInfo = () => {
 
     // Add optional fields
     if (data.custom_name) {
-      formData.append("custom_name", data.custom_name);
+      formData.append("custom_name", data.custom_name as string);
     }
     if (data.description) {
-      formData.append("description", data.description);
+      formData.append("description", data.description as string);
     }
     if (data.expiry_date) {
-      formData.append("expiry_date", data.expiry_date);
+      formData.append("expiry_date", data.expiry_date as string);
     }
 
     // Add specializations (API expects: specialization_id, specialization_notes, is_primary_specialization)
@@ -321,7 +321,7 @@ const EngineeringOfficeProfessionalInfo = () => {
     if (!validationResult.success) {
       // Convert Zod errors to our validation errors format
       const errors: Record<string, string> = {};
-      validationResult.error.issues.forEach((error: any) => {
+      validationResult.error.issues.forEach((error) => {
         const path = error.path.join(".");
         errors[path] = error.message;
       });
@@ -329,9 +329,9 @@ const EngineeringOfficeProfessionalInfo = () => {
       setValidationErrors(errors);
 
       // Also set form errors
-      validationResult.error.issues.forEach((error: any) => {
+      validationResult.error.issues.forEach((error) => {
         const path = error.path.join(".");
-        form.setError(path as any, { message: error.message });
+        form.setError(path as keyof typeof form.getValues, { message: error.message });
       });
 
       toast.error(tEngineeringOffice("errors.validationFailed"), {

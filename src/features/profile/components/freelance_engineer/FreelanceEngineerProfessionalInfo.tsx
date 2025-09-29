@@ -119,7 +119,7 @@ const FreelanceEngineerProfessionalInfo = () => {
 
   // Function to clear form errors
   const clearFormErrors = (fieldName: string) => {
-    form.clearErrors(fieldName as any);
+    form.clearErrors(fieldName as keyof FreelanceEngineerProfessionalInfoType);
   };
 
   // Helper function to compare arrays deeply
@@ -225,7 +225,7 @@ const FreelanceEngineerProfessionalInfo = () => {
     if (!validationResult.success) {
       // Convert Zod errors to our validation errors format
       const errors: Record<string, string> = {};
-      validationResult.error.issues.forEach((error: any) => {
+      validationResult.error.issues.forEach((error) => {
         const path = error.path.join(".");
         errors[path] = error.message;
       });
@@ -233,9 +233,11 @@ const FreelanceEngineerProfessionalInfo = () => {
       setValidationErrors(errors);
 
       // Also set form errors
-      validationResult.error.issues.forEach((error: any) => {
+      validationResult.error.issues.forEach((error) => {
         const path = error.path.join(".");
-        form.setError(path as any, { message: error.message });
+        form.setError(path as keyof FreelanceEngineerProfessionalInfoType, {
+          message: error.message,
+        });
       });
 
       toast.error(tFreelanceEngineer("errors.validationFailed"), {

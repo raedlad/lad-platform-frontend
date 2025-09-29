@@ -89,7 +89,7 @@ export const EngineeringOfficePersonalInfo = () => {
   }, [t]);
 
   const form = useForm<EngineeringOfficeProfilePersonalInfo>({
-    resolver: zodResolver(validationSchema) as any,
+    resolver: zodResolver(validationSchema),
     defaultValues: {
       country_id: null,
       city_id: null,
@@ -351,9 +351,12 @@ export const EngineeringOfficePersonalInfo = () => {
                     position: "top-right",
                   });
                 }
-              } catch (error: any) {
+              } catch (error: unknown) {
                 console.error("Submission error:", error);
-                toast.error(error?.message || tCommon("actions.error"), {
+                const errorMessage = error && typeof error === 'object' && 'message' in error 
+                  ? (error as { message: string }).message 
+                  : tCommon("actions.error");
+                toast.error(errorMessage, {
                   duration: 4000,
                   position: "top-right",
                 });

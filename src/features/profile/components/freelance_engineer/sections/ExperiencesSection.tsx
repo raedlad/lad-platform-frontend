@@ -45,7 +45,11 @@ export const ExperiencesSection: React.FC<ExperiencesSectionProps> = ({
     clearFormErrors(`experiences.${index}`);
   };
 
-  const updateExperience = (index: number, field: string, value: any) => {
+  const updateExperience = (
+    index: number,
+    field: string,
+    value: string | number
+  ) => {
     const updatedExperiences = experiences.map((exp, i) =>
       i === index ? { ...exp, [field]: value } : exp
     );

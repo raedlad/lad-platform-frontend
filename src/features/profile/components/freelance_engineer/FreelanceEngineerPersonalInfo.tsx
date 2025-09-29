@@ -343,7 +343,8 @@ export const FreelanceEngineerPersonalInfo = () => {
                     position: "top-right",
                   });
                 }
-              } catch (error) {
+              } catch (error: unknown) {
+                console.error("Error submitting personal info:", error);
                 toast.error(tCommon("actions.error"), {
                   duration: 4000,
                   position: "top-right",

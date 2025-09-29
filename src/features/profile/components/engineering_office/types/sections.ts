@@ -24,7 +24,7 @@ export interface ValidationErrors {
 
 // Common props for section components
 export interface SectionProps {
-  control: any;
+  control: Record<string, unknown>;
   validationErrors: ValidationErrors;
   setValidationErrors: (errors: ValidationErrors) => void;
   clearFormErrors: (fieldName: string) => void;

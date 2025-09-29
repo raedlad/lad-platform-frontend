@@ -78,10 +78,7 @@ const IndividualProfileTabContent: React.FC<
           <div className="text-center py-8">
             <p className="text-muted-foreground mb-4">{t("noDocuments")}</p>
             <Link href="/dashboard/individual/profile/edit/documents">
-            <Button
-            >
-              {t("uploadDocuments")}
-            </Button>
+              <Button>{t("uploadDocuments")}</Button>
             </Link>
           </div>
         );
@@ -98,7 +95,7 @@ const IndividualProfileTabContent: React.FC<
       setHasInitialLoad(true);
       const newContent = getContentForTab(activeTab);
       setContent(newContent);
-    } catch (err) {
+    } catch (err: unknown) {
       console.error("Error loading profile content:", err);
       setHasInitialLoad(true);
     }
