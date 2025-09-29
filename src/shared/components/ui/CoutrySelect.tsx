@@ -126,7 +126,7 @@ export const CountrySelection: React.FC<CountrySelectProps> = ({
       return (
         <div className="space-y-2">
           <div className="flex items-center gap-2">
-            {Icon && <Icon className="text-muted-foreground/50 p-1" />}
+            {Icon && <Icon className="text-design-main p-1" />}
             <label className="text-sm font-medium">{label}</label>
           </div>
           <div className="flex h-10 w-full items-center justify-center rounded-md border border-input bg-background px-3 py-2 text-sm">
@@ -263,7 +263,7 @@ export const CountrySelection: React.FC<CountrySelectProps> = ({
     return (
       <div className="space-y-2">
         <div className="flex items-center gap-2">
-          {Icon && <Icon className="text-muted-foreground/50 p-1" />}
+          {Icon && <Icon className="text-design-main p-1" />}
           <label className="text-sm font-medium">{label}</label>
         </div>
         <Popover open={open} onOpenChange={handleOpenChange}>
@@ -364,7 +364,7 @@ export const CountrySelection: React.FC<CountrySelectProps> = ({
     return (
       <div className="space-y-2">
         <div className="flex items-center gap-2">
-          <MapPin className="text-muted-foreground/50 p-1" />
+          <MapPin className="text-design-main p-1" />
           <label className="text-sm font-medium">
             {label || t("common.select.country")}
           </label>
@@ -402,7 +402,7 @@ export const CountrySelection: React.FC<CountrySelectProps> = ({
       ) : (
         <div key="country-select" className="space-y-2">
           <div className="flex items-center gap-2">
-            <MapPin className="text-muted-foreground/50 p-1" />
+            <MapPin className="text-design-main p-1" />
             <label className="text-sm font-medium">
               {label || t("common.select.country")}
             </label>

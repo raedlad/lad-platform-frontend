@@ -14,6 +14,7 @@ import { Button } from "@/shared/components/ui/button";
 import {
   PersonalInfo,
   Documents,
+  ProfessionalInfo,
 } from "@/features/profile/components/engineering_office/overview";
 import { usePersonalInfoStore } from "@/features/profile/store/personalInfoStore";
 import EngineeringOfficeProfessionalInfo from "./EngineeringOfficeProfessionalInfo";
@@ -51,7 +52,7 @@ const EngineeringOfficeProfileTabContent: React.FC<
     {
       id: 2,
       title: t("professionalInfo"),
-      component: <EngineeringOfficeProfessionalInfo />,
+      component: <ProfessionalInfo />,
     },
   ];
 

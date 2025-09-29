@@ -766,6 +766,7 @@
       "errorTitle": "Error Loading Content",
       "defaultUser": "User",
       "noDocuments": "No documents uploaded",
+      "noDocumentsDescription": "You haven't uploaded any documents yet. Documents help verify your identity and qualifications.",
       "uploadDocumentsDescription": "Upload your documents to get started",
       "documentsManagedElsewhere": "Documents are managed in a separate section. This is a summary view only.",
       "uploadDocuments": "Upload Documents",
@@ -1097,6 +1098,12 @@
       "professionalInfo": {
         "title": "Professional Information",
         "description": "Update your supplier professional details and capabilities",
+        "supplyAreas": "Supply Areas",
+        "serviceCoverage": "Service Coverage",
+        "yearsOfExperience": "Years of Experience",
+        "governmentPrivateDealings": "Government/Private Dealings",
+        "supportingDocuments": "Supporting Documents",
+        "document": "Document",
         "basicInformation": "Basic Information",
         "experienceYearsRange": "Experience Years Range",
         "hasGovernmentAccreditation": "Has Government Accreditation",
@@ -1454,6 +1461,54 @@
         "remove": "Remove",
         "fileSizeError": "File size must be less than 8MB",
         "fileTypeError": "Only PDF, JPG, JPEG, PNG, WEBP files are allowed"
+      }
+    },
+    "completion": {
+      "text": "Your account is {percentage}% complete"
+    }
+  },
+  "settings": {
+    "title": "Settings",
+    "menu": {
+      "personalData": {
+        "title": "Personal Data",
+        "description": "Edit basic information and contact details"
+      },
+      "notifications": {
+        "title": "Notifications",
+        "description": "Manage notifications and alerts"
+      },
+      "privacySecurity": {
+        "title": "Privacy & Security",
+        "description": "Password and security settings"
+      },
+      "language": {
+        "title": "Language",
+        "description": "English (US)"
+      },
+      "convertToDafin": {
+        "title": "Convert to Dafin",
+        "description": "Convert your account to Dafin for Business"
+      },
+      "privacyPolicy": {
+        "title": "Privacy Policy",
+        "description": "Read privacy policy and terms"
+      },
+      "faq": {
+        "title": "FAQ",
+        "description": "Get answers to frequently asked questions"
+      },
+      "helpCenter": {
+        "title": "Help Center",
+        "description": "Get help and support"
+      },
+      "logout": {
+        "title": "Logout",
+        "description": "Sign out of your account"
+      },
+      "theme": {
+        "title": "Theme",
+        "description": "Switch between light and dark mode"
       }
     },
     "completion": {
@@ -1878,7 +1933,8 @@
 
       "fullName": {
         "required": "Full name is required",
-        "minLength": "Full name must be at least 2 characters"
+        "minLength": "Full name must be at least 2 characters",
+        "maxLength": "Full name must not exceed 255 characters"
       },
       "organizationContactPersonFullName": {
         "required": "Contact person full name is required",

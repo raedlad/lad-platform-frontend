@@ -7,7 +7,6 @@ import { Plus, Trash2, Star } from "lucide-react";
 import { Button } from "@/shared/components/ui/button";
 import { Input } from "@/shared/components/ui/input";
 import { Textarea } from "@/shared/components/ui/textarea";
-import { Checkbox } from "@/shared/components/ui/checkbox";
 import {
   Select,
   SelectContent,
@@ -15,13 +14,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/shared/components/ui/select";
-import {
-  FormField,
-  FormItem,
-  FormLabel,
-  FormControl,
-  FormMessage,
-} from "@/shared/components/ui/form";
 
 import { SpecializationsSectionProps } from "../types/sections";
 import { cn } from "@/lib/utils";
@@ -80,7 +72,7 @@ export const SpecializationsSection: React.FC<SpecializationsSectionProps> = ({
   };
 
   return (
-    <div className="bg-white rounded-lg border border-border p-6">
+    <div className="bg-card rounded-lg border border-border p-6">
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-lg font-semibold text-foreground">
           {tFreelanceEngineer("specializations")}
@@ -94,7 +86,7 @@ export const SpecializationsSection: React.FC<SpecializationsSectionProps> = ({
           disabled={isLoading}
           className="flex items-center gap-2"
         >
-          <Plus className="w-4 h-4" />
+          <Plus className="w-4 h-4 text-design-main" />
           {tFreelanceEngineer("addSpecialization")}
         </Button>
       </div>
@@ -119,7 +111,7 @@ export const SpecializationsSection: React.FC<SpecializationsSectionProps> = ({
                   {tFreelanceEngineer("specialization")} {index + 1}
                 </h4>
                 {specialization.is_primary_specialization && (
-                  <Star className="w-4 h-4 text-yellow-500 fill-current" />
+                  <Star className="w-4 h-4 text-design-main fill-current" />
                 )}
               </div>
               <div className="flex items-center gap-2">
@@ -134,7 +126,7 @@ export const SpecializationsSection: React.FC<SpecializationsSectionProps> = ({
                   className={cn(
                     "text-xs",
                     specialization.is_primary_specialization &&
-                      "bg-yellow-50 border-yellow-200"
+                      "border-design-main"
                   )}
                 >
                   {specialization.is_primary_specialization

@@ -2,12 +2,12 @@ import React from "react";
 import { useTranslations } from "next-intl";
 import { useGetCountries } from "@/shared/hooks/globalHooks";
 import { usePersonalInfoStore } from "@/features/profile/store/personalInfoStore";
-import { FreelanceEngineerProfilePersonalInfo } from "@/features/profile/types/freelanceEngineer";
+import { SupplierProfilePersonalInfo } from "@/features/profile/types/supplier";
 
 interface PersonalInfoProps {
-  personalInfo?: FreelanceEngineerProfilePersonalInfo | null;
+  personalInfo?: SupplierProfilePersonalInfo | null;
   profile?:
-    | (FreelanceEngineerProfilePersonalInfo & {
+    | (SupplierProfilePersonalInfo & {
         engineering_type?: { name: string };
         experience_years_range?: { label: string };
         country_name?: string;
@@ -21,102 +21,67 @@ const PersonalInfo: React.FC<PersonalInfoProps> = ({
   personalInfo,
   profile,
 }) => {
-  const t = useTranslations("profile.freelanceEngineer.personalInfo");
+  const t = useTranslations("profile.supplier.personalInfo");
   const tCommon = useTranslations("common");
   const { countries } = useGetCountries();
 
   // Get profile data from store
-  const { freelanceEngineerPersonalInfo } = usePersonalInfoStore();
+  const { supplierPersonalInfo } = usePersonalInfoStore();
 
   // Use props if provided, otherwise fall back to store data
-  const currentPersonalInfo = personalInfo || freelanceEngineerPersonalInfo;
-  const currentProfile = profile || freelanceEngineerPersonalInfo;
+  const currentPersonalInfo = personalInfo || supplierPersonalInfo;
+  const currentProfile = profile || supplierPersonalInfo;
 
   // Debug logging to see what data we have
   console.log("PersonalInfo Debug:", {
     personalInfo,
     profile,
-    freelanceEngineerPersonalInfo,
+    supplierPersonalInfo,
     currentPersonalInfo,
     currentProfile,
   });
 
-  // Helper function to get full name
-  const getFullName = () => {
+  // Helper function to get company name
+  const getCompanyName = () => {
     return (
-      currentPersonalInfo?.full_name ||
-      currentProfile?.full_name ||
+      currentPersonalInfo?.company_name ||
+      currentProfile?.company_name ||
       tCommon("notProvided")
     );
   };
 
-  // Helper function to get national ID
-  const getNationalId = () => {
+  // Helper function to get commercial registration number
+  const getCommercialRegistrationNumber = () => {
     return (
-      currentPersonalInfo?.national_id ||
-      currentProfile?.national_id ||
+      currentPersonalInfo?.commercial_registration_number ||
+      currentProfile?.commercial_registration_number ||
       tCommon("notProvided")
     );
   };
 
-  // Helper function to get engineers association number
-  const getEngineersAssociationNumber = () => {
+  // Helper function to get authorized person name
+  const getAuthorizedPersonName = () => {
     return (
-      currentPersonalInfo?.engineers_association_number ||
-      currentProfile?.engineers_association_number ||
+      currentPersonalInfo?.authorized_person_name ||
+      currentProfile?.authorized_person_name ||
       tCommon("notProvided")
     );
   };
 
-  // Helper function to get engineering type
-  const getEngineeringType = () => {
-    const engineeringTypeId =
-      currentPersonalInfo?.engineering_type_id ??
-      currentProfile?.engineering_type_id;
-    if (engineeringTypeId === null || engineeringTypeId === undefined) {
-      return tCommon("notProvided");
-    }
-    // If we have the engineering_type object with name, use it
-    if (profile?.engineering_type?.name) {
-      return profile.engineering_type.name;
-    }
-    return engineeringTypeId;
-  };
-
-  // Helper function to get experience years range
-  const getExperienceYearsRange = () => {
-    const experienceYearsRangeId =
-      currentPersonalInfo?.experience_years_range_id ??
-      currentProfile?.experience_years_range_id;
-    if (
-      experienceYearsRangeId === null ||
-      experienceYearsRangeId === undefined
-    ) {
-      return tCommon("notProvided");
-    }
-    // If we have the experience_years_range object with label, use it
-    if (profile?.experience_years_range?.label) {
-      return profile.experience_years_range.label;
-    }
-    return experienceYearsRangeId;
-  };
-
-  // Helper function to get office association status
-  const getOfficeAssociation = () => {
-    const isAssociated =
-      currentPersonalInfo?.is_associated_with_office ??
-      currentProfile?.is_associated_with_office;
-    if (isAssociated === null || isAssociated === undefined) {
-      return tCommon("notProvided");
-    }
-    return isAssociated ? tCommon("yes") : tCommon("no");
-  };
-
-  // Helper function to get associated office name
-  const getAssociatedOfficeName = () => {
+  // Helper function to get phone number
+  const getPhoneNumber = () => {
     return (
-      currentPersonalInfo?.associated_office_name ??
-      currentProfile?.associated_office_name ??
+      currentPersonalInfo?.authorized_person_phone ||
+      currentProfile?.authorized_person_phone ||
+      tCommon("notProvided")
+    );
+  };
+
+  // Helper function to get email
+  const getEmail = () => {
+    return (
+      currentPersonalInfo?.representative_email ||
+      currentProfile?.representative_email ||
       tCommon("notProvided")
     );
   };
@@ -153,81 +118,63 @@ const PersonalInfo: React.FC<PersonalInfoProps> = ({
     return profile?.state_name || tCommon("notProvided");
   };
 
-  // Helper function to get about me
-  const getAboutMe = () => {
-    return (
-      currentPersonalInfo?.about_me ||
-      currentProfile?.about_me ||
-      tCommon("notProvided")
-    );
+  // Helper function to get delegation form
+  const getDelegationForm = () => {
+    const delegationForm =
+      currentPersonalInfo?.delegation_form || currentProfile?.delegation_form;
+    if (delegationForm) {
+      return delegationForm instanceof File
+        ? delegationForm.name
+        : "File uploaded";
+    }
+    return tCommon("notProvided");
   };
 
   return (
     <div className="space-y-6">
       <div className="bg-card border border-border rounded-lg p-6 dark:bg-card dark:border-border">
-        <h3 className="text-lg font-semibold mb-4">
-          {t("title")}
-        </h3>
+        <h3 className="text-lg font-semibold mb-4">{t("title")}</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label className="text-sm font-medium text-gray-600 dark:text-gray-400">
-              {t("fullName")}
+              {t("companyName")}
             </label>
             <p className="text-sm text-gray-900 dark:text-gray-100 mt-1">
-              {getFullName()}
+              {getCompanyName()}
             </p>
           </div>
           <div>
             <label className="text-sm font-medium text-gray-600 dark:text-gray-400">
-              {t("nationalId")}
+              {t("commercialRegistrationNumber")}
             </label>
             <p className="text-sm text-gray-900 dark:text-gray-100 mt-1">
-              {getNationalId()}
+              {getCommercialRegistrationNumber()}
             </p>
           </div>
           <div>
             <label className="text-sm font-medium text-gray-600 dark:text-gray-400">
-              {t("engineersAssociationNumber")}
+              {t("authorizedPersonName")}
             </label>
             <p className="text-sm text-gray-900 dark:text-gray-100 mt-1">
-              {getEngineersAssociationNumber()}
+              {getAuthorizedPersonName()}
             </p>
           </div>
           <div>
             <label className="text-sm font-medium text-gray-600 dark:text-gray-400">
-              {t("engineeringType")}
+              {t("phoneNumber")}
             </label>
             <p className="text-sm text-gray-900 dark:text-gray-100 mt-1">
-              {getEngineeringType()}
+              {getPhoneNumber()}
             </p>
           </div>
           <div>
             <label className="text-sm font-medium text-gray-600 dark:text-gray-400">
-              {t("experienceYearsRange")}
+              {t("email")}
             </label>
             <p className="text-sm text-gray-900 dark:text-gray-100 mt-1">
-              {getExperienceYearsRange()}
+              {getEmail()}
             </p>
           </div>
-          <div>
-            <label className="text-sm font-medium text-gray-600 dark:text-gray-400">
-              {t("isAssociatedWithOffice")}
-            </label>
-            <p className="text-sm text-gray-900 dark:text-gray-100 mt-1">
-              {getOfficeAssociation()}
-            </p>
-          </div>
-          {(currentPersonalInfo?.is_associated_with_office ?? false) ||
-          (currentProfile?.is_associated_with_office ?? false) ? (
-            <div className="md:col-span-2">
-              <label className="text-sm font-medium text-gray-600 dark:text-gray-400">
-                {t("associatedOfficeName")}
-              </label>
-              <p className="text-sm text-gray-900 dark:text-gray-100 mt-1">
-                {getAssociatedOfficeName()}
-              </p>
-            </div>
-          ) : null}
           <div>
             <label className="text-sm font-medium text-gray-600 dark:text-gray-400">
               {t("country")}
@@ -255,10 +202,10 @@ const PersonalInfo: React.FC<PersonalInfoProps> = ({
         </div>
         <div className="mt-4">
           <label className="text-sm font-medium text-gray-600 dark:text-gray-400">
-            {t("aboutMe")}
+            {t("delegationForm")}
           </label>
           <p className="text-sm text-gray-900 dark:text-gray-100 mt-1">
-            {getAboutMe()}
+            {getDelegationForm()}
           </p>
         </div>
       </div>

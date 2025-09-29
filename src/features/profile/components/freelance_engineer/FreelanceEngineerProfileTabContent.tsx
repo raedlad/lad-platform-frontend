@@ -14,6 +14,7 @@ import { Button } from "@/shared/components/ui/button";
 import {
   PersonalInfo,
   Documents,
+  ProfessionalInfo,
 } from "@/features/profile/components/freelance_engineer/overview";
 import { usePersonalInfoStore } from "@/features/profile/store/personalInfoStore";
 import FreelanceEngineerProfessionalInfo from "./FreelanceEngineerProfessionalInfo";
@@ -51,7 +52,7 @@ const FreelanceEngineerProfileTabContent: React.FC<
     {
       id: 2,
       title: t("professionalInfo"),
-      component: <FreelanceEngineerProfessionalInfo />,
+      component: <ProfessionalInfo />,
     },
   ];
 

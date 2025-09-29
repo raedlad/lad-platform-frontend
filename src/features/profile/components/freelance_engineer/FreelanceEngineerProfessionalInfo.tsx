@@ -3,7 +3,6 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import { useTranslations } from "next-intl";
 import { useGetCountries } from "@/shared/hooks/globalHooks";
 import { useEngineeringTypes } from "@/features/profile/hooks/useEngineeringTypes";
@@ -13,7 +12,6 @@ import { Button } from "@/shared/components/ui/button";
 import { Form } from "@/shared/components/ui/form";
 import { Checkbox } from "@/shared/components/ui/checkbox";
 import { Input } from "@/shared/components/ui/input";
-import { Textarea } from "@/shared/components/ui/textarea";
 import {
   FormField,
   FormItem,
@@ -328,7 +326,7 @@ const FreelanceEngineerProfessionalInfo = () => {
               className="space-y-6 sm:space-y-8"
             >
               {/* Basic Information Section */}
-              <div className="bg-white rounded-lg border border-border p-6">
+              <div className="bg-card rounded-lg border border-border p-6">
                 <h3 className="text-lg font-semibold text-foreground mb-4">
                   {tFreelanceEngineer("basicInformation")}
                 </h3>

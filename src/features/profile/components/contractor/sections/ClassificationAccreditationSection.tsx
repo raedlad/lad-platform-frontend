@@ -106,8 +106,7 @@ function ClassificationAccreditationSection({
           <FormField
             control={control}
             name="classification_file"
-            render={({ field, formState }) => {
-              const form = formState as any; // Temporary fix for form access
+            render={({ field }) => {
               return (
                 <FormItem className="space-y-2">
                   <FormLabel className="text-sm font-medium text-foreground flex items-center gap-2">
@@ -153,11 +152,6 @@ function ClassificationAccreditationSection({
                             if (file) {
                               // Validate file size (8MB max)
                               if (file.size > 8 * 1024 * 1024) {
-                                form.setError("classification_file", {
-                                  message: tContractor(
-                                    "fileUpload.fileSizeError"
-                                  ),
-                                });
                                 return;
                               }
                               // Validate file type
@@ -169,15 +163,9 @@ function ClassificationAccreditationSection({
                                 "image/webp",
                               ];
                               if (!allowedTypes.includes(file.type)) {
-                                form.setError("classification_file", {
-                                  message: tContractor(
-                                    "fileUpload.fileTypeError"
-                                  ),
-                                });
                                 return;
                               }
                               field.onChange(file as File);
-                              form.clearErrors("classification_file");
                             }
                           }}
                         />

@@ -454,14 +454,13 @@ export const OrganizationPersonalInfo = () => {
             className="form-section"
           >
             {/* Company Name and Commercial Register Number */}
-            <div className="w-full flex items-start gap-4">
               <FormField
                 control={form.control}
                 name="company_name"
                 render={({ field }) => (
                   <FormItem className="space-y-0.5 flex-1">
                     <div className="flex items-center gap-2">
-                      <Building2 className="text-muted-foreground/50 p-1" />
+                      <Building2 className="text-design-main p-1" />
                       <FormLabel>
                         {t("profile.organization.personalInfo.companyName")}{" "}
                         <span className="text-red-500">*</span>
@@ -488,7 +487,7 @@ export const OrganizationPersonalInfo = () => {
                 render={({ field }) => (
                   <FormItem className="space-y-0.5 flex-1">
                     <div className="flex items-center gap-2">
-                      <FileText className="text-muted-foreground/50 p-1" />
+                      <FileText className="text-design-main p-1" />
                       <FormLabel>
                         {t(
                           "profile.organization.personalInfo.commercialRegisterNumber"
@@ -508,17 +507,16 @@ export const OrganizationPersonalInfo = () => {
                   </FormItem>
                 )}
               />
-            </div>
+
 
             {/* Representative Name and Phone */}
-            <div className="w-full flex items-start gap-4">
               <FormField
                 control={form.control}
                 name="representative_name"
                 render={({ field }) => (
                   <FormItem className="space-y-0.5 flex-1">
                     <div className="flex items-center gap-2">
-                      <UserRound className="text-muted-foreground/50 p-1" />
+                      <UserRound className="text-design-main p-1" />
                       <FormLabel>
                         {t(
                           "profile.organization.personalInfo.representativeName"
@@ -545,7 +543,7 @@ export const OrganizationPersonalInfo = () => {
                 render={({ field }) => (
                   <FormItem className="space-y-0.5 flex-1">
                     <div className="flex items-center gap-2">
-                      <Phone className="text-muted-foreground/50 p-1" />
+                      <Phone className="text-design-main p-1" />
                       <FormLabel>
                         {t(
                           "profile.organization.personalInfo.representativePhone"
@@ -565,7 +563,6 @@ export const OrganizationPersonalInfo = () => {
                   </FormItem>
                 )}
               />
-            </div>
 
             {/* Representative Email */}
             <FormField
@@ -574,7 +571,7 @@ export const OrganizationPersonalInfo = () => {
               render={({ field }) => (
                 <FormItem className="space-y-0.5">
                   <div className="flex items-center gap-2">
-                    <Mail className="text-muted-foreground/50 p-1" />
+                    <Mail className="text-design-main p-1" />
                     <FormLabel>
                       {t(
                         "profile.organization.personalInfo.representativeEmail"
@@ -611,11 +608,9 @@ export const OrganizationPersonalInfo = () => {
                   </FormControl>
                   <div className="space-y-1 leading-none">
                     <FormLabel className="flex items-center gap-2">
-                      <CheckCircle className="text-muted-foreground/50 p-1" />
                       {t(
                         "profile.organization.personalInfo.hasGovernmentAccreditation"
                       )}{" "}
-                      <span className="text-red-500">*</span>
                     </FormLabel>
                   </div>
                 </FormItem>
@@ -629,7 +624,7 @@ export const OrganizationPersonalInfo = () => {
               render={({ field }) => (
                 <FormItem className="space-y-0.5">
                   <div className="flex items-center gap-2">
-                    <FileText className="text-muted-foreground/50 p-1" />
+                    <FileText className="text-design-main p-1" />
                     <FormLabel>
                       {t("profile.organization.personalInfo.vatNumber")}{" "}
                       <span className="text-red-500">*</span>
@@ -665,7 +660,6 @@ export const OrganizationPersonalInfo = () => {
                         field.onChange(country?.id || null);
                       }}
                       disabled={isLoading}
-                      placeholder={t("common.select.country")}
                       label={`${t(
                         "profile.organization.personalInfo.country"
                       )} *`}
@@ -692,7 +686,6 @@ export const OrganizationPersonalInfo = () => {
                         field.onChange(value ? Number(value) : null);
                       }}
                       disabled={isLoading}
-                      placeholder={t("common.select.state")}
                       label={`${t(
                         "profile.organization.personalInfo.state"
                       )} *`}
@@ -732,7 +725,7 @@ export const OrganizationPersonalInfo = () => {
               render={({ field }) => (
                 <FormItem className="space-y-0.5">
                   <div className="flex items-center gap-2">
-                    <MapPin className="text-muted-foreground/50 p-1" />
+                    <MapPin className="text-design-main p-1" />
                     <FormLabel>
                       {t("profile.organization.personalInfo.detailedAddress")}{" "}
                       <span className="text-red-500">*</span>
@@ -759,7 +752,7 @@ export const OrganizationPersonalInfo = () => {
               render={({ field }) => (
                 <FormItem className="space-y-0.5">
                   <div className="flex items-center gap-2">
-                    <MessageSquare className="text-muted-foreground/50 p-1" />
+                    <MessageSquare className="text-design-main p-1" />
                     <FormLabel>
                       {t("profile.organization.personalInfo.aboutUs")}
                     </FormLabel>
@@ -785,7 +778,7 @@ export const OrganizationPersonalInfo = () => {
               render={({ field }) => (
                 <FormItem className="space-y-0.5">
                   <div className="flex items-center gap-2">
-                    <Upload className="text-muted-foreground/50 p-1" />
+                    <Upload className="text-design-main p-1" />
                     <FormLabel>
                       {t(
                         "profile.organization.personalInfo.representativeIdImage"

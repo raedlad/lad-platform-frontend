@@ -295,7 +295,7 @@ const ContractorOperational = () => {
     if (!validationResult.success) {
       // Convert Zod errors to our validation errors format
       const errors: Record<string, string> = {};
-      validationResult.error.issues.forEach((error: any) => {
+      validationResult.error.issues.forEach((error) => {
         const path = error.path.join(".");
         errors[path] = error.message;
       });
@@ -303,9 +303,11 @@ const ContractorOperational = () => {
       setValidationErrors(errors);
 
       // Also set form errors
-      validationResult.error.issues.forEach((error: any) => {
+      validationResult.error.issues.forEach((error) => {
         const path = error.path.join(".");
-        form.setError(path as any, { message: error.message });
+        form.setError(path as keyof ContractorOperationalFormData, {
+          message: error.message,
+        });
       });
 
       toast.error(tContractor("errors.validationFailed"), {

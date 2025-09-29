@@ -45,6 +45,7 @@ import {
   AchievedProject,
   AchievedProjectFormData,
   UpdateAchievedProjectRequest,
+  ProjectImage,
 } from "@/features/profile/types/achievedProjects";
 import { createAchievedProjectValidationSchemas } from "@/features/profile/utils/achievedProjectsValidation";
 import { cn } from "@/lib/utils";
@@ -75,13 +76,15 @@ const ContractorEditAchievedProjectsForm: React.FC<
   );
   const [selectedStateId, setSelectedStateId] = useState<number | null>(null);
   const [selectedCityId, setSelectedCityId] = useState<number | null>(null);
-  const [availableStates, setAvailableStates] = useState<any[]>([]);
+  const [availableStates, setAvailableStates] = useState<
+    Array<{ id: number; name: string }>
+  >([]);
   const [isLoadingStates, setIsLoadingStates] = useState(false);
   const [isLoadingLocation, setIsLoadingLocation] = useState(false);
   const [projectFeatures, setProjectFeatures] = useState<string[]>([]);
   const [newFeature, setNewFeature] = useState("");
   const [projectImages, setProjectImages] = useState<File[]>([]);
-  const [existingImages, setExistingImages] = useState<any[]>([]);
+  const [existingImages, setExistingImages] = useState<ProjectImage[]>([]);
   const [selectedProjectType, setSelectedProjectType] = useState<number | null>(
     null
   );
@@ -910,9 +913,7 @@ const ContractorEditAchievedProjectsForm: React.FC<
                               <div key={index} className="relative group">
                                 <Image
                                   src={
-                                    image.url ||
-                                    image.image_url ||
-                                    "/placeholder-vid.mp4"
+                                    image.original_url || "/placeholder-vid.mp4"
                                   }
                                   alt={`Existing project ${index + 1}`}
                                   width={100}

@@ -31,7 +31,7 @@ const Documents: React.FC = () => {
           {[1, 2, 3].map((i) => (
             <div
               key={i}
-              className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 shadow-sm dark:shadow-none"
+              className="bg-card border border-border rounded-lg p-4 shadow-sm dark:shadow-none"
             >
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
@@ -57,7 +57,7 @@ const Documents: React.FC = () => {
   if (error) {
     return (
       <div className="space-y-4">
-        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6 shadow-sm dark:shadow-none">
+        <div className="bg-card border border-border rounded-lg p-6 shadow-sm dark:shadow-none">
           <div className="text-center">
             <div className="w-12 h-12 mx-auto mb-4 bg-red-100 dark:bg-red-900/20 rounded-lg flex items-center justify-center">
               <AlertTriangle className="w-6 h-6 text-red-500 dark:text-red-400" />
@@ -72,7 +72,7 @@ const Documents: React.FC = () => {
               onClick={refreshDocuments}
               variant="outline"
               size="sm"
-              className="border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+              className="border-border text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
             >
               <RefreshCw className="w-4 h-4 mr-2" />
               {tCommon("tryAgain")}
@@ -178,7 +178,7 @@ const Documents: React.FC = () => {
         {documents.map((document) => (
           <div
             key={document.id}
-            className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 shadow-sm dark:shadow-none hover:shadow-md dark:hover:shadow-none transition-shadow duration-200"
+            className="bg-card border border-border rounded-lg p-4 shadow-sm dark:shadow-none hover:shadow-md dark:hover:shadow-none transition-shadow duration-200"
           >
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">

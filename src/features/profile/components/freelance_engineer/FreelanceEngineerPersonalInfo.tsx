@@ -360,7 +360,7 @@ export const FreelanceEngineerPersonalInfo = () => {
                 render={({ field }) => (
                   <FormItem className="space-y-0.5 flex-1">
                     <div className="flex items-center gap-2">
-                      <UserRound className="text-muted-foreground/50 p-1" />
+                      <UserRound className="text-design-main p-1" />
                       <FormLabel>
                         {tFreelanceEngineer("fullName")}{" "}
                         <span className="text-red-500">*</span>
@@ -387,7 +387,7 @@ export const FreelanceEngineerPersonalInfo = () => {
                 render={({ field }) => (
                   <FormItem className="space-y-0.5 flex-1">
                     <div className="flex items-center gap-2">
-                      <FileText className="text-muted-foreground/50 p-1" />
+                      <FileText className="text-design-main p-1" />
                       <FormLabel>
                         {tFreelanceEngineer("nationalId")}{" "}
                         <span className="text-red-500">*</span>
@@ -414,7 +414,7 @@ export const FreelanceEngineerPersonalInfo = () => {
               render={({ field }) => (
                 <FormItem className="space-y-0.5">
                   <div className="flex items-center gap-2">
-                    <Briefcase className="text-muted-foreground/50 p-1" />
+                    <Briefcase className="text-design-main p-1" />
                     <FormLabel>
                       {tFreelanceEngineer("engineersAssociationNumber")}{" "}
                       <span className="text-red-500">*</span>
@@ -439,7 +439,7 @@ export const FreelanceEngineerPersonalInfo = () => {
               render={({ field }) => (
                 <FormItem className="space-y-0.5">
                   <div className="flex items-center gap-2">
-                    <Briefcase className="text-muted-foreground/50 p-1" />
+                    <Briefcase className="text-design-main p-1" />
                     <FormLabel>
                       {tFreelanceEngineer("engineeringType")}{" "}
                       <span className="text-red-500">*</span>
@@ -474,7 +474,7 @@ export const FreelanceEngineerPersonalInfo = () => {
               render={({ field }) => (
                 <FormItem className="space-y-0.5">
                   <div className="flex items-center gap-2">
-                    <Briefcase className="text-muted-foreground/50 p-1" />
+                    <Briefcase className="text-design-main p-1" />
                     <FormLabel>
                       {tFreelanceEngineer("experienceYearsRange")}{" "}
                       <span className="text-red-500">*</span>
@@ -527,7 +527,7 @@ export const FreelanceEngineerPersonalInfo = () => {
                   </FormControl>
                   <div className="space-y-1 leading-none">
                     <FormLabel className="flex items-center gap-2">
-                      <CheckCircle className="text-muted-foreground/50 p-1" />
+                      <CheckCircle className="text-design-main p-1" />
                       {tFreelanceEngineer("isAssociatedWithOffice")}{" "}
                     </FormLabel>
                   </div>
@@ -542,7 +542,7 @@ export const FreelanceEngineerPersonalInfo = () => {
                 render={({ field }) => (
                   <FormItem className="space-y-0.5">
                     <div className="flex items-center gap-2">
-                      <Building2 className="text-muted-foreground/50 p-1" />
+                      <Building2 className="text-design-main p-1" />
                       <FormLabel>
                         {tFreelanceEngineer("associatedOfficeName")}{" "}
                         <span className="text-red-500">*</span>
@@ -640,7 +640,7 @@ export const FreelanceEngineerPersonalInfo = () => {
               render={({ field }) => (
                 <FormItem className="space-y-0.5">
                   <div className="flex items-center gap-2">
-                    <UserRound className="text-muted-foreground/50 p-1" />
+                    <UserRound className="text-design-main p-1" />
                     <FormLabel>{tFreelanceEngineer("aboutMe")}</FormLabel>
                   </div>
                   <FormControl>

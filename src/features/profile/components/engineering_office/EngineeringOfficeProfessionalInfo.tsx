@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useTranslations } from "next-intl";
-import { Plus, Trash2, Star, MapPin, Upload, X, FileText } from "lucide-react";
+import {  Upload, X, FileText } from "lucide-react";
 import { useGetCountries } from "@/shared/hooks/globalHooks";
 import { useEngineeringTypes } from "@/features/profile/hooks/useEngineeringTypes";
 import { useExperienceYearsRanges } from "@/features/profile/hooks/useExperienceYearsRanges";
@@ -581,7 +581,7 @@ const EngineeringOfficeProfessionalInfo = () => {
                 {/* Classification File Upload */}
                 <div className="mt-4">
                   <div className="flex items-center gap-2 mb-2">
-                    <FileText className="text-muted-foreground/50 p-1" />
+                    <FileText className="text-design-main p-1" />
                     <label className="text-sm font-medium text-foreground">
                       {tEngineeringOffice("classificationFile")}
                     </label>
@@ -589,10 +589,10 @@ const EngineeringOfficeProfessionalInfo = () => {
                   <div
                     className={cn(
                       "border-2 border-dashed rounded-lg p-4 transition-all cursor-pointer",
-                      "hover:bg-muted/50 hover:border-muted-foreground/50",
+                      "hover:bg-muted/50 hover:border-design-main",
                       classificationFile
                         ? "border-design-main"
-                        : "border-muted-foreground/25",
+                        : "border-border",
                       isLoading && "opacity-50 cursor-not-allowed"
                     )}
                     onClick={() => {
@@ -652,8 +652,8 @@ const EngineeringOfficeProfessionalInfo = () => {
                       }}
                     />
                     <div className="flex flex-col items-center gap-2 text-center">
-                      <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center">
-                        <Upload className="w-4 h-4 text-muted-foreground" />
+                      <div className="w-8 h-8 rounded-full bg-design-main/10 flex items-center justify-center">
+                        <Upload className="w-4 h-4 text-design-main" />
                       </div>
                       {classificationFile ? (
                         <div className="space-y-1">

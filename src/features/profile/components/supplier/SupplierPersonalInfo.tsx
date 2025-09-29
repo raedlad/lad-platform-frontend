@@ -350,6 +350,10 @@ export const SupplierPersonalInfo = () => {
                   });
                 }
               } catch (error) {
+                console.error(
+                  "Error submitting supplier personal info:",
+                  error
+                );
                 toast.error(tSupplier("error"), {
                   duration: 4000,
                   position: "top-right",
@@ -360,14 +364,14 @@ export const SupplierPersonalInfo = () => {
           >
             {/* Company Information Section */}
             <div className="space-y-4">
-              <div className="w-full flex items-start gap-4">
+              <div className="w-full flex flex-col sm:flex-row items-start gap-4">
                 <FormField
                   control={form.control}
                   name="company_name"
                   render={({ field }) => (
-                    <FormItem className="space-y-0.5 flex-1">
+                    <FormItem className="space-y-0.5 flex-1 w-full">
                       <div className="flex items-center gap-2">
-                        <Building2 className="text-muted-foreground/50 p-1" />
+                        <Building2 className="text-design-main p-1" />
                         <FormLabel>
                           {tSupplier("companyName")}{" "}
                           <span className="text-red-500">*</span>
@@ -392,9 +396,9 @@ export const SupplierPersonalInfo = () => {
                   control={form.control}
                   name="commercial_registration_number"
                   render={({ field }) => (
-                    <FormItem className="space-y-0.5 flex-1">
+                    <FormItem className="space-y-0.5 flex-1 w-full">
                       <div className="flex items-center gap-2">
-                        <FileText className="text-muted-foreground/50 p-1" />
+                        <FileText className="text-design-main p-1" />
                         <FormLabel>
                           {tSupplier("commercialRegistrationNumber")}{" "}
                           <span className="text-red-500">*</span>
@@ -421,9 +425,9 @@ export const SupplierPersonalInfo = () => {
                 control={form.control}
                 name="authorized_person_name"
                 render={({ field }) => (
-                  <FormItem className="space-y-0.5">
+                  <FormItem className="space-y-0.5 w-full">
                     <div className="flex items-center gap-2">
-                      <UserRound className="text-muted-foreground/50 p-1" />
+                      <UserRound className="text-design-main p-1" />
                       <FormLabel>
                         {tSupplier("authorizedPersonName")}{" "}
                         <span className="text-red-500">*</span>
@@ -442,14 +446,14 @@ export const SupplierPersonalInfo = () => {
                 )}
               />
 
-              <div className="w-full flex items-start gap-4">
+              <div className="w-full flex flex-col sm:flex-row items-start gap-4">
                 <FormField
                   control={form.control}
                   name="authorized_person_phone"
                   render={({ field }) => (
-                    <FormItem className="space-y-0.5 flex-1">
+                    <FormItem className="space-y-0.5 flex-1 w-full">
                       <div className="flex items-center gap-2">
-                        <Phone className="text-muted-foreground/50 p-1" />
+                        <Phone className="text-design-main p-1" />
                         <FormLabel>
                           {tSupplier("phoneNumber")}{" "}
                           <span className="text-red-500">*</span>
@@ -472,9 +476,9 @@ export const SupplierPersonalInfo = () => {
                   control={form.control}
                   name="representative_email"
                   render={({ field }) => (
-                    <FormItem className="space-y-0.5 flex-1">
+                    <FormItem className="space-y-0.5 flex-1 w-full">
                       <div className="flex items-center gap-2">
-                        <Mail className="text-muted-foreground/50 p-1" />
+                        <Mail className="text-design-main p-1" />
                         <FormLabel>
                           {tSupplier("email")}{" "}
                           <span className="text-red-500">*</span>
@@ -501,7 +505,7 @@ export const SupplierPersonalInfo = () => {
                 control={form.control}
                 name="country_id"
                 render={({ field }) => (
-                  <FormItem className="space-y-0.5">
+                  <FormItem className="space-y-0.5 w-full">
                     <FormControl>
                       <CountrySelection
                         selectedCountry={
@@ -528,7 +532,7 @@ export const SupplierPersonalInfo = () => {
                 control={form.control}
                 name="state_id"
                 render={({ field }) => (
-                  <FormItem className="space-y-0.5">
+                  <FormItem className="space-y-0.5 w-full">
                     <FormControl>
                       <StateSelection
                         countryCode={locationState.selectedCountryCode}
@@ -553,7 +557,7 @@ export const SupplierPersonalInfo = () => {
                 control={form.control}
                 name="city_id"
                 render={({ field }) => (
-                  <FormItem className="space-y-0.5">
+                  <FormItem className="space-y-0.5 w-full">
                     <FormControl>
                       <CitySelection
                         stateCode={locationState.selectedStateCode}
@@ -578,9 +582,9 @@ export const SupplierPersonalInfo = () => {
                 control={form.control}
                 name="delegation_form"
                 render={({ field }) => (
-                  <FormItem className="space-y-0.5">
+                  <FormItem className="space-y-0.5 w-full">
                     <div className="flex items-center gap-2">
-                      <FileText className="text-muted-foreground/50 p-1" />
+                      <FileText className="text-design-main p-1" />
                       <FormLabel>
                         {tSupplier("delegationForm")}{" "}
                         <span className="text-red-500">*</span>
@@ -696,9 +700,9 @@ export const SupplierPersonalInfo = () => {
                 control={form.control}
                 name="avatar"
                 render={({ field }) => (
-                  <FormItem className="space-y-0.5">
+                  <FormItem className="space-y-0.5 w-full">
                     <div className="flex items-center gap-2">
-                      <Image className="text-muted-foreground/50 p-1" />
+                      <Image className="text-design-main p-1" />
                       <FormLabel>
                         {tSupplier("companyLogo")}{" "}
                         <span className="text-red-500">*</span>

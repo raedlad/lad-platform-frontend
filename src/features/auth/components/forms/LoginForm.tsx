@@ -189,7 +189,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, onError }) => {
                       {t("personalInfo.phoneNumber")}
                     </FormLabel>
                     <FormControl>
-                      <Input {...field} disabled={isLoading} />
+                      <Input {...field} disabled={isLoading} dir="ltr"/>
                     </FormControl>
                     <FormMessage className="min-h-5" />
                   </FormItem>
@@ -208,12 +208,13 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, onError }) => {
                           type={showPassword ? "text" : "password"}
                           {...field}
                           disabled={isLoading}
+                        dir="ltr"
                         />
                         <Button
                           type="button"
                           variant="ghost"
                           size="sm"
-                          className="absolute end-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                          className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
                           onClick={() => setShowPassword(!showPassword)}
                           disabled={isLoading}
                         >
@@ -227,10 +228,10 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, onError }) => {
                     </FormControl>
 
                     {/* Forgot Password link */}
-                    <div className="flex justify-end mt-1 text-p-7">
+                    <div className="flex justify-end mt-1 text-design-main">
                       <Link
                         href="/forgot-password"
-                        className="text-xs text-p-7 hover:underline hover:text-p-5"
+                        className="text-xs text-design-main hover:underline hover:text-p-5"
                       >
                         {t("forgotPassword")}
                       </Link>
@@ -249,7 +250,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, onError }) => {
               )}
 
               <Button type="submit" className="w-full" disabled={isLoading}>
-                {isLoading ? "Loading..." : t("login")}
+                {isLoading ? t("loading") : t("login")}
               </Button>
             </form>
           </Form>
@@ -260,7 +261,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, onError }) => {
               {t("noAccount")}{" "}
               <Link
                 href="/signup"
-                className="font-medium text-p-7 hover:underline hover:text-p-5"
+                className="font-medium text-design-main hover:underline hover:text-p-5"
               >
                 {t("createAccount")}
               </Link>
@@ -270,11 +271,11 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, onError }) => {
           {/* Terms and Privacy */}
           <p className="text-xs text-center text-n-6">
             {t("terms.text")}{" "}
-            <a href="#" className="underline text-p-7 hover:text-p-5">
+            <a href="#" className="underline text-design-main hover:text-p-5">
               {t("terms.termsLink")}
             </a>{" "}
             {t("terms.and")}{" "}
-            <a href="#" className="underline text-p-7 hover:text-p-5">
+            <a href="#" className="underline text-design-main hover:text-p-5">
               {t("terms.privacyLink")}
             </a>
           </p>

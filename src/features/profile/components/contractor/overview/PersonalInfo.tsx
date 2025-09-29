@@ -2,11 +2,14 @@ import React from "react";
 import { useTranslations } from "next-intl";
 import { useAuthStore } from "@/features/auth/store";
 import { useGetCountries } from "@/shared/hooks/globalHooks";
-import { ContractorProfilePersonalInfo } from "@/features/profile/types/contractor";
+import {
+  ContractorProfilePersonalInfo,
+  ContractorProfile,
+} from "@/features/profile/types/contractor";
 
 interface PersonalInfoProps {
   personalInfo?: ContractorProfilePersonalInfo | null;
-  profile?: any | null;
+  profile?: ContractorProfile | null;
 }
 
 const PersonalInfo: React.FC<PersonalInfoProps> = ({
@@ -33,7 +36,7 @@ const PersonalInfo: React.FC<PersonalInfoProps> = ({
   const getUserPhone = () => {
     return (
       personalInfo?.authorized_person_phone ||
-      profile?.authorizedPersonPhoneNumber ||
+      profile?.authorized_person_phone ||
       user?.phone ||
       ""
     );

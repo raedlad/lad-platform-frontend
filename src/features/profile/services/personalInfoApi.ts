@@ -328,7 +328,7 @@ export const personalInfoApi = {
     supplierPersonalInfo: SupplierProfilePersonalInfo
   ): Promise<ApiResponse<SupplierProfilePersonalInfo>> {
     const response = await api.post(
-      "/supplier/profile/personal-info",
+      "/supplier/profile/update",
       supplierPersonalInfo
     );
     return {
@@ -340,7 +340,7 @@ export const personalInfoApi = {
 
   async updateEngineeringOfficeProfessionalInfo(
     professionalInfo: FormData
-  ): Promise<ApiResponse<any>> {
+  ): Promise<ApiResponse> {
     const response = await api.put(
       "/engineering-office/profile/update-full-operational",
       professionalInfo,
@@ -397,7 +397,7 @@ export const personalInfoApi = {
   async updateSupplierProfessionalInfo(
     professionalInfo: FormData
   ): Promise<ApiResponse<any>> {
-    const response = await api.put(
+    const response = await api.post(
       "/supplier/profile/update-full-operational",
       professionalInfo,
       {

@@ -574,19 +574,41 @@ export const usePersonalInfoStore = create<PersonalInfoStoreState>()((set) => ({
   },
   handleSupplierPersonalInfoSubmit: async (supplierPersonalInfo) => {
     set((state) => ({ ...state, isLoading: true, error: null }));
-    const response = await personalInfoApi.submitSupplierPersonalInfo(
-      supplierPersonalInfo
-    );
-    if (response.success && response.data) {
+    try {
+      const response = await personalInfoApi.submitSupplierPersonalInfo(
+        supplierPersonalInfo
+      );
+      if (response.success && response.data) {
+        set((state) => ({
+          ...state,
+          supplierPersonalInfo: response.data,
+          isLoading: false,
+        }));
+        return {
+          success: true,
+          data: response.data,
+          message: response.message,
+        };
+      } else {
+        set((state) => ({
+          ...state,
+          error: response.message,
+          isLoading: false,
+        }));
+        return { success: false, message: response.message };
+      }
+    } catch (error: any) {
       set((state) => ({
         ...state,
-        supplierPersonalInfo: response.data,
+        error:
+          error?.message || "An error occurred while updating supplier profile",
         isLoading: false,
       }));
-      return { success: true, data: response.data, message: response.message };
-    } else {
-      set((state) => ({ ...state, error: response.message, isLoading: false }));
-      return { success: false, message: response.message };
+      return {
+        success: false,
+        message:
+          error?.message || "An error occurred while updating supplier profile",
+      };
     }
   },
 

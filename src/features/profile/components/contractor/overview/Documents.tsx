@@ -9,10 +9,12 @@ import {
   Clock,
   AlertTriangle,
   RefreshCw,
+  Upload,
 } from "lucide-react";
 import { useDocuments } from "@/features/profile/hooks/useDocuments";
 import { Button } from "@/shared/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
+import Link from "next/link";
 
 const Documents: React.FC = () => {
   const t = useTranslations("profile.tabs");
@@ -140,15 +142,21 @@ const Documents: React.FC = () => {
       <div className="space-y-4">
         <div className="bg-card border border-border rounded-lg p-6 dark:bg-card dark:border-border">
           <div className="text-center">
-            <div className="w-12 h-12 mx-auto mb-4 bg-muted rounded-lg flex items-center justify-center">
-              <FileText className="w-6 h-6 text-muted-foreground" />
+            <div className="w-12 h-12 mx-auto mb-4 bg-design-main/10 rounded-lg flex items-center justify-center">
+              <FileText className="w-6 h-6 text-design-main" />
             </div>
-            <h3 className="text-lg font-semibold mb-2 text-card-foreground dark:text-card-foreground">
+            <h3 className="text-lg font-semibold mb-2 text-design-main">
               {tDocuments("empty.title")}
             </h3>
-            <p className="text-sm text-muted-foreground dark:text-muted-foreground">
+            <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
               {tDocuments("empty.description")}
             </p>
+            <Link href="/dashboard/contractor/profile/edit/documents">
+              <Button>
+                <Upload className="w-4 h-4 mr-2" />
+                {t("uploadDocuments")}
+              </Button>
+            </Link>
           </div>
         </div>
       </div>

@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import AvatarUpload from "@/features/profile/components/common/AvatarUpload";
-import { User, FileText, PenLine } from "lucide-react";
+import { User, FileText, PenLine, Building } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useAuthStore } from "@/features/auth/store";
 import { Button } from "@/shared/components/ui/button";
@@ -36,7 +36,6 @@ const getUserPhone = (user: User) => {
   return user?.phone || user?.phoneNumber || user?.phone_number || "";
 };
 
-
 export default function Page() {
   const t = useTranslations("profile");
   const { user } = useAuthStore();
@@ -52,6 +51,12 @@ export default function Page() {
       title: t("tabs.documents"),
       description: t("tabs.documents"),
       icon: FileText,
+      type: "tab",
+    },
+    {
+      title: t("tabs.professionalInfo"),
+      description: t("tabs.professionalInfo"),
+      icon: Building,
       type: "tab",
     },
   ];
@@ -80,7 +85,10 @@ export default function Page() {
                 {getUserPhone(user as User)}
               </p>
 
-              <Link href="/dashboard/engineering_office/profile/edit/personal-info" className="flex items-center gap-2">
+              <Link
+                href="/dashboard/engineering_office/profile/edit/personal-info"
+                className="flex items-center gap-2"
+              >
                 <Button
                   variant="outline"
                   className="rounded-full font-semibold text-xs"

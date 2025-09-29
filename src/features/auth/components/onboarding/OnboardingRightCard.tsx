@@ -64,7 +64,7 @@ const OnboardingRightCard = () => {
   if (!currentStepInfo) return null;
 
   return (
-    <div className="h-full w-full relative overflow-hidden bg-gray-100 dark:bg-gray-800 flex-1">
+    <div className="h-full w-full max-h-[calc(100vh)] relative overflow-hidden bg-gray-100 dark:bg-gray-800 flex-1">
       {/* Fallback Background */}
       <div className="absolute inset-0 bg-gradient-to-br from-design-main/20 via-p-6/10 to-design-main/20"></div>
 

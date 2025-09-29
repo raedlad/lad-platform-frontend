@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState, useRef } from "react";
 import {
   Bell,
   Shield,
@@ -7,50 +7,94 @@ import {
   HelpCircle,
   LogOut,
   ArrowRight,
+  Loader2,
 } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { ThemeToggle } from "@/shared/components/ThemeToggle";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
-
+import { useAuthStore } from "@/features/auth/store/authStore";
+import { authApi } from "@/features/auth/services/authApi";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/shared/components/ui/alert-dialog";
 
 export default function Page() {
   const t = useTranslations("settings");
+  const tCommon = useTranslations("common");
+  const router = useRouter();
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const { logout: logoutFromStore } = useAuthStore();
+
+  const handleLogout = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    setIsLoggingOut(true);
+    try {
+      const result = await authApi.logout();
+
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
+      if (result.success) {
+        setIsDialogOpen(false);
+        router.push("/login");
+      } else {
+        logoutFromStore();
+        setIsDialogOpen(false);
+        router.push("/login");
+      }
+    } catch (error) {
+      logoutFromStore();
+      setIsDialogOpen(false);
+      router.push("/login");
+    }
+  };
 
   const navigationItems = [
     {
       title: t("menu.notifications.title"),
       description: t("menu.notifications.description"),
       icon: Bell,
-      url: "/dashboard/contractor/profile/notifications",
+      url: "/dashboard/supplier/profile/notifications",
       type: "link",
     },
     {
       title: t("menu.privacySecurity.title"),
       description: t("menu.privacySecurity.description"),
       icon: Shield,
-      url: "/dashboard/contractor/profile/security",
+      url: "/dashboard/supplier/profile/security",
       type: "link",
     },
     {
       title: t("menu.privacyPolicy.title"),
       description: t("menu.privacyPolicy.description"),
       icon: FileText,
-      url: "/dashboard/contractor/profile/privacy-policy",
+      url: "/dashboard/supplier/profile/privacy-policy",
       type: "link",
     },
     {
       title: t("menu.faq.title"),
       description: t("menu.faq.description"),
       icon: HelpCircle,
-      url: "/dashboard/contractor/profile/faq",
+      url: "/dashboard/supplier/profile/faq",
       type: "link",
     },
     {
       title: t("menu.helpCenter.title"),
       description: t("menu.helpCenter.description"),
       icon: HelpCircle,
-      url: "/dashboard/contractor/profile/help-center",
+      url: "/dashboard/supplier/profile/help-center",
       type: "link",
     },
     {
@@ -67,8 +111,7 @@ export default function Page() {
       title: t("menu.logout.title"),
       description: t("menu.logout.description"),
       icon: LogOut,
-      url: "/auth/logout",
-      type: "link",
+      type: "logout",
       isLogout: true,
     },
   ];
@@ -79,14 +122,11 @@ export default function Page() {
         <div className="flex items-center justify-center text-center p-6">
           <h1 className="text-2xl font-bold text-foreground">{t("title")}</h1>
         </div>
-        {/* Navigation Section */}
         <div className="space-y-1.5">
           {navigationItems.map((item) => {
             const baseClasses = `group rounded-xl p-4 text-right hover:border-primary/50 hover:shadow-md transition-all duration-200 block ${
               item.isLogout ? "hover:border-red-500/50" : ""
             }`;
-
-            // Render different components based on type
             if (item.type === "language-switcher") {
               return (
                 <div key={item.title} className={baseClasses}>
@@ -134,7 +174,68 @@ export default function Page() {
               );
             }
 
-            // Default link rendering
+            if (item.type === "logout") {
+              return (
+                <AlertDialog
+                  key={item.title}
+                  open={isDialogOpen}
+                  onOpenChange={setIsDialogOpen}
+                >
+                  <AlertDialogTrigger asChild>
+                    <button
+                      className={baseClasses}
+                      onClick={() => setIsDialogOpen(true)}
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className="p-2 rounded-lg flex-shrink-0 bg-red-100 group-hover:bg-red-200 transition-colors">
+                          {item.icon && (
+                            <item.icon className="w-5 h-5 text-red-500" />
+                          )}
+                        </div>
+                        <div className="text-right">
+                          <h3 className="font-semibold text-base text-red-500">
+                            {item.title}
+                          </h3>
+                        </div>
+                      </div>
+                    </button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>
+                        {t("menu.logout.title")}
+                      </AlertDialogTitle>
+                      <AlertDialogDescription>
+                        {t("menu.logout.description")}
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel
+                        disabled={isLoggingOut}
+                        onClick={() => setIsDialogOpen(false)}
+                      >
+                        {tCommon("actions.cancel")}
+                      </AlertDialogCancel>
+                      <button
+                        onClick={handleLogout}
+                        disabled={isLoggingOut}
+                        className="bg-red-500 hover:bg-red-600 focus:ring-red-500 disabled:opacity-50 disabled:cursor-not-allowed inline-flex h-10 items-center justify-center rounded-md px-4 py-2 text-sm font-medium text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none"
+                      >
+                        {isLoggingOut ? (
+                          <>
+                            <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                            {tCommon("actions.loading")}
+                          </>
+                        ) : (
+                          t("menu.logout.title")
+                        )}
+                      </button>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+              );
+            }
+
             return (
               <Link
                 key={item.title}
@@ -190,4 +291,3 @@ export default function Page() {
     </div>
   );
 }
-

@@ -42,7 +42,7 @@ export default function HeroSection() {
               <div className="px-4">
                 <TextEffect
                   preset="fade-in-blur"
-                  speedSegment={0.1}
+                  speedSegment={0.7}
                   as="h1"
                   className="text-balance text-3xl font-bold md:text-5xl"
                 >
@@ -53,7 +53,7 @@ export default function HeroSection() {
                 <TextEffect
                   per="line"
                   preset="fade-in-blur"
-                  speedSegment={0.1}
+                  speedSegment={0.6}
                   delay={0.2}
                   as="p"
                   className="text-white mt-4 whitespace-pre-line md:text-xl "
@@ -75,7 +75,6 @@ export default function HeroSection() {
                     ...transitionVariants,
                   }}
                 >
-                  <div></div>
                   <Link href="/signup" className="block">
                     <MovingBorderButton className="text-lg">
                       <span className="flex items-center gap-2">

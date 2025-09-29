@@ -371,7 +371,7 @@ export const EngineeringOfficePersonalInfo = () => {
                 render={({ field }) => (
                   <FormItem className="space-y-0.5 flex-1">
                     <div className="flex items-center gap-2">
-                      <Building2 className="text-muted-foreground/50 p-1" />
+                      <Building2 className="text-design-main p-1" />
                       <FormLabel>
                         {tEngineeringOffice("officeName")}{" "}
                         <span className="text-red-500">*</span>
@@ -398,7 +398,7 @@ export const EngineeringOfficePersonalInfo = () => {
                 render={({ field }) => (
                   <FormItem className="space-y-0.5 flex-1">
                     <div className="flex items-center gap-2">
-                      <FileText className="text-muted-foreground/50 p-1" />
+                      <FileText className="text-design-main p-1" />
                       <FormLabel>
                         {tEngineeringOffice("professionalLicenseNumber")}{" "}
                         <span className="text-red-500">*</span>
@@ -426,7 +426,7 @@ export const EngineeringOfficePersonalInfo = () => {
                 render={({ field }) => (
                   <FormItem className="space-y-0.5">
                     <div className="flex items-center gap-2">
-                      <UserRound className="text-muted-foreground/50 p-1" />
+                      <UserRound className="text-design-main p-1" />
                       <FormLabel>
                         {tEngineeringOffice("authorizedPersonName")}{" "}
                         <span className="text-red-500">*</span>
@@ -452,7 +452,7 @@ export const EngineeringOfficePersonalInfo = () => {
                   render={({ field }) => (
                     <FormItem className="space-y-0.5 flex-1">
                       <div className="flex items-center gap-2">
-                        <Phone className="text-muted-foreground/50 p-1" />
+                        <Phone className="text-design-main p-1" />
                         <FormLabel>
                           {tEngineeringOffice("phoneNumber")}{" "}
                           <span className="text-red-500">*</span>
@@ -477,7 +477,7 @@ export const EngineeringOfficePersonalInfo = () => {
                   render={({ field }) => (
                     <FormItem className="space-y-0.5 flex-1">
                       <div className="flex items-center gap-2">
-                        <Mail className="text-muted-foreground/50 p-1" />
+                        <Mail className="text-design-main p-1" />
                         <FormLabel>
                           {tEngineeringOffice("email")}{" "}
                           <span className="text-red-500">*</span>
@@ -506,7 +506,7 @@ export const EngineeringOfficePersonalInfo = () => {
                 render={({ field }) => (
                   <FormItem className="space-y-0.5">
                     <div className="flex items-center gap-2">
-                      <Briefcase className="text-muted-foreground/50 p-1" />
+                      <Briefcase className="text-design-main p-1" />
                       <FormLabel>
                         {tEngineeringOffice("engineeringType")}{" "}
                         <span className="text-red-500">*</span>
@@ -628,7 +628,7 @@ export const EngineeringOfficePersonalInfo = () => {
                 render={({ field }) => (
                   <FormItem className="space-y-0.5">
                     <div className="flex items-center gap-2">
-                      <UserRound className="text-muted-foreground/50 p-1" />
+                      <UserRound className="text-design-main p-1" />
                       <FormLabel>
                         {tEngineeringOffice("aboutUs")}{" "}
                         <span className="text-red-500">*</span>
@@ -657,7 +657,7 @@ export const EngineeringOfficePersonalInfo = () => {
                 render={({ field }) => (
                   <FormItem className="space-y-0.5">
                     <div className="flex items-center gap-2">
-                      <FileText className="text-muted-foreground/50 p-1" />
+                      <FileText className="text-design-main p-1" />
                       <FormLabel>
                         {tEngineeringOffice("delegationForm")}{" "}
                         <span className="text-red-500">*</span>
@@ -668,10 +668,10 @@ export const EngineeringOfficePersonalInfo = () => {
                         <div
                           className={cn(
                             "border-2 border-dashed rounded-lg p-4 transition-all cursor-pointer",
-                            "hover:bg-muted/50 hover:border-muted-foreground/50",
+                            "hover:bg-muted/50 hover:border-design-main",
                             field.value
                               ? "border-design-main"
-                              : "border-muted-foreground/25",
+                              : "border-border",
                             isLoading && "opacity-50 cursor-not-allowed"
                           )}
                           onClick={() => {
@@ -722,8 +722,8 @@ export const EngineeringOfficePersonalInfo = () => {
                             }}
                           />
                           <div className="flex flex-col items-center gap-2 text-center">
-                            <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center">
-                              <Upload className="w-4 h-4 text-muted-foreground" />
+                            <div className="w-8 h-8 rounded-full bg-design-main/10 flex items-center justify-center">
+                              <Upload className="w-4 h-4 text-design-main" />
                             </div>
                             {field.value ? (
                               <div className="space-y-1">
@@ -755,7 +755,7 @@ export const EngineeringOfficePersonalInfo = () => {
                                   {tCommon("actions.upload")}{" "}
                                   {tEngineeringOffice("delegationForm")}
                                 </p>
-                                <p className="text-xs text-muted-foreground">
+                                <p className="text-xs text-design-main">
                                   PDF, DOC, DOCX, JPG, JPEG, PNG, WEBP (max 8MB)
                                 </p>
                               </div>

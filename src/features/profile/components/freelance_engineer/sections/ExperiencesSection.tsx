@@ -15,10 +15,8 @@ import {
 } from "@/shared/components/ui/select";
 
 import { ExperiencesSectionProps } from "../types/sections";
-import { cn } from "@/lib/utils";
 
 export const ExperiencesSection: React.FC<ExperiencesSectionProps> = ({
-  control,
   engineeringTypes,
   experiences,
   setExperiences,
@@ -45,11 +43,7 @@ export const ExperiencesSection: React.FC<ExperiencesSectionProps> = ({
     clearFormErrors(`experiences.${index}`);
   };
 
-  const updateExperience = (
-    index: number,
-    field: string,
-    value: string | number
-  ) => {
+  const updateExperience = (index: number, field: string, value: string | number) => {
     const updatedExperiences = experiences.map((exp, i) =>
       i === index ? { ...exp, [field]: value } : exp
     );
@@ -58,7 +52,7 @@ export const ExperiencesSection: React.FC<ExperiencesSectionProps> = ({
   };
 
   return (
-    <div className="bg-white rounded-lg border border-border p-6">
+    <div className="bg-card rounded-lg border border-border p-6">
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-lg font-semibold text-foreground">
           {tFreelanceEngineer("experiences")}

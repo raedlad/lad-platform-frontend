@@ -2,10 +2,9 @@
 
 import React from "react";
 import { useTranslations } from "next-intl";
-import { MapPin, Plus, Trash2 } from "lucide-react";
+import { Plus, Trash2 } from "lucide-react";
 
 import { Button } from "@/shared/components/ui/button";
-import { Input } from "@/shared/components/ui/input";
 import { Textarea } from "@/shared/components/ui/textarea";
 import { CountrySelection } from "@/shared/components/ui/CoutrySelect";
 import { StateSelection } from "@/shared/components/ui/StateSelect";
@@ -66,7 +65,7 @@ export const GeographicalCoverageSection: React.FC<
   };
 
   return (
-    <div className="bg-white rounded-lg border border-border p-6">
+    <div className="bg-card rounded-lg border border-border p-6">
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-lg font-semibold text-foreground">
           {tFreelanceEngineer("geographicalCoverage")}
@@ -80,7 +79,7 @@ export const GeographicalCoverageSection: React.FC<
           disabled={isLoading}
           className="flex items-center gap-2"
         >
-          <Plus className="w-4 h-4" />
+          <Plus className="w-4 h-4 text-design-main" />
           {tFreelanceEngineer("addCoverage")}
         </Button>
       </div>

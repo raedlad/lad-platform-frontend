@@ -128,7 +128,7 @@ const PersonalInfo: React.FC<PersonalInfoProps> = ({
 
   return (
     <div className="space-y-6">
-      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6 shadow-sm dark:shadow-none">
+      <div className="bg-card border border-border rounded-lg p-6 shadow-sm dark:shadow-none">
         <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">
           {t("title")}
         </h3>
@@ -185,7 +185,7 @@ const PersonalInfo: React.FC<PersonalInfoProps> = ({
             <label className="text-sm font-medium text-gray-600 dark:text-gray-400">
               {t("vatNumber")}
             </label>
-            <p className="text-sm text-gray-900 dark:text-gray-100 mt-1">
+            <p className="text-sm text-card-foreground dark:text-card-foreground mt-1">
               {getVatNumber()}
             </p>
           </div>
@@ -193,7 +193,7 @@ const PersonalInfo: React.FC<PersonalInfoProps> = ({
             <label className="text-sm font-medium text-gray-600 dark:text-gray-400">
               {t("country")}
             </label>
-            <p className="text-sm text-gray-900 dark:text-gray-100 mt-1">
+            <p className="text-sm text-card-foreground dark:text-card-foreground mt-1">
               {getCountryName()}
             </p>
           </div>
@@ -201,7 +201,7 @@ const PersonalInfo: React.FC<PersonalInfoProps> = ({
             <label className="text-sm font-medium text-gray-600 dark:text-gray-400">
               {t("state")}
             </label>
-            <p className="text-sm text-gray-900 dark:text-gray-100 mt-1">
+            <p className="text-sm text-card-foreground dark:text-card-foreground mt-1">
               {getStateName()}
             </p>
           </div>
@@ -209,7 +209,7 @@ const PersonalInfo: React.FC<PersonalInfoProps> = ({
             <label className="text-sm font-medium text-gray-600 dark:text-gray-400">
               {t("city")}
             </label>
-            <p className="text-sm text-gray-900 dark:text-gray-100 mt-1">
+            <p className="text-sm text-card-foreground dark:text-card-foreground mt-1">
               {getCityName()}
             </p>
           </div>
@@ -217,7 +217,7 @@ const PersonalInfo: React.FC<PersonalInfoProps> = ({
             <label className="text-sm font-medium text-gray-600 dark:text-gray-400">
               {t("detailedAddress")}
             </label>
-            <p className="text-sm text-gray-900 dark:text-gray-100 mt-1">
+            <p className="text-sm text-card-foreground dark:text-card-foreground mt-1">
               {getDetailedAddress()}
             </p>
           </div>
@@ -226,7 +226,7 @@ const PersonalInfo: React.FC<PersonalInfoProps> = ({
           <label className="text-sm font-medium text-gray-600 dark:text-gray-400">
             {t("aboutUs")}
           </label>
-          <p className="text-sm text-gray-900 dark:text-gray-100 mt-1">
+          <p className="text-sm text-card-foreground dark:text-card-foreground mt-1">
             {getAboutUs()}
           </p>
         </div>

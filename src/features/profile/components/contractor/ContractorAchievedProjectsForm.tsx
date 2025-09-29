@@ -81,7 +81,9 @@ const ContractorAchievedProjectsForm: React.FC<AchievedProjectsFormProps> = ({
   );
   const [selectedStateId, setSelectedStateId] = useState<number | null>(null);
   const [selectedCityId, setSelectedCityId] = useState<number | null>(null);
-  const [availableStates, setAvailableStates] = useState<any[]>([]);
+  const [availableStates, setAvailableStates] = useState<
+    Array<{ id: number; name: string }>
+  >([]);
   const [isLoadingStates, setIsLoadingStates] = useState(false);
   const [projectFeatures, setProjectFeatures] = useState<string[]>([]);
   const [newFeature, setNewFeature] = useState("");

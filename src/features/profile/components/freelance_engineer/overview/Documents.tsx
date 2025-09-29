@@ -151,10 +151,10 @@ const Documents: React.FC = () => {
       <div className="space-y-4">
         <div className="bg-card border border-border rounded-lg p-6 dark:bg-card dark:border-border">
           <div className="text-center">
-            <div className="w-12 h-12 mx-auto mb-4 bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center">
-              <FileText className="w-6 h-6 text-gray-500 dark:text-gray-400" />
+            <div className="w-12 h-12 mx-auto mb-4 bg-design-main/10 rounded-lg flex items-center justify-center">
+              <FileText className="w-6 h-6 text-design-main" />
             </div>
-            <h3 className="text-lg font-semibold mb-2 text-gray-900 dark:text-gray-100">
+            <h3 className="text-lg font-semibold mb-2 text-design-main">
               {tDocuments("empty.title")}
             </h3>
             <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
@@ -178,11 +178,11 @@ const Documents: React.FC = () => {
         {documents.map((document) => (
           <div
             key={document.id}
-            className=" border border-gray-200 dark:border-gray-700 rounded-lg p-4 shadow-sm dark:shadow-none hover:shadow-md dark:hover:shadow-none transition-shadow duration-200"
+            className=" border border-border rounded-lg p-4 shadow-sm dark:shadow-none hover:shadow-md dark:hover:shadow-none transition-shadow duration-200"
           >
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className="w-8 h-8 bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center">
+                <div className="w-8 h-8 bg-design-main/10 rounded-lg flex items-center justify-center">
                   {getFileIcon(document.original_filename)}
                 </div>
                 <div>

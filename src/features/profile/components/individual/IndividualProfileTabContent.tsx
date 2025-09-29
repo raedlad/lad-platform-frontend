@@ -9,8 +9,9 @@ import {
   AlertIcon,
   AlertTitle,
 } from "@/components/ui/alert";
-import { AlertTriangle, Link, RefreshCw } from "lucide-react";
+import { AlertTriangle, FileText, RefreshCw, Upload } from "lucide-react";
 import { Button } from "@/shared/components/ui/button";
+import Link from "next/link";
 
 import PersonalInfo from "./overview/PersonalInfo";
 import Documents from "./overview/Documents";
@@ -64,10 +65,7 @@ const IndividualProfileTabContent: React.FC<
         (individualProfile.first_name || individualProfile.last_name));
     const hasDocuments =
       individualProfile?.documents && individualProfile.documents.length > 0;
-    const verificationStatus = individualProfile?.verification_status;
     if (tabIndex === 0) {
-      // For personal data tab, always show the component
-      // The PersonalInfo component will handle displaying "Not provided" for missing fields
       return tab.component;
     }
 
@@ -75,11 +73,26 @@ const IndividualProfileTabContent: React.FC<
       // For documents tab, show appropriate content based on data availability
       if (!hasDocuments && hasInitialLoad && !isLoading) {
         return (
-          <div className="text-center py-8">
-            <p className="text-muted-foreground mb-4">{t("noDocuments")}</p>
-            <Link href="/dashboard/individual/profile/edit/documents">
-              <Button>{t("uploadDocuments")}</Button>
-            </Link>
+          <div className="space-y-4">
+            <div className="bg-card border border-border rounded-lg p-6 dark:bg-card dark:border-border">
+              <div className="text-center">
+                <div className="w-12 h-12 mx-auto mb-4 bg-design-main/10 rounded-lg flex items-center justify-center">
+                  <FileText className="w-6 h-6 text-design-main" />
+                </div>
+                <h3 className="text-lg font-semibold mb-2 text-design-main">
+                  {t("noDocuments")}
+                </h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                  {t("noDocumentsDescription")}
+                </p>
+                <Link href="/dashboard/individual/profile/edit/documents">
+                  <Button>
+                    <Upload className="w-4 h-4 mr-2" />
+                    {t("uploadDocuments")}
+                  </Button>
+                </Link>
+              </div>
+            </div>
           </div>
         );
       }

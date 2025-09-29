@@ -31,7 +31,7 @@ const Documents: React.FC = () => {
           {[1, 2, 3].map((i) => (
             <div
               key={i}
-              className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 shadow-sm dark:shadow-none"
+              className="bg-card border border-border rounded-lg p-4 shadow-sm dark:shadow-none"
             >
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
@@ -154,15 +154,15 @@ const Documents: React.FC = () => {
             <div className="w-12 h-12 mx-auto mb-4 bg-design-main/10 rounded-lg flex items-center justify-center">
               <FileText className="w-6 h-6 text-design-main" />
             </div>
-            <h3 className="text-lg font-semibold mb-2">
+            <h3 className="text-lg font-semibold mb-2 text-design-main">
               {tDocuments("empty.title")}
             </h3>
             <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
               {tDocuments("empty.description")}
             </p>
-            <Link href="/dashboard/engineering_office/profile/edit/documents">
+            <Link href="/dashboard/supplier/profile/edit/documents">
               <Button>
-                <Upload className="w-4 h-4 mr-2 text-design-main" />
+                <Upload className="w-4 h-4 mr-2" />
                 {t("uploadDocuments")}
               </Button>
             </Link>

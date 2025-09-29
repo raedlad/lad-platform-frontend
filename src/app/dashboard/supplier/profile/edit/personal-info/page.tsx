@@ -1,6 +1,6 @@
 "use client";
 
-import { FreelanceEngineerPersonalInfo } from "@/features/profile/components/freelance_engineer";
+import { SupplierPersonalInfo } from "@/features/profile/components/supplier";
 import { useTranslations } from "next-intl";
 
 const ProfileEditPage = () => {
@@ -11,7 +11,7 @@ const ProfileEditPage = () => {
 
 
       {/* Personal Info Component */}
-      <FreelanceEngineerPersonalInfo />
+      <SupplierPersonalInfo />
     </div>
   );
 };

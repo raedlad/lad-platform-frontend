@@ -88,7 +88,12 @@ function GeographicalCoverageSection({
 
   // Real-time validation for geographical coverage
   const validateGeographicalCoverageItem = (
-    coverage: any,
+    coverage: {
+      country_code: string;
+      state_id: string;
+      city_id: string;
+      covers_all_areas: boolean;
+    },
     index: number,
     isOperational: boolean = true
   ) => {

@@ -320,7 +320,7 @@ export const IndividualPersonalInfo = () => {
                 render={({ field }) => (
                   <FormItem className="space-y-0.5 flex-1">
                     <div className="flex items-center gap-2">
-                      <UserRound className="text-muted-foreground/50 p-1" />
+                      <UserRound className="text-design-main p-1" />
                       <FormLabel>
                         {t("profile.individual.personalInfo.firstName")}
                       </FormLabel>
@@ -346,7 +346,7 @@ export const IndividualPersonalInfo = () => {
                 render={({ field }) => (
                   <FormItem className="space-y-0.5 flex-1">
                     <div className="flex items-center gap-2">
-                      <UserRound className="text-muted-foreground/50 p-1" />
+                      <UserRound className="text-design-main p-1" />
                       <FormLabel>
                         {t("profile.individual.personalInfo.lastName")}
                       </FormLabel>
@@ -371,7 +371,7 @@ export const IndividualPersonalInfo = () => {
               render={({ field }) => (
                 <FormItem className="space-y-0.5">
                   <div className="flex  items-center gap-2">
-                    <IdCard className="text-muted-foreground/50 p-1" />
+                    <IdCard className="text-design-main p-1" />
                     <FormLabel>
                       {t("profile.individual.personalInfo.nationalId")}
                     </FormLabel>
@@ -470,7 +470,7 @@ export const IndividualPersonalInfo = () => {
               render={({ field }) => (
                 <FormItem className="space-y-0.5">
                   <div className="flex items-center gap-2">
-                    <MapPin className="text-muted-foreground/50 p-1" />
+                    <MapPin className="text-design-main p-1" />
                     <FormLabel>
                       {t("profile.individual.personalInfo.detailedAddress")}
                     </FormLabel>
@@ -495,7 +495,7 @@ export const IndividualPersonalInfo = () => {
               render={({ field }) => (
                 <FormItem className="space-y-0.5">
                   <div className="flex items-center gap-2">
-                    <MessageSquare className="text-muted-foreground/50 p-1" />
+                    <MessageSquare className="text-design-main p-1" />
                     <FormLabel>
                       {t("profile.individual.personalInfo.aboutMe")}
                     </FormLabel>

@@ -21,19 +21,19 @@ const EditProfileLayout = ({ children }: { children: React.ReactNode }) => {
   const sidebarItems: SidebarItem[] = [
     {
       title: t("sidebar.personalInfo"),
-      href: "/dashboard/freelance_engineer/profile/edit/personal-info",
+      href: "/dashboard/supplier/profile/edit/personal-info",
       icon: User,
       description: "Personal information and profile details",
     },
     {
       title: t("sidebar.documents"),
-      href: "/dashboard/freelance_engineer/profile/edit/documents",
+      href: "/dashboard/supplier/profile/edit/documents",
       icon: FileText,
       description: "Documents and verification",
     },
     {
       title: t("sidebar.professionalInfo"),
-      href: "/dashboard/freelance_engineer/profile/edit/professional-info",
+      href: "/dashboard/supplier/profile/edit/professional-info",
       icon: Briefcase,
       description: "Professional information and profile details",
     },
