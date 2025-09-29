@@ -6,20 +6,22 @@ import { EngineeringOfficeProfilePersonalInfo } from "@/features/profile/types/e
 
 interface PersonalInfoProps {
   personalInfo?: EngineeringOfficeProfilePersonalInfo | null;
-  profile?: (EngineeringOfficeProfilePersonalInfo & {
-    engineering_type?: { name: string };
-    experience_years_range?: { label: string };
-    country_name?: string;
-    city_name?: string;
-    state_name?: string;
-    full_name?: string;
-    national_id?: string;
-    engineers_association_number?: string;
-    experience_years_range_id?: number;
-    is_associated_with_office?: boolean;
-    associated_office_name?: string;
-    about_me?: string;
-  }) | null;
+  profile?:
+    | (EngineeringOfficeProfilePersonalInfo & {
+        engineering_type?: { name: string };
+        experience_years_range?: { label: string };
+        country_name?: string;
+        city_name?: string;
+        state_name?: string;
+        full_name?: string;
+        national_id?: string;
+        engineers_association_number?: string;
+        experience_years_range_id?: number;
+        is_associated_with_office?: boolean;
+        associated_office_name?: string;
+        about_me?: string;
+      })
+    | null;
 }
 
 const PersonalInfo: React.FC<PersonalInfoProps> = ({
@@ -36,7 +38,6 @@ const PersonalInfo: React.FC<PersonalInfoProps> = ({
   // Use props if provided, otherwise fall back to store data
   const currentPersonalInfo = personalInfo || engineeringOfficePersonalInfo;
   const currentProfile = profile || engineeringOfficePersonalInfo;
-
 
   // Helper function to get full name
   const getFullName = () => {
@@ -83,8 +84,7 @@ const PersonalInfo: React.FC<PersonalInfoProps> = ({
   // Helper function to get experience years range
   const getExperienceYearsRange = () => {
     const experienceYearsRangeId =
-      currentPersonalInfo?.office_name ??
-      profile?.experience_years_range_id;
+      currentPersonalInfo?.office_name ?? profile?.experience_years_range_id;
     if (
       experienceYearsRangeId === null ||
       experienceYearsRangeId === undefined
@@ -101,8 +101,7 @@ const PersonalInfo: React.FC<PersonalInfoProps> = ({
   // Helper function to get office association status
   const getOfficeAssociation = () => {
     const isAssociated =
-      currentPersonalInfo?.office_name ??
-      profile?.is_associated_with_office;
+      currentPersonalInfo?.office_name ?? profile?.is_associated_with_office;
     if (isAssociated === null || isAssociated === undefined) {
       return tCommon("notProvided");
     }
