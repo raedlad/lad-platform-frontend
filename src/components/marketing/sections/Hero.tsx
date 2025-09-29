@@ -13,8 +13,8 @@ const transitionVariants = {
   item: {
     hidden: {
       opacity: 0,
-      filter: "blur(12px)",
-      y: 12,
+      filter: "blur(8px)",
+      y: 8,
     },
     visible: {
       opacity: 1,
@@ -22,8 +22,8 @@ const transitionVariants = {
       y: 0,
       transition: {
         type: "spring" as const,
-        bounce: 0.3,
-        duration: 1.5,
+        bounce: 0.2,
+        duration: 0.6,
       },
     },
   },
@@ -42,7 +42,7 @@ export default function HeroSection() {
               <div className="px-4">
                 <TextEffect
                   preset="fade-in-blur"
-                  speedSegment={0.3}
+                  speedSegment={0.1}
                   as="h1"
                   className="text-balance text-3xl font-bold md:text-5xl"
                 >
@@ -53,8 +53,8 @@ export default function HeroSection() {
                 <TextEffect
                   per="line"
                   preset="fade-in-blur"
-                  speedSegment={0.3}
-                  delay={0.5}
+                  speedSegment={0.1}
+                  delay={0.2}
                   as="p"
                   className="text-white mt-4 whitespace-pre-line md:text-xl "
                 >
@@ -67,8 +67,8 @@ export default function HeroSection() {
                     container: {
                       visible: {
                         transition: {
-                          staggerChildren: 0.05,
-                          delayChildren: 0.75,
+                          staggerChildren: 0.02,
+                          delayChildren: 0.3,
                         },
                       },
                     },
@@ -94,8 +94,8 @@ export default function HeroSection() {
                 container: {
                   visible: {
                     transition: {
-                      staggerChildren: 0.1,
-                      delayChildren: 1,
+                      staggerChildren: 0.05,
+                      delayChildren: 0.4,
                     },
                   },
                 },
