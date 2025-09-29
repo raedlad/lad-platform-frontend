@@ -408,14 +408,17 @@ body {
 
   .heading-section {
     @apply text-2xl font-bold;
+    @apply dark:text-white;
   }
 
   .heading-subsection {
     @apply text-base font-semibold;
+    @apply dark:text-white;
   }
 
   .text-description {
     @apply text-sm text-n-7;
+    @apply dark:text-gray-400;
   }
 
   .text-muted-small {
@@ -475,10 +478,12 @@ body {
 
   .card-role-selector {
     @apply flex-1 p-4 h-full border border-n-4 rounded-lg shadow-xs transition-all cursor-pointer;
+    @apply dark:border-gray-700 dark:bg-gray-800/50 dark:shadow-sm/20;
   }
 
   .card-role-selector-selected {
     @apply border-p-6 shadow-p-1 text-p-6 bg-p-1/10;
+    @apply dark:bg-p-6/20 dark:border-p-6 dark:shadow-lg/20;
   }
 
   .card-role-selector-disabled {
@@ -487,6 +492,7 @@ body {
 
   .card-role-selector-hover {
     @apply hover:border-n-5 hover:shadow-sm;
+    @apply dark:hover:border-gray-600 dark:hover:bg-gray-800 dark:hover:shadow-md/20;
   }
 
   /* Role Card Components */
@@ -500,10 +506,12 @@ body {
 
   .role-card-icon {
     @apply flex items-center justify-center w-10 h-10 rounded-lg bg-n-2/50;
+    @apply dark:bg-gray-700/50 dark:text-gray-300;
   }
 
   .role-card-icon-selected {
     @apply bg-p-2/50 text-p-6;
+    @apply dark:bg-p-6/30 dark:text-p-6;
   }
 
   .role-card-details {
@@ -516,14 +524,17 @@ body {
 
   .role-card-title {
     @apply font-bold text-sm;
+    @apply dark:text-white;
   }
 
   .role-card-description {
     @apply text-xs text-n-7;
+    @apply dark:text-gray-400;
   }
 
   .role-card-description-selected {
     @apply text-p-5;
+    @apply dark:text-p-4;
   }
 
   .role-card-radio-container {
@@ -536,10 +547,12 @@ body {
 
   .role-card-radio-selected {
     @apply bg-p-6 border-p-6;
+    @apply dark:bg-p-6 dark:border-p-6;
   }
 
   .role-card-radio-unselected {
     @apply border-n-4 bg-transparent;
+    @apply dark:border-gray-600 dark:bg-transparent;
   }
 
   .role-card-radio-dot {
@@ -553,6 +566,7 @@ body {
   /* Badge Utilities */
   .badge-coming-soon {
     @apply inline-flex items-center rounded-full border border-n-4 bg-n-2/50 text-n-6 text-xs px-2 py-0.5 font-medium;
+    @apply dark:border-gray-600 dark:bg-gray-700/50 dark:text-gray-400;
   }
 
   /* Button Utilities */
@@ -567,6 +581,7 @@ body {
   /* Link Utilities */
   .link-primary {
     @apply text-p-6 hover:text-p-5 transition-all underline underline-offset-4;
+    @apply dark:text-p-5 dark:hover:text-p-4;
   }
 
   .link-muted {
@@ -588,14 +603,17 @@ body {
 
   .divider-line-border {
     @apply w-full border-t;
+    @apply dark:border-gray-700;
   }
 
   .divider-text {
     @apply relative flex justify-center text-xs uppercase;
+    @apply dark:text-gray-400;
   }
 
   .divider-text-bg {
     @apply px-2 bg-background;
+    @apply dark:bg-gray-900;
   }
 
   /* Status Utilities */
@@ -642,11 +660,13 @@ body {
 
   .nav-step-indicator {
     @apply text-sm text-muted-foreground;
+    @apply dark:text-gray-400;
   }
 
   /* Demo/Helper Utilities */
   .demo-help-text {
     @apply text-xs text-center text-muted-foreground;
+    @apply dark:text-gray-400;
   }
 
   /* Additional Form Utilities */
@@ -673,10 +693,12 @@ body {
   /* Text Color Utilities */
   .text-blue-600 {
     @apply text-blue-600;
+    @apply dark:text-blue-400;
   }
 
   .text-provider-color {
     @apply text-blue-600;
+    @apply dark:text-blue-400;
   }
 
   /* Background Utilities */
@@ -696,15 +718,18 @@ body {
   /* Button State Utilities */
   .btn-disabled-state {
     @apply bg-n-4 text-n-8;
+    @apply dark:bg-gray-700 dark:text-gray-500;
   }
 
   /* Success/Info Card Utilities */
   .success-icon-container {
     @apply w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4;
+    @apply dark:bg-green-900/50;
   }
 
   .info-box {
     @apply bg-blue-50 border border-blue-200 rounded-lg p-4;
+    @apply dark:bg-blue-900/50 dark:border-blue-800;
   }
 
   .info-box-content {
@@ -713,14 +738,17 @@ body {
 
   .info-box-text {
     @apply text-sm text-blue-800;
+    @apply dark:text-blue-200;
   }
 
   .info-box-title {
     @apply font-medium mb-1;
+    @apply dark:text-blue-100;
   }
 
   .info-box-list {
     @apply space-y-1 text-blue-700;
+    @apply dark:text-blue-300;
   }
 
   /* Text Center with Spacing */
@@ -830,4 +858,17 @@ body {
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* DEBUG: Overflow Detection - Remove after fixing */
+
+
+.debug-overflow [style*="overflow"] {
+  outline: 4px solid orange !important;
+  background: rgba(255, 165, 0, 0.2) !important;
+}
+
+
+.debug-overflow *:not(html):not(body) {
+  box-shadow: inset 0 0 0 1px rgba(255, 0, 0, 0.3);
 }

@@ -13,11 +13,16 @@ export type SupplierDocumentUpload = z.infer<
 >;
 
 export interface SupplierProfilePersonalInfo {
-  commercialEstablishmentName: string;
-  authorizedPersonName: string;
-  email?: string;
-  authorizedPersonPhoneNumber: string;
-  commercialRegistrationNumber: string;
+  company_name: string;
+  commercial_registration_number: string;
+  authorized_person_name: string;
+  authorized_person_phone: string;
+  representative_email: string;
+  country_id: number | null;
+  city_id: number | null;
+  state_id: number | null;
+  delegation_form: File | null;
+  avatar: File | null;
 }
 
 // Supplier Profile State - No auth-related fields

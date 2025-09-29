@@ -5,6 +5,7 @@ import { Button } from "@shared/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/shared/components/ui/textarea";
+import { DatePicker } from "@/components/ui/date-picker";
 import {
   Card,
   CardContent,
@@ -236,12 +237,12 @@ const DocumentCard: React.FC<DocumentCardProps> = ({
                 <span className="font-medium">{t("fileDetails.expiry")}</span>
                 <br />
                 {isEditing ? (
-                  <Input
-                    type="date"
+                  <DatePicker
                     value={editData.expiryDate}
-                    onChange={(e) =>
-                      setEditData({ ...editData, expiryDate: e.target.value })
+                    onChange={(value) =>
+                      setEditData({ ...editData, expiryDate: value })
                     }
+                    placeholder="YYYY-MM-DD"
                     className="text-xs h-6 mt-1"
                   />
                 ) : (

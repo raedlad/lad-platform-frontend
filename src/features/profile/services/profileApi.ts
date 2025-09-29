@@ -2,10 +2,16 @@
 // Replace with actual API calls to your backend
 
 import api from "@/lib/api";
+import {
+  IndividualProfilePersonalInfo,
+  IndividualProfile,
+} from "../types/individual";
+import { request } from "@/lib/apiClient";
 
 export interface ApiResponse<T> {
   success: boolean;
   data?: T;
+  response?: T;
   error?: string;
   message?: string;
 }
@@ -34,14 +40,51 @@ class ProfileApiService {
   private delay = (ms: number) =>
     new Promise((resolve) => setTimeout(resolve, ms));
 
-  async getProfile(): Promise<ApiResponse<any>> {
-    const response = await api.get("/contractor/profile");
+  fetchIndividualProfile(): Promise<ApiResponse<IndividualProfile>> {
+    return request<IndividualProfile>("get", "/individual/profile");
+  }
 
-    // Mock response
-    return {
-      success: true,
-      data: response.data,
-    };
+  fetchContractorProfile(): Promise<ApiResponse<any>> {
+    return request<any>("get", "/contractor/profile");
+  }
+
+  fetchOrganizationProfile(): Promise<ApiResponse<any>> {
+    return request<any>("get", "/organization/profile");
+  }
+
+  fetchFreelanceEngineerProfile(): Promise<ApiResponse<any>> {
+    return request<any>("get", "/freelancer-engineer/profile");
+  }
+
+  fetchEngineeringOfficeProfile(): Promise<ApiResponse<any>> {
+    return request<any>("get", "/engineering-office/profile");
+  }
+
+  updateEngineeringOfficeProfile(data: FormData): Promise<ApiResponse<any>> {
+    return request<any>("put", "/engineering-office/profile/update", data, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+  }
+
+  async submitEngineeringOfficePersonalInfo(
+    data: any
+  ): Promise<ApiResponse<any>> {
+    const formData = new FormData();
+
+    // Add all the form fields to FormData
+    Object.keys(data).forEach((key) => {
+      if (data[key] !== null && data[key] !== undefined) {
+        if (key === "delegation_form" && data[key] instanceof File) {
+          formData.append(key, data[key]);
+        } else {
+          formData.append(key, data[key]);
+        }
+      }
+    });
+
+    return this.updateEngineeringOfficeProfile(formData);
   }
 
   async updateProfile(data: UpdateProfileRequest): Promise<ApiResponse<any>> {

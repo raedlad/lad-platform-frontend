@@ -3,6 +3,7 @@ import NavUser from "./NavUser";
 import NavMain from "./NavMain";
 import { useGlobalStore } from "@/shared/store/globalStore";
 import { useEffect } from "react";
+import NavSecondary from "./NavSecondary";
 
 export function AppSidebar() {
   const { isSidebarOpen, setIsSidebarOpen } = useGlobalStore();
@@ -49,6 +50,7 @@ export function AppSidebar() {
           <div className="flex-1">
             <NavMain />
           </div>
+          <NavSecondary />
         </div>
       </div>
     </>

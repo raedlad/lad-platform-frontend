@@ -9,6 +9,7 @@
       "previous": "Previous",
       "cancel": "Cancel",
       "save": "Save",
+      "saving": "Saving...",
       "edit": "Edit",
       "delete": "Delete",
       "confirm": "Confirm",
@@ -16,11 +17,43 @@
       "refresh": "Refresh",
       "download": "Download",
       "upload": "Upload",
+      "uploading": "Uploading...",
+      "change": "Change",
+      "remove": "Remove",
+      "removing": "Removing...",
       "select": "Select",
       "clear": "Clear",
-      "reset": "Reset"
+      "reset": "Reset",
+      "error": "An error occurred",
+      "noChanges": "No changes to save",
+      "create": "Create",
+      "deleting": "Deleting...",
+      "update": "Update",
+      "updating": "Updating...",
+      "retry": "Retry",
+      "retrying": "Retrying..."
+    },
+    "country": "Country",
+    "state": "State",
+    "city": "City",
+    "fileErrors": {
+      "invalidFile": "Please select a valid image file (JPEG, PNG, or WebP)",
+      "maxSize": "File size must be less than {maxSizeMB}MB"
+    },
+    "avatar": {
+      "upload": {
+        "title": "Upload Photo",
+        "changeTitle": "Change Photo",
+        "removeTitle": "Remove Photo",
+        "dragDrop": "Drag & drop or click to upload",
+        "dragDropActive": "Drop your image here",
+        "helpText": "Max {maxSize}MB • JPEG, PNG, WebP",
+        "uploadError": "Upload Error",
+        "profileAvatar": "Profile Avatar"
+      }
     },
     "select": {
+      "loading": "Loading...",
       "country": "Select Country",
       "state": "Select State",
       "city": "Select City",
@@ -30,6 +63,12 @@
       "month": "Month",
       "year": "Year"
     },
+    "notProvided": "Not provided",
+    "yes": "Yes",
+    "no": "No",
+    "years": "years",
+    "allAreas": "All Areas",
+    "specificAreas": "Specific Areas",
     "ui": {
       "search": "Search",
       "filter": "Filter",
@@ -38,7 +77,19 @@
       "comingSoon": "Coming Soon",
       "selectCountry": "Select country",
       "searchCountry": "Search country...",
-      "noCountryFound": "No country found."
+      "noCountryFound": "No country found.",
+      "selectState": "Select state",
+      "searchState": "Search state...",
+      "noStateFound": "No state found.",
+      "selectCity": "Select city",
+      "searchCity": "Search city...",
+      "noCityFound": "No city found.",
+      "selectCountryFirst": "Select a country first",
+      "selectStateFirst": "Select a state first",
+      "loadingStates": "Loading states...",
+      "loadingCities": "Loading cities...",
+      "noStatesAvailable": "No states available",
+      "noCitiesAvailable": "No cities available"
     },
     "days": "days",
     "error": "Error",
@@ -288,7 +339,7 @@
     "noAccount": "Don't have an account?",
     "forgotPassword": "Forgot password?",
     "resendCode": "Resend code",
-
+    "continue": "Continue",
     "passwordReset": {
       "sentPasswordReset": "We've sent a password reset link to",
       "checkEmail": "Check Your Email",
@@ -358,10 +409,23 @@
       "thirdParty": "Continue with Google"
     },
 
+    "groupSelector": {
+      "title": "Choose Your Category",
+      "description": "Select whether you're looking for services or providing services",
+      "serviceSeeker": "Service Seeker",
+      "serviceProvider": "Service Provider",
+      "serviceSeekerDescription": "I need services for my project",
+      "serviceProviderDescription": "I provide services to clients",
+      "selectGroup": "Select Category",
+      "continueWithGroup": "Continue as {group}"
+    },
     "roleSelection": {
-      "description": "Choose your role to continue",
+      "title": "Your Journey Starts With a Role",
+      "description": "At LAD, we connect seekers, providers, and innovators. Choose the role that reflects who you are, and we’ll craft a unique path to help you achieve your goals.",
+
       "serviceSeeker": "Client",
       "serviceProvider": "Service Provider",
+      "selectRole": "Select Role",
       "or": "or",
       "haveAccount": "Already have an account?"
     },
@@ -622,12 +686,16 @@
     "navigation": {
       "dashboard": "Dashboard",
       "projects": "My Projects",
-      "offers": "Received Offers",
+      "offers": " Received Offers",
+      "myOffers": "My Offers",
+      "browseProjects": "Browse Projects",
       "contracts": "Active Contracts",
       "payments": "Payments & Invoices",
       "materials": "Request Building Materials",
       "messages": "Messages",
       "reviews": "Reviews",
+      "profile": "Profile",
+      "manageProducts": "Manage Products",
       "settings": "Settings"
     },
     "individual": {
@@ -664,14 +732,127 @@
 
   "profile": {
     "title": "Profile",
+    "editProfile": "Edit Profile",
+    "sidebar": {
+      "general": "General",
+      "personalInfo": "Personal Info",
+      "documents": "Documents",
+      "projects": "Achieved Projects",
+      "operational": "Operational & Technical Details",
+      "professionalInfo": "Professional Info"
+    },
     "tabs": {
-      "overview": "Overview",
-      "personal": "Personal Info",
+      "personalData": "Personal Info",
       "documents": "Documents & Verification",
-      "professional": "Professional Info",
-      "technical": "Technical Info",
-      "security": "Security",
-      "settings": "Settings"
+      "projects": "Achieved Projects",
+      "operational": "Operational & Technical Details",
+      "professionalInfo": "Professional Info",
+      "fields": {
+        "fullName": "Full Name",
+        "phoneNumber": "Phone Number",
+        "email": "Email",
+        "role": "Role",
+        "nationalId": "National ID",
+        "country": "Country",
+        "state": "State",
+        "city": "City",
+        "address": "Address",
+        "aboutMe": "About Me",
+        "companyName": "Company Name"
+      },
+      "notProvided": "Not provided",
+      "defaultRole": "Individual",
+      "noPersonalData": "No personal data available",
+      "errorTitle": "Error Loading Content",
+      "defaultUser": "User",
+      "noDocuments": "No documents uploaded",
+      "uploadDocumentsDescription": "Upload your documents to get started",
+      "documentsManagedElsewhere": "Documents are managed in a separate section. This is a summary view only.",
+      "uploadDocuments": "Upload Documents",
+      "loadError": "Failed to load content. Please try again."
+    },
+    "achievedProjects": {
+      "title": "Achieved Projects",
+      "description": "Showcase your completed projects and achievements",
+      "editProjectDescription": "Add details about your completed project to showcase your expertise",
+      "empty": {
+        "title": "No Projects Yet",
+        "description": "Start building your portfolio by adding your completed projects"
+      },
+      "addProject": "Add Project",
+      "editProject": "Edit Project",
+      "formDescription": "Add details about your completed project to showcase your expertise",
+      "projectNameEn": "Project Name (English)",
+      "projectNameAr": "Project Name (Arabic)",
+      "descriptionEn": "Description (English)",
+      "descriptionAr": "Description (Arabic)",
+      "projectType": "Project Type",
+      "projectTypes": "Project Types",
+      "projectInformation": "Project Information",
+      "projectInformationDescription": "Basic details about your completed project",
+      "country": "Country",
+      "state": "State",
+      "city": "City",
+      "specificLocation": "Specific Location",
+      "projectDates": "Project Dates",
+      "startDate": "Start Date",
+      "endDate": "End Date",
+      "executionDate": "Execution Date",
+      "projectValue": "Project Value",
+      "currency": "Currency",
+      "projectFeatures": "Project Features",
+      "challenges": "Challenges Faced",
+      "solutions": "Solutions Provided",
+      "projectImages": "Project Images",
+      "imageCount": "{count} image(s)",
+      "newImages": "New Images",
+      "existingImages": "Existing Images",
+      "placeholders": {
+        "projectNameEn": "Enter project name in English",
+        "projectNameAr": "Enter project name in Arabic",
+        "descriptionEn": "Describe the project in English",
+        "descriptionAr": "Describe the project in Arabic",
+        "selectProjectType": "Select project type",
+        "selectCountry": "Select country",
+        "selectState": "Select state",
+        "selectCity": "Select city",
+        "specificLocation": "Enter specific location",
+        "projectValue": "Enter project value",
+        "selectCurrency": "Select currency",
+        "addFeature": "Add a project feature",
+        "challenges": "Describe challenges faced",
+        "solutions": "Describe solutions provided"
+      },
+      "deleteConfirmation": {
+        "title": "Confirm Delete",
+        "message": "Are you sure you want to delete this project?"
+      },
+      "actions": {
+        "addProject": "Add Project",
+        "addProjectType": "Add Project Type",
+        "createSuccess": "Project created successfully",
+        "updateSuccess": "Project updated successfully",
+        "deleteSuccess": "Project deleted successfully",
+        "deleteError": "Failed to delete project",
+        "submitError": "Failed to submit project",
+        "loadMore": "Load More",
+        "confirmDelete": "Are you sure you want to delete this project?"
+      },
+      "validation": {
+        "required": "This field is required",
+        "maxLength": "Maximum 255 characters allowed",
+        "maxItems": "Maximum 20 items allowed",
+        "positive": "Must be a positive number",
+        "dateFormat": "Please enter a valid date (YYYY-MM-DD)",
+        "currencyCode": "Must be a 3-letter currency code",
+        "minValue": "Minimum value is 1",
+        "fileSize": "File size must be less than 8MB",
+        "fileType": "Only JPEG, PNG, WebP files are allowed",
+        "dateRange": "Start date must be before end date",
+        "maxImages": "Maximum 10 images allowed"
+      },
+      "clickToUploadImages": "Click to upload images",
+      "imageUploadHelp": "Max 8MB per image • JPEG, PNG, WebP"
     },
     "overview": {
       "title": "Profile Overview",
@@ -685,32 +866,114 @@
       "personalInfo": {
         "title": "Personal Information",
         "description": "Update your basic information and contact details",
-        "fullName": "Full Name",
+        "firstName": "First Name",
+        "lastName": "Last Name",
         "email": "Email",
         "phoneNumber": "Phone Number",
-        "nationalId": "National ID"
+        "nationalId": "National ID",
+        "country": "Country",
+        "city": "City",
+        "state": "State",
+        "detailedAddress": "Detailed Address",
+        "aboutMe": "About Me",
+        "success": "Personal information updated successfully",
+        "noChanges": "No changes to save",
+        "error": "An error occurred"
       }
     },
     "organization": {
       "personalInfo": {
         "title": "Organization Information",
         "description": "Update your organization information and contact details",
-        "organizationName": "Organization Name",
-        "authorizedPersonName": "Authorized Person Name",
-        "email": "Email",
-        "phoneNumber": "Phone Number"
+        "companyName": "Company Name",
+        "commercialRegisterNumber": "Commercial Register Number",
+        "representativeName": "Representative Name",
+        "representativePhone": "Representative Phone",
+        "representativeEmail": "Representative Email",
+        "hasGovernmentAccreditation": "Has Government Accreditation",
+        "detailedAddress": "Detailed Address",
+        "vatNumber": "VAT Number",
+        "aboutUs": "About Us",
+        "country": "Country",
+        "state": "State",
+        "city": "City",
+        "representativeIdImage": "Representative ID Image",
+        "fileSelected": "File Selected",
+        "noChanges": "No changes to save",
+        "success": "Organization information updated successfully"
       }
     },
-    "freelance_engineer": {
+    "freelanceEngineer": {
       "personalInfo": {
         "title": "Freelance Engineer Information",
         "description": "Update your freelance engineer information and contact details",
         "fullName": "Full Name",
-        "email": "Email",
-        "phoneNumber": "Phone Number"
+        "nationalId": "National ID",
+        "engineersAssociationNumber": "Engineers Association Number",
+        "engineeringType": "Engineering Type",
+        "experienceYearsRange": "Experience Years Range",
+        "isAssociatedWithOffice": "Is Associated with Office",
+        "associatedOfficeName": "Associated Office Name",
+        "country": "Country",
+        "state": "State",
+        "city": "City",
+        "aboutMe": "About Me",
+        "noChanges": "No changes to save",
+        "success": "Freelance engineer information updated successfully"
+      },
+      "professionalInfo": {
+        "title": "Professional Information",
+        "description": "Update your professional skills, specializations, and experience",
+        "basicInformation": "Basic Information",
+        "experienceYearsRange": "Experience Years Range",
+        "isAssociatedWithOffice": "Is Associated with Office",
+        "associatedOfficeName": "Associated Office Name",
+        "specializations": "Specializations",
+        "geographicalCoverage": "Geographical Coverage",
+        "experiences": "Experiences",
+        "addSpecialization": "Add Specialization",
+        "addCoverage": "Add Coverage",
+        "addExperience": "Add Experience",
+        "specialization": "Specialization",
+        "coverage": "Coverage",
+        "experience": "Experience",
+        "engineeringSpecialization": "Engineering Specialization",
+        "otherSpecialization": "Other Specialization",
+        "specializationNotes": "Specialization Notes",
+        "expertiseLevel": "Expertise Level",
+        "primary": "Primary",
+        "setPrimary": "Set as Primary",
+        "city": "City",
+        "notes": "Notes",
+        "noSpecializations": "No specializations added yet",
+        "addFirstSpecialization": "Click 'Add Specialization' to get started",
+        "noGeographicalCoverage": "No geographical coverage added yet",
+        "addFirstCoverage": "Click 'Add Coverage' to get started",
+        "noExperiences": "No experiences added yet",
+        "addFirstExperience": "Click 'Add Experience' to get started",
+        "loading": "Loading...",
+        "saving": "Saving...",
+        "saveChanges": "Save Changes",
+        "success": {
+          "updateSuccess": "Professional information updated successfully"
+        },
+        "errors": {
+          "validationFailed": "Please fix the validation errors before saving",
+          "updateFailed": "Failed to update professional information"
+        },
+        "placeholders": {
+          "selectExperienceRange": "Select experience range",
+          "selectSpecialization": "Select specialization",
+          "selectExpertiseLevel": "Select expertise level",
+          "selectCity": "Select city",
+          "enterOfficeName": "Enter office name",
+          "otherSpecialization": "Other specialization",
+          "specializationNotes": "Additional notes about this specialization",
+          "coverageNotes": "Additional notes about this coverage area"
+        }
       }
     },
-    "engineering_office": {
+    "engineeringOffice": {
       "personalInfo": {
         "title": "Engineering Office Information",
         "description": "Update your engineering office information and contact details",
@@ -718,7 +981,81 @@
         "authorizedPersonName": "Authorized Person Name",
         "email": "Email",
         "phoneNumber": "Phone Number",
-        "professionalLicenseNumber": "Professional License Number"
+        "professionalLicenseNumber": "Professional License Number",
+        "engineeringType": "Engineering Type",
+        "country": "Country",
+        "state": "State",
+        "city": "City",
+        "aboutUs": "About Us",
+        "delegationForm": "Delegation Form",
+        "noChanges": "No changes to save",
+        "success": "Engineering office information updated successfully",
+        "validationErrors": {
+          "selectLocation": "Please select country, state, and city",
+          "selectEngineeringType": "Please select an engineering type"
+        }
+      },
+      "professionalInfo": {
+        "title": "Professional Information",
+        "description": "Update your engineering office professional details and capabilities",
+        "basicInformation": "Basic Information",
+        "experienceYearsRange": "Experience Years Range",
+        "staffSizeRange": "Staff Size Range",
+        "annualProjectsRange": "Annual Projects Range",
+        "hasGovernmentAccreditation": "Has Government Accreditation",
+        "classificationFile": "Classification File",
+        "customName": "Custom Name",
+        "descriptionText": "Description",
+        "expiryDate": "Expiry Date",
+        "specializations": "Specializations",
+        "geographicalCoverage": "Geographical Coverage",
+        "addSpecialization": "Add Specialization",
+        "addCoverage": "Add Coverage",
+        "specialization": "Specialization",
+        "coverage": "Coverage",
+        "engineeringSpecialization": "Engineering Specialization",
+        "otherSpecialization": "Other Specialization",
+        "specializationNotes": "Specialization Notes",
+        "isPrimarySpecialization": "Is Primary Specialization",
+        "expertiseLevel": "Expertise Level",
+        "expertiseLevels": {
+          "beginner": "Beginner",
+          "intermediate": "Intermediate",
+          "advanced": "Advanced",
+          "expert": "Expert"
+        },
+        "country": "Country",
+        "state": "State",
+        "city": "City",
+        "notes": "Notes",
+        "selectedFile": "Selected File",
+        "noSpecializations": "No specializations added yet",
+        "noGeographicalCoverage": "No geographical coverage added yet",
+        "loading": "Loading...",
+        "saving": "Saving...",
+        "saveChanges": "Save Changes",
+        "success": {
+          "updateSuccess": "Professional information updated successfully"
+        },
+        "errors": {
+          "validationFailed": "Please fix the validation errors before saving",
+          "updateFailed": "Failed to update professional information"
+        },
+        "placeholders": {
+          "selectExperienceRange": "Select experience range",
+          "selectStaffSizeRange": "Select staff size range",
+          "selectAnnualProjectsRange": "Select annual projects range",
+          "selectSpecialization": "Select specialization",
+          "selectExpertiseLevel": "Select expertise level",
+          "selectCountry": "Select country",
+          "selectState": "Select state",
+          "selectCity": "Select city",
+          "enterCustomName": "Enter custom name",
+          "enterDescription": "Enter description",
+          "enterOtherSpecialization": "Enter other specialization",
+          "enterSpecializationNotes": "Enter specialization notes",
+          "enterNotes": "Enter notes"
+        }
       }
     },
     "contractor": {
@@ -743,11 +1080,64 @@
       "personalInfo": {
         "title": "Supplier Information",
         "description": "Update your supplier information and contact details",
-        "commercialEstablishmentName": "Commercial Establishment Name",
+        "companyName": "Company Name",
+        "commercialRegistrationNumber": "Commercial Registration Number",
         "authorizedPersonName": "Authorized Person Name",
-        "email": "Email",
         "phoneNumber": "Phone Number",
-        "commercialRegistrationNumber": "Commercial Registration Number"
+        "email": "Email",
+        "country": "Country",
+        "state": "State",
+        "city": "City",
+        "delegationForm": "Delegation Form",
+        "companyLogo": "Company Logo",
+        "noChanges": "No changes to save",
+        "success": "Information updated successfully",
+        "error": "Failed to update information"
+      },
+      "professionalInfo": {
+        "title": "Professional Information",
+        "description": "Update your supplier professional details and capabilities",
+        "basicInformation": "Basic Information",
+        "experienceYearsRange": "Experience Years Range",
+        "hasGovernmentAccreditation": "Has Government Accreditation",
+        "classificationFile": "Classification File",
+        "workFields": "Work Fields",
+        "geographicalCoverage": "Geographical Coverage",
+        "addWorkField": "Add Work Field",
+        "addCoverage": "Add Coverage",
+        "workField": "Work Field",
+        "coverage": "Coverage",
+        "workFieldType": "Work Field Type",
+        "fieldSpecificNotes": "Field Specific Notes",
+        "city": "City",
+        "coversAllAreas": "Covers All Areas",
+        "priority": "Priority",
+        "priorities": {
+          "high": "High",
+          "medium": "Medium",
+          "low": "Low"
+        },
+        "notes": "Notes",
+        "selectedFile": "Selected File",
+        "noWorkFields": "No work fields added yet",
+        "noGeographicalCoverage": "No geographical coverage added yet",
+        "loading": "Loading...",
+        "saving": "Saving...",
+        "saveChanges": "Save Changes",
+        "success": {
+          "updateSuccess": "Professional information updated successfully"
+        },
+        "errors": {
+          "validationFailed": "Please fix the validation errors before saving",
+          "updateFailed": "Failed to update professional information"
+        },
+        "placeholders": {
+          "selectExperienceRange": "Select experience range",
+          "selectWorkField": "Select work field",
+          "enterFieldNotes": "Enter field specific notes",
+          "enterCityId": "Enter city ID",
+          "enterNotes": "Enter notes"
+        }
       }
     },
     "documents": {
@@ -759,6 +1149,10 @@
         "pending": "Pending",
         "verified": "Verified",
         "rejected": "Rejected"
+      },
+      "empty": {
+        "title": "No Documents",
+        "description": "No documents have been uploaded yet"
       },
       "upload": {
         "title": "Document Upload",
@@ -857,8 +1251,15 @@
           "uploadSuccess": "File uploaded successfully!",
           "uploadError": "Failed to upload file",
           "removeSuccess": "File removed successfully",
-          "removeError": "Failed to remove file"
-        }
+          "removeError": "Failed to remove file",
+          "metadataErrors": "Please fix metadata errors before uploading"
+        },
+        "validation": {
+          "dateFormat": "Date must be in YYYY-MM-DD format",
+          "invalidDate": "Please enter a valid date",
+          "pastDate": "Expiry date cannot be in the past"
+        },
+        "fixMetadataErrors": "Fix metadata errors first"
       }
     },
     "professional": {
@@ -966,6 +1367,9 @@
       "saving": "Saving...",
       "loading": "Loading operational data...",
       "retry": "Retry",
+      "success": {
+        "updateSuccess": "Operational information updated successfully"
+      },
       "sections": {
         "projectInfo": {
           "title": "Project Information",
@@ -1003,6 +1407,30 @@
           "coversAllAreas": "Covers All Areas",
           "addOperationalCoverage": "Add Operational Coverage",
           "addContractorCoverage": "Add Contractor Coverage"
+        },
+        "projectInformation": {
+          "title": "Project Information",
+          "executedProjectRange": "Executed Project Range",
+          "staffSizeRange": "Staff Size Range",
+          "experienceYearsRange": "Experience Years Range",
+          "annualProjectsRange": "Annual Projects Range"
+        },
+        "classificationAccreditation": {
+          "title": "Classification & Accreditation",
+          "classificationLevel": "Classification Level",
+          "governmentAccreditation": "Government Accreditation"
+        },
+        "targetProjectValues": {
+          "title": "Target Project Values"
+        },
+        "regionalCoverage": {
+          "title": "Regional Coverage",
+          "coversAllRegions": "Covers All Regions",
+          "specificRegions": "Specific Regions"
+        },
+        "empty": {
+          "title": "No Operational Information",
+          "description": "Operational information has not been provided yet."
         }
       },
       "placeholders": {
@@ -1016,7 +1444,16 @@
       "errors": {
         "updateFailed": "Failed to update operational profile. Please try again.",
         "fixErrors": "Please fix the following errors:",
-        "invalidValue": "Invalid value"
+        "invalidValue": "Invalid value",
+        "validationFailed": "Please fix validation errors before saving",
+        "validationErrors": "Validation Errors"
+      },
+      "fileUpload": {
+        "clickToUpload": "Click to upload classification file",
+        "fileSize": "PDF, JPG, JPEG, PNG, WEBP (max 8MB)",
+        "remove": "Remove",
+        "fileSizeError": "File size must be less than 8MB",
+        "fileTypeError": "Only PDF, JPG, JPEG, PNG, WEBP files are allowed"
       }
     },
     "completion": {
@@ -1207,7 +1644,8 @@
     "validation": {
       "firstName": {
         "required": "First name is required",
-        "minLength": "First name must be at least 2 characters"
+        "minLength": "First name must be at least 2 characters",
+        "maxLength": "First name must not exceed 255 characters"
       },
       "lastName": {
         "required": "Last name is required",
@@ -1215,7 +1653,8 @@
       },
       "email": {
         "required": "Email is required",
-        "invalid": "Please enter a valid email address"
+        "invalid": "Please enter a valid email address",
+        "maxLength": "Email must not exceed 255 characters"
       },
       "phoneNumber": {
         "required": "Phone number is required",
@@ -1237,7 +1676,36 @@
         "required": "You must accept the terms and conditions"
       },
       "nationalId": {
-        "minLength": "National ID must be at least 10 digits"
+        "required": "National ID is required",
+        "minLength": "National ID must be at least 10 digits",
+        "maxLength": "National ID must not exceed 20 characters"
+      },
+      "engineersAssociationNumber": {
+        "required": "Engineers association number is required",
+        "maxLength": "Engineers association number must not exceed 50 characters"
+      },
+      "aboutMe": {
+        "required": "About me is required",
+        "maxLength": "About me must not exceed 1000 characters"
+      },
+      "engineeringType": {
+        "required": "Engineering type is required"
+      },
+      "experienceYearsRange": {
+        "required": "Experience years range is required"
+      },
+      "associatedOfficeName": {
+        "required": "Office name is required when associated with office",
+        "maxLength": "Associated office name must not exceed 255 characters"
+      },
+      "countryId": {
+        "required": "Country is required"
+      },
+      "stateId": {
+        "required": "State is required"
+      },
+      "cityId": {
+        "required": "City is required"
       },
       "otp": {
         "length": "OTP must be 6 digits"
@@ -1246,27 +1714,93 @@
         "required": "Organization name is required"
       },
       "officeName": {
-        "required": "Engineering office name is required"
+        "required": "Engineering office name is required",
+        "maxLength": "Office name must not exceed 255 characters"
       },
       "professionalLicenseNumber": {
         "required": "Professional license number is required"
       },
       "companyName": {
-        "required": "Company name is required"
+        "required": "Company name is required",
+        "maxLength": "Company name must not exceed 255 characters"
       },
       "commercialRegistrationNumber": {
-        "required": "Commercial registration number is required"
+        "required": "Commercial registration number is required",
+        "maxLength": "Commercial registration number must not exceed 50 characters"
+      },
+      "authorizedPersonName": {
+        "required": "Authorized person name is required",
+        "minLength": "Authorized person name must be at least 2 characters",
+        "maxLength": "Authorized person name must not exceed 255 characters"
+      },
+      "authorizedPersonPhoneNumber": {
+        "required": "Authorized person phone number is required",
+        "minLength": "Please enter a valid phone number",
+        "maxLength": "Phone number must not exceed 20 characters"
+      },
+      "detailedAddress": {
+        "required": "Detailed address is required",
+        "maxLength": "Detailed address must not exceed 500 characters"
+      },
+      "vatNumber": {
+        "required": "VAT number is required",
+        "maxLength": "VAT number must not exceed 20 characters"
+      },
+      "aboutUs": {
+        "required": "About us is required",
+        "maxLength": "About us must not exceed 1000 characters"
       },
       "commercialEstablishmentName": {
         "required": "Commercial establishment name is required"
       },
-      "authorizedPersonName": {
-        "required": "Authorized person name is required",
-        "minLength": "Authorized person name must be at least 2 characters"
+      "contractorOperational": {
+        "executedProjectRange": {
+          "required": "Executed project range is required"
+        },
+        "staffSizeRange": {
+          "required": "Staff size range is required"
+        },
+        "experienceYearsRange": {
+          "required": "Experience years range is required"
+        },
+        "annualProjectsRange": {
+          "required": "Annual projects range is required"
+        },
+        "targetProjectValueRanges": {
+          "required": "At least one target project value range is required"
+        },
+        "workFields": {
+          "required": "At least one work field is required",
+          "yearsOfExperience": "Years of experience must be at least 1"
+        },
+        "operationalGeographicalCoverage": {
+          "required": "At least one geographical coverage area is required",
+          "countryRequired": "Country is required",
+          "stateRequired": "State is required",
+          "cityRequired": "City is required"
+        },
+        "contractorGeographicCoverages": {
+          "required": "At least one contractor geographic coverage is required",
+          "countryRequired": "Country is required",
+          "stateRequired": "State is required",
+          "cityRequired": "City is required"
+        },
+        "hasGovernmentAccreditation": {
+          "required": "Government accreditation status is required"
+        },
+        "coversAllRegions": {
+          "required": "Covers all regions status is required"
+        }
       },
-      "authorizedPersonPhoneNumber": {
-        "required": "Authorized person mobile number is required",
-        "minLength": "Please enter a valid mobile number"
+
+      "delegationForm": {
+        "required": "Delegation form is required"
+      },
+      "avatar": {
+        "required": "Company logo is required"
+      },
+      "representativeIdImage": {
+        "required": "Representative ID image is required"
       },
       "engineeringSpecialization": {
         "required": "Please select at least one engineering specialization"
@@ -1286,6 +1820,15 @@
       "officeSpecializations": {
         "required": "Please select at least one office specialization"
       },
+      "staffSizeRange": {
+        "required": "Staff size range is required"
+      },
+      "annualProjectsRange": {
+        "required": "Annual projects range is required"
+      },
+      "classificationFile": {
+        "required": "Classification file is required"
+      },
       "numberOfEmployees": {
         "required": "Number of employees is required"
       },
@@ -1294,6 +1837,10 @@
       },
       "geographicCoverage": {
         "required": "Please select at least one geographic coverage area"
+      },
+      "geographicalCoverage": {
+        "required": "At least one geographical coverage area is required",
+        "cityRequired": "City is required for geographical coverage"
       },
       "officialAccreditations": {
         "required": "Official accreditations status is required"

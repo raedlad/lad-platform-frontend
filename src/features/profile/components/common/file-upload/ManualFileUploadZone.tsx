@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/shared/components/ui/textarea";
+import { DatePicker } from "@/components/ui/date-picker";
 import { useTranslations } from "next-intl";
 import toast from "react-hot-toast";
 import {
@@ -72,6 +73,11 @@ interface FileItem {
     description: string;
     expiryDate: string;
   };
+  metadataErrors?: {
+    customName?: string;
+    description?: string;
+    expiryDate?: string;
+  };
 }
 
 /**
@@ -122,6 +128,37 @@ const ManualFileUploadZone: React.FC<ManualFileUploadZoneProps> = ({
     }
 
     return <File className="w-4 h-4 text-gray-500" />;
+  };
+
+  const validateDate = (dateString: string): string | null => {
+    if (!dateString.trim()) {
+      return null; // Empty date is allowed
+    }
+
+    // Check if the date string matches YYYY-MM-DD format
+    const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+    if (!dateRegex.test(dateString)) {
+      return t("validation.dateFormat");
+    }
+
+    // Parse the date
+    const date = new Date(dateString);
+
+    // Check if it's a valid date
+    if (isNaN(date.getTime())) {
+      return t("validation.invalidDate");
+    }
+
+    // Check if the date is in the past
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Reset time to start of day for fair comparison
+    date.setHours(0, 0, 0, 0);
+
+    if (date < today) {
+      return t("validation.pastDate");
+    }
+
+    return null;
   };
 
   const validateFile = (file: File): string | null => {
@@ -182,6 +219,7 @@ const ManualFileUploadZone: React.FC<ManualFileUploadZoneProps> = ({
             description: "",
             expiryDate: "",
           },
+          metadataErrors: {},
         };
 
         // Create preview for images
@@ -226,9 +264,29 @@ const ManualFileUploadZone: React.FC<ManualFileUploadZoneProps> = ({
     metadata: Partial<FileItem["metadata"]>
   ) => {
     setFileItems((prev) =>
-      prev.map((f) =>
-        f.id === fileId ? { ...f, metadata: { ...f.metadata, ...metadata } } : f
-      )
+      prev.map((f) => {
+        if (f.id === fileId) {
+          const updatedMetadata = { ...f.metadata, ...metadata };
+          const updatedMetadataErrors = { ...f.metadataErrors };
+
+          // Validate expiry date if it's being updated
+          if (metadata.expiryDate !== undefined) {
+            const dateError = validateDate(metadata.expiryDate);
+            if (dateError) {
+              updatedMetadataErrors.expiryDate = dateError;
+            } else {
+              delete updatedMetadataErrors.expiryDate;
+            }
+          }
+
+          return {
+            ...f,
+            metadata: updatedMetadata,
+            metadataErrors: updatedMetadataErrors,
+          };
+        }
+        return f;
+      })
     );
   };
 
@@ -240,6 +298,19 @@ const ManualFileUploadZone: React.FC<ManualFileUploadZoneProps> = ({
 
   const uploadSingleFile = async (fileItem: FileItem) => {
     if (fileItem.isUploading || fileItem.isUploaded) return;
+
+    // Check for metadata errors before uploading
+    const hasMetadataErrors =
+      fileItem.metadataErrors &&
+      Object.values(fileItem.metadataErrors).some((error) => error);
+
+    if (hasMetadataErrors) {
+      toast.error(t("toast.metadataErrors"), {
+        duration: 4000,
+        position: "top-right",
+      });
+      return;
+    }
 
     // Set uploading state and clear any previous error
     setFileItems((prev) =>
@@ -504,12 +575,24 @@ const ManualFileUploadZone: React.FC<ManualFileUploadZoneProps> = ({
                     {/* Upload Button */}
                     {!fileItem.isUploaded && (
                       <Button
-                        variant={fileItem.error ? "destructive" : "primary"}
+                        variant={
+                          fileItem.error || fileItem.metadataErrors?.expiryDate
+                            ? "destructive"
+                            : "primary"
+                        }
                         size="sm"
                         onClick={() => uploadSingleFile(fileItem)}
                         className="h-8 px-3 text-xs"
+                        disabled={
+                          fileItem.isUploading ||
+                          !!fileItem.metadataErrors?.expiryDate
+                        }
                         title={
-                          fileItem.error ? t("retryUpload") : t("uploadFile")
+                          fileItem.error
+                            ? t("retryUpload")
+                            : fileItem.metadataErrors?.expiryDate
+                            ? t("fixMetadataErrors")
+                            : t("uploadFile")
                         }
                       >
                         {fileItem.error ? (
@@ -585,21 +668,37 @@ const ManualFileUploadZone: React.FC<ManualFileUploadZoneProps> = ({
 
                     {/* Expiry Date */}
                     <div>
-                      <label className="text-xs font-medium text-muted-foreground mb-1 flex items-center gap-1">
+                      <label
+                        htmlFor={`expiry-date-${fileItem.id}`}
+                        className="text-xs font-medium text-muted-foreground mb-1 flex items-center gap-1"
+                      >
                         <Calendar className="w-3 h-3" />
                         {t("expiryDate")}
                       </label>
-                      <Input
-                        type="date"
+                      <DatePicker
+                        id={`expiry-date-${fileItem.id}`}
                         value={fileItem.metadata.expiryDate}
-                        onChange={(e) =>
+                        onChange={(value) =>
                           updateFileItemMetadata(fileItem.id, {
-                            expiryDate: e.target.value,
+                            expiryDate: value,
                           })
                         }
-                        className="text-sm"
+                        placeholder={"YYYY-MM-DD"}
                         disabled={fileItem.isUploaded}
+                        className={cn(
+                          "text-sm",
+                          fileItem.metadataErrors?.expiryDate &&
+                            "border-destructive"
+                        )}
                       />
+                      {fileItem.metadataErrors?.expiryDate && (
+                        <div className="flex items-center gap-1 mt-1">
+                          <AlertCircle className="w-3 h-3 text-destructive" />
+                          <p className="text-xs text-destructive">
+                            {fileItem.metadataErrors.expiryDate}
+                          </p>
+                        </div>
+                      )}
                     </div>
                   </div>
                 )}

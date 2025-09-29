@@ -177,9 +177,6 @@ const RoleSelectorForm = ({
 
         <div className="auth-form-content">
           <div className="form-field-group">
-            <h3 className="heading-subsection">
-              {t("roleSelection.serviceSeeker")}
-            </h3>
             <div className="grid-auto-fit">
               {serviceSeekerRoles.map((role) => renderUserRoleCard(role))}
             </div>
@@ -195,10 +192,7 @@ const RoleSelectorForm = ({
           </div>
 
           <div className="form-field-group">
-            <h3 className="heading-subsection">
-              {t("roleSelection.serviceProvider")}
-            </h3>
-            <div className="grid-responsive-2">
+              <div className="grid-responsive-2">
               {serviceProviderRoles.map((role) => renderUserRoleCard(role))}
             </div>
           </div>

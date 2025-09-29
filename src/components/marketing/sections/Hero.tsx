@@ -76,7 +76,7 @@ export default function HeroSection() {
                   }}
                 >
                   <div></div>
-                  <Link href="/" className="block">
+                  <Link href="/signup" className="block">
                     <MovingBorderButton className="text-lg">
                       <span className="flex items-center gap-2">
                         {t("createAccount")}

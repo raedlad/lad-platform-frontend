@@ -6,102 +6,324 @@ export const createProfileValidationSchemas = (t: (key: string) => string) => {
   const messages = getProfileValidationMessages(t);
 
   const IndividualProfilePersonalInfoSchema = z.object({
-    fullName: z.string().min(2, messages.fullName.minLength),
-    phoneNumber: z.string().min(9, messages.phoneNumber.minLength), // Made optional for email/third-party
-    email: z
-      .string()
-      .email(messages.email.invalid)
-      .optional()
-      .or(z.literal("")),
-    nationalId: z
+    first_name: z.string().min(2, messages.firstName.minLength),
+    last_name: z.string().min(2, messages.lastName.minLength),
+    country_id: z.number().optional().nullable(),
+    state_id: z.number().optional().nullable(),
+    city_id: z.number().optional().nullable(),
+    national_id: z
       .string()
       .min(10, messages.nationalId.minLength)
       .optional()
       .or(z.literal("")),
+    detailed_address: z.string().optional(),
+    about_me: z.string().optional(),
   });
 
   const OrganizationPersonalInfoProfileSchema = z.object({
-    organizationName: z.string().min(2, messages.organizationName.required),
-    authorizedPersonName: z
+    company_name: z
       .string()
-      .min(2, messages.authorizedPersonName.minLength),
-    organizationEmail: z.string().email(messages.email.invalid).optional(),
-    authorizedPersonPhoneNumber: z
+      .min(1, messages.companyName.required)
+      .max(255, messages.companyName.maxLength),
+    commercial_register_number: z
       .string()
-      .min(9, messages.phoneNumber.minLength),
+      .min(1, messages.commercialRegistrationNumber.required)
+      .max(50, messages.commercialRegistrationNumber.maxLength),
+    representative_name: z
+      .string()
+      .min(1, messages.authorizedPersonName.required)
+      .max(255, messages.authorizedPersonName.maxLength),
+    representative_person_phone: z
+      .string()
+      .min(1, messages.authorizedPersonPhoneNumber.required)
+      .max(20, messages.authorizedPersonPhoneNumber.maxLength),
+    representative_person_email: z
+      .string()
+      .email(messages.email.invalid)
+      .min(1, messages.email.required)
+      .max(255, messages.email.maxLength),
+    has_government_accreditation: z.boolean(),
+    detailed_address: z
+      .string()
+      .min(1, messages.detailedAddress.required)
+      .max(500, messages.detailedAddress.maxLength),
+    vat_number: z
+      .string()
+      .min(1, messages.vatNumber.required)
+      .max(20, messages.vatNumber.maxLength),
+    about_us: z.string().max(1000, messages.aboutUs.maxLength).optional(),
+    country_id: z.number().min(1, messages.countryId.required),
+    state_id: z.number().min(1, messages.stateId.required),
+    city_id: z.number().min(1, messages.cityId.required),
+    representative_id_image: z.instanceof(File).optional(),
   });
 
-  const FreelanceEngineerPersonalInfoProfileSchema = z.object({
-    fullName: z.string().min(2, messages.fullName.minLength),
-    email: z.string().email(messages.email.invalid).optional(),
-    phoneNumber: z.string().min(9, messages.phoneNumber.minLength),
+  const FreelanceEngineerPersonalInfoProfileSchema = z
+    .object({
+      country_id: z.number().min(1, messages.countryId.required),
+      city_id: z.number().min(1, messages.cityId.required),
+      state_id: z.number().min(1, messages.stateId.required),
+      full_name: z
+        .string()
+        .min(1, messages.fullName.required)
+        .max(255, messages.fullName.maxLength),
+      national_id: z
+        .string()
+        .min(1, messages.nationalId.required)
+        .max(20, messages.nationalId.maxLength),
+      engineers_association_number: z
+        .string()
+        .min(1, messages.engineersAssociationNumber.required)
+        .max(50, messages.engineersAssociationNumber.maxLength),
+      about_me: z
+        .string()
+        .min(1, messages.aboutMe.required)
+        .max(1000, messages.aboutMe.maxLength),
+      engineering_type_id: z.number().min(1, messages.engineeringType.required),
+      experience_years_range_id: z
+        .number()
+        .min(1, messages.experienceYearsRange.required),
+      is_associated_with_office: z.boolean().optional(),
+      associated_office_name: z
+        .string()
+        .max(255, messages.associatedOfficeName.maxLength)
+        .optional(),
+    })
+    .refine(
+      (data) => {
+        // Only require office name if associated with office is true
+        if (data.is_associated_with_office === true) {
+          return (
+            data.associated_office_name &&
+            data.associated_office_name.trim().length > 0
+          );
+        }
+        return true;
+      },
+      {
+        message:
+          messages.associatedOfficeName.required ||
+          "Office name is required when associated with office",
+        path: ["associated_office_name"],
+      }
+    );
+
+  const FreelanceEngineerProfessionalInfoSchema = z.object({
+    experience_years_range_id: z.number().optional(),
+    is_associated_with_office: z.boolean().optional(),
+    associated_office_name: z.string().optional(),
+    specializations: z.array(
+      z.object({
+        engineering_specialization_id: z.number(),
+        other_specialization: z.string().optional(),
+        specialization_notes: z.string().optional(),
+        is_primary_specialization: z.boolean().optional(),
+        expertise_level: z
+          .enum(["beginner", "intermediate", "advanced", "expert"])
+          .optional(),
+      })
+    ),
+    geographical_coverage: z.array(
+      z.object({
+        country_code: z.string().min(1, "Country is required"),
+        state_id: z.string().min(1, "State is required"),
+        city_id: z.number(),
+        notes: z.string().optional(),
+      })
+    ),
+    experiences: z
+      .array(
+        z.object({
+          engineering_specialization_id: z.number().optional(),
+          other_specialization: z.string().optional(),
+        })
+      )
+      .optional(),
   });
 
   const EngineeringOfficePersonalInfoProfileSchema = z.object({
-    officeName: z.string().min(2, messages.officeName.required),
-    authorizedPersonName: z
+    country_id: z.number().min(1, messages.countryId.required).nullable(),
+    city_id: z.number().min(1, messages.cityId.required).nullable(),
+    state_id: z.number().min(1, messages.stateId.required).nullable(),
+    engineering_type_id: z
+      .number()
+      .min(1, messages.engineeringType.required)
+      .nullable(),
+    office_name: z
       .string()
-      .min(2, messages.authorizedPersonName.minLength),
-    email: z.string().email(messages.email.invalid).optional(),
-    authorizedPersonPhoneNumber: z
+      .min(1, messages.officeName.required)
+      .max(255, messages.officeName.maxLength),
+    license_number: z
       .string()
-      .min(9, messages.authorizedPersonPhoneNumber.minLength),
-    professionalLicenseNumber: z
+      .min(1, messages.professionalLicenseNumber.required)
+      .max(50, "License number is too long"),
+    authorized_person_name: z
       .string()
-      .min(1, messages.professionalLicenseNumber.required),
+      .min(1, messages.authorizedPersonName.required)
+      .max(255, messages.authorizedPersonName.maxLength),
+    authorized_person_phone: z
+      .string()
+      .min(1, messages.authorizedPersonPhoneNumber.required)
+      .max(20, messages.authorizedPersonPhoneNumber.maxLength),
+    representative_email: z
+      .string()
+      .email(messages.email.invalid)
+      .min(1, messages.email.required)
+      .max(255, messages.email.maxLength),
+    about_us: z
+      .string()
+      .min(1, messages.aboutUs.required)
+      .max(1000, messages.aboutUs.maxLength),
+    delegation_form: z
+      .any()
+      .refine((file) => file instanceof File && file.size > 0, {
+        message: messages.delegationForm.required,
+      }),
   });
 
+  const EngineeringOfficeProfessionalInfoSchema = z.object({
+    experience_years_range_id: z
+      .number()
+      .min(1, messages.experienceYearsRange.required),
+    staff_size_range_id: z.number().min(1, messages.staffSizeRange.required),
+    annual_projects_range_id: z
+      .number()
+      .min(1, messages.annualProjectsRange.required),
+    has_government_accreditation: z.boolean(),
+    classification_file: z
+      .any()
+      .refine((file) => file instanceof File && file.size > 0, {
+        message: messages.classificationFile.required,
+      })
+      .optional(),
+    custom_name: z.string().optional(),
+    description: z.string().optional(),
+    expiry_date: z.string().optional(),
+    specializations: z
+      .array(
+        z.object({
+          engineering_specialization_id: z.number(),
+          other_specialization: z.string().optional(),
+          specialization_notes: z.string().optional(),
+          is_primary_specialization: z.boolean().optional(),
+          expertise_level: z
+            .enum(["beginner", "intermediate", "advanced", "expert"])
+            .optional(),
+        })
+      )
+      .min(1, messages.officeSpecializations.required),
+    geographical_coverage: z
+      .array(
+        z.object({
+          country_code: z.string().min(1, messages.countryId.required),
+          state_id: z.string().min(1, messages.stateId.required),
+          city_id: z.number(),
+          notes: z.string().optional(),
+        })
+      )
+      .min(1, messages.geographicalCoverage.required),
+  });
   const ContractorPersonalInfoProfileSchema = z.object({
-    companyName: z.string().min(2, messages.companyName.required),
-    commercialRegistrationNumber: z
+    company_name: z.string().min(2, messages.companyName.required),
+    commercial_registration_number: z
       .string()
       .min(1, messages.commercialRegistrationNumber.required),
-    authorizedPersonName: z
+    authorized_person_name: z
       .string()
       .min(2, messages.authorizedPersonName.minLength),
-    email: z.string().email(messages.email.invalid),
-    authorizedPersonPhoneNumber: z
+    authorized_person_phone: z
       .string()
       .min(9, messages.authorizedPersonPhoneNumber.minLength),
-    representativeEmail: z.string().email(messages.email.invalid),
-    delegationForm: z
+    representative_email: z.string().email(messages.email.invalid),
+    delegation_form: z
       .any()
       .refine((file) => file instanceof File && file.size > 0, {
-        message: "Delegation form is required",
+        message: messages.delegationForm.required,
       }),
-    companyLogo: z
-      .any()
-      .refine((file) => file instanceof File && file.size > 0, {
-        message: "Company logo is required",
-      }),
-    country: z.string().optional(),
-    state: z.string().optional(),
-    city: z.string().optional(),
+    country_id: z.string().optional(),
+    state_id: z.string().optional(),
+    city_id: z.string().optional(),
   });
 
   const SupplierPersonalInfoProfileSchema = z.object({
-    commercialEstablishmentName: z
+    company_name: z
       .string()
-      .min(2, messages.commercialEstablishmentName.required),
-    authorizedPersonName: z
+      .min(1, messages.companyName.required)
+      .max(255, messages.companyName.maxLength),
+    commercial_registration_number: z
       .string()
-      .min(2, messages.authorizedPersonName.minLength),
-    email: z.string().email(messages.email.invalid).optional(),
-    authorizedPersonPhoneNumber: z
+      .min(1, messages.commercialRegistrationNumber.required)
+      .max(50, messages.commercialRegistrationNumber.maxLength),
+    authorized_person_name: z
       .string()
-      .min(9, messages.authorizedPersonPhoneNumber.minLength),
-    commercialRegistrationNumber: z
+      .min(1, messages.authorizedPersonName.required)
+      .max(255, messages.authorizedPersonName.maxLength),
+    authorized_person_phone: z
       .string()
-      .min(1, messages.commercialRegistrationNumber.required),
+      .min(1, messages.authorizedPersonPhoneNumber.required)
+      .max(20, messages.authorizedPersonPhoneNumber.maxLength),
+    representative_email: z
+      .string()
+      .email(messages.email.invalid)
+      .min(1, messages.email.required)
+      .max(255, messages.email.maxLength),
+    country_id: z.number().optional().nullable(),
+    city_id: z.number().optional().nullable(),
+    state_id: z.number().optional().nullable(),
+    delegation_form: z
+      .instanceof(File)
+      .refine((file) => file.size > 0, {
+        message: messages.delegationForm.required,
+      }),
+    avatar: z.instanceof(File).refine((file) => file.size > 0, {
+      message: messages.avatar.required,
+    }),
+  });
+
+  const SupplierProfessionalInfoSchema = z.object({
+    experience_years_range_id: z
+      .number()
+      .min(1, messages.experienceYearsRange.required),
+    classification_file: z
+      .instanceof(File)
+      .refine((file) => file.size > 0, {
+        message: messages.classificationFile.required,
+      })
+      .optional(),
+    has_government_accreditation: z.boolean(),
+    work_fields: z
+      .array(
+        z.object({
+          work_field_id: z.number().min(1, messages.workFields.required),
+          field_specific_notes: z.string().optional(),
+        })
+      )
+      .min(1, messages.workFields.required),
+    geographical_coverage: z
+      .array(
+        z.object({
+          city_id: z
+            .number()
+            .min(1, messages.geographicalCoverage.cityRequired),
+          covers_all_areas: z.boolean(),
+          specific_areas: z.array(z.string()).optional(),
+          priority: z.enum(["high", "medium", "low"]).optional(),
+          notes: z.string().optional(),
+        })
+      )
+      .min(1, messages.geographicalCoverage.required),
   });
 
   return {
     IndividualProfilePersonalInfoSchema,
     ContractorPersonalInfoProfileSchema,
     SupplierPersonalInfoProfileSchema,
+    SupplierProfessionalInfoSchema,
     OrganizationPersonalInfoProfileSchema,
     FreelanceEngineerPersonalInfoProfileSchema,
+    FreelanceEngineerProfessionalInfoSchema,
     EngineeringOfficePersonalInfoProfileSchema,
+    EngineeringOfficeProfessionalInfoSchema,
   };
 };
 export const IndividualProfileValidationSchema = z.object({
@@ -121,39 +343,7 @@ export const OrganizationDocumentUploadSchema = z.object({
   commercialRegistrationFile: z.instanceof(File).optional(),
 });
 
-// Freelance Engineer Profile - Professional Info + File Upload
-export const FreelanceEngineerProfessionalInfoSchema = z
-  .object({
-    engineeringSpecialization: z
-      .array(z.string())
-      .min(1, "Please select at least one specialization"),
-    yearsOfExperience: z.enum([
-      "More than 15 years",
-      "10-15 years",
-      "5-10 years",
-      "Less than 5 years",
-    ]),
-    typesOfExperience: z
-      .array(z.string())
-      .min(1, "Please select at least one type of experience"),
-    workLocations: z
-      .array(z.string())
-      .min(1, "Please select at least one work location"),
-    currentOfficeAffiliation: z.boolean(),
-    officeName: z.string().optional(),
-  })
-  .refine(
-    (data) => {
-      if (data.currentOfficeAffiliation && !data.officeName) {
-        return false;
-      }
-      return true;
-    },
-    {
-      message: "Office name is required if affiliated",
-      path: ["officeName"],
-    }
-  );
+// Legacy export for backward compatibility
 
 export const FreelanceEngineerDocumentUploadSchema = z.object({
   technicalCV: z.instanceof(File, { message: "Technical CV is required" }),
@@ -390,52 +580,83 @@ export const SupplierDocumentUploadSchema = z.object({
 });
 
 // Contractor Operational Information Schema
-export const ContractorOperationalSchema = z.object({
-  executed_project_range_id: z
-    .number()
-    .min(1, "Executed project range is required"),
-  staff_size_range_id: z.number().min(1, "Staff size range is required"),
-  experience_years_range_id: z
-    .number()
-    .min(1, "Experience years range is required"),
-  annual_projects_range_id: z
-    .number()
-    .min(1, "Annual projects range is required"),
-  classification_level_id: z.number().optional(),
-  classification_file: z.instanceof(File).optional(),
-  has_government_accreditation: z.boolean(),
-  covers_all_regions: z.boolean(),
-  target_project_value_range_ids: z
-    .array(z.number())
-    .min(1, "At least one target project value range is required"),
-  work_fields: z
-    .array(
-      z.object({
-        work_field_id: z.number(),
-        years_of_experience_in_field: z
-          .number()
-          .min(1, "Years of experience must be at least 1"),
-      })
-    )
-    .min(1, "At least one work field is required"),
-  operational_geographical_coverage: z
-    .array(
-      z.object({
-        country_code: z.string().min(1, "Country is required"),
-        state_id: z.string().optional(),
-        city_id: z.string().optional(),
-        covers_all_areas: z.boolean(),
-      })
-    )
-    .min(1, "At least one geographical coverage area is required"),
-  contractor_geographic_coverages: z
-    .array(
-      z.object({
-        country_code: z.string().min(1, "Country is required"),
-        state_id: z.string().optional(),
-        city_id: z.string().optional(),
-        covers_all_areas: z.boolean(),
-      })
-    )
-    .min(1, "At least one contractor geographic coverage is required"),
-});
+export const createContractorOperationalSchema = (
+  t: (key: string) => string
+) => {
+  const messages = getProfileValidationMessages(t);
+
+  return z.object({
+    executed_project_range_id: z
+      .number()
+      .min(1, messages.executedProjectRange.required),
+    staff_size_range_id: z.number().min(1, messages.staffSizeRange.required),
+    experience_years_range_id: z
+      .number()
+      .min(1, messages.experienceYearsRange.required),
+    annual_projects_range_id: z
+      .number()
+      .min(1, messages.annualProjectsRange.required),
+    classification_level_id: z.number().optional(),
+    classification_file: z.instanceof(File).optional(),
+    has_government_accreditation: z
+      .boolean()
+      .refine((val) => val !== null && val !== undefined, {
+        message: messages.hasGovernmentAccreditation.required,
+      }),
+    covers_all_regions: z
+      .boolean()
+      .refine((val) => val !== null && val !== undefined, {
+        message: messages.coversAllRegions.required,
+      }),
+    target_project_value_range_ids: z.array(z.number()).optional(), // Made optional as per API
+    work_fields: z
+      .array(
+        z.object({
+          work_field_id: z.number().min(1, messages.workFields.required),
+          years_of_experience_in_field: z
+            .number()
+            .min(1, messages.workFields.yearsOfExperience),
+        })
+      )
+      .min(1, messages.workFields.required),
+    operational_geographical_coverage: z
+      .array(
+        z.object({
+          country_code: z
+            .string()
+            .min(1, messages.operationalGeographicalCoverage.countryRequired),
+          state_id: z
+            .string()
+            .min(1, messages.operationalGeographicalCoverage.stateRequired),
+          city_id: z
+            .string()
+            .min(1, messages.operationalGeographicalCoverage.cityRequired),
+          covers_all_areas: z.boolean(),
+        })
+      )
+      .min(1, messages.operationalGeographicalCoverage.required),
+    contractor_geographic_coverages: z
+      .array(
+        z.object({
+          country_code: z
+            .string()
+            .min(1, messages.contractorGeographicCoverages.countryRequired),
+          state_id: z
+            .string()
+            .min(1, messages.contractorGeographicCoverages.stateRequired),
+          city_id: z
+            .string()
+            .min(1, messages.contractorGeographicCoverages.cityRequired),
+          covers_all_areas: z.boolean(),
+        })
+      )
+      .min(1, messages.contractorGeographicCoverages.required),
+  });
+};
+
+// Export the type for use in other files
+export type ContractorOperationalFormData = z.infer<
+  ReturnType<typeof createContractorOperationalSchema>
+>;
+
+// Legacy schema for backward compatibility

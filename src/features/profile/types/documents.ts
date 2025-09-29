@@ -6,6 +6,31 @@ export enum DocumentStatus {
   REJECTED = "rejected",
   EXPIRED = "expired",
 }
+export interface Document {
+  id: number;
+  name: string;
+  description: string | null;
+  original_filename: string;
+  file_path: string;
+  file_url: string;
+  download_url: string;
+  file_size: number;
+  formatted_file_size: string;
+  mime_type: string;
+  status: "verified" | "pending" | "rejected";
+  status_name: string;
+  admin_notes: string | null;
+  is_required: boolean;
+  expiry_date: string | null;
+  is_expired: boolean;
+  is_expiring_soon: boolean;
+  reviewed_at: string | null;
+  created_at: string;
+  updated_at: string;
+  type_name: string;
+  metadata: any | null;
+}
+
 
 export type Role =
   | "INDIVIDUAL"

@@ -74,10 +74,10 @@ const handleApiError = (error: any): never => {
 // Enhanced Documents Service
 export const documentsService = {
   // Fetch documents for a role - returns raw backend data
-  async fetchDocuments(role: string): Promise<any[]> {
+  async fetchDocuments(): Promise<any[]> {
     try {
       const response = await api.get(`general-user/require-documents`);
-      const result = handleApiResponse<ApiResponse<any[]>>(response);
+      const result = handleApiResponse<ApiResponse>(response);
 
       if (!result.response) {
         throw new ApiError("Failed to fetch documents", 400);

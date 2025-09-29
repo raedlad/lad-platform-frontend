@@ -143,6 +143,7 @@ export interface AuthResponse {
     phone: string;
     user_type: string;
     status: string;
+    avatar_url?: string;
     email_verified_at: string | null;
     phone_verified_at: string | null;
     account_overview: {
@@ -419,6 +420,13 @@ export interface AuthUser {
   email: string;
   phone: string;
   user_type: string;
+  country_id?: number;
+  city_id?: number;
+  state_id?: number;
+  national_id?: string;
+  detailed_address?: string;
+  about_me?: string;
+  avatar_url?: string;
   status: string;
   email_verified_at: string | null;
   phone_verified_at: string | null;

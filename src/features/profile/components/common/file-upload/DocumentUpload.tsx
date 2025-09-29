@@ -278,27 +278,6 @@ const DocumentUpload: React.FC<DocumentUploadProps> = ({
         ))}
       </div>
 
-      {/* Submit Button - Responsive */}
-      <Card>
-        <CardContent className="p-4">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <div className="text-sm text-muted-foreground">
-              {completed === total
-                ? t("allCompleted")
-                : t("remaining", { count: total - completed })}
-            </div>
-            <Button
-              onClick={handleSubmit}
-              disabled={completed < total}
-              className="min-w-[140px] w-full sm:w-auto"
-            >
-              {completed === total
-                ? t("submitDocuments")
-                : t("completeRequired")}
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
     </div>
   );
 };

@@ -9,6 +9,7 @@
       "previous": "السابق",
       "cancel": "إلغاء",
       "save": "حفظ",
+      "saving": "جاري الحفظ...",
       "edit": "تعديل",
       "delete": "حذف",
       "confirm": "تأكيد",
@@ -16,11 +17,42 @@
       "refresh": "تحديث",
       "download": "تحميل",
       "upload": "رفع",
+      "uploading": "جاري الرفع...",
+      "remove": "حذف",
+      "removing": "جاري الحذف",
       "select": "اختيار",
       "clear": "مسح",
-      "reset": "إعادة تعيين"
+      "reset": "إعادة تعيين",
+      "error": "حدث خطأ",
+      "noChanges": "لا توجد تغييرات للحفظ",
+      "create": "إنشاء",
+      "deleting": "جاري الحذف...",
+      "update": "تحديث",
+      "updating": "جاري التحديث...",
+      "retry": "إعادة المحاولة",
+      "retrying": "جاري إعادة المحاولة..."
+    },
+    "country": "الدولة",
+    "state": "المحافظة",
+    "city": "المدينة",
+    "fileErrors": {
+      "invalidFile": "يرجى اختيار ملف صورة صالح (JPEG، PNG، أو WebP)",
+      "maxSize": "حجم الملف يجب أن يكون أقل من {maxSizeMB} ميجابايت"
+    },
+    "avatar": {
+      "upload": {
+        "title": "رفع صورة",
+        "changeTitle": "تغيير الصورة",
+        "removeTitle": "حذف الصورة",
+        "dragDrop": "اسحب وأفلت أو انقر للرفع",
+        "dragDropActive": "أفلت صورتك هنا",
+        "helpText": "الحد الأقصى {maxSize} ميجابايت • JPEG، PNG، WebP",
+        "uploadError": "خطأ في الرفع",
+        "profileAvatar": "صورة الملف الشخصي"
+      }
     },
     "select": {
+      "loading": "جاري التحميل...",
       "country": "اختر الدولة",
       "state": "اختر المحافظة",
       "city": "اختر المدينة",
@@ -38,14 +70,32 @@
       "comingSoon": "قريباً",
       "selectCountry": "اختر الدولة",
       "searchCountry": "البحث عن دولة...",
-      "noCountryFound": "لم يتم العثور على دولة."
+      "noCountryFound": "لم يتم العثور على دولة.",
+      "selectState": "اختر المحافظة",
+      "searchState": "البحث عن محافظة...",
+      "noStateFound": "لم يتم العثور على محافظة.",
+      "selectCity": "اختر المدينة",
+      "searchCity": "البحث عن مدينة...",
+      "noCityFound": "لم يتم العثور على مدينة.",
+      "selectCountryFirst": "اختر الدولة أولاً",
+      "selectStateFirst": "اختر المحافظة أولاً",
+      "loadingStates": "جاري تحميل المحافظات...",
+      "loadingCities": "جاري تحميل المدن...",
+      "noStatesAvailable": "لا توجد محافظات متاحة",
+      "noCitiesAvailable": "لا توجد مدن متاحة"
     },
+    "yes": "نعم",
+    "no": "لا",
+    "years": "سنوات",
+    "allAreas": "جميع المناطق",
+    "specificAreas": "مناطق محددة",
+    "notProvided": "لم يتم تحديد",
     "days": "أيام",
     "error": "خطأ",
     "tryAgain": "حاول مرة أخرى",
     "viewDetails": "عرض التفاصيل",
     "edit": "تعديل",
-    "filters": "المرشحات",
+    "filters": "تصفيات",
     "clearSearch": "مسح البحث"
   },
 
@@ -84,45 +134,44 @@
   "servicesAndBenefits": {
     "title": "خدماتنا ومميزاتنا",
     "description": "اكتشف كيف يمكن لمنصة LAD أن تحول رحلتك في عالم البناء والهندسة",
-"services": {
-  "smartMatching": {
-    "title": "مطابقة ذكية للمشاريع",
-    "description": "النظام يربطك تلقائياً مع المقاول أو المكتب الهندسي الأنسب وفقاً لمتطلباتك.",
-    "label": "الخدمات",
-    "imageIdea": "AI network illustration showing project connected with contractor icons"
-  },
-  "contractorDirectory": {
-    "title": "دليل موثوق للمقاولين",
-    "description": "استعرض ملفات معتمدة تحتوي على تقييمات، شهادات، وأعمال سابقة موثوقة.",
-    "label": "الجودة",
-    "imageIdea": "Profile cards or directory illustration with stars/reviews"
-  },
-  "securePayments": {
-    "title": "مدفوعات آمنة وشفافة",
-    "description": "إدارة مالية كاملة تشمل الفواتير، الدفعات المرحلية، ونِسب الإنجاز.",
-    "label": "المالية",
-    "imageIdea": "Secure wallet or payment transaction illustration with shield"
-  },
-  "documentsVerification": {
-    "title": "تحقق وإدارة الوثائق",
-    "description": "رفع المستندات، التحقق التلقائي، وملاحظات المراجعة لضمان الامتثال.",
-    "label": "الامتثال",
-    "imageIdea": "Document stack with checkmarks and shield icon"
-  },
-  "integratedBOQ": {
-    "title": "جداول كميات (BOQ) متكاملة",
-    "description": "إنشاء وإدارة جداول كميات جاهزة مع حساب تلقائي للتكلفة والإجمالي.",
-    "label": "الإنتاجية",
-    "imageIdea": "Spreadsheet or table illustration with calculator and charts"
-  },
-  "messagingTracking": {
-    "title": "تواصل وتتبع التنفيذ",
-    "description": "محادثات مباشرة، إشعارات، وسجل نشاط لمتابعة المشروع خطوة بخطوة.",
-    "label": "التنسيق",
-    "imageIdea": "Chat bubbles with progress bar or activity timeline"
-  }
-}
-
+    "services": {
+      "smartMatching": {
+        "title": "مطابقة ذكية للمشاريع",
+        "description": "النظام يربطك تلقائياً مع المقاول أو المكتب الهندسي الأنسب وفقاً لمتطلباتك.",
+        "label": "الخدمات",
+        "imageIdea": "AI network illustration showing project connected with contractor icons"
+      },
+      "contractorDirectory": {
+        "title": "دليل موثوق للمقاولين",
+        "description": "استعرض ملفات معتمدة تحتوي على تقييمات، شهادات، وأعمال سابقة موثوقة.",
+        "label": "الجودة",
+        "imageIdea": "Profile cards or directory illustration with stars/reviews"
+      },
+      "securePayments": {
+        "title": "مدفوعات آمنة وشفافة",
+        "description": "إدارة مالية كاملة تشمل الفواتير، الدفعات المرحلية، ونِسب الإنجاز.",
+        "label": "المالية",
+        "imageIdea": "Secure wallet or payment transaction illustration with shield"
+      },
+      "documentsVerification": {
+        "title": "تحقق وإدارة الوثائق",
+        "description": "رفع المستندات، التحقق التلقائي، وملاحظات المراجعة لضمان الامتثال.",
+        "label": "الامتثال",
+        "imageIdea": "Document stack with checkmarks and shield icon"
+      },
+      "integratedBOQ": {
+        "title": "جداول كميات (BOQ) متكاملة",
+        "description": "إنشاء وإدارة جداول كميات جاهزة مع حساب تلقائي للتكلفة والإجمالي.",
+        "label": "الإنتاجية",
+        "imageIdea": "Spreadsheet or table illustration with calculator and charts"
+      },
+      "messagingTracking": {
+        "title": "تواصل وتتبع التنفيذ",
+        "description": "محادثات مباشرة، إشعارات، وسجل نشاط لمتابعة المشروع خطوة بخطوة.",
+        "label": "التنسيق",
+        "imageIdea": "Chat bubbles with progress bar or activity timeline"
+      }
+    }
   },
   "aboutUs": {
     "title": "كل شيء عن لاد ",
@@ -223,7 +272,6 @@
     "title": "فرص جديدة ومشاريع ناجحة في عالم البناء بانتظارك",
     "getStarted": "ابدأ الآن"
   },
-
   "whoItsFor": {
     "title": "منصة لاد للجميع",
     "subtitle": "اكتشف كيف يمكن لـ لاد أن يحول رحلتك في عالم البناء والهندسة، سواء كنت تبحث عن خدمات أو تقدمها",
@@ -282,6 +330,7 @@
     "noAccount": "ليس لديك حساب؟",
     "forgotPassword": "هل نسيت كلمة المرور؟",
     "resendCode": "إعادة إرسال الرمز",
+    "continue": "متابعة",
 
     "passwordReset": {
       "sentPasswordReset": "لقد أرسلنا رابط إعادة التعيين إلى",
@@ -353,10 +402,23 @@
       "apple": "آبل"
     },
 
+    "groupSelector": {
+      "title": "اختر فئتك",
+      "description": "اختر ما إذا كنت تبحث عن خدمات أم تقدم خدمات",
+      "serviceSeeker": "باحث عن خدمات",
+      "serviceProvider": "مقدم خدمات",
+      "serviceSeekerDescription": "أحتاج خدمات لمشروعي",
+      "serviceProviderDescription": "أقدم خدمات للعملاء",
+      "selectGroup": "اختر الفئة",
+      "continueWithGroup": "المتابعة كـ {group}"
+    },
     "roleSelection": {
-      "description": "اختر دورك للمتابعة",
+      "title": "رحلتك تبدأ من اختيار دورك",
+      "description": "في لاد، نربط بين طالبي الخدمات، ومقدمي الخبرات، والمبتكرين. اختر الدور الذي يعبر عنك، ودعنا نصمم لك مسارًا فريدًا يوصلك إلى أهدافك.",
+
       "serviceSeeker": "عميل",
       "serviceProvider": "مقدم خدمات",
+      "selectRole": "اختر الدور",
       "or": "أو",
       "haveAccount": "لديك حساب بالفعل؟"
     },
@@ -515,21 +577,6 @@
     }
   },
 
-  "navigation": {
-    "dashboard": "لوحة التحكم",
-    "projects": "مشاريعي",
-    "offers": " العروض المقدمة",
-    "myOffers": "عروضي",
-    "browseProjects": "تصفح المشاريع",
-    "contracts": "العقود النشطة",
-    "payments": "الدفعات والفواتير",
-    "materials": "طلب مواد بناء",
-    "messages": "الرسائل",
-    "reviews": "التقييمات",
-    "profile": "الملف الشخصي",
-    "settings": "الاعدادات"
-  },
-
   "offers": {
     "searchOffers": "البحث في العروض...",
     "sortBy": "ترتيب حسب",
@@ -600,6 +647,19 @@
     }
   },
 
+  "navigation": {
+    "dashboard": "لوحة التحكم",
+    "projects": "مشاريعي",
+    "browseProjects": "تصفح المشاريع",
+    "offers": " العروض المقدمة",
+    "contracts": "العقود النشطة",
+    "payments": "الدفعات والفواتير",
+    "materials": "طلب مواد بناء",
+    "messages": "الرسائل",
+    "reviews": "التقييمات",
+    "settings": "الاعدادات"
+  },
+
   "dashboard": {
     "title": "لوحة التحكم",
     "welcome": "مرحباً بعودتك، {name}!",
@@ -617,11 +677,15 @@
       "dashboard": "لوحة التحكم",
       "projects": "مشاريعي",
       "offers": " العروض المقدمة",
+      "myOffers": "عروضي",
+      "browseProjects": "تصفح المشاريع",
       "contracts": "العقود النشطة",
       "payments": "الدفعات والفواتير",
       "materials": "طلب مواد بناء",
       "messages": "الرسائل",
       "reviews": "التقييمات",
+      "profile": "الملف الشخصي",
+      "manageProducts": "إدارة المنتجات",
       "settings": "الاعدادات"
     },
     "individual": {
@@ -658,14 +722,130 @@
 
   "profile": {
     "title": "الملف الشخصي",
+    "editProfile": "تعديل الملف الشخصي",
+    "sidebar": {
+      "general": "عام",
+      "personalInfo": "المعلومات الشخصية",
+      "documents": "المستندات",
+      "projects": "المشاريع المنجزة",
+      "operational": "التفاصيل الفنية والتشغيلية",
+      "professionalInfo": "المعلومات المهنية"
+    },
     "tabs": {
+      "personalData": "المعلومات الشخصية",
       "overview": "نظرة عامة",
       "personal": "المعلومات الشخصية",
       "documents": "المستندات والتحقق",
-      "professional": "المعلومات المهنية",
-      "technical": "المعلومات التقنية",
-      "security": "الأمان",
-      "settings": "الإعدادات"
+      "projects": "المشاريع المنجزة",
+      "operational": "التفاصيل الفنية والتشغيلية",
+      "professionalInfo": "المعلومات المهنية",
+      "fields": {
+        "fullName": "الاسم الكامل",
+        "phoneNumber": "رقم الهاتف",
+        "email": "البريد الإلكتروني",
+        "role": "الدور",
+        "nationalId": "رقم الهوية الوطنية",
+        "country": "البلد",
+        "state": "المحافظة",
+        "city": "المدينة",
+        "address": "العنوان",
+        "aboutMe": "نبذة عني",
+        "companyName": "اسم الشركة"
+      },
+
+      "notProvided": "غير متوفر",
+      "defaultRole": "فرد",
+      "noPersonalData": "لا توجد بيانات شخصية متاحة",
+      "defaultUser": "المستخدم",
+      "noDocuments": "لم يتم رفع أي مستندات",
+      "uploadDocumentsDescription": "ارفع مستنداتك للبدء",
+      "documentsManagedElsewhere": "يتم إدارة المستندات في قسم منفصل. هذا عرض ملخص فقط.",
+      "uploadDocuments": "رفع المستندات",
+      "loadError": "فشل في تحميل المحتوى. يرجى المحاولة مرة أخرى.",
+      "errorTitle": "خطأ في تحميل المحتوى"
+    },
+    "achievedProjects": {
+      "title": "المشاريع المنجزة",
+      "description": "اعرض مشاريعك المكتملة وإنجازاتك",
+      "editProjectDescription": "أضف تفاصيل عن مشروعك المكتمل لإظهار خبرتك",
+      "empty": {
+        "title": "لا توجد مشاريع بعد",
+        "description": "ابدأ بناء محفظتك بإضافة مشاريعك المكتملة"
+      },
+      "addProject": "إضافة مشروع",
+      "editProject": "تعديل المشروع",
+      "formDescription": "أضف تفاصيل عن مشروعك المكتمل لإظهار خبرتك",
+      "projectNameEn": "اسم المشروع (بالإنجليزية)",
+      "projectNameAr": "اسم المشروع (بالعربية)",
+      "descriptionEn": "الوصف (بالإنجليزية)",
+      "descriptionAr": "الوصف (بالعربية)",
+      "projectType": "نوع المشروع",
+      "projectTypes": "أنواع المشاريع",
+      "projectInformation": "معلومات المشروع",
+      "projectInformationDescription": "التفاصيل الأساسية عن مشروعك المكتمل",
+      "country": "البلد",
+      "state": "الولاية/المحافظة",
+      "city": "المدينة",
+      "specificLocation": "الموقع المحدد",
+      "projectDates": "تواريخ المشروع",
+      "startDate": "تاريخ البداية",
+      "endDate": "تاريخ النهاية",
+      "executionDate": "تاريخ التنفيذ",
+      "projectValue": "قيمة المشروع",
+      "currency": "العملة",
+      "projectFeatures": "مميزات المشروع",
+      "challenges": "التحديات التي واجهتها",
+      "solutions": "الحلول المقدمة",
+      "projectImages": "صور المشروع",
+      "imageCount": "{count} صورة",
+      "newImages": "صور جديدة",
+      "existingImages": "صور موجودة",
+      "placeholders": {
+        "projectNameEn": "أدخل اسم المشروع بالإنجليزية",
+        "projectNameAr": "أدخل اسم المشروع بالعربية",
+        "descriptionEn": "اوصف المشروع بالإنجليزية",
+        "descriptionAr": "اوصف المشروع بالعربية",
+        "selectProjectType": "اختر نوع المشروع",
+        "selectCountry": "اختر البلد",
+        "selectState": "اختر الولاية/المحافظة",
+        "selectCity": "اختر المدينة",
+        "specificLocation": "أدخل الموقع المحدد",
+        "projectValue": "أدخل قيمة المشروع",
+        "selectCurrency": "اختر العملة",
+        "addFeature": "أضف ميزة للمشروع",
+        "challenges": "اوصف التحديات التي واجهتها",
+        "solutions": "اوصف الحلول المقدمة"
+      },
+      "deleteConfirmation": {
+        "title": "تأكيد الحذف",
+        "message": "هل أنت متأكد من حذف هذا المشروع؟"
+      },
+      "actions": {
+        "addProject": "إضافة مشروع",
+        "addProjectType": "إضافة نوع مشروع",
+        "createSuccess": "تم إنشاء المشروع بنجاح",
+        "updateSuccess": "تم تحديث المشروع بنجاح",
+        "deleteSuccess": "تم حذف المشروع بنجاح",
+        "deleteError": "فشل في حذف المشروع",
+        "submitError": "فشل في إرسال المشروع",
+        "loadMore": "تحميل المزيد",
+        "confirmDelete": "هل أنت متأكد من حذف هذا المشروع؟"
+      },
+      "validation": {
+        "required": "هذا الحقل مطلوب",
+        "maxLength": "الحد الأقصى 255 حرف",
+        "maxItems": "الحد الأقصى 20 عنصر",
+        "positive": "يجب أن يكون رقماً موجباً",
+        "dateFormat": "يرجى إدخال تاريخ صحيح (YYYY-MM-DD)",
+        "currencyCode": "يجب أن يكون رمز عملة من 3 أحرف",
+        "minValue": "الحد الأدنى للقيمة هو 1",
+        "fileSize": "حجم الملف يجب أن يكون أقل من 8MB",
+        "fileType": "فقط ملفات JPEG, PNG, WebP مسموحة",
+        "dateRange": "تاريخ البداية يجب أن يكون قبل تاريخ النهاية",
+        "maxImages": "الحد الأقصى 10 صور"
+      },
+      "clickToUploadImages": "انقر لرفع الصور",
+      "imageUploadHelp": "حد أقصى 8 ميجابايت لكل صورة • JPEG, PNG, WebP"
     },
     "overview": {
       "title": "نظرة عامة على الملف الشخصي",
@@ -679,41 +859,196 @@
       "personalInfo": {
         "title": "المعلومات الشخصية",
         "description": "تحديث معلوماتك الأساسية والتفاصيل",
-        "fullName": "الاسم الكامل",
+        "firstName": "الاسم الأول",
+        "lastName": "اسم العائلة",
         "email": "البريد الإلكتروني",
         "phoneNumber": "رقم الهاتف",
-        "nationalId": "رقم الهوية الوطنية"
+        "nationalId": "رقم الهوية الوطنية",
+        "country": "البلد",
+        "city": "المدينة",
+        "state": "المحافظة",
+        "detailedAddress": "العنوان التفصيلي",
+        "aboutMe": "ملاحظات المستخدم",
+        "success": "تم تحديث المعلومات الشخصية بنجاح",
+        "noChanges": "لا توجد تغييرات للحفظ",
+        "error": "حدث خطأ ما"
       }
     },
     "organization": {
       "personalInfo": {
-        "title": "المعلومات الشخصية",
-        "description": "تحديث معلوماتك الأساسية والتفاصيل",
-        "organizationName": "اسم المؤسسة",
-        "authorizedPersonName": "اسم الشخص المفوض",
-        "email": "البريد الإلكتروني",
-        "phoneNumber": "رقم الهاتف"
+        "title": "معلومات المؤسسة",
+        "description": "تحديث معلومات المؤسسة والتفاصيل",
+        "companyName": "اسم الشركة",
+        "commercialRegisterNumber": "رقم السجل التجاري",
+        "representativeName": "اسم الممثل",
+        "representativePhone": "هاتف الممثل",
+        "representativeEmail": "بريد الممثل الإلكتروني",
+        "hasGovernmentAccreditation": "هل لديك اعتماد حكومي",
+        "detailedAddress": "العنوان التفصيلي",
+        "vatNumber": "رقم ضريبة القيمة المضافة",
+        "aboutUs": "معلومات عنا",
+        "country": "البلد",
+        "state": "المحافظة",
+        "city": "المدينة",
+        "representativeIdImage": "صورة هوية الممثل",
+        "fileSelected": "تم اختيار الملف",
+        "noChanges": "لا توجد تغييرات للحفظ",
+        "success": "تم تحديث معلومات المؤسسة بنجاح"
       }
     },
-    "freelance_engineer": {
+    "freelanceEngineer": {
       "personalInfo": {
-        "title": "المعلومات الشخصية",
-        "description": "تحديث معلوماتك الأساسية والتفاصيل",
+        "title": "معلومات المهندس المستقل",
+        "description": "تحديث معلومات المهندس المستقل والتفاصيل",
         "fullName": "الاسم الكامل",
-        "authorizedPersonName": "اسم الشخص المفوض",
-        "email": "البريد الإلكتروني",
-        "phoneNumber": "رقم الهاتف"
+        "nationalId": "رقم الهوية الوطنية",
+        "engineersAssociationNumber": "رقم نقابة المهندسين",
+        "engineeringType": "نوع الهندسة",
+        "experienceYearsRange": "نطاق سنوات الخبرة",
+        "isAssociatedWithOffice": "مرتبط بمكتب",
+        "associatedOfficeName": "اسم المكتب المرتبط",
+        "country": "البلد",
+        "state": "المحافظة",
+        "city": "المدينة",
+        "aboutMe": "معلومات عني",
+        "noChanges": "لا توجد تغييرات للحفظ",
+        "success": "تم تحديث معلومات المهندس المستقل بنجاح"
+      },
+      "professionalInfo": {
+        "title": "المعلومات المهنية",
+        "description": "تحديث مهاراتك المهنية وتخصصاتك وخبراتك",
+        "basicInformation": "المعلومات الأساسية",
+        "experienceYearsRange": "نطاق سنوات الخبرة",
+        "isAssociatedWithOffice": "مرتبط بمكتب",
+        "associatedOfficeName": "اسم المكتب المرتبط",
+        "specializations": "التخصصات",
+        "geographicalCoverage": "التغطية الجغرافية",
+        "experiences": "الخبرات",
+        "addSpecialization": "إضافة تخصص",
+        "addCoverage": "إضافة تغطية",
+        "addExperience": "إضافة خبرة",
+        "specialization": "التخصص",
+        "coverage": "التغطية",
+        "experience": "الخبرة",
+        "engineeringSpecialization": "التخصص الهندسي",
+        "otherSpecialization": "تخصص آخر",
+        "specializationNotes": "ملاحظات التخصص",
+        "expertiseLevel": "مستوى الخبرة",
+        "primary": "أساسي",
+        "setPrimary": "تعيين كأساسي",
+        "city": "المدينة",
+        "notes": "ملاحظات",
+        "noSpecializations": "لم يتم إضافة تخصصات بعد",
+        "addFirstSpecialization": "انقر على 'إضافة تخصص' للبدء",
+        "noGeographicalCoverage": "لم يتم إضافة تغطية جغرافية بعد",
+        "addFirstCoverage": "انقر على 'إضافة تغطية' للبدء",
+        "noExperiences": "لم يتم إضافة خبرات بعد",
+        "addFirstExperience": "انقر على 'إضافة خبرة' للبدء",
+        "loading": "جاري التحميل...",
+        "saving": "جاري الحفظ...",
+        "saveChanges": "حفظ التغييرات",
+        "success": {
+          "updateSuccess": "تم تحديث المعلومات المهنية بنجاح"
+        },
+        "errors": {
+          "validationFailed": "يرجى إصلاح أخطاء التحقق قبل الحفظ",
+          "updateFailed": "فشل في تحديث المعلومات المهنية"
+        },
+        "placeholders": {
+          "selectExperienceRange": "اختر نطاق الخبرة",
+          "selectSpecialization": "اختر التخصص",
+          "selectExpertiseLevel": "اختر مستوى الخبرة",
+          "selectCity": "اختر المدينة",
+          "enterOfficeName": "أدخل اسم المكتب",
+          "otherSpecialization": "تخصص آخر",
+          "specializationNotes": "ملاحظات إضافية حول هذا التخصص",
+          "coverageNotes": "ملاحظات إضافية حول منطقة التغطية هذه"
+        }
       }
     },
-    "engineering_office": {
+    "engineeringOffice": {
       "personalInfo": {
-        "title": "المعلومات الشخصية",
-        "description": "تحديث معلوماتك الأساسية والتفاصيل",
+        "title": "معلومات المكتب الهندسي",
+        "description": "تحديث معلومات المكتب الهندسي والتفاصيل",
         "officeName": "اسم المكتب",
         "authorizedPersonName": "اسم الشخص المفوض",
         "email": "البريد الإلكتروني",
         "phoneNumber": "رقم الهاتف",
-        "professionalLicenseNumber": "رقم الترخيص المهني"
+        "professionalLicenseNumber": "رقم الترخيص المهني",
+        "engineeringType": "نوع الهندسة",
+        "country": "البلد",
+        "state": "المحافظة",
+        "city": "المدينة",
+        "aboutUs": "نبذة عنا",
+        "delegationForm": "نموذج التفويض",
+        "noChanges": "لا توجد تغييرات للحفظ",
+        "success": "تم تحديث معلومات المكتب الهندسي بنجاح",
+        "validationErrors": {
+          "selectLocation": "يرجى اختيار البلد والمحافظة والمدينة",
+          "selectEngineeringType": "يرجى اختيار نوع الهندسة"
+        }
+      },
+      "professionalInfo": {
+        "title": "المعلومات المهنية",
+        "description": "تحديث التفاصيل المهنية وقدرات المكتب الهندسي",
+        "basicInformation": "المعلومات الأساسية",
+        "experienceYearsRange": "نطاق سنوات الخبرة",
+        "staffSizeRange": "نطاق حجم الموظفين",
+        "annualProjectsRange": "نطاق المشاريع السنوية",
+        "hasGovernmentAccreditation": "لديه اعتماد حكومي",
+        "classificationFile": "ملف التصنيف",
+        "customName": "اسم مخصص",
+        "descriptionText": "الوصف",
+        "expiryDate": "تاريخ الانتهاء",
+        "specializations": "التخصصات",
+        "geographicalCoverage": "التغطية الجغرافية",
+        "addSpecialization": "إضافة تخصص",
+        "addCoverage": "إضافة تغطية",
+        "specialization": "التخصص",
+        "coverage": "التغطية",
+        "engineeringSpecialization": "التخصص الهندسي",
+        "otherSpecialization": "تخصص آخر",
+        "specializationNotes": "ملاحظات التخصص",
+        "isPrimarySpecialization": "تخصص رئيسي",
+        "expertiseLevel": "مستوى الخبرة",
+        "expertiseLevels": {
+          "beginner": "مبتدئ",
+          "intermediate": "متوسط",
+          "advanced": "متقدم",
+          "expert": "خبير"
+        },
+        "country": "البلد",
+        "state": "المحافظة",
+        "city": "المدينة",
+        "notes": "ملاحظات",
+        "selectedFile": "الملف المحدد",
+        "noSpecializations": "لم يتم إضافة تخصصات بعد",
+        "noGeographicalCoverage": "لم يتم إضافة تغطية جغرافية بعد",
+        "loading": "جاري التحميل...",
+        "saving": "جاري الحفظ...",
+        "saveChanges": "حفظ التغييرات",
+        "success": {
+          "updateSuccess": "تم تحديث المعلومات المهنية بنجاح"
+        },
+        "errors": {
+          "validationFailed": "يرجى إصلاح أخطاء التحقق قبل الحفظ",
+          "updateFailed": "فشل في تحديث المعلومات المهنية"
+        },
+        "placeholders": {
+          "selectExperienceRange": "اختر نطاق الخبرة",
+          "selectStaffSizeRange": "اختر نطاق حجم الموظفين",
+          "selectAnnualProjectsRange": "اختر نطاق المشاريع السنوية",
+          "selectSpecialization": "اختر التخصص",
+          "selectExpertiseLevel": "اختر مستوى الخبرة",
+          "selectCountry": "اختر البلد",
+          "selectState": "اختر المحافظة",
+          "selectCity": "اختر المدينة",
+          "enterCustomName": "أدخل اسم مخصص",
+          "enterDescription": "أدخل الوصف",
+          "enterOtherSpecialization": "أدخل تخصص آخر",
+          "enterSpecializationNotes": "أدخل ملاحظات التخصص",
+          "enterNotes": "أدخل الملاحظات"
+        }
       }
     },
     "contractor": {
@@ -736,13 +1071,66 @@
     },
     "supplier": {
       "personalInfo": {
-        "title": "المعلومات الشخصية",
-        "description": "تحديث معلوماتك الأساسية والتفاصيل",
-        "commercialEstablishmentName": "اسم المنشأة التجارية",
+        "title": "معلومات المورد",
+        "description": "تحديث معلومات المورد وتفاصيل الاتصال",
+        "companyName": "اسم الشركة",
+        "commercialRegistrationNumber": "رقم السجل التجاري",
         "authorizedPersonName": "اسم الشخص المفوض",
-        "email": "البريد الإلكتروني",
         "phoneNumber": "رقم الهاتف",
-        "commercialRegistrationNumber": "رقم السجل التجاري"
+        "email": "البريد الإلكتروني",
+        "country": "البلد",
+        "state": "المحافظة",
+        "city": "المدينة",
+        "delegationForm": "نموذج التفويض",
+        "companyLogo": "شعار الشركة",
+        "noChanges": "لا توجد تغييرات للحفظ",
+        "success": "تم تحديث المعلومات بنجاح",
+        "error": "فشل في تحديث المعلومات"
+      },
+      "professionalInfo": {
+        "title": "المعلومات المهنية",
+        "description": "تحديث التفاصيل المهنية وقدرات المورد",
+        "basicInformation": "المعلومات الأساسية",
+        "experienceYearsRange": "نطاق سنوات الخبرة",
+        "hasGovernmentAccreditation": "لديه اعتماد حكومي",
+        "classificationFile": "ملف التصنيف",
+        "workFields": "مجالات العمل",
+        "geographicalCoverage": "التغطية الجغرافية",
+        "addWorkField": "إضافة مجال عمل",
+        "addCoverage": "إضافة تغطية",
+        "workField": "مجال العمل",
+        "coverage": "التغطية",
+        "workFieldType": "نوع مجال العمل",
+        "fieldSpecificNotes": "ملاحظات خاصة بالمجال",
+        "city": "المدينة",
+        "coversAllAreas": "يغطي جميع المناطق",
+        "priority": "الأولوية",
+        "priorities": {
+          "high": "عالي",
+          "medium": "متوسط",
+          "low": "منخفض"
+        },
+        "notes": "ملاحظات",
+        "selectedFile": "الملف المحدد",
+        "noWorkFields": "لم يتم إضافة مجالات عمل بعد",
+        "noGeographicalCoverage": "لم يتم إضافة تغطية جغرافية بعد",
+        "loading": "جاري التحميل...",
+        "saving": "جاري الحفظ...",
+        "saveChanges": "حفظ التغييرات",
+        "success": {
+          "updateSuccess": "تم تحديث المعلومات المهنية بنجاح"
+        },
+        "errors": {
+          "validationFailed": "يرجى إصلاح أخطاء التحقق قبل الحفظ",
+          "updateFailed": "فشل في تحديث المعلومات المهنية"
+        },
+        "placeholders": {
+          "selectExperienceRange": "اختر نطاق الخبرة",
+          "selectWorkField": "اختر مجال العمل",
+          "enterFieldNotes": "أدخل ملاحظات خاصة بالمجال",
+          "enterCityId": "أدخل معرف المدينة",
+          "enterNotes": "أدخل الملاحظات"
+        }
       }
     },
     "personal": {
@@ -765,6 +1153,10 @@
         "pending": "قيد الانتظار",
         "verified": "تم التحقق",
         "rejected": "مرفوض"
+      },
+      "empty": {
+        "title": "لم يتم رفع أي مستندات",
+        "description": "لم يتم رفع أي مستندات بعد"
       },
       "upload": {
         "title": "رفع المستندات",
@@ -862,8 +1254,15 @@
           "uploadSuccess": "تم رفع الملف بنجاح!",
           "uploadError": "فشل في رفع الملف",
           "removeSuccess": "تم حذف الملف بنجاح",
-          "removeError": "فشل في حذف الملف"
+          "removeError": "فشل في حذف الملف",
+          "metadataErrors": "يرجى إصلاح أخطاء البيانات الوصفية قبل الرفع"
         },
+        "validation": {
+          "dateFormat": "يجب أن يكون التاريخ بصيغة YYYY-MM-DD",
+          "invalidDate": "يرجى إدخال تاريخ صحيح",
+          "pastDate": "لا يمكن أن يكون تاريخ انتهاء الصلاحية في الماضي"
+        },
+        "fixMetadataErrors": "أصلح أخطاء البيانات الوصفية أولاً",
         "uploading": "جاري الرفع..."
       }
     },
@@ -899,6 +1298,116 @@
       "dataManagement": "إدارة البيانات",
       "dangerZone": "منطقة الخطر"
     },
+    "contractorMenu": {
+      "personalInfo": {
+        "title": "المعلومات الشخصية",
+        "description": "تحديث معلوماتك الأساسية وتفاصيل الاتصال"
+      },
+      "documents": {
+        "title": "المستندات والتحقق",
+        "description": "إدارة مستنداتك وحالة التحقق"
+      },
+      "operational": {
+        "title": "التفاصيل التشغيلية والتقنية",
+        "description": "إدارة التفاصيل التشغيلية والتقنية"
+      },
+      "security": {
+        "title": "الأمان",
+        "description": "كلمة المرور، المصادقة الثنائية، وإعدادات الأمان"
+      },
+      "settings": {
+        "title": "الإعدادات",
+        "description": "تفضيلات الحساب وإعدادات الإشعارات"
+      }
+    },
+    "contractorOperational": {
+      "title": "المعلومات التشغيلية",
+      "description": "إدارة التفاصيل التشغيلية وقدرات المقاول",
+      "editInformation": "تعديل المعلومات",
+      "cancel": "إلغاء",
+      "saveChanges": "حفظ التغييرات",
+      "saving": "جاري الحفظ...",
+      "loading": "جاري تحميل البيانات التشغيلية...",
+      "retry": "إعادة المحاولة",
+
+      "success": {
+        "updateSuccess": "تم تحديث المعلومات التشغيلية بنجاح"
+      },
+      "sections": {
+        "projectInfo": {
+          "title": "معلومات المشروع",
+          "description": "تفاصيل حول قدراتك في تنفيذ المشاريع",
+          "executedProjectRange": "نطاق قيمة المشاريع المنفذة",
+          "staffSizeRange": "نطاق حجم الموظفين",
+          "experienceYearsRange": "نطاق سنوات الخبرة",
+          "annualProjectsRange": "نطاق المشاريع السنوية",
+          "targetProjectRanges": "نطاقات قيمة المشاريع المستهدفة",
+          "targetProjectRangesDescription": "اختر جميع نطاقات قيمة المشاريع المستهدفة المناسبة"
+        },
+
+        "classification": {
+          "title": "التصنيف والاعتماد",
+          "description": "تفاصيل تصنيف واعتماد المقاول",
+          "classificationLevel": "مستوى التصنيف",
+          "classificationFile": "ملف التصنيف",
+          "classificationFileDescription": "رفع شهادة التصنيف (PDF, JPG, JPEG, PNG, WEBP, الحد الأقصى 8 ميجابايت)",
+          "hasGovernmentAccreditation": "لديه اعتماد حكومي",
+          "hasGovernmentAccreditationDescription": "حدد إذا كان لديك اعتماد حكومي",
+          "coversAllRegions": "يغطي جميع المناطق",
+          "coversAllRegionsDescription": "حدد إذا كانت خدماتك تغطي جميع المناطق"
+        },
+        "workFields": {
+          "title": "مجالات العمل والخبرة",
+          "description": "حدد مجالات عملك وسنوات الخبرة في كل منها",
+          "workField": "مجال العمل",
+          "yearsOfExperience": "سنوات الخبرة",
+          "addWorkField": "إضافة مجال عمل"
+        },
+        "geographicalCoverage": {
+          "title": "التغطية الجغرافية",
+          "description": "حدد التغطية الجغرافية التشغيلية والمقاول",
+          "operationalCoverage": "التغطية التشغيلية",
+          "contractorCoverage": "التغطية الجغرافية للمقاول",
+          "coversAllAreas": "يغطي جميع المناطق",
+          "addOperationalCoverage": "إضافة تغطية تشغيلية",
+          "addContractorCoverage": "إضافة تغطية مقاول"
+        }
+      },
+      "select": {
+        "country": "اختر الدولة",
+        "state": "اختر المحافظة",
+        "city": "اختر المدينة"
+      },
+      "placeholders": {
+        "selectExecutedProjectRange": "اختر نطاق قيمة المشاريع المنفذة",
+        "selectStaffSizeRange": "اختر نطاق حجم الموظفين",
+        "selectExperienceYearsRange": "اختر نطاق سنوات الخبرة",
+        "selectAnnualProjectsRange": "اختر نطاق المشاريع السنوية",
+        "selectClassificationLevel": "اختر مستوى التصنيف",
+        "selectWorkField": "اختر مجال العمل"
+      },
+      "filters": "المرشحات",
+      "errors": {
+        "updateFailed": "فشل في تحديث الملف الشخصي التشغيلي. يرجى المحاولة مرة أخرى.",
+        "fixErrors": "يرجى إصلاح الأخطاء التالية:",
+        "invalidValue": "قيمة غير صالحة",
+        "validationFailed": "يرجى إصلاح أخطاء التحقق قبل الحفظ",
+        "validationErrors": "أخطاء التحقق"
+      },
+      "fileUpload": {
+        "clickToUpload": "انقر لرفع ملف التصنيف",
+        "fileSize": "PDF, JPG, JPEG, PNG, WEBP (الحد الأقصى 8 ميجابايت)",
+        "remove": "حذف",
+        "fileSizeError": "حجم الملف يجب أن يكون أقل من 8 ميجابايت",
+        "fileTypeError": "يُسمح فقط بملفات PDF, JPG, JPEG, PNG, WEBP"
+      }
+    },
+    "completion": {
+      "text": "حسابك مكتمل بنسبة {percentage}%"
+    }
+  },
+  "settings": {
+    "title": "الإعدادات",
     "menu": {
       "personalData": {
         "title": "تعديل البيانات الشخصية",
@@ -939,90 +1448,6 @@
       "theme": {
         "title": "المظهر",
         "description": "تبديل بين الوضع الفاتح والداكن"
-      }
-    },
-    "contractorMenu": {
-      "personalInfo": {
-        "title": "المعلومات الشخصية",
-        "description": "تحديث معلوماتك الأساسية وتفاصيل الاتصال"
-      },
-      "documents": {
-        "title": "المستندات والتحقق",
-        "description": "إدارة مستنداتك وحالة التحقق"
-      },
-      "operational": {
-        "title": "التفاصيل التشغيلية والتقنية",
-        "description": "إدارة التفاصيل التشغيلية والتقنية"
-      },
-      "security": {
-        "title": "الأمان",
-        "description": "كلمة المرور، المصادقة الثنائية، وإعدادات الأمان"
-      },
-      "settings": {
-        "title": "الإعدادات",
-        "description": "تفضيلات الحساب وإعدادات الإشعارات"
-      }
-    },
-    "contractorOperational": {
-      "title": "المعلومات التشغيلية",
-      "description": "إدارة التفاصيل التشغيلية وقدرات المقاول",
-      "editInformation": "تعديل المعلومات",
-      "cancel": "إلغاء",
-      "saveChanges": "حفظ التغييرات",
-      "saving": "جاري الحفظ...",
-      "loading": "جاري تحميل البيانات التشغيلية...",
-      "retry": "إعادة المحاولة",
-      "sections": {
-        "projectInfo": {
-          "title": "معلومات المشروع",
-          "description": "تفاصيل حول قدراتك في تنفيذ المشاريع",
-          "executedProjectRange": "نطاق قيمة المشاريع المنفذة",
-          "staffSizeRange": "نطاق حجم الموظفين",
-          "experienceYearsRange": "نطاق سنوات الخبرة",
-          "annualProjectsRange": "نطاق المشاريع السنوية",
-          "targetProjectRanges": "نطاقات قيمة المشاريع المستهدفة",
-          "targetProjectRangesDescription": "اختر جميع نطاقات قيمة المشاريع المستهدفة المناسبة"
-        },
-        "classification": {
-          "title": "التصنيف والاعتماد",
-          "description": "تفاصيل تصنيف واعتماد المقاول",
-          "classificationLevel": "مستوى التصنيف",
-          "classificationFile": "ملف التصنيف",
-          "classificationFileDescription": "رفع شهادة التصنيف (PDF, JPG, JPEG, PNG, WEBP, الحد الأقصى 8 ميجابايت)",
-          "hasGovernmentAccreditation": "لديه اعتماد حكومي",
-          "hasGovernmentAccreditationDescription": "حدد إذا كان لديك اعتماد حكومي",
-          "coversAllRegions": "يغطي جميع المناطق",
-          "coversAllRegionsDescription": "حدد إذا كانت خدماتك تغطي جميع المناطق"
-        },
-        "workFields": {
-          "title": "مجالات العمل والخبرة",
-          "description": "حدد مجالات عملك وسنوات الخبرة في كل منها",
-          "workField": "مجال العمل",
-          "yearsOfExperience": "سنوات الخبرة",
-          "addWorkField": "إضافة مجال عمل"
-        },
-        "geographicalCoverage": {
-          "title": "التغطية الجغرافية",
-          "description": "حدد التغطية الجغرافية التشغيلية والمقاول",
-          "operationalCoverage": "التغطية التشغيلية",
-          "contractorCoverage": "التغطية الجغرافية للمقاول",
-          "coversAllAreas": "يغطي جميع المناطق",
-          "addOperationalCoverage": "إضافة تغطية تشغيلية",
-          "addContractorCoverage": "إضافة تغطية مقاول"
-        }
-      },
-      "placeholders": {
-        "selectExecutedProjectRange": "اختر نطاق قيمة المشاريع المنفذة",
-        "selectStaffSizeRange": "اختر نطاق حجم الموظفين",
-        "selectExperienceYearsRange": "اختر نطاق سنوات الخبرة",
-        "selectAnnualProjectsRange": "اختر نطاق المشاريع السنوية",
-        "selectClassificationLevel": "اختر مستوى التصنيف",
-        "selectWorkField": "اختر مجال العمل"
-      },
-      "errors": {
-        "updateFailed": "فشل في تحديث الملف الشخصي التشغيلي. يرجى المحاولة مرة أخرى.",
-        "fixErrors": "يرجى إصلاح الأخطاء التالية:",
-        "invalidValue": "قيمة غير صالحة"
       }
     },
     "completion": {
@@ -1220,7 +1645,8 @@
       },
       "email": {
         "required": "البريد الإلكتروني مطلوب",
-        "invalid": "يرجى إدخال بريد إلكتروني صالح"
+        "invalid": "يرجى إدخال بريد إلكتروني صالح",
+        "maxLength": "يجب ألا يتجاوز البريد الإلكتروني 255 حرفاً"
       },
       "phoneNumber": {
         "required": "رقم الهاتف مطلوب",
@@ -1242,7 +1668,36 @@
         "required": "يجب أن توافق على الشروط والأحكام"
       },
       "nationalId": {
-        "minLength": "يجب أن يتكون رقم الهوية الوطنية من 10 أرقام على الأقل"
+        "required": "رقم الهوية الوطنية مطلوب",
+        "minLength": "يجب أن يتكون رقم الهوية الوطنية من 10 أرقام على الأقل",
+        "maxLength": "يجب ألا يتجاوز رقم الهوية الوطنية 20 حرفاً"
+      },
+      "engineersAssociationNumber": {
+        "required": "رقم نقابة المهندسين مطلوب",
+        "maxLength": "يجب ألا يتجاوز رقم نقابة المهندسين 50 حرفاً"
+      },
+      "aboutMe": {
+        "required": "معلومات عني مطلوبة",
+        "maxLength": "يجب ألا تتجاوز معلومات عني 1000 حرف"
+      },
+      "engineeringType": {
+        "required": "نوع الهندسة مطلوب"
+      },
+      "experienceYearsRange": {
+        "required": "نطاق سنوات الخبرة مطلوب"
+      },
+      "associatedOfficeName": {
+        "required": "اسم المكتب مطلوب عند الارتباط بمكتب",
+        "maxLength": "يجب ألا يتجاوز اسم المكتب المرتبط 255 حرفاً"
+      },
+      "countryId": {
+        "required": "البلد مطلوب"
+      },
+      "stateId": {
+        "required": "المحافظة مطلوبة"
+      },
+      "cityId": {
+        "required": "المدينة مطلوبة"
       },
       "otp": {
         "length": "يجب أن يتكون رمز التحقق من 6 أرقام"
@@ -1251,27 +1706,93 @@
         "required": "اسم المؤسسة مطلوب"
       },
       "officeName": {
-        "required": "اسم المكتب الهندسي مطلوب"
+        "required": "اسم المكتب الهندسي مطلوب",
+        "maxLength": "يجب ألا يتجاوز اسم المكتب 255 حرفاً"
       },
       "professionalLicenseNumber": {
         "required": "رقم الترخيص المهني مطلوب"
       },
       "companyName": {
-        "required": "اسم الشركة مطلوب"
+        "required": "اسم الشركة مطلوب",
+        "maxLength": "يجب ألا يتجاوز اسم الشركة 255 حرفاً"
       },
       "commercialRegistrationNumber": {
-        "required": "رقم السجل التجاري مطلوب"
+        "required": "رقم السجل التجاري مطلوب",
+        "maxLength": "يجب ألا يتجاوز رقم السجل التجاري 50 حرفاً"
+      },
+      "authorizedPersonName": {
+        "required": "اسم الشخص المخول مطلوب",
+        "minLength": "يجب أن يتكون اسم الشخص المخول من حرفين على الأقل",
+        "maxLength": "يجب ألا يتجاوز اسم الشخص المخول 255 حرفاً"
+      },
+      "authorizedPersonPhoneNumber": {
+        "required": "رقم هاتف الشخص المخول مطلوب",
+        "minLength": "يرجى إدخال رقم هاتف صالح",
+        "maxLength": "يجب ألا يتجاوز رقم الهاتف 20 حرفاً"
+      },
+      "detailedAddress": {
+        "required": "العنوان التفصيلي مطلوب",
+        "maxLength": "يجب ألا يتجاوز العنوان التفصيلي 500 حرف"
+      },
+      "vatNumber": {
+        "required": "رقم ضريبة القيمة المضافة مطلوب",
+        "maxLength": "يجب ألا يتجاوز رقم ضريبة القيمة المضافة 20 حرفاً"
+      },
+      "aboutUs": {
+        "required": "معلومات عنا مطلوبة",
+        "maxLength": "يجب ألا تتجاوز معلومات عنا 1000 حرف"
       },
       "commercialEstablishmentName": {
         "required": "اسم المنشأة التجارية مطلوب"
       },
-      "authorizedPersonName": {
-        "required": "اسم الشخص المفوض مطلوب",
-        "minLength": "يجب أن يتكون اسم الشخص المفوض من حرفين على الأقل"
+      "contractorOperational": {
+        "executedProjectRange": {
+          "required": "نطاق المشاريع المنفذة مطلوب"
+        },
+        "staffSizeRange": {
+          "required": "نطاق حجم الموظفين مطلوب"
+        },
+        "experienceYearsRange": {
+          "required": "نطاق سنوات الخبرة مطلوب"
+        },
+        "annualProjectsRange": {
+          "required": "نطاق المشاريع السنوية مطلوب"
+        },
+        "targetProjectValueRanges": {
+          "required": "نطاق قيمة المشاريع المستهدفة مطلوب (واحد على الأقل)"
+        },
+        "workFields": {
+          "required": "مجال عمل واحد على الأقل مطلوب",
+          "yearsOfExperience": "يجب أن تكون سنوات الخبرة سنة واحدة على الأقل"
+        },
+        "operationalGeographicalCoverage": {
+          "required": "منطقة تغطية جغرافية واحدة على الأقل مطلوبة",
+          "countryRequired": "الدولة مطلوبة",
+          "stateRequired": "المنطقة مطلوبة",
+          "cityRequired": "المدينة مطلوبة"
+        },
+        "contractorGeographicCoverages": {
+          "required": "تغطية جغرافية للمقاول واحدة على الأقل مطلوبة",
+          "countryRequired": "الدولة مطلوبة",
+          "stateRequired": "المنطقة مطلوبة",
+          "cityRequired": "المدينة مطلوبة"
+        },
+        "hasGovernmentAccreditation": {
+          "required": "حالة الاعتماد الحكومي مطلوبة"
+        },
+        "coversAllRegions": {
+          "required": "حالة تغطية جميع المناطق مطلوبة"
+        }
       },
-      "authorizedPersonPhoneNumber": {
-        "required": "رقم جوال الشخص المفوض مطلوب",
-        "minLength": "يرجى إدخال رقم جوال صالح"
+
+      "delegationForm": {
+        "required": "وثيقة التعيين مطلوبة"
+      },
+      "avatar": {
+        "required": "شعار الشركة مطلوب"
+      },
+      "representativeIdImage": {
+        "required": "صورة البطاقة الشخصية للشخص المفوض مطلوبة"
       },
       "engineeringSpecialization": {
         "required": "يرجى اختيار تخصص هندسي واحد على الأقل"
@@ -1291,6 +1812,15 @@
       "officeSpecializations": {
         "required": "يرجى اختيار تخصص مكتب واحد على الأقل"
       },
+      "staffSizeRange": {
+        "required": "نطاق حجم الموظفين مطلوب"
+      },
+      "annualProjectsRange": {
+        "required": "نطاق المشاريع السنوية مطلوب"
+      },
+      "classificationFile": {
+        "required": "ملف التصنيف مطلوب"
+      },
       "numberOfEmployees": {
         "required": "عدد الموظفين مطلوب"
       },
@@ -1299,6 +1829,10 @@
       },
       "geographicCoverage": {
         "required": "يرجى اختيار منطقة تغطية جغرافية واحدة على الأقل"
+      },
+      "geographicalCoverage": {
+        "required": "منطقة تغطية جغرافية واحدة على الأقل مطلوبة",
+        "cityRequired": "المدينة مطلوبة للتغطية الجغرافية"
       },
       "officialAccreditations": {
         "required": "حالة الاعتمادات الرسمية مطلوبة"
@@ -1335,7 +1869,8 @@
       },
       "fullName": {
         "required": "الاسم الكامل مطلوب",
-        "minLength": "الاسم الكامل يجب أن يكون على الأقل 2 أحرف"
+        "minLength": "الاسم الكامل يجب أن يكون على الأقل 2 أحرف",
+        "maxLength": "يجب ألا يتجاوز الاسم الكامل 255 حرفاً"
       },
       "organizationContactPersonFullName": {
         "required": "اسم الشخص المفوض مطلوب",

@@ -1,7 +1,17 @@
 "use client";
 
 import { Direction } from "radix-ui";
-import { useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
+
+interface DirectionContextType {
+  direction: "ltr" | "rtl";
+}
+
+const DirectionContext = createContext<DirectionContextType>({
+  direction: "ltr",
+});
+
+export const useDirection = () => useContext(DirectionContext);
 
 interface DirectionProviderProps {
   children: React.ReactNode;
@@ -38,5 +48,9 @@ export default function DirectionProvider({
     return () => observer.disconnect();
   }, []);
 
-  return <Direction.Provider dir={direction}>{children}</Direction.Provider>;
+  return (
+    <DirectionContext.Provider value={{ direction }}>
+      <Direction.Provider dir={direction}>{children}</Direction.Provider>
+    </DirectionContext.Provider>
+  );
 }

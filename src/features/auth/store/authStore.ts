@@ -19,8 +19,9 @@ import { roleFlowMeta } from "../constants/roleFlowMeta";
 
 export interface AuthStoreState extends BaseRegistrationState {
   // Shared
-  user: AuthUser  | null;
+  user: AuthUser | null;
   isAuthenticated: boolean;
+  currentGroup: "seeker" | "provider" | null;
   currentRole: RegistrationRole | null;
   currentStep: string | null;
   authMethod: AuthMethod | null;
@@ -40,16 +41,21 @@ export interface AuthStoreState extends BaseRegistrationState {
   roleData: RoleSpecificData;
 
   // Actions
+  setGroup: (group: "seeker" | "provider") => void;
   setRole: (role: RegistrationRole) => void;
   setCurrentStep: (step: string) => void;
   setAuthMethod: (method: AuthMethod) => void;
-  setRoleData: (key: keyof RoleSpecificData, data: Record<string, unknown>) => void;
+  setRoleData: (
+    key: keyof RoleSpecificData,
+    data: Record<string, unknown>
+  ) => void;
   setVerificationCode: (code: string) => void;
   setIsVerified: (verified: boolean) => void;
   setLoading: (loading: boolean) => void;
   setError: (error: string | null) => void;
   clearError: () => void;
   setUserData: (userData: AuthUser) => void;
+  updateUser: (updates: Partial<AuthUser>) => void;
   logout: () => void;
 
   // Flow actions
@@ -75,8 +81,9 @@ export const useAuthStore = create<AuthStoreState>()((set, get) => ({
   // Initial state
   user: tokenStorage.getUser() as AuthUser | null,
   isAuthenticated: false,
+  currentGroup: null,
   currentRole: tokenStorage.getCurrentRole() as RegistrationRole | null,
-  currentStep: null,
+  currentStep: tokenStorage.getCurrentStep(),
   authMethod: null,
   verificationCode: "",
   isVerified: false,
@@ -92,14 +99,13 @@ export const useAuthStore = create<AuthStoreState>()((set, get) => ({
   setShowConfirmPassword: (show) => set({ showConfirmPassword: show }),
 
   // Actions
+  setGroup: (group) => set({ currentGroup: group }),
   setRole: (role) =>
     set(() => {
-      if (typeof window !== "undefined") {
-        tokenStorage.setCurrentRole(role);
-      }
+      const firstStep = roleFlowMeta[role].map((step) => step.key)[0] ?? null;
       return {
         currentRole: role,
-        currentStep: roleFlowMeta[role].map((step) => step.key)[0] ?? null,
+        currentStep: firstStep,
         roleData: {},
         authMethod: null,
         verificationCode: "",
@@ -113,7 +119,9 @@ export const useAuthStore = create<AuthStoreState>()((set, get) => ({
   // but here we can safely write since it's a direct user action
   // and doesn't depend on previous state.
 
-  setCurrentStep: (step) => set({ currentStep: step }),
+  setCurrentStep: (step) => {
+    set({ currentStep: step });
+  },
   setAuthMethod: (method) => set({ authMethod: method }),
   setRoleData: (key, data) =>
     set((state) => ({
@@ -128,17 +136,47 @@ export const useAuthStore = create<AuthStoreState>()((set, get) => ({
   // Set user data and verification status
   setUserData: (userData: AuthUser) => {
     const verificationStatus = userData?.account_overview?.verification_status;
+    const { currentRole, currentStep } = get();
+
+    // Persist to localStorage when user is set
+    if (typeof window !== "undefined") {
+      if (currentRole) {
+        tokenStorage.setCurrentRole(currentRole);
+      }
+    }
+
     set((state) => ({
       ...state,
       user: userData,
+      isAuthenticated: true,
       isVerified: !verificationStatus?.verification_required || false,
     }));
+  },
+
+  // Update user data partially
+  updateUser: (updates: Partial<AuthUser>) => {
+    set((state) => {
+      if (!state.user) return state;
+
+      const updatedUser = { ...state.user, ...updates };
+
+      // Persist updated user to localStorage
+      if (typeof window !== "undefined") {
+        tokenStorage.setUser(updatedUser);
+      }
+
+      return {
+        ...state,
+        user: updatedUser,
+      };
+    });
   },
 
   // Logout and clear all auth-related state
   logout: () => {
     tokenStorage.clearAll();
     tokenStorage.clearCurrentRole();
+    tokenStorage.clearCurrentStep();
     set({
       user: null,
       isAuthenticated: false,
@@ -157,8 +195,13 @@ export const useAuthStore = create<AuthStoreState>()((set, get) => ({
   },
 
   // Reset
-  resetRegistration: () =>
+  resetRegistration: () => {
+    if (typeof window !== "undefined") {
+      tokenStorage.clearCurrentRole();
+      tokenStorage.clearCurrentStep();
+    }
     set({
+      currentGroup: null,
       currentStep: null,
       currentRole: null,
       authMethod: null,
@@ -167,22 +210,27 @@ export const useAuthStore = create<AuthStoreState>()((set, get) => ({
       isVerified: false,
       isLoading: false,
       error: null,
-    }),
+    });
+  },
 
   // Navigation
   goToNextStep: () => {
-    const { currentRole, currentStep } = get();
+    const { currentRole, currentStep, user } = get();
     if (!currentRole || !currentStep) return;
 
     const steps = roleFlowMeta[currentRole];
     const idx = steps.map((step) => step.key).indexOf(currentStep);
     if (idx >= 0 && idx < steps.length - 1) {
-      set({ currentStep: steps[idx + 1].key });
+      const nextStep = steps[idx + 1].key;
+      if (typeof window !== "undefined" && user) {
+        tokenStorage.setCurrentStep(nextStep);
+      }
+      set({ currentStep: nextStep });
     }
   },
 
   goToPreviousStep: () => {
-    const { currentRole, currentStep } = get();
+    const { currentRole, currentStep, user } = get();
     if (!currentRole || !currentStep) return;
 
     const steps = roleFlowMeta[currentRole];
@@ -190,7 +238,12 @@ export const useAuthStore = create<AuthStoreState>()((set, get) => ({
 
     // If user is on the first step, reset the role selection
     if (idx === 0) {
+      if (typeof window !== "undefined" && user) {
+        tokenStorage.clearCurrentRole();
+        tokenStorage.clearCurrentStep();
+      }
       set({
+        currentGroup: null,
         currentRole: null,
         currentStep: null,
         authMethod: null,
@@ -201,7 +254,11 @@ export const useAuthStore = create<AuthStoreState>()((set, get) => ({
       });
     } else if (idx > 0) {
       // Go to previous step
-      set({ currentStep: steps[idx - 1].key });
+      const prevStep = steps[idx - 1].key;
+      if (typeof window !== "undefined" && user) {
+        tokenStorage.setCurrentStep(prevStep);
+      }
+      set({ currentStep: prevStep });
     }
   },
 

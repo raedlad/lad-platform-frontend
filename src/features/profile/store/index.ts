@@ -1,7 +1,6 @@
 export { useProfileStore } from "./profileStore";
-export { useIndividualProfileStore } from "./individualProfileStore";
-export { useOrganizationProfileStore } from "./organizationProfileStore";
-export { useFreelanceEngineerProfileStore } from "./freelanceEngineerProfileStore";
-export { useEngineeringOfficeProfileStore } from "./engineeringOfficePeofileStore";
-export { useContractorProfileStore } from "./contractorProfileStore";
-export { useSupplierProfileStore } from "./supplierProfileStore";
+export { usePersonalInfoStore } from "./personalInfoStore";
+export { useOperationalStore } from "./operationalStore";
+export { useDocumentsStore } from "./documentStore";
+export { useDashboardStore } from "./dashboardStore";
+export { useAchievedProjectsStore } from "./achievedProjectsStore";

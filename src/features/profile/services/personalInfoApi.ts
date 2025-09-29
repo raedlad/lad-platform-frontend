@@ -1,12 +1,21 @@
 // services/personalInfoApi.ts
-import { request } from "@/lib/apiClient";
-import type { ApiResponse } from "@/lib/apiClient";
+import api from "@/lib/api";
 import type { IndividualProfilePersonalInfo } from "@/features/profile/types/individual";
+import type { IndividualPersonalInfoApiData } from "@/features/profile/types/api";
 import type { OrganizationProfilePersonalInfo } from "@/features/profile/types/organization";
 import type { FreelanceEngineerProfilePersonalInfo } from "@/features/profile/types/freelanceEngineer";
+import type { FreelanceEngineerProfessionalInfoType } from "@/features/profile/types/freelanceEngineer";
 import type { EngineeringOfficeProfilePersonalInfo } from "@/features/profile/types/engineeringOffice";
 import type { ContractorProfilePersonalInfo } from "@/features/profile/types/contractor";
 import type { SupplierProfilePersonalInfo } from "@/features/profile/types/supplier";
+
+// API Response interface
+export interface ApiResponse<T = any> {
+  success: boolean;
+  data?: T;
+  response?: T;
+  message?: string;
+}
 
 // Location types based on actual API response
 export interface Country {
@@ -47,47 +56,204 @@ export interface ContractorPersonalInfoApiData {
   state_id?: number | null;
   city_id?: number | null;
   delegation_form: File;
-  avatar: File;
 }
 
 export const personalInfoApi = {
-  submitIndividualPersonalInfo(
-    individualPersonalInfo: IndividualProfilePersonalInfo
+  async submitIndividualPersonalInfo(
+    individualPersonalInfo: IndividualPersonalInfoApiData
   ): Promise<ApiResponse<IndividualProfilePersonalInfo>> {
-    return request<IndividualProfilePersonalInfo>(
-      "post",
-      "/individual/profile/personal-info",
+    const response = await api.post(
+      "/individual/profile/complete",
       individualPersonalInfo
     );
+    return {
+      success: response.data.success,
+      data: response.data.response || response.data.data,
+      message: response.data.message,
+    };
   },
-  submitOrganizationPersonalInfo(
+  async submitOrganizationPersonalInfo(
     organizationPersonalInfo: OrganizationProfilePersonalInfo
   ): Promise<ApiResponse<OrganizationProfilePersonalInfo>> {
-    return request<OrganizationProfilePersonalInfo>(
-      "post",
-      "/organization/profile/personal-info",
+    // Create FormData for multipart form submission
+    const formData = new FormData();
+
+    // Add all text fields
+    if (organizationPersonalInfo.company_name) {
+      formData.append("company_name", organizationPersonalInfo.company_name);
+    }
+    if (organizationPersonalInfo.commercial_register_number) {
+      formData.append(
+        "commercial_register_number",
+        organizationPersonalInfo.commercial_register_number
+      );
+    }
+    if (organizationPersonalInfo.representative_name) {
+      formData.append(
+        "representative_name",
+        organizationPersonalInfo.representative_name
+      );
+    }
+    if (organizationPersonalInfo.representative_person_phone) {
+      formData.append(
+        "representative_person_phone",
+        organizationPersonalInfo.representative_person_phone
+      );
+    }
+    if (organizationPersonalInfo.representative_person_email) {
+      formData.append(
+        "representative_person_email",
+        organizationPersonalInfo.representative_person_email
+      );
+    }
+    // Handle boolean field - Laravel expects "1" for true, "0" for false
+    formData.append(
+      "has_government_accreditation",
+      organizationPersonalInfo.has_government_accreditation ? "true" : "false"
+    );
+    if (organizationPersonalInfo.detailed_address) {
+      formData.append(
+        "detailed_address",
+        organizationPersonalInfo.detailed_address
+      );
+    }
+    if (organizationPersonalInfo.vat_number) {
+      formData.append("vat_number", organizationPersonalInfo.vat_number);
+    }
+    if (organizationPersonalInfo.about_us) {
+      formData.append("about_us", organizationPersonalInfo.about_us);
+    }
+    if (organizationPersonalInfo.country_id) {
+      formData.append(
+        "country_id",
+        organizationPersonalInfo.country_id.toString()
+      );
+    }
+    if (organizationPersonalInfo.state_id) {
+      formData.append("state_id", organizationPersonalInfo.state_id.toString());
+    }
+    if (organizationPersonalInfo.city_id) {
+      formData.append("city_id", organizationPersonalInfo.city_id.toString());
+    }
+
+    // Add file if present
+    if (organizationPersonalInfo.representative_id_image) {
+      formData.append(
+        "representative_id_image",
+        organizationPersonalInfo.representative_id_image
+      );
+    }
+
+    // Debug logging
+    console.log(
+      "Organization Personal Info API Data:",
       organizationPersonalInfo
     );
+    console.log("FormData entries:");
+    for (const [key, value] of formData.entries()) {
+      console.log(`${key}:`, value, typeof value);
+    }
+
+    const response = await api.post(
+      "/organization/profile/complete",
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+    return {
+      success: response.data.success,
+      data: response.data.response || response.data.data,
+      message: response.data.message,
+    };
   },
-  submitFreelanceEngineerPersonalInfo(
+  async submitFreelanceEngineerPersonalInfo(
     freelanceEngineerPersonalInfo: FreelanceEngineerProfilePersonalInfo
   ): Promise<ApiResponse<FreelanceEngineerProfilePersonalInfo>> {
-    return request<FreelanceEngineerProfilePersonalInfo>(
-      "post",
-      "/freelance-engineer/profile/personal-info",
+    const response = await api.put(
+      "/freelancer-engineer/profile/update",
       freelanceEngineerPersonalInfo
     );
+    return {
+      success: response.data.success,
+      data: response.data.response || response.data.data,
+      message: response.data.message,
+    };
   },
-  submitEngineeringOfficePersonalInfo(
+  async updateFreelanceEngineerFullSpecializations(
+    professionalInfo: FreelanceEngineerProfessionalInfoType
+  ): Promise<ApiResponse<FreelanceEngineerProfessionalInfoType>> {
+    const response = await api.put(
+      "/freelancer-engineer/profile/update-full-specializations",
+      professionalInfo
+    );
+    return {
+      success: response.data.success,
+      data: response.data.response || response.data.data,
+      message: response.data.message,
+    };
+  },
+  async submitEngineeringOfficePersonalInfo(
     engineeringOfficePersonalInfo: EngineeringOfficeProfilePersonalInfo
   ): Promise<ApiResponse<EngineeringOfficeProfilePersonalInfo>> {
-    return request<EngineeringOfficeProfilePersonalInfo>(
-      "post",
-      "/engineering-office/profile/personal-info",
-      engineeringOfficePersonalInfo
-    );
+    try {
+      // Create FormData for multipart form data
+      const formData = new FormData();
+
+      // Add all the form fields to FormData
+      Object.keys(engineeringOfficePersonalInfo).forEach((key) => {
+        const value =
+          engineeringOfficePersonalInfo[
+            key as keyof EngineeringOfficeProfilePersonalInfo
+          ];
+        if (value !== null && value !== undefined) {
+          if (key === "delegation_form" && value instanceof File) {
+            formData.append(key, value);
+            console.log(`Added file: ${key}`, value.name, value.size);
+          } else {
+            formData.append(key, String(value));
+            console.log(`Added field: ${key}`, value);
+          }
+        }
+      });
+
+      console.log("Submitting engineering office personal info:", {
+        url: "/engineering-office/profile/update",
+        method: "PUT",
+        contentType: "multipart/form-data",
+      });
+
+      const response = await api.put(
+        "/engineering-office/profile/update",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      console.log("API Response:", response.data);
+
+      return {
+        success: response.data.success,
+        data: response.data.response || response.data.data,
+        message: response.data.message,
+      };
+    } catch (error: any) {
+      console.error("API Error:", error);
+      return {
+        success: false,
+        message:
+          error?.response?.data?.message ||
+          error?.message ||
+          "An error occurred",
+      };
+    }
   },
-  submitContractorPersonalInfo(
+  async submitContractorPersonalInfo(
     contractorPersonalInfo: ContractorPersonalInfoApiData
   ): Promise<ApiResponse<ContractorProfilePersonalInfo>> {
     // Create FormData for file upload
@@ -128,8 +294,6 @@ export const personalInfoApi = {
 
     // Add file fields
     formData.append("delegation_form", contractorPersonalInfo.delegation_form);
-    formData.append("avatar", contractorPersonalInfo.avatar);
-
     // Debug logging
     console.log("Contractor Personal Info API Data:", contractorPersonalInfo);
     console.log("FormData entries:");
@@ -137,41 +301,115 @@ export const personalInfoApi = {
       console.log(`${key}:`, value);
     }
 
-    return request<ContractorProfilePersonalInfo>(
-      "post",
-      "/contractor/update-profile/update-profile",
-      formData,
+    const response = await api.post("/contractor/profile/update", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+      transformRequest: [(data) => data],
+    });
+    return {
+      success: response.data.success,
+      data: response.data.response || response.data.data,
+      message: response.data.message,
+    };
+  },
+  async fetchSupplierProfile(): Promise<
+    ApiResponse<SupplierProfilePersonalInfo>
+  > {
+    const response = await api.get("/supplier/profile");
+    return {
+      success: response.data.success,
+      data: response.data.response || response.data.data,
+      message: response.data.message,
+    };
+  },
+
+  async submitSupplierPersonalInfo(
+    supplierPersonalInfo: SupplierProfilePersonalInfo
+  ): Promise<ApiResponse<SupplierProfilePersonalInfo>> {
+    const response = await api.post(
+      "/supplier/profile/personal-info",
+      supplierPersonalInfo
+    );
+    return {
+      success: response.data.success,
+      data: response.data.response || response.data.data,
+      message: response.data.message,
+    };
+  },
+
+  async updateEngineeringOfficeProfessionalInfo(
+    professionalInfo: FormData
+  ): Promise<ApiResponse<any>> {
+    const response = await api.put(
+      "/engineering-office/profile/update-full-operational",
+      professionalInfo,
       {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       }
     );
-  },
-  submitSupplierPersonalInfo(
-    supplierPersonalInfo: SupplierProfilePersonalInfo
-  ): Promise<ApiResponse<SupplierProfilePersonalInfo>> {
-    return request<SupplierProfilePersonalInfo>(
-      "post",
-      "/supplier/profile/personal-info",
-      supplierPersonalInfo
-    );
+    return {
+      success: response.data.success,
+      data: response.data.response || response.data.data,
+      message: response.data.message,
+    };
   },
 
   // Location APIs
-  getCountries(): Promise<ApiResponse<Country[]>> {
-    return request<Country[]>("get", "/world/countries");
+  async getCountries(): Promise<ApiResponse<Country[]>> {
+    const response = await api.get("/world/countries");
+    return {
+      success: response.data.success,
+      data: response.data.response || response.data.data,
+      message: response.data.message,
+    };
   },
 
-  getStates(countryCode: string): Promise<ApiResponse<State[]>> {
-    return request<State[]>("get", `/world/countries/${countryCode}/states`);
+  async getStates(countryCode: string): Promise<ApiResponse<State[]>> {
+    const response = await api.get(`/world/countries/${countryCode}/states`);
+    return {
+      success: response.data.success,
+      data: response.data.response || response.data.data,
+      message: response.data.message,
+    };
   },
 
-  getCitiesByCountry(countryCode: string): Promise<ApiResponse<City[]>> {
-    return request<City[]>("get", `/world/countries/${countryCode}/cities`);
+  async getCitiesByCountry(countryCode: string): Promise<ApiResponse<City[]>> {
+    const response = await api.get(`/world/countries/${countryCode}/cities`);
+    return {
+      success: response.data.success,
+      data: response.data.response || response.data.data,
+      message: response.data.message,
+    };
   },
 
-  getCitiesByState(stateCode: string): Promise<ApiResponse<City[]>> {
-    return request<City[]>("get", `/world/states/${stateCode}/cities`);
+  async getCitiesByState(stateCode: string): Promise<ApiResponse<City[]>> {
+    const response = await api.get(`/world/states/${stateCode}/cities`);
+    return {
+      success: response.data.success,
+      data: response.data.response || response.data.data,
+      message: response.data.message,
+    };
+  },
+
+  async updateSupplierProfessionalInfo(
+    professionalInfo: FormData
+  ): Promise<ApiResponse<any>> {
+    const response = await api.put(
+      "/supplier/profile/update-full-operational",
+      professionalInfo,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+    return {
+      success: response.data.success,
+      data: response.data.response || response.data.data,
+      message: response.data.message,
+    };
   },
 };

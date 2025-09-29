@@ -6,6 +6,7 @@ import {
   Role,
   FileUploadStatus,
 } from "@/features/profile/types/documents";
+import { Document } from "@/features/profile/types/documents";
 import {
   documentsService,
   ApiError,
@@ -267,7 +268,7 @@ export const useDocumentsStore = create<DocumentsStore>((set, get) => ({
         // Use real API with retry logic
         const backendDocuments: BackendDocument[] =
           await documentsService.withRetry(
-            () => documentsService.fetchDocuments(role),
+            () => documentsService.fetchDocuments(),
             3, // max retries
             1000 // initial delay
           );

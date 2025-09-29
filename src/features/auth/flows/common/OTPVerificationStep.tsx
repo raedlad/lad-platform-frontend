@@ -128,12 +128,6 @@ const OTPVerificationStep: React.FC<VerificationStepProps> = ({
     if (!result.success) {
       setError(result.error || t("errors.verificationFailed"));
       setVerificationCode("");
-    } else {
-      // Verification successful - the useRoleRedirect hook will handle the redirect
-      setSuccessMessage(
-        t("success.verificationSuccessful") ||
-          "Verification successful! Redirecting to dashboard..."
-      );
     }
   };
 

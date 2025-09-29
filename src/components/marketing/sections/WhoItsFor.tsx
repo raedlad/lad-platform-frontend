@@ -35,13 +35,13 @@ const WhoItsFor = () => {
       icon: <Users className="size-8" />,
       title: t("individuals"),
       description: t("individualsDescription"),
-      href: "/auth/register?type=individual",
+      href: "/signup?group=seeker&type=individual",
     },
     {
       icon: <Building2 className="size-8" />,
       title: t("organizations"),
       description: t("organizationsDescription"),
-      href: "/auth/register?type=organization",
+      href: "/signup?group=seeker&type=organization",
     },
     {
       icon: <Landmark className="size-8" />,
@@ -57,25 +57,25 @@ const WhoItsFor = () => {
       icon: <HardHat className="size-8" />,
       title: t("contractors"),
       description: t("contractorsDescription"),
-      href: "/auth/register?type=contractor",
+      href: "/signup?group=provider&type=contractor",
     },
     {
       icon: <Wrench className="size-8" />,
       title: t("freelanceEngineers"),
       description: t("freelanceEngineersDescription"),
-      href: "/auth/register?type=freelance-engineer",
+      href: "/signup?group=provider&type=freelance-engineer",
     },
     {
       icon: <Building className="size-8" />,
       title: t("engineeringOffices"),
       description: t("engineeringOfficesDescription"),
-      href: "/auth/register?type=engineering-office",
+      href: "/signup?group=provider&type=engineering-office",
     },
     {
       icon: <Package className="size-8" />,
       title: t("suppliers"),
       description: t("suppliersDescription"),
-      href: "/auth/register?type=supplier",
+      href: "/signup?group=provider&type=supplier",
     },
   ];
 

@@ -1,2 +1,2 @@
 export { default as OrganizationDocumentUpload } from "./OrganizationDocumentUpload";
-export { default as OrganizationPersonalInfo } from "./OrganizationPersonalInfo";
+export { OrganizationPersonalInfo } from "./OrganizationPersonalInfo";

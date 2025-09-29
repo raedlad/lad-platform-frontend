@@ -1,13 +1,14 @@
-import SignUpForm from '@/features/auth/components/forms/SignupFlow'
-import React from 'react'
+"use client";
 
+import SignUpForm from "@/features/auth/components/forms/SignupFlow";
+import React from "react";
 
 const page = () => {
   return (
-    <div className="screen-center">
+    <div className="">
       <SignUpForm />
     </div>
-  )
-}
+  );
+};
 
-export default page
+export default page;

@@ -15,6 +15,7 @@ interface UserData {
   phone: string;
   user_type: string;
   status: string;
+  avatar_url?: string;
   email_verified_at: string | null;
   phone_verified_at: string | null;
   account_overview: {
@@ -147,6 +148,12 @@ export const tokenStorage = {
     return userStr ? JSON.parse(userStr) : null;
   },
 
+  // Set user data
+  setUser: (user: UserData) => {
+    if (typeof window === "undefined") return;
+    localStorage.setItem("user", JSON.stringify(user));
+  },
+
   // Check if verification is required
   isVerificationRequired: (): boolean => {
     if (typeof window === "undefined") return false;
@@ -235,5 +242,19 @@ export const tokenStorage = {
   clearCurrentRole: () => {
     if (typeof window === "undefined") return;
     localStorage.removeItem("current_role");
+  },
+
+  // Persist and retrieve current step
+  setCurrentStep: (step: string) => {
+    if (typeof window === "undefined") return;
+    localStorage.setItem("current_step", step);
+  },
+  getCurrentStep: (): string | null => {
+    if (typeof window === "undefined") return null;
+    return localStorage.getItem("current_step");
+  },
+  clearCurrentStep: () => {
+    if (typeof window === "undefined") return;
+    localStorage.removeItem("current_step");
   },
 };

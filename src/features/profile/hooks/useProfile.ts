@@ -5,7 +5,6 @@ export function useProfile() {
     user,
     isLoading,
     error,
-    setUser,
     updateUser,
     setLoading,
     setError,
@@ -70,7 +69,7 @@ export function useProfile() {
   const uploadAvatar = async (file: File) => {
     try {
       setLoading(true);
-      // Simulate file upload
+
       await new Promise((resolve) => setTimeout(resolve, 2000));
       const avatarUrl = URL.createObjectURL(file);
       updateUser({ avatar: avatarUrl });
