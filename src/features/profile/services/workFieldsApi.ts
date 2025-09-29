@@ -1,4 +1,4 @@
-import { api } from "@/shared/services/api";
+import { api } from "@/lib/api";
 
 export interface WorkField {
   id: number;
