@@ -24,6 +24,7 @@ import {
 import { isProfileComplete, getProfileCompletionTasks } from "../utils";
 import { cn } from "@/lib/utils";
 import { DashboardUser } from "../types";
+import ProfileCompletionAlert from "@/features/profile/components/ProfileCompletionAlert";
 
 function ProfileCompletionBanner({
   user,
@@ -271,13 +272,8 @@ export function SupplierDashboardPage() {
           </div>
         </div>
 
-        {/* Profile Completion Banner */}
-        {currentUser && !isProfileComplete(currentUser as DashboardUser) && (
-          <ProfileCompletionBanner
-            user={currentUser as DashboardUser}
-            onComplete={handleCompleteProfile}
-          />
-        )}
+        {/* Profile Completion Alert */}
+        <ProfileCompletionAlert />
 
         {/* Active Announcements */}
         {activeAnnouncements.length > 0 && (

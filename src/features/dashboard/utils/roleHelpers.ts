@@ -137,6 +137,11 @@ export function getDefaultQuickActions(role: string) {
 }
 
 export function isProfileComplete(user: DashboardUser): boolean {
+  // Check if profile_status indicates completion
+  if (user.account_overview?.profile_status === "not_completed") {
+    return false;
+  }
+
   // Basic required fields
   const hasBasicInfo = !!(user.name && user.email);
 

@@ -1,15 +1,26 @@
 "use client";
 import RecentProjects from "./cards/RecentProjects";
 import React from "react";
-import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { FolderOpen, Mail, FileCheck } from "lucide-react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { Button } from "@/shared/components/ui/button";
+import ProfileCompletionAlert from "@/features/profile/components/ProfileCompletionAlert";
 
 const IndividualDashboardPage = () => {
   const t = useTranslations();
+  const tCommon = useTranslations("common");
   return (
     <div className="w-full h-full">
       <div className="flex flex-col gap-8">
+        {/* Profile Completion Alert */}
+        <ProfileCompletionAlert />
+
         <div className="flex flex-col gap-2">
           <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
             {t("dashboard.individual.welcome", { name: "Ahmed" })}
@@ -26,12 +37,20 @@ const IndividualDashboardPage = () => {
                   "dashboard.individual.quickActions.createProject.description"
                 )}
               </p>
-              <Link href="/dashboard/individual/projects/new">
-                <button className="cursor-pointer text-sm py-3 px-8 bg-design-main hover:bg-design-main-dark text-white rounded-full transition-colors">
-                  {" "}
-                  {t("dashboard.individual.quickActions.createProject.button")}
-                </button>
-              </Link>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button className="cursor-not-allowed text-sm py-3 px-8 rounded-full transition-colors">
+                      {t(
+                        "dashboard.individual.quickActions.createProject.button"
+                      )}
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>{tCommon("ui.comingSoon")}</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
             </div>
             <div className="flex flex-col items-center gap-8 p-8 max-w-md font-semibold shadow-md border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800">
               <p className="text-lg font-semibold text-gray-900 dark:text-gray-100">

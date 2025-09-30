@@ -724,6 +724,11 @@
   "profile": {
     "title": "الملف الشخصي",
     "editProfile": "تعديل الملف الشخصي",
+    "completionAlert": {
+      "title": "أكمل ملفك الشخصي",
+      "description": "يرجى إكمال معلومات ملفك الشخصي للوصول إلى جميع الميزات وتحسين تجربتك.",
+      "completeProfile": "إكمال الملف الشخصي"
+    },
     "sidebar": {
       "general": "عام",
       "personalInfo": "المعلومات الشخصية",

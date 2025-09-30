@@ -733,6 +733,11 @@
   "profile": {
     "title": "Profile",
     "editProfile": "Edit Profile",
+    "completionAlert": {
+      "title": "Complete Your Profile",
+      "description": "Please complete your profile information to access all features and improve your experience.",
+      "completeProfile": "Complete Profile"
+    },
     "sidebar": {
       "general": "General",
       "personalInfo": "Personal Info",

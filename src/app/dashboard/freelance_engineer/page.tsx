@@ -1,15 +1,29 @@
-// import React from 'react'
-
-// const page = () => {
-//   return (
-//     <div>
-//       <h1>Freelance Engineer</h1>
-//     </div>
-//   )
-// }
-
-// export default page
+import ProfileCompletionAlert from "@/features/profile/components/ProfileCompletionAlert";
 
 export default function FreelanceEngineerPage() {
-  return <div>freelance engineer page</div>;
+  return (
+    <div className="w-full h-full p-6">
+      <div className="flex flex-col gap-8">
+        {/* Profile Completion Alert */}
+        <ProfileCompletionAlert />
+
+        <div className="flex flex-col gap-2">
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+            Freelance Engineer Dashboard
+          </h1>
+          <p className="text-gray-500 dark:text-gray-400">
+            Welcome to your freelance engineer dashboard. Complete your profile
+            to access all features.
+          </p>
+        </div>
+
+        <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm">
+          <p className="text-gray-600 dark:text-gray-400">
+            This dashboard is under development. Complete your profile to get
+            started.
+          </p>
+        </div>
+      </div>
+    </div>
+  );
 }
