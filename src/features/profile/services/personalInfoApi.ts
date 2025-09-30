@@ -68,6 +68,7 @@ export const personalInfoApi = {
     );
     return {
       success: response.data.success,
+      response: response.data.response || response.data.data,
       data: response.data.response || response.data.data,
       message: response.data.message,
     };

@@ -16,6 +16,18 @@ const OnboardingRightCard = () => {
   // Get current step info
   const getCurrentStepInfo = () => {
     if (!currentRole || !currentStep) return null;
+
+    // Handle socialLoginForm step specially
+    if (currentStep === "socialLoginForm") {
+      return {
+        key: "socialLoginForm",
+        showInUI: true,
+        label: t("onboarding.steps.socialLoginForm.label"),
+        icon: "🔗",
+        description: t("onboarding.steps.socialLoginForm.description"),
+      };
+    }
+
     const steps = roleFlowMeta[currentRole];
     return steps.find((step) => step.key === currentStep);
   };
@@ -27,6 +39,8 @@ const OnboardingRightCard = () => {
         return assets.smartMatching; // Use AI/smart matching image for auth method
       case "personalInfo":
         return assets.user; // Use user image for personal info
+      case "socialLoginForm":
+        return assets.user; // Use user image for social login form
       case "verification":
         return assets.dashboardBackground; // Use dashboard background for verification
       default:
@@ -40,6 +54,8 @@ const OnboardingRightCard = () => {
       case "authMethod":
         return <Shield className="size-8" />;
       case "personalInfo":
+        return <UserCheck className="size-8" />;
+      case "socialLoginForm":
         return <UserCheck className="size-8" />;
       case "verification":
         return <User className="size-8" />;
@@ -55,7 +71,30 @@ const OnboardingRightCard = () => {
   // Get steps for indicator
   const getSteps = () => {
     if (!currentRole) return [];
-    return roleFlowMeta[currentRole];
+    const baseSteps = roleFlowMeta[currentRole];
+
+    // For third-party users, add socialLoginForm step
+    if (currentStep === "socialLoginForm") {
+      const socialStep = {
+        key: "socialLoginForm",
+        showInUI: true,
+        label: t("onboarding.steps.socialLoginForm.label"),
+        icon: "🔗",
+        description: t("onboarding.steps.socialLoginForm.description"),
+      };
+
+      // Insert socialLoginForm between personalInfo and verification
+      const personalInfoIndex = baseSteps.findIndex(
+        (step) => step.key === "personalInfo"
+      );
+      if (personalInfoIndex !== -1) {
+        const newSteps = [...baseSteps];
+        newSteps.splice(personalInfoIndex + 1, 0, socialStep);
+        return newSteps;
+      }
+    }
+
+    return baseSteps;
   };
 
   const steps = getSteps();
@@ -84,9 +123,7 @@ const OnboardingRightCard = () => {
             fill
             className="object-cover"
             priority
-            onError={(e) => {
-              console.log("Image failed to load:", e);
-            }}
+            onError={(e) => {}}
           />
         </motion.div>
       </AnimatePresence>

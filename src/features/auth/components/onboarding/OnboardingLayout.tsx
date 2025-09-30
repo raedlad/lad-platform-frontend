@@ -9,7 +9,6 @@ import { motion, AnimatePresence } from "framer-motion";
 export function OnboardingLayout({ children }: { children: React.ReactNode }) {
   const { currentRole, currentStep } = useAuthStore();
 
-  console.log("Current role: from onboarding layout", currentRole, currentStep);
   if (!currentRole || !currentStep) return <>{children}</>;
   const steps = roleFlowMeta[currentRole];
 
@@ -24,9 +23,6 @@ export function OnboardingLayout({ children }: { children: React.ReactNode }) {
       <div className="container-centered lg:col-span-8">
         <div className="auth-form-container">
           {/* Progress Header */}
-          <div className="auth-form-header">
-            <OnboardingProgress total={steps.length} />
-          </div>
 
           {/* Main Content with smooth transitions */}
           <div className="auth-form-content">

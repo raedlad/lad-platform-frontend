@@ -75,6 +75,32 @@ export const createValidationSchemas = (t: (key: string) => string) => {
     confirmPassword: z.string().optional(),
   });
 
+  // Social Login Form Schema - for completing profile after social auth
+  const SocialLoginFormSchema = z
+    .object({
+      firstName: z.string().min(2, messages.firstName.minLength),
+      lastName: z.string().min(2, messages.lastName.minLength),
+      email: z.string().email(messages.email.invalid),
+      phoneNumber: z.string().min(9, messages.phoneNumber.minLength),
+      password: z.string().min(8, messages.password.minLength),
+      confirmPassword: z.string(),
+      agreeToTerms: z.boolean().refine((val) => val === true, {
+        message: messages.terms.required,
+      }),
+    })
+    .refine(
+      (data) => {
+        if (data.password !== data.confirmPassword) {
+          return false;
+        }
+        return true;
+      },
+      {
+        message: messages.confirmPassword.mismatch,
+        path: ["confirmPassword"],
+      }
+    );
+
   // OTP Verification Schema
   const OTPVerificationSchema = z.object({
     otp: z.string().length(6, { message: messages.otp.length }),
@@ -95,18 +121,18 @@ export const createValidationSchemas = (t: (key: string) => string) => {
       path: ["confirmPassword"],
     });
 
-    const passwordResetSchema = z.object({
-      emailOrPhone: z
-        .string()
-        .min(1, messages.emailOrPhone.required)
-        .refine((value) => {
-          // Check if it's a valid email
-          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-          // Check if it's a valid phone (simple check for digits and common phone chars)
-          const phoneRegex = /^[\+]?[0-9\s\-\(\)]{10,}$/;
-          return emailRegex.test(value) || phoneRegex.test(value);
-        }, messages.emailOrPhone.invalid),
-    });
+  const passwordResetSchema = z.object({
+    emailOrPhone: z
+      .string()
+      .min(1, messages.emailOrPhone.required)
+      .refine((value) => {
+        // Check if it's a valid email
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        // Check if it's a valid phone (simple check for digits and common phone chars)
+        const phoneRegex = /^[\+]?[0-9\s\-\(\)]{10,}$/;
+        return emailRegex.test(value) || phoneRegex.test(value);
+      }, messages.emailOrPhone.invalid),
+  });
 
   return {
     EmailLoginSchema,
@@ -115,6 +141,7 @@ export const createValidationSchemas = (t: (key: string) => string) => {
     IndividualEmailRegistrationSchema,
     IndividualPhoneRegistrationSchema,
     IndividualThirdPartyRegistrationSchema,
+    SocialLoginFormSchema,
     OTPVerificationSchema,
     PasswordResetSchema,
     NewPasswordSchema,

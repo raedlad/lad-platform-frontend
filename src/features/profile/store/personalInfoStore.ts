@@ -338,16 +338,21 @@ export const usePersonalInfoStore = create<PersonalInfoStoreState>()((set) => ({
         individualPersonalInfo
       );
 
-      if (response.success && response.response) {
+      if (response.success && (response.data || response.response)) {
+        const profileData = response.data || response.response;
         set((state) => ({
           ...state,
-          individualPersonalInfo: response.response,
+          individualPersonalInfo: profileData,
+          isLoading: false,
+          error: null, // Clear any previous errors
         }));
-        set((state) => ({ ...state, isLoading: false }));
         return { success: true };
       } else {
-        set((state) => ({ ...state, error: response.message }));
-        set((state) => ({ ...state, isLoading: false }));
+        set((state) => ({
+          ...state,
+          error: response.message,
+          isLoading: false,
+        }));
         return { success: false, message: response.message };
       }
     } catch (error) {
@@ -642,18 +647,9 @@ export const usePersonalInfoStore = create<PersonalInfoStoreState>()((set) => ({
   // Location methods
   loadCountries: async () => {
     try {
-      console.log("loadCountries called - making API request...");
       const response = await personalInfoApi.getCountries();
-      console.log("loadCountries API response:", response);
       if (response.success && response.response) {
-        console.log(
-          "Countries loaded successfully:",
-          response.response?.length,
-          "countries"
-        );
         set({ countries: response.response });
-      } else {
-        console.log("Failed to load countries - no response data:", response);
       }
     } catch (error) {
       console.error("Failed to load countries:", error);
@@ -662,9 +658,7 @@ export const usePersonalInfoStore = create<PersonalInfoStoreState>()((set) => ({
 
   loadStates: async (countryCode: string) => {
     try {
-      console.log("Loading states for country:", countryCode);
       const response = await personalInfoApi.getStates(countryCode);
-      console.log("States response:", response);
       if (response.success && response.response) {
         set((state) => ({
           ...state,
@@ -673,10 +667,7 @@ export const usePersonalInfoStore = create<PersonalInfoStoreState>()((set) => ({
           selectedState: null,
           selectedCity: null,
         }));
-        console.log("States loaded:", response.response);
       } else {
-        console.log("No states found or error:", response);
-        // If no states, try to load cities directly
         set((state) => ({
           ...state,
           states: [],
@@ -692,19 +683,12 @@ export const usePersonalInfoStore = create<PersonalInfoStoreState>()((set) => ({
 
   loadCities: async (countryCode: string, stateCode?: string) => {
     try {
-      console.log(
-        "Loading cities for country:",
-        countryCode,
-        "state:",
-        stateCode
-      );
       let response;
       if (stateCode) {
         response = await personalInfoApi.getCitiesByState(stateCode);
       } else {
         response = await personalInfoApi.getCitiesByCountry(countryCode);
       }
-      console.log("Cities response:", response);
 
       if (response.success && response.response) {
         set((state) => ({
@@ -712,9 +696,7 @@ export const usePersonalInfoStore = create<PersonalInfoStoreState>()((set) => ({
           cities: response.response,
           selectedCity: null,
         }));
-        console.log("Cities loaded:", response.response);
       } else {
-        console.log("No cities found or error:", response);
         set((state) => ({
           ...state,
           cities: [],

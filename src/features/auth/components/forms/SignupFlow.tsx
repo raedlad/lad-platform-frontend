@@ -58,12 +58,6 @@ export default function SignUpForm() {
     setCurrentStep,
   ]);
 
-  useEffect(() => {
-    if (currentRole) {
-      console.log("Current role:", currentRole);
-    }
-  }, [currentRole]);
-
   const handleGroupSelect = (group: "seeker" | "provider") => {
     setLocalSelectedGroup(group);
     // Clear role selection when group changes
@@ -83,7 +77,7 @@ export default function SignUpForm() {
   const handleRoleContinue = () => {
     if (selectedRole) {
       setRole(selectedRole);
-      setCurrentStep("authMethod");
+      setCurrentStep("personalInfo");
     }
   };
 

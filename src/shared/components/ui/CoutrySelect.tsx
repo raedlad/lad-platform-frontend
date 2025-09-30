@@ -60,12 +60,6 @@ export const CountrySelection: React.FC<CountrySelectProps> = ({
     }
   }, [countries]);
 
-  // Debug logging
-  console.log("CountrySelection - countries:", countries);
-  console.log("CountrySelection - countries.length:", countries?.length);
-  console.log("CountrySelection - disabled:", disabled);
-  console.log("CountrySelection - isLoading:", isLoading);
-
   const handleCountryChange = useCallback(
     (countryCode: string) => {
       onCountryChange?.(countryCode);
@@ -183,15 +177,6 @@ export const CountrySelection: React.FC<CountrySelectProps> = ({
 
     const handleItemClick = React.useCallback(
       (item: Country) => {
-        console.log(
-          "🌍 Country selected:",
-          item.name,
-          "ID:",
-          item.id,
-          "ISO2:",
-          item.iso2
-        );
-        // Clear any pending blur timeout to prevent interference
         if (blurTimeoutRef.current) {
           clearTimeout(blurTimeoutRef.current);
           blurTimeoutRef.current = null;

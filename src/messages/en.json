@@ -102,7 +102,7 @@
 
   "Header": {
     "l": "L",
-    "logo": "شركة لاد للمقاولات",
+    "logo": "LAD Platform",
     "browse": "Browse Projects",
     "home": "Home",
     "aboutus": "About Us",
@@ -525,6 +525,10 @@
         "personalInfo": {
           "label": "Personal Information",
           "description": "Enter your personal details"
+        },
+        "socialLoginForm": {
+          "label": "Social Login",
+          "description": "Complete your profile information"
         },
         "verification": {
           "label": "Verification",
@@ -1698,6 +1702,7 @@
       "login": "Login successful",
       "passwordReset": "Password reset successful",
       "profileUpdate": "Profile updated successfully",
+      "profileCreate": "Profile created successfully",
       "dataSaved": "Data saved successfully"
     },
 

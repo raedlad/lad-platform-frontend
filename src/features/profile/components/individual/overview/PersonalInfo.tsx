@@ -20,7 +20,6 @@ const PersonalInfo: React.FC<PersonalInfoProps> = ({
   const tCommon = useTranslations("common");
   const { user } = useAuthStore();
   const { countries } = useGetCountries();
-  // Helper function to get user display name from profile data
   const getUserDisplayName = () => {
     if (personalInfo?.first_name && personalInfo?.last_name) {
       return `${personalInfo.first_name} ${personalInfo.last_name}`;
@@ -33,25 +32,22 @@ const PersonalInfo: React.FC<PersonalInfoProps> = ({
     return tCommon("defaultUser");
   };
 
-  // Helper function to get user phone
   const getUserPhone = () => {
     return user?.phone || "";
   };
 
-  // Helper function to get country name
   const getCountryName = () => {
     const countryId =
       personalInfo?.country_id || profile?.country_id || user?.country_id;
     if (countryId) {
-      return (
-        countries.find((country) => country.id === countryId)?.name ||
-        t("notProvided")
+      const country = countries.find(
+        (country) => country.id === Number(countryId)
       );
+      return country?.name || t("notProvided");
     }
     return t("notProvided");
   };
 
-  // Helper function to get city name
   const getCityName = () => {
     const cityId = personalInfo?.city_id || profile?.city_id;
     if (cityId && profile?.city_name) {
@@ -60,7 +56,6 @@ const PersonalInfo: React.FC<PersonalInfoProps> = ({
     return t("notProvided");
   };
 
-  // Helper function to get state name
   const getStateName = () => {
     const stateId = personalInfo?.state_id || profile?.state_id;
     if (stateId && profile?.state_name) {

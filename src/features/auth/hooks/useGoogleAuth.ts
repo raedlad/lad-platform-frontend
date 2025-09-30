@@ -10,6 +10,15 @@ import { tokenStorage } from "@/features/auth/utils/tokenStorage";
 export const useGoogleAuth = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [lastResult, setLastResult] = useState<{
+    success: boolean;
+    profile?: {
+      firstName: string;
+      lastName: string;
+      email: string | undefined;
+    };
+    error?: string;
+  } | null>(null);
   const router = useRouter();
 
   const handleGoogleSuccess = useCallback(
@@ -80,17 +89,23 @@ export const useGoogleAuth = () => {
           );
         }
 
-        // Registration context: advance to the next step now that defaults are set
-        useAuthStore.getState().goToNextStep();
-        return {
+        // Registration context: don't automatically advance, let the component control the flow
+        const result = {
           success: true,
           profile: { firstName, lastName, email },
         } as const;
+
+        // Store the result so the component can access it
+        setLastResult(result);
+
+        return result;
       } catch (err) {
         const errorMessage =
           err instanceof Error ? err.message : "Google sign-in failed";
         setError(errorMessage);
-        return { success: false as const, error: errorMessage };
+        const errorResult = { success: false as const, error: errorMessage };
+        setLastResult(errorResult);
+        return errorResult;
       }
     },
     [router]
@@ -108,8 +123,7 @@ export const useGoogleAuth = () => {
       }
     },
     onError: (err) => {
-      const errorMessage =
-        (err as any)?.error_description || "Google sign-in failed";
+      const errorMessage = (err as Error)?.message || "Google sign-in failed";
       setError(errorMessage);
     },
     scope:
@@ -124,7 +138,9 @@ export const useGoogleAuth = () => {
     signInWithGoogle,
     isLoading,
     error,
+    lastResult,
     clearError: () => setError(null),
+    clearLastResult: () => setLastResult(null),
   };
 };
 

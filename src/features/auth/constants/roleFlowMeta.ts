@@ -13,13 +13,6 @@ export const roleFlowMeta: Record<
 > = {
   individual: [
     {
-      key: "authMethod",
-      showInUI: true,
-      label: "طريقة التسجيل",
-      icon: "🔐",
-      description: "اختر طريقة التسجيل المفضلة لديك",
-    },
-    {
       key: "personalInfo",
       showInUI: true,
       label: "المعلومات الشخصية",
@@ -35,13 +28,6 @@ export const roleFlowMeta: Record<
     },
   ],
   organization: [
-    {
-      key: "authMethod",
-      showInUI: true,
-      label: "طريقة التسجيل",
-      icon: "🔐",
-      description: "اختر طريقة التسجيل المفضلة لديك",
-    },
     {
       key: "personalInfo",
       showInUI: true,
@@ -59,13 +45,6 @@ export const roleFlowMeta: Record<
   ],
   supplier: [
     {
-      key: "authMethod",
-      showInUI: true,
-      label: "طريقة التسجيل",
-      icon: "🔐",
-      description: "اختر طريقة التسجيل المفضلة لديك",
-    },
-    {
       key: "personalInfo",
       showInUI: true,
       label: "المعلومات الشخصية",
@@ -81,13 +60,6 @@ export const roleFlowMeta: Record<
     },
   ],
   freelance_engineer: [
-    {
-      key: "authMethod",
-      showInUI: true,
-      label: "طريقة التسجيل",
-      icon: "🔐",
-      description: "اختر طريقة التسجيل المفضلة لديك",
-    },
     {
       key: "personalInfo",
       showInUI: true,
@@ -105,13 +77,6 @@ export const roleFlowMeta: Record<
   ],
   engineering_office: [
     {
-      key: "authMethod",
-      showInUI: true,
-      label: "طريقة التسجيل",
-      icon: "🔐",
-      description: "اختر طريقة التسجيل المفضلة لديك",
-    },
-    {
       key: "personalInfo",
       showInUI: true,
       label: "المعلومات الشخصية",
@@ -127,13 +92,6 @@ export const roleFlowMeta: Record<
     },
   ],
   contractor: [
-    {
-      key: "authMethod",
-      showInUI: true,
-      label: "طريقة التسجيل",
-      icon: "🔐",
-      description: "اختر طريقة التسجيل المفضلة لديك",
-    },
     {
       key: "personalInfo",
       showInUI: true,

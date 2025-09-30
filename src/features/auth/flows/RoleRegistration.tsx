@@ -7,6 +7,8 @@ import { OnboardingLayout } from "@auth/components/onboarding/OnboardingLayout";
 
 import AuthMethodSelection from "./common/AuthMethodSelection";
 import PersonalInfoStep from "./PersonalInfoStep";
+import CombinedRegistrationForm from "../components/forms/CombinedRegistrationForm";
+import SocialLoginForm from "../components/forms/SocialLoginForm";
 import { SignupOTPVerificationStep } from "./common/OTPVerificationStep";
 import { RegistrationStore, RoleSpecificData } from "@auth/types/auth";
 
@@ -21,7 +23,7 @@ const RoleRegistration: React.FC = () => {
     personalInfo:
       store.roleData.personalInfo ||
       store.roleData.phoneInfo ||
-      store.roleData.thirdPartyInfo as RoleSpecificData,
+      (store.roleData.thirdPartyInfo as RoleSpecificData),
     phoneInfo: store.roleData.phoneInfo,
     thirdPartyInfo: store.roleData.thirdPartyInfo,
     isLoading: store.isLoading,
@@ -30,18 +32,23 @@ const RoleRegistration: React.FC = () => {
 
   const renderStepContent = () => {
     switch (store.currentStep) {
-      case "authMethod":
-        return (
-          <AuthMethodSelection onAuthMethodSelect={handleAuthMethodSelect} />
-        );
       case "personalInfo":
-        return <PersonalInfoStep />;
-      case "verification":
-        return <SignupOTPVerificationStep store={adaptedStore as RegistrationStore} hook={hook} />;
-      default:
+        return <CombinedRegistrationForm role={store.currentRole!} />;
+      case "socialLoginForm":
+        // This step only appears when user chooses third-party auth
+        const provider = store.roleData.thirdPartyInfo?.provider || "google";
         return (
-          <AuthMethodSelection onAuthMethodSelect={handleAuthMethodSelect} />
+          <SocialLoginForm role={store.currentRole!} provider={provider} />
         );
+      case "verification":
+        return (
+          <SignupOTPVerificationStep
+            store={adaptedStore as RegistrationStore}
+            hook={hook}
+          />
+        );
+      default:
+        return <CombinedRegistrationForm role={store.currentRole!} />;
     }
   };
 

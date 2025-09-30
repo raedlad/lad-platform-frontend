@@ -87,7 +87,9 @@ export const useRoleRegistration = () => {
             );
           }
           if (registrationResult.data?.response) {
-            store.setUserData(registrationResult.data.response as unknown as AuthUser);
+            store.setUserData(
+              registrationResult.data.response as unknown as AuthUser
+            );
           }
 
           if (
@@ -138,7 +140,6 @@ export const useRoleRegistration = () => {
             ? error.message
             : "Failed to submit personal info";
 
-        console.log("Setting error in store:", errorMessage);
         store.setError(errorMessage);
         return { success: false, error: errorMessage };
       } finally {
@@ -160,7 +161,8 @@ export const useRoleRegistration = () => {
           (store.roleData as RoleSpecificData).personalInfo?.email ||
           (store.roleData as RoleSpecificData).thirdPartyInfo?.email ||
           (store.roleData as RoleSpecificData).thirdPartyInfo?.email;
-        const phoneFromStore = (store.roleData as RoleSpecificData).phoneInfo?.phoneNumber;
+        const phoneFromStore = (store.roleData as RoleSpecificData).phoneInfo
+          ?.phoneNumber;
         const contactInfo =
           store.authMethod === "phone"
             ? phoneFromStore || userFromStorage?.phone
@@ -228,7 +230,8 @@ export const useRoleRegistration = () => {
       const emailFromStore =
         (store.roleData as RoleSpecificData).personalInfo?.email ||
         (store.roleData as RoleSpecificData).thirdPartyInfo?.email;
-      const phoneFromStore = (store.roleData as RoleSpecificData).phoneInfo?.phoneNumber;
+      const phoneFromStore = (store.roleData as RoleSpecificData).phoneInfo
+        ?.phoneNumber;
       const contactInfo =
         store.authMethod === "phone"
           ? phoneFromStore || userFromStorage?.phone
@@ -290,7 +293,6 @@ export const useRoleRegistration = () => {
 
   // Completion handler
   const handleComplete = useCallback(() => {
-    console.log("Registration completed!");
     store.resetRegistration();
     // Typically you would redirect the user here, e.g.:
     // router.push("/dashboard");

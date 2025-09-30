@@ -113,7 +113,15 @@ export const IndividualPersonalInfo = () => {
       about_me: individualPersonalInfo.about_me || "",
     };
 
-    form.reset(formData);
+    // Only reset if the form is not already initialized with this data
+    const currentValues = form.getValues();
+    const isFormEmpty = Object.values(currentValues).every(
+      (value) => value === "" || value === null || value === undefined
+    );
+
+    if (isFormEmpty) {
+      form.reset(formData);
+    }
 
     // Set location state based on existing data
     if (individualPersonalInfo.country_id) {
@@ -185,22 +193,49 @@ export const IndividualPersonalInfo = () => {
     [states, form]
   );
 
+  // Watch all form values to react to changes
+  const watchedValues = form.watch();
+
   const hasChanged = useMemo(() => {
     if (!individualPersonalInfo) return false;
-    const currentValues = form.getValues();
-    return (
-      currentValues.first_name !== (individualPersonalInfo.first_name || "") ||
-      currentValues.last_name !== (individualPersonalInfo.last_name || "") ||
-      currentValues.country_id !== individualPersonalInfo.country_id ||
-      currentValues.state_id !== individualPersonalInfo.state_id ||
-      currentValues.city_id !== individualPersonalInfo.city_id ||
-      currentValues.national_id !==
-        (individualPersonalInfo.national_id || "") ||
-      currentValues.detailed_address !==
-        (individualPersonalInfo.detailed_address || "") ||
-      currentValues.about_me !== (individualPersonalInfo.about_me || "")
-    );
-  }, [form, individualPersonalInfo]);
+
+    // Helper function to normalize values for comparison
+    const normalizeValue = (value: any) => {
+      if (value === null || value === undefined) return "";
+      return String(value);
+    };
+
+    const changes = {
+      first_name:
+        normalizeValue(watchedValues.first_name) !==
+        normalizeValue(individualPersonalInfo.first_name),
+      last_name:
+        normalizeValue(watchedValues.last_name) !==
+        normalizeValue(individualPersonalInfo.last_name),
+      country_id:
+        normalizeValue(watchedValues.country_id) !==
+        normalizeValue(individualPersonalInfo.country_id),
+      state_id:
+        normalizeValue(watchedValues.state_id) !==
+        normalizeValue(individualPersonalInfo.state_id),
+      city_id:
+        normalizeValue(watchedValues.city_id) !==
+        normalizeValue(individualPersonalInfo.city_id),
+      national_id:
+        normalizeValue(watchedValues.national_id) !==
+        normalizeValue(individualPersonalInfo.national_id),
+      detailed_address:
+        normalizeValue(watchedValues.detailed_address) !==
+        normalizeValue(individualPersonalInfo.detailed_address),
+      about_me:
+        normalizeValue(watchedValues.about_me) !==
+        normalizeValue(individualPersonalInfo.about_me),
+    };
+
+    const hasAnyChanges = Object.values(changes).some(Boolean);
+
+    return hasAnyChanges;
+  }, [watchedValues, individualPersonalInfo]);
 
   if (isLoading && !individualPersonalInfo) {
     return (
@@ -291,8 +326,6 @@ export const IndividualPersonalInfo = () => {
                 );
 
                 if (result.success) {
-                  // Only update the store after successful API call
-                  setIndividualPersonalInfo(data);
                   toast.success(t("profile.individual.personalInfo.success"), {
                     duration: 3000,
                     position: "top-right",
@@ -397,9 +430,7 @@ export const IndividualPersonalInfo = () => {
                 <FormItem className="space-y-0.5">
                   <FormControl>
                     <CountrySelection
-                      selectedCountry={
-                        locationState.selectedCountryId?.toString() || ""
-                      }
+                      selectedCountry={locationState.selectedCountryCode || ""}
                       onCountryChange={(value) => {
                         handleCountryChange(value);
                         const country = countries?.find(
