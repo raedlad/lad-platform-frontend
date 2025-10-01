@@ -2,7 +2,7 @@
 
 export interface WorkField {
   work_field_id: number;
-  years_of_experience_in_field: number;
+  years_of_experience_in_field: number | null;
 }
 
 export interface GeographicalCoverage {

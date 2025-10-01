@@ -117,7 +117,7 @@ export const ContractorPersonalInfo = () => {
     // Set location state based on existing data
     if (contractorPersonalInfo.country_id) {
       const country = countries.find(
-        (c) => c.iso2 === contractorPersonalInfo.country_id
+        (c) => c.id.toString() === contractorPersonalInfo.country_id
       );
       if (country) {
         setLocationState((prev) => ({

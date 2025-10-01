@@ -56,14 +56,14 @@ function ProjectInformationSection({
           </div>
         </div>
       </div>
-      <div className="p-4 sm:p-6 space-y-4 sm:space-y-6">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
+      <div className="p-4  space-y-6">
+        <div className=" grid grid-cols-1 xl:grid-cols-2 gap-6 items-start">
           <FormField
             control={control}
             name="executed_project_range_id"
             render={({ field }) => (
-              <FormItem className="space-y-2">
-                <FormLabel className="text-sm font-medium text-foreground flex items-center gap-2">
+              <FormItem className="space-y-3">
+                <FormLabel className="text-sm font-medium text-foreground flex items-center gap-2 mb-2">
                   <Building className="h-4 w-4 text-design-main flex-shrink-0" />
                   <span className="truncate">
                     {tContractor("sections.projectInfo.executedProjectRange")}
@@ -78,7 +78,7 @@ function ProjectInformationSection({
                   disabled={isLoading}
                 >
                   <FormControl>
-                    <SelectTrigger className="h-11 border-border focus:border-design-main focus:ring-design-main/20 rounded-lg">
+                    <SelectTrigger className="w-full h-11 border-border focus:border-design-main focus:ring-design-main/20 rounded-lg">
                       <SelectValue
                         placeholder={tContractor(
                           "placeholders.selectExecutedProjectRange"
@@ -105,8 +105,8 @@ function ProjectInformationSection({
             control={control}
             name="staff_size_range_id"
             render={({ field }) => (
-              <FormItem className="space-y-2">
-                <FormLabel className="text-sm font-medium text-foreground flex items-center gap-2">
+              <FormItem className="space-y-3">
+                <FormLabel className="text-sm font-medium text-foreground flex items-center gap-2 mb-2">
                   <Users className="h-4 w-4 text-design-main flex-shrink-0" />
                   <span className="truncate">
                     {tContractor("sections.projectInfo.staffSizeRange")}
@@ -121,7 +121,7 @@ function ProjectInformationSection({
                   disabled={isLoading}
                 >
                   <FormControl>
-                    <SelectTrigger className="h-11 border-border focus:border-design-main focus:ring-design-main/20 rounded-lg">
+                    <SelectTrigger className="w-full h-11 border-border focus:border-design-main focus:ring-design-main/20 rounded-lg">
                       <SelectValue
                         placeholder={tContractor(
                           "placeholders.selectStaffSizeRange"
@@ -146,8 +146,8 @@ function ProjectInformationSection({
             control={control}
             name="experience_years_range_id"
             render={({ field }) => (
-              <FormItem className="space-y-2">
-                <FormLabel className="text-sm font-medium text-foreground flex items-center gap-2">
+              <FormItem className="space-y-3">
+                <FormLabel className="text-sm font-medium text-foreground flex items-center gap-2 mb-2">
                   <Award className="h-4 w-4 text-design-main flex-shrink-0" />
                   <span className="truncate">
                     {tContractor("sections.projectInfo.experienceYearsRange")}
@@ -162,7 +162,7 @@ function ProjectInformationSection({
                   disabled={isLoading}
                 >
                   <FormControl>
-                    <SelectTrigger className="h-11 border-border focus:border-design-main focus:ring-design-main/20 rounded-lg">
+                    <SelectTrigger className="w-full h-11 border-border focus:border-design-main focus:ring-design-main/20 rounded-lg">
                       <SelectValue
                         placeholder={tContractor(
                           "placeholders.selectExperienceYearsRange"
@@ -187,8 +187,8 @@ function ProjectInformationSection({
             control={control}
             name="annual_projects_range_id"
             render={({ field }) => (
-              <FormItem className="space-y-2">
-                <FormLabel className="text-sm font-medium text-foreground flex items-center gap-2">
+              <FormItem className="space-y-3">
+                <FormLabel className="text-sm font-medium text-foreground flex items-center gap-2 mb-2">
                   <Briefcase className="h-4 w-4 text-design-main flex-shrink-0" />
                   <span className="truncate">
                     {tContractor("sections.projectInfo.annualProjectsRange")}
@@ -203,7 +203,7 @@ function ProjectInformationSection({
                   disabled={isLoading}
                 >
                   <FormControl>
-                    <SelectTrigger className="h-11 border-border focus:border-design-main focus:ring-design-main/20 rounded-lg">
+                    <SelectTrigger className="w-full h-11 border-border focus:border-design-main focus:ring-design-main/20 rounded-lg">
                       <SelectValue
                         placeholder={tContractor(
                           "placeholders.selectAnnualProjectsRange"
@@ -229,14 +229,14 @@ function ProjectInformationSection({
           control={control}
           name="target_project_value_range_ids"
           render={({ field }) => (
-            <FormItem className="space-y-3">
-              <FormLabel className="text-sm font-medium text-foreground flex items-center gap-2">
+            <FormItem className="space-y-4">
+              <FormLabel className="text-sm font-medium text-foreground flex items-center gap-2 mb-3">
                 <FileText className="h-4 w-4 text-design-main flex-shrink-0" />
                 <span className="truncate">
                   {tContractor("sections.projectInfo.targetProjectRanges")}
                 </span>
               </FormLabel>
-              <FormDescription className="text-sm text-muted-foreground">
+              <FormDescription className="text-sm text-muted-foreground mb-4">
                 {tContractor(
                   "sections.projectInfo.targetProjectRangesDescription"
                 )}

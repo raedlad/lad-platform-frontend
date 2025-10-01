@@ -1,0 +1,18 @@
+{
+  "editor.tabSize": 2,
+  "editor.formatOnSave": true,
+  "files.exclude": {
+    "**/.git": true,
+    "**/.DS_Store": true,
+    "**/node_modules": true
+  },
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "explicit"
+  },
+  "files.autoSave": "onFocusChange",
+  "github.copilot.chat.commitMessageGeneration.instructions": [
+    {
+      "text": "be extremely detailed with the file changes and the reason for the change, and add alot of emojis",
+    },
+  ]
+}

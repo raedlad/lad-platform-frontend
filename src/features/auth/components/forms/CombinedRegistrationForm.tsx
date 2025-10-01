@@ -80,8 +80,6 @@ const CombinedRegistrationForm: React.FC<{ role: string }> = ({ role }) => {
     },
     shouldUnregister: true,
   });
-
-  // Set pre-filled values from store when component mounts
   React.useEffect(() => {
     if (store.roleData.thirdPartyInfo) {
       if (store.roleData.thirdPartyInfo.firstName) {
@@ -107,10 +105,8 @@ const CombinedRegistrationForm: React.FC<{ role: string }> = ({ role }) => {
   }, [form, store]);
 
   const handleSubmit = async (values: z.infer<typeof schema>) => {
-    // Clear any previous errors when submitting
     store.clearError();
 
-    // Set auth method to email for form submission
     store.setAuthMethod("email");
 
     const result = await onSubmit(values, role);
@@ -179,24 +175,6 @@ const CombinedRegistrationForm: React.FC<{ role: string }> = ({ role }) => {
       <Card className="container-narrow bg-transparent border-none shadow-none">
         <CardContent>
           <div className="space-y-6">
-            {/* Social Login Buttons */}
-            <div className="space-y-3">
-              <GoogleAuthButton handleGoogleSignUp={handleGoogleSignUp} />
-              <AppleAuthButton handleAppleSignUp={handleAppleSignUp} />
-            </div>
-
-            {/* Divider */}
-            <div className="relative">
-              <div className="absolute inset-0 flex items-center">
-                <span className="w-full border-t" />
-              </div>
-              <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-background px-2 text-muted-foreground">
-                  {authT("roleSelection.or")}
-                </span>
-              </div>
-            </div>
-
             {/* Registration Form */}
             <Form {...form}>
               <form
@@ -408,6 +386,24 @@ const CombinedRegistrationForm: React.FC<{ role: string }> = ({ role }) => {
                 </Button>
               </form>
             </Form>
+
+            {/* Divider */}
+            <div className="relative">
+              <div className="absolute inset-0 flex items-center">
+                <span className="w-full border-t" />
+              </div>
+              <div className="relative flex justify-center text-xs uppercase">
+                <span className="bg-background px-2 text-muted-foreground">
+                  {authT("roleSelection.or")}
+                </span>
+              </div>
+            </div>
+
+            {/* Social Login Buttons */}
+            <div className="space-y-3">
+              <GoogleAuthButton handleGoogleSignUp={handleGoogleSignUp} />
+              <AppleAuthButton handleAppleSignUp={handleAppleSignUp} />
+            </div>
           </div>
         </CardContent>
       </Card>

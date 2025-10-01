@@ -64,6 +64,7 @@ function GeographicalCoverageSection({
   isLoading,
 }: GeographicalCoverageSectionProps) {
   const tContractor = useTranslations("profile.contractorOperational");
+  const validationT = useTranslations("");
   const tCommon = useTranslations("common");
   const clearValidationErrors = () => {
     const clearedErrors = { ...validationErrors };
@@ -110,7 +111,7 @@ function GeographicalCoverageSection({
     // Validate country
     if (!coverage.country_code) {
       const errorKey = `${prefix}.${index}.country_code`;
-      const errorMessage = tContractor(
+      const errorMessage = validationT(
         isOperational
           ? "feedback.validation.contractorOperational.operationalGeographicalCoverage.countryRequired"
           : "feedback.validation.contractorOperational.contractorGeographicCoverages.countryRequired"
@@ -121,7 +122,7 @@ function GeographicalCoverageSection({
     // Validate state
     if (!coverage.state_id) {
       const errorKey = `${prefix}.${index}.state_id`;
-      const errorMessage = tContractor(
+      const errorMessage = validationT(
         isOperational
           ? "feedback.validation.contractorOperational.operationalGeographicalCoverage.stateRequired"
           : "feedback.validation.contractorOperational.contractorGeographicCoverages.stateRequired"
@@ -132,7 +133,7 @@ function GeographicalCoverageSection({
     // Validate city
     if (!coverage.city_id) {
       const errorKey = `${prefix}.${index}.city_id`;
-      const errorMessage = tContractor(
+      const errorMessage = validationT(
         isOperational
           ? "feedback.validation.contractorOperational.operationalGeographicalCoverage.cityRequired"
           : "feedback.validation.contractorOperational.contractorGeographicCoverages.cityRequired"
@@ -194,10 +195,10 @@ function GeographicalCoverageSection({
           </div>
         </div>
       </div>
-      <div className="p-4 sm:p-6 space-y-4 sm:space-y-6">
+      <div className="p-4 sm:p-6 space-y-6 sm:space-y-8">
         {/* Operational Coverage */}
         <div>
-          <h4 className="font-medium text-foreground mb-4">
+          <h4 className="font-medium text-foreground mb-6">
             {tContractor("sections.geographicalCoverage.operationalCoverage")}
           </h4>
           <FormField
@@ -407,7 +408,7 @@ function GeographicalCoverageSection({
 
         {/* Contractor Coverage */}
         <div>
-          <h4 className="font-medium text-foreground mb-4">
+          <h4 className="font-medium text-foreground mb-6">
             {tContractor("sections.geographicalCoverage.contractorCoverage")}
           </h4>
           <FormField

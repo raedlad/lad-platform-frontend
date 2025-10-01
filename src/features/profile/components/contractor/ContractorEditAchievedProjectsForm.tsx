@@ -401,7 +401,7 @@ const ContractorEditAchievedProjectsForm: React.FC<
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel className="flex items-center gap-2">
-                            <Building2 className="h-4 w-4" />
+                            <Building2 className="h-4 w-4 text-design-main" />
                             {t("projectNameEn")} *
                           </FormLabel>
                           <FormControl>
@@ -421,7 +421,7 @@ const ContractorEditAchievedProjectsForm: React.FC<
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel className="flex items-center gap-2">
-                            <Building2 className="h-4 w-4" />
+                            <Building2 className="h-4 w-4 text-design-main" />
                             {t("projectNameAr")} *
                           </FormLabel>
                           <FormControl>
@@ -483,33 +483,35 @@ const ContractorEditAchievedProjectsForm: React.FC<
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel className="flex items-center gap-2">
-                            <Building2 className="h-4 w-4" />
+                            <Building2 className="h-4 w-4 text-design-main" />
                             {t("projectType")}
                           </FormLabel>
-                          <Select
-                            onValueChange={handleProjectTypeChange}
-                            value={field.value?.toString() || ""}
-                          >
-                            <FormControl>
-                              <SelectTrigger className="h-11 border-border focus:border-design-main focus:ring-design-main/20 rounded-lg">
-                                <SelectValue
-                                  placeholder={t(
-                                    "placeholders.selectProjectType"
-                                  )}
-                                />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              {availableProjectTypes.map((type) => (
-                                <SelectItem
-                                  key={type.id}
-                                  value={type.id.toString()}
-                                >
-                                  {type.name}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
+                          <div className="w-full">
+                            <Select
+                              onValueChange={handleProjectTypeChange}
+                              value={field.value?.toString() || ""}
+                            >
+                              <FormControl>
+                                <SelectTrigger className="w-full h-11 border-border focus:border-design-main focus:ring-design-main/20 rounded-lg">
+                                  <SelectValue
+                                    placeholder={t(
+                                      "placeholders.selectProjectType"
+                                    )}
+                                  />
+                                </SelectTrigger>
+                              </FormControl>
+                              <SelectContent>
+                                {availableProjectTypes.map((type) => (
+                                  <SelectItem
+                                    key={type.id}
+                                    value={type.id.toString()}
+                                  >
+                                    {type.name}
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                          </div>
                           <FormMessage />
                         </FormItem>
                       )}
@@ -521,46 +523,50 @@ const ContractorEditAchievedProjectsForm: React.FC<
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel className="flex items-center gap-2">
-                            <MapPin className="h-4 w-4" />
+                            <MapPin className="h-4 w-4 text-design-main" />
                             {t("country")}
                           </FormLabel>
-                          <Select
-                            onValueChange={async (value) => {
-                              const countryId = value ? parseInt(value) : null;
-                              setSelectedCountryId(countryId);
-                              setSelectedStateId(null);
-                              setSelectedCityId(null);
-                              setAvailableStates([]);
-                              field.onChange(countryId);
+                          <div className="w-full">
+                            <Select
+                              onValueChange={async (value) => {
+                                const countryId = value
+                                  ? parseInt(value)
+                                  : null;
+                                setSelectedCountryId(countryId);
+                                setSelectedStateId(null);
+                                setSelectedCityId(null);
+                                setAvailableStates([]);
+                                field.onChange(countryId);
 
-                              if (countryId) {
-                                await fetchStates(countryId);
-                              }
-                            }}
-                            value={field.value?.toString() || ""}
-                          >
-                            <FormControl>
-                              <SelectTrigger className="h-11 border-border focus:border-design-main focus:ring-design-main/20 rounded-lg">
-                                <SelectValue
-                                  placeholder={
-                                    isLoadingLocation
-                                      ? t("loading")
-                                      : t("placeholders.selectCountry")
-                                  }
-                                />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              {countries.map((country) => (
-                                <SelectItem
-                                  key={country.id}
-                                  value={country.id.toString()}
-                                >
-                                  {country.name}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
+                                if (countryId) {
+                                  await fetchStates(countryId);
+                                }
+                              }}
+                              value={field.value?.toString() || ""}
+                            >
+                              <FormControl>
+                                <SelectTrigger className="w-full h-11 border-border focus:border-design-main focus:ring-design-main/20 rounded-lg">
+                                  <SelectValue
+                                    placeholder={
+                                      isLoadingLocation
+                                        ? t("loading")
+                                        : t("placeholders.selectCountry")
+                                    }
+                                  />
+                                </SelectTrigger>
+                              </FormControl>
+                              <SelectContent>
+                                {countries.map((country) => (
+                                  <SelectItem
+                                    key={country.id}
+                                    value={country.id.toString()}
+                                  >
+                                    {country.name}
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                          </div>
                           <FormMessage />
                         </FormItem>
                       )}
@@ -576,46 +582,52 @@ const ContractorEditAchievedProjectsForm: React.FC<
                         render={({ field }) => (
                           <FormItem>
                             <FormLabel className="flex items-center gap-2">
-                              <MapPin className="h-4 w-4" />
+                              <MapPin className="h-4 w-4 text-design-main" />
                               {t("state")}
                             </FormLabel>
-                            <Select
-                              onValueChange={(value) => {
-                                const stateId = value ? parseInt(value) : null;
-                                setSelectedStateId(stateId);
-                                setSelectedCityId(null);
-                                field.onChange(stateId);
-                              }}
-                              value={field.value?.toString() || ""}
-                            >
-                              <FormControl>
-                                <SelectTrigger className="h-11 border-border focus:border-design-main focus:ring-design-main/20 rounded-lg">
-                                  <SelectValue
-                                    placeholder={t("placeholders.selectState")}
-                                  />
-                                </SelectTrigger>
-                              </FormControl>
-                              <SelectContent>
-                                {isLoadingStates ? (
-                                  <SelectItem value="loading" disabled>
-                                    Loading states...
-                                  </SelectItem>
-                                ) : availableStates.length === 0 ? (
-                                  <SelectItem value="no-states" disabled>
-                                    No states available
-                                  </SelectItem>
-                                ) : (
-                                  availableStates.map((state) => (
-                                    <SelectItem
-                                      key={state.id}
-                                      value={state.id.toString()}
-                                    >
-                                      {state.name}
+                            <div className="w-full">
+                              <Select
+                                onValueChange={(value) => {
+                                  const stateId = value
+                                    ? parseInt(value)
+                                    : null;
+                                  setSelectedStateId(stateId);
+                                  setSelectedCityId(null);
+                                  field.onChange(stateId);
+                                }}
+                                value={field.value?.toString() || ""}
+                              >
+                                <FormControl>
+                                  <SelectTrigger className="w-full h-11 border-border focus:border-design-main focus:ring-design-main/20 rounded-lg">
+                                    <SelectValue
+                                      placeholder={t(
+                                        "placeholders.selectState"
+                                      )}
+                                    />
+                                  </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                  {isLoadingStates ? (
+                                    <SelectItem value="loading" disabled>
+                                      Loading states...
                                     </SelectItem>
-                                  ))
-                                )}
-                              </SelectContent>
-                            </Select>
+                                  ) : availableStates.length === 0 ? (
+                                    <SelectItem value="no-states" disabled>
+                                      No states available
+                                    </SelectItem>
+                                  ) : (
+                                    availableStates.map((state) => (
+                                      <SelectItem
+                                        key={state.id}
+                                        value={state.id.toString()}
+                                      >
+                                        {state.name}
+                                      </SelectItem>
+                                    ))
+                                  )}
+                                </SelectContent>
+                              </Select>
+                            </div>
                             <FormMessage />
                           </FormItem>
                         )}
@@ -627,7 +639,7 @@ const ContractorEditAchievedProjectsForm: React.FC<
                         render={({ field }) => (
                           <FormItem>
                             <FormLabel className="flex items-center gap-2">
-                              <MapPin className="h-4 w-4" />
+                              <MapPin className="h-4 w-4 text-design-main" />
                               {t("city")}
                             </FormLabel>
                             <FormControl>
@@ -657,7 +669,7 @@ const ContractorEditAchievedProjectsForm: React.FC<
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel className="flex items-center gap-2">
-                          <MapPin className="h-4 w-4" />
+                          <MapPin className="h-4 w-4 text-design-main" />
                           {t("specificLocation")}
                         </FormLabel>
                         <FormControl>
@@ -798,53 +810,57 @@ const ContractorEditAchievedProjectsForm: React.FC<
                               <DollarSign className="h-4 w-4 text-design-main" />
                               {t("currency")}
                             </FormLabel>
-                            <Select
-                              onValueChange={field.onChange}
-                              value={field.value || "USD"}
-                            >
-                              <FormControl>
-                                <SelectTrigger className="h-11 border-border focus:border-design-main focus:ring-design-main/20 rounded-lg">
-                                  <SelectValue
-                                    placeholder={t(
-                                      "placeholders.selectCurrency"
-                                    )}
-                                  />
-                                </SelectTrigger>
-                              </FormControl>
-                              <SelectContent>
-                                <SelectItem value="USD">
-                                  USD - US Dollar
-                                </SelectItem>
-                                <SelectItem value="EUR">EUR - Euro</SelectItem>
-                                <SelectItem value="GBP">
-                                  GBP - British Pound
-                                </SelectItem>
-                                <SelectItem value="SAR">
-                                  SAR - Saudi Riyal
-                                </SelectItem>
-                                <SelectItem value="AED">
-                                  AED - UAE Dirham
-                                </SelectItem>
-                                <SelectItem value="KWD">
-                                  KWD - Kuwaiti Dinar
-                                </SelectItem>
-                                <SelectItem value="QAR">
-                                  QAR - Qatari Riyal
-                                </SelectItem>
-                                <SelectItem value="BHD">
-                                  BHD - Bahraini Dinar
-                                </SelectItem>
-                                <SelectItem value="OMR">
-                                  OMR - Omani Rial
-                                </SelectItem>
-                                <SelectItem value="JOD">
-                                  JOD - Jordanian Dinar
-                                </SelectItem>
-                                <SelectItem value="EGP">
-                                  EGP - Egyptian Pound
-                                </SelectItem>
-                              </SelectContent>
-                            </Select>
+                            <div className="w-full">
+                              <Select
+                                onValueChange={field.onChange}
+                                value={field.value || "USD"}
+                              >
+                                <FormControl>
+                                  <SelectTrigger className="w-full h-11 border-border focus:border-design-main focus:ring-design-main/20 rounded-lg">
+                                    <SelectValue
+                                      placeholder={t(
+                                        "placeholders.selectCurrency"
+                                      )}
+                                    />
+                                  </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                  <SelectItem value="USD">
+                                    USD - US Dollar
+                                  </SelectItem>
+                                  <SelectItem value="EUR">
+                                    EUR - Euro
+                                  </SelectItem>
+                                  <SelectItem value="GBP">
+                                    GBP - British Pound
+                                  </SelectItem>
+                                  <SelectItem value="SAR">
+                                    SAR - Saudi Riyal
+                                  </SelectItem>
+                                  <SelectItem value="AED">
+                                    AED - UAE Dirham
+                                  </SelectItem>
+                                  <SelectItem value="KWD">
+                                    KWD - Kuwaiti Dinar
+                                  </SelectItem>
+                                  <SelectItem value="QAR">
+                                    QAR - Qatari Riyal
+                                  </SelectItem>
+                                  <SelectItem value="BHD">
+                                    BHD - Bahraini Dinar
+                                  </SelectItem>
+                                  <SelectItem value="OMR">
+                                    OMR - Omani Rial
+                                  </SelectItem>
+                                  <SelectItem value="JOD">
+                                    JOD - Jordanian Dinar
+                                  </SelectItem>
+                                  <SelectItem value="EGP">
+                                    EGP - Egyptian Pound
+                                  </SelectItem>
+                                </SelectContent>
+                              </Select>
+                            </div>
                             <FormMessage />
                           </FormItem>
                         )}
@@ -898,7 +914,7 @@ const ContractorEditAchievedProjectsForm: React.FC<
                   {/* Project Images */}
                   <div className="space-y-4">
                     <FormLabel className="flex items-center gap-2">
-                      <ImageIcon className="h-4 w-4" />
+                      <ImageIcon className="h-4 w-4 text-design-main" />
                       {t("projectImages")}
                     </FormLabel>
                     <div className="space-y-3">
@@ -950,7 +966,7 @@ const ContractorEditAchievedProjectsForm: React.FC<
                           className="hidden"
                           onChange={(e) => handleImageUpload(e.target.files)}
                         />
-                        <Upload className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
+                        <Upload className="h-8 w-8 mx-auto mb-2 text-design-main" />
                         <p className="text-sm text-muted-foreground">
                           {t("clickToUploadImages")}
                         </p>

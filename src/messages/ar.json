@@ -728,6 +728,7 @@
   "profile": {
     "title": "الملف الشخصي",
     "editProfile": "تعديل الملف الشخصي",
+    "upgradeToPremium": "ترقية",
     "completionAlert": {
       "title": "أكمل ملفك الشخصي",
       "description": "يرجى إكمال معلومات ملفك الشخصي للوصول إلى جميع الميزات وتحسين تجربتك.",

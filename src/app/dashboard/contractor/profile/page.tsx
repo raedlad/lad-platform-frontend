@@ -8,6 +8,7 @@ import { Button } from "@/shared/components/ui/button";
 import ProfileTabs from "@/features/profile/components/common/ProfileTabs";
 import ProfileTabContent from "@/features/profile/components/contractor/ContractorProfileTabContent";
 import Link from "next/link";
+import UpgradeToPremium from "@/features/profile/components/common/UpgradeToPremium";
 
 interface User {
   full_name?: string;
@@ -75,7 +76,7 @@ export default function Page() {
       description: t("tabs.operational"),
       icon: Building,
       type: "tab",
-    }
+    },
   ];
 
   // No special items needed - only tabs
@@ -102,16 +103,22 @@ export default function Page() {
                 {getUserPhone(user as User)}
               </p>
 
-              <Link href="/dashboard/contractor/profile/edit/personal-info" className="flex items-center gap-2">
-                <Button
-                  variant="outline"
-                  className="rounded-full font-semibold text-xs"
-                  size="lg"
+              <div className="flex flex-col md:flex-row gap-2">
+                <Link
+                  href="/dashboard/contractor/profile/edit/personal-info"
+                  className="flex items-center gap-2"
                 >
-                  <PenLine className="w-4 h-4 me-1 font-semibold" />
-                  {t("editProfile")}
-                </Button>
-              </Link>
+                  <Button
+                    variant="outline"
+                    className="rounded-full font-semibold text-xs"
+                    size="lg"
+                  >
+                    <PenLine className="w-4 h-4 me-1 font-semibold" />
+                    {t("editProfile")}
+                  </Button>
+                </Link>
+                <UpgradeToPremium className="w-full md:w-auto" />
+              </div>
             </div>
           </div>
         </div>

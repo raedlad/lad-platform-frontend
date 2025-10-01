@@ -57,14 +57,14 @@ function ClassificationAccreditationSection({
           </div>
         </div>
       </div>
-      <div className="p-4 sm:p-6 space-y-4 sm:space-y-6">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 items-start">
+      <div className="p-4 sm:p-6 space-y-6 sm:space-y-8">
+        <div className="space-y-6">
           <FormField
             control={control}
             name="classification_level_id"
             render={({ field }) => (
-              <FormItem className="space-y-2">
-                <FormLabel className="text-sm font-medium text-foreground flex items-center gap-2">
+              <FormItem className="space-y-3">
+                <FormLabel className="text-sm font-medium text-foreground flex items-center gap-2 mb-2">
                   <Award className="h-4 w-4 text-design-main flex-shrink-0" />
                   <span className="truncate">
                     {tContractor("sections.classification.classificationLevel")}
@@ -81,7 +81,7 @@ function ClassificationAccreditationSection({
                     disabled={isLoading}
                   >
                     <FormControl>
-                      <SelectTrigger className="h-11 border-border focus:border-design-main focus:ring-design-main/20 rounded-lg">
+                      <SelectTrigger className="w-full h-11 border-border focus:border-design-main focus:ring-design-main/20 rounded-lg">
                         <SelectValue
                           placeholder={tContractor(
                             "placeholders.selectClassificationLevel"
@@ -108,8 +108,8 @@ function ClassificationAccreditationSection({
             name="classification_file"
             render={({ field }) => {
               return (
-                <FormItem className="space-y-2">
-                  <FormLabel className="text-sm font-medium text-foreground flex items-center gap-2">
+                <FormItem className="space-y-3">
+                  <FormLabel className="text-sm font-medium text-foreground flex items-center gap-2 mb-2">
                     <Upload className="h-4 w-4 text-design-main flex-shrink-0" />
                     <span className="truncate">
                       {tContractor(
@@ -117,7 +117,7 @@ function ClassificationAccreditationSection({
                       )}
                     </span>
                   </FormLabel>
-                  <FormDescription className="text-sm text-muted-foreground">
+                  <FormDescription className="text-sm text-muted-foreground mb-3">
                     {tContractor(
                       "sections.classification.classificationFileDescription"
                     )}
@@ -126,7 +126,7 @@ function ClassificationAccreditationSection({
                     <div className="space-y-2">
                       <div
                         className={cn(
-                          "border-2 border-dashed rounded-lg p-4 transition-all cursor-pointer",
+                          "w-full border-2 border-dashed rounded-lg p-4 transition-all cursor-pointer",
                           "hover:bg-muted/50 hover:border-muted-foreground/50",
                           field.value
                             ? "border-design-main"
@@ -217,7 +217,7 @@ function ClassificationAccreditationSection({
           />
         </div>
 
-        <div className="space-y-4">
+        <div className="space-y-6">
           <FormField
             control={control}
             name="has_government_accreditation"
@@ -231,7 +231,7 @@ function ClassificationAccreditationSection({
                     className="border-border mt-1"
                   />
                 </FormControl>
-                <div className="space-y-1 leading-none">
+                <div className="space-y-2 leading-none">
                   <FormLabel className="text-sm font-medium text-foreground">
                     {tContractor(
                       "sections.classification.hasGovernmentAccreditation"
@@ -260,7 +260,7 @@ function ClassificationAccreditationSection({
                     className="border-border mt-1"
                   />
                 </FormControl>
-                <div className="space-y-1 leading-none">
+                <div className="space-y-2 leading-none">
                   <FormLabel className="text-sm font-medium text-foreground">
                     {tContractor("sections.classification.coversAllRegions")}
                   </FormLabel>

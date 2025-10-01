@@ -274,9 +274,9 @@ export const CitySelection: React.FC<CitySelectProps> = ({
       <div className="space-y-2">
         {!hasLabel ? null : (
           <div className="flex items-center gap-2">
-          {Icon && <Icon className="text-design-main p-1" />}
-          <label className="text-sm font-medium">{label}</label>
-        </div>
+            {Icon && <Icon className="text-design-main p-1" />}
+            <label className="text-sm font-medium">{label}</label>
+          </div>
         )}
         <Popover open={open} onOpenChange={handleOpenChange}>
           <PopoverTrigger asChild>

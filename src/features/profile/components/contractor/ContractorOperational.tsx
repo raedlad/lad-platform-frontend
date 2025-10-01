@@ -62,8 +62,6 @@ const ContractorOperational = () => {
   );
 
   const form = useForm<ContractorOperationalFormData>({
-    // Remove zodResolver to prevent form-level validation
-    // resolver: zodResolver(createContractorOperationalSchema(t)),
     defaultValues: {
       executed_project_range_id: 0,
       staff_size_range_id: 0,
@@ -78,6 +76,7 @@ const ContractorOperational = () => {
       operational_geographical_coverage: [],
       contractor_geographic_coverages: [],
     },
+    mode: "onChange", // This ensures the form updates immediately when values change
   });
 
   // Load operational data on component mount
@@ -102,8 +101,6 @@ const ContractorOperational = () => {
 
   // Load existing contractor operational data from profile
   useEffect(() => {
-    if (contractorOperationalData) return;
-
     const loadContractorOperationalData = async () => {
       try {
         const data = await operationalApi.getContractorOperationalFromProfile(
@@ -153,7 +150,31 @@ const ContractorOperational = () => {
       }
     };
 
-    loadContractorOperationalData();
+    // Only load if we don't have data yet
+    if (!contractorOperationalData) {
+      loadContractorOperationalData();
+    } else {
+      // If we already have data, ensure local state is properly initialized
+      setWorkFields(contractorOperationalData.work_fields || []);
+      setGeographicalCoverage(
+        (contractorOperationalData.operational_geographical_coverage || []).map(
+          (coverage) => ({
+            ...coverage,
+            state_id: coverage.state_id || "",
+            city_id: coverage.city_id || "",
+          })
+        )
+      );
+      setContractorCoverage(
+        (contractorOperationalData.contractor_geographic_coverages || []).map(
+          (coverage) => ({
+            ...coverage,
+            state_id: coverage.state_id || "",
+            city_id: coverage.city_id || "",
+          })
+        )
+      );
+    }
   }, [
     contractorOperationalData,
     setContractorOperationalData,
@@ -161,9 +182,90 @@ const ContractorOperational = () => {
     countries,
   ]);
 
+  // Additional effect to ensure form is reset when contractorOperationalData changes
+  useEffect(() => {
+    if (contractorOperationalData) {
+      console.log(
+        "🔄 Resetting form with contractorOperationalData:",
+        contractorOperationalData
+      );
+      const formData = {
+        executed_project_range_id:
+          contractorOperationalData.executed_project_range_id,
+        staff_size_range_id: contractorOperationalData.staff_size_range_id,
+        experience_years_range_id:
+          contractorOperationalData.experience_years_range_id,
+        annual_projects_range_id:
+          contractorOperationalData.annual_projects_range_id,
+        classification_level_id:
+          contractorOperationalData.classification_level_id,
+        classification_file: contractorOperationalData.classification_file,
+        has_government_accreditation:
+          contractorOperationalData.has_government_accreditation,
+        covers_all_regions: contractorOperationalData.covers_all_regions,
+        target_project_value_range_ids:
+          contractorOperationalData.target_project_value_range_ids,
+        work_fields: contractorOperationalData.work_fields,
+        operational_geographical_coverage:
+          contractorOperationalData.operational_geographical_coverage,
+        contractor_geographic_coverages:
+          contractorOperationalData.contractor_geographic_coverages,
+      };
+      console.log("🔄 Form data to reset:", formData);
+      form.reset(formData);
+
+      // Use setTimeout to ensure form is properly initialized before setting individual values
+      setTimeout(() => {
+        console.log("🔄 Setting individual form values...");
+        form.setValue(
+          "executed_project_range_id",
+          contractorOperationalData.executed_project_range_id
+        );
+        form.setValue(
+          "staff_size_range_id",
+          contractorOperationalData.staff_size_range_id
+        );
+        form.setValue(
+          "experience_years_range_id",
+          contractorOperationalData.experience_years_range_id
+        );
+        form.setValue(
+          "annual_projects_range_id",
+          contractorOperationalData.annual_projects_range_id
+        );
+        form.setValue(
+          "classification_level_id",
+          contractorOperationalData.classification_level_id
+        );
+        form.setValue(
+          "has_government_accreditation",
+          contractorOperationalData.has_government_accreditation
+        );
+        form.setValue(
+          "covers_all_regions",
+          contractorOperationalData.covers_all_regions
+        );
+        form.setValue(
+          "target_project_value_range_ids",
+          contractorOperationalData.target_project_value_range_ids
+        );
+
+        console.log(
+          "🔄 Form values after individual setValue:",
+          form.getValues()
+        );
+      }, 100);
+    }
+  }, [contractorOperationalData, form]);
+
   // Sync local state with form state whenever arrays change
   useEffect(() => {
-    form.setValue("work_fields", workFields, { shouldValidate: false });
+    // Convert WorkField[] to WorkFieldWithExperience[] for form
+    const workFieldsForForm = workFields.map((field) => ({
+      work_field_id: field.work_field_id,
+      years_of_experience_in_field: field.years_of_experience_in_field || 0,
+    }));
+    form.setValue("work_fields", workFieldsForForm, { shouldValidate: false });
   }, [workFields, form]);
 
   useEffect(() => {
@@ -206,7 +308,9 @@ const ContractorOperational = () => {
       workFields.length > 0 &&
       workFields.some(
         (field) =>
-          field.work_field_id > 0 || field.years_of_experience_in_field > 0
+          field.work_field_id > 0 ||
+          (field.years_of_experience_in_field &&
+            field.years_of_experience_in_field > 0)
       );
 
     // Check if geographical coverage has been added or modified
@@ -267,7 +371,10 @@ const ContractorOperational = () => {
       has_government_accreditation: data.has_government_accreditation,
       covers_all_regions: data.covers_all_regions,
       target_project_value_range_ids: data.target_project_value_range_ids || [],
-      work_fields: workFields || [],
+      work_fields: (workFields || []).map((field) => ({
+        work_field_id: field.work_field_id,
+        years_of_experience_in_field: field.years_of_experience_in_field || 0,
+      })),
       operational_geographical_coverage: (geographicalCoverage || []).map(
         (coverage) => ({
           ...coverage,
@@ -285,7 +392,7 @@ const ContractorOperational = () => {
     };
 
     // Validate using Zod schema
-    const schema = createContractorOperationalSchema(tContractor);
+    const schema = createContractorOperationalSchema(t);
     console.log("🔍 Created schema:", schema);
     console.log("🔍 Form data to validate:", formData);
 
@@ -372,7 +479,10 @@ const ContractorOperational = () => {
         <div className="rounded-xl">
           <Form {...form}>
             <form
-              onSubmit={form.handleSubmit(onSubmit)}
+              key={contractorOperationalData ? "loaded" : "loading"}
+              onSubmit={form.handleSubmit(onSubmit, (errors) => {
+                console.log("❌ Validation errors:", errors);
+              })}
               className="space-y-6 sm:space-y-8"
             >
               <ProjectInformationSection

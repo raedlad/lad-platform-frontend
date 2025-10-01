@@ -29,6 +29,7 @@ import {
   AlertTriangle,
   ChevronDown,
   ChevronUp,
+  Link,
 } from "lucide-react";
 import { useAchievedProjectsStore } from "@/features/profile/store/achievedProjectsStore";
 import { AchievedProject } from "@/features/profile/types/achievedProjects";
@@ -191,7 +192,7 @@ const AchievedProjects: React.FC<AchievedProjectsProps> = ({ className }) => {
         <div className="bg-card border border-border rounded-lg p-6 dark:bg-card dark:border-border">
           <div className="text-center">
             <div className="w-12 h-12 mx-auto mb-4 bg-muted rounded-lg flex items-center justify-center">
-              <Building2 className="w-6 h-6 text-muted-foreground" />
+              <Building2 className="w-6 h-6 text-design-main" />
             </div>
             <h3 className="text-lg font-semibold mb-2 text-card-foreground dark:text-card-foreground">
               {t("empty.title")}
@@ -199,14 +200,12 @@ const AchievedProjects: React.FC<AchievedProjectsProps> = ({ className }) => {
             <p className="text-sm text-muted-foreground dark:text-muted-foreground mb-4">
               {t("empty.description")}
             </p>
-            <Button
-              onClick={() => {
-                /* Navigate to add project */
-              }}
-            >
-              <Plus className="w-4 h-4 mr-2" />
-              {t("actions.addProject")}
-            </Button>
+            <Link href="/dashboard/contractor/profile/edit/projects/add">
+              <Button>
+                <Plus className="w-4 h-4 mr-2" />
+                {t("actions.addProject")}
+              </Button>
+            </Link>
           </div>
         </div>
       </div>
@@ -264,7 +263,7 @@ const AchievedProjects: React.FC<AchievedProjectsProps> = ({ className }) => {
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
                     {project.start_date && (
                       <div className="flex items-center gap-2">
-                        <Calendar className="h-4 w-4 text-muted-foreground" />
+                        <Calendar className="h-4 w-4 text-design-main" />
                         <span className="text-muted-foreground">
                           {formatDate(project.start_date)}
                         </span>
@@ -273,7 +272,7 @@ const AchievedProjects: React.FC<AchievedProjectsProps> = ({ className }) => {
 
                     {project.specific_location && (
                       <div className="flex items-center gap-2">
-                        <MapPin className="h-4 w-4 text-muted-foreground" />
+                        <MapPin className="h-4 w-4 text-design-main" />
                         <span className="text-muted-foreground">
                           {project.specific_location}
                         </span>
@@ -282,7 +281,7 @@ const AchievedProjects: React.FC<AchievedProjectsProps> = ({ className }) => {
 
                     {project.project_value && (
                       <div className="flex items-center gap-2">
-                        <DollarSign className="h-4 w-4 text-muted-foreground" />
+                        <DollarSign className="h-4 w-4 text-design-main" />
                         <span className="text-muted-foreground">
                           {formatCurrency(
                             project.project_value,
@@ -297,7 +296,7 @@ const AchievedProjects: React.FC<AchievedProjectsProps> = ({ className }) => {
                   {project.project_images &&
                     project.project_images.length > 0 && (
                       <div className="flex items-center gap-2">
-                        <Image className="h-4 w-4 text-muted-foreground" />
+                        <Image className="h-4 w-4 text-design-main" />
                         <span className="text-sm text-muted-foreground">
                           {project.project_images.length}{" "}
                           {t("imageCount", {

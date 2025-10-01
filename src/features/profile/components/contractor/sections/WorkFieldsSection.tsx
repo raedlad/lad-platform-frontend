@@ -25,12 +25,12 @@ interface WorkFieldsSectionProps {
   operationalData: OperationalData;
   workFields: Array<{
     work_field_id: number;
-    years_of_experience_in_field: number;
+    years_of_experience_in_field: number | null;
   }>;
   setWorkFields: (
     fields: Array<{
       work_field_id: number;
-      years_of_experience_in_field: number;
+      years_of_experience_in_field: number | null;
     }>
   ) => void;
   validationErrors: Record<string, string>;
@@ -54,7 +54,7 @@ function WorkFieldsSection({
   const addWorkField = () => {
     setWorkFields([
       ...workFields,
-      { work_field_id: 0, years_of_experience_in_field: 0 },
+      { work_field_id: 0, years_of_experience_in_field: null },
     ]);
     clearValidationErrors();
   };
@@ -95,7 +95,7 @@ function WorkFieldsSection({
           </div>
         </div>
       </div>
-      <div className="p-4 sm:p-6 space-y-4 sm:space-y-6">
+      <div className="p-4 sm:p-6 space-y-6 sm:space-y-8">
         <FormField
           control={control}
           name="work_fields"
@@ -111,9 +111,9 @@ function WorkFieldsSection({
             key={index}
             className="flex flex-col sm:flex-row items-end gap-4 p-4 border border-border rounded-lg"
           >
-            <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label className="text-sm font-medium text-foreground flex items-center gap-2">
+            <div className="flex-1 space-y-6">
+              <div className="space-y-3">
+                <Label className="text-sm font-medium text-foreground flex items-center gap-2 mb-2">
                   <Briefcase className="h-4 w-4 text-design-main flex-shrink-0" />
                   <span className="truncate">
                     {tContractor("sections.workFields.workField")}
@@ -147,7 +147,7 @@ function WorkFieldsSection({
                   }}
                   disabled={isLoading}
                 >
-                  <SelectTrigger className="h-11 border-border focus:border-design-main focus:ring-design-main/20 rounded-lg">
+                  <SelectTrigger className="w-full h-11 border-border focus:border-design-main focus:ring-design-main/20 rounded-lg">
                     <SelectValue
                       placeholder={tContractor("placeholders.selectWorkField")}
                     />
@@ -166,8 +166,8 @@ function WorkFieldsSection({
                   </p>
                 )}
               </div>
-              <div className="space-y-2">
-                <Label className="text-sm font-medium text-foreground flex items-center gap-2">
+              <div className="space-y-3">
+                <Label className="text-sm font-medium text-foreground flex items-center gap-2 mb-2">
                   <Award className="h-4 w-4 text-design-main flex-shrink-0" />
                   <span className="truncate">
                     {tContractor("sections.workFields.yearsOfExperience")}
@@ -176,11 +176,12 @@ function WorkFieldsSection({
                 <Input
                   type="number"
                   min="1"
-                  value={workField.years_of_experience_in_field}
+                  value={workField.years_of_experience_in_field || ""}
                   onChange={(e) => {
                     const updated = [...workFields];
+                    const value = e.target.value;
                     updated[index].years_of_experience_in_field =
-                      parseInt(e.target.value) || 0;
+                      value === "" ? null : parseInt(value) || null;
                     setWorkFields(updated);
 
                     // Clear validation error for this field
@@ -197,7 +198,7 @@ function WorkFieldsSection({
                     }
                   }}
                   disabled={isLoading}
-                  className="h-11 border-border focus:border-design-main focus:ring-design-main/20 rounded-lg"
+                  className="w-full h-11 border-border focus:border-design-main focus:ring-design-main/20 rounded-lg"
                 />
                 {validationErrors[
                   `work_fields.${index}.years_of_experience_in_field`

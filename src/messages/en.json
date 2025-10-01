@@ -737,6 +737,7 @@
   "profile": {
     "title": "Profile",
     "editProfile": "Edit Profile",
+    "upgradeToPremium": "Upgrade to Premium",
     "completionAlert": {
       "title": "Complete Your Profile",
       "description": "Please complete your profile information to access all features and improve your experience.",
