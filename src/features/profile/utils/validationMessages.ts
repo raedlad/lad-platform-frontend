@@ -168,6 +168,10 @@ export const getProfileValidationMessages = (t: (key: string) => string) => ({
   },
   geographicalCoverage: {
     required: t("feedback.validation.geographicalCoverage.required"),
+    countryRequired: t(
+      "feedback.validation.geographicalCoverage.countryRequired"
+    ),
+    stateRequired: t("feedback.validation.geographicalCoverage.stateRequired"),
     cityRequired: t("feedback.validation.geographicalCoverage.cityRequired"),
   },
   representativeIdImage: {

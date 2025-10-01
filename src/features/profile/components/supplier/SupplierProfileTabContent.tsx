@@ -49,7 +49,7 @@ const SupplierProfileTabContent: React.FC<SupplierProfileTabContentProps> = ({
     {
       id: 2,
       title: t("professionalInfo"),
-      component: <ProfessionalInfo />,
+      component: <ProfessionalInfo profile={supplierPersonalInfo as any} />,
     },
   ];
 

@@ -2,9 +2,8 @@
 
 import React, { useState, useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations } from "next-intl";
-import { Plus, Trash2, Upload, X, FileText, MapPin } from "lucide-react";
+import { Plus, Trash2, Upload, X, FileText } from "lucide-react";
 import toast from "react-hot-toast";
 
 import { Button } from "@/shared/components/ui/button";
@@ -36,15 +35,23 @@ import { createProfileValidationSchemas } from "@/features/profile/utils/validat
 import { personalInfoApi } from "@/features/profile/services/personalInfoApi";
 import { cn } from "@/lib/utils";
 
-// Import UI components for geographical coverage
-import { CountrySelection } from "@/shared/components/ui/CoutrySelect";
-import { StateSelection } from "@/shared/components/ui/StateSelect";
-import { CitySelection } from "@/shared/components/ui/CitySelect";
+// Import section components
+import { SupplierGeographicalCoverageSection } from "./sections/GeographicalCoverageSection";
+import { SupplierWorkFieldsSection } from "./sections/WorkFieldsSection";
 
 // Types
 interface WorkField {
   work_field_id: number;
   field_specific_notes?: string;
+  geographical_coverage?: Array<{
+    country_code: string;
+    state_id: string;
+    city_id: string;
+    covers_all_areas: boolean;
+    specific_areas?: string[];
+    priority?: "high" | "medium" | "low";
+    notes?: string;
+  }>;
 }
 
 interface GeographicalCoverage {
@@ -79,8 +86,6 @@ interface SupplierProfileData {
     country_id?: number | null;
     city_id?: number | null;
     state_id?: number | null;
-    delegation_form?: File | null;
-    avatar?: File | null;
   };
   professional_info?: {
     experience_years_range_id?: number;
@@ -224,67 +229,6 @@ export const SupplierProfessionalInfo = () => {
     setValidationErrors(newErrors);
   };
 
-  // Add work field
-  const addWorkField = () => {
-    const newWorkField: WorkField = {
-      work_field_id: 0,
-      field_specific_notes: "",
-    };
-    setWorkFieldsList([...workFieldsList, newWorkField]);
-  };
-
-  // Remove work field
-  const removeWorkField = (index: number) => {
-    const updatedWorkFields = workFieldsList.filter((_, i) => i !== index);
-    setWorkFieldsList(updatedWorkFields);
-  };
-
-  // Update work field
-  const updateWorkField = (
-    index: number,
-    field: keyof WorkField,
-    value: string | number
-  ) => {
-    const updatedWorkFields = workFieldsList.map((workField, i) =>
-      i === index ? { ...workField, [field]: value } : workField
-    );
-    setWorkFieldsList(updatedWorkFields);
-    clearFormErrors(`work_fields.${index}.${field}`);
-  };
-
-  // Add geographical coverage
-  const addGeographicalCoverage = () => {
-    const newCoverage: GeographicalCoverage = {
-      country_code: "",
-      state_id: "",
-      city_id: "",
-      covers_all_areas: false,
-      specific_areas: [],
-      priority: "medium",
-      notes: "",
-    };
-    setGeographicalCoverage([...geographicalCoverage, newCoverage]);
-  };
-
-  // Remove geographical coverage
-  const removeGeographicalCoverage = (index: number) => {
-    const updatedCoverage = geographicalCoverage.filter((_, i) => i !== index);
-    setGeographicalCoverage(updatedCoverage);
-  };
-
-  // Update geographical coverage
-  const updateGeographicalCoverage = (
-    index: number,
-    field: keyof GeographicalCoverage,
-    value: string | number | boolean | string[] | "high" | "medium" | "low"
-  ) => {
-    const updatedCoverage = geographicalCoverage.map((coverage, i) =>
-      i === index ? { ...coverage, [field]: value } : coverage
-    );
-    setGeographicalCoverage(updatedCoverage);
-    clearFormErrors(`geographical_coverage.${index}.${field}`);
-  };
-
   // Change detection
   const hasChanged = useMemo(() => {
     const formFieldsChanged =
@@ -358,6 +302,51 @@ export const SupplierProfessionalInfo = () => {
           workField.field_specific_notes
         );
       }
+
+      // Add geographical coverage for this work field
+      if (
+        workField.geographical_coverage &&
+        workField.geographical_coverage.length > 0
+      ) {
+        workField.geographical_coverage.forEach((coverage, coverageIndex) => {
+          formData.append(
+            `work_fields[${index}][geographical_coverage][${coverageIndex}][country_code]`,
+            coverage.country_code
+          );
+          formData.append(
+            `work_fields[${index}][geographical_coverage][${coverageIndex}][state_id]`,
+            coverage.state_id ? parseInt(coverage.state_id).toString() : "0"
+          );
+          formData.append(
+            `work_fields[${index}][geographical_coverage][${coverageIndex}][city_id]`,
+            coverage.city_id ? parseInt(coverage.city_id).toString() : "0"
+          );
+          formData.append(
+            `work_fields[${index}][geographical_coverage][${coverageIndex}][covers_all_areas]`,
+            coverage.covers_all_areas.toString()
+          );
+          if (coverage.specific_areas && coverage.specific_areas.length > 0) {
+            coverage.specific_areas.forEach((area, areaIndex) => {
+              formData.append(
+                `work_fields[${index}][geographical_coverage][${coverageIndex}][specific_areas][${areaIndex}]`,
+                area
+              );
+            });
+          }
+          if (coverage.priority) {
+            formData.append(
+              `work_fields[${index}][geographical_coverage][${coverageIndex}][priority]`,
+              coverage.priority
+            );
+          }
+          if (coverage.notes) {
+            formData.append(
+              `work_fields[${index}][geographical_coverage][${coverageIndex}][notes]`,
+              coverage.notes
+            );
+          }
+        });
+      }
     });
 
     // Add geographical coverage
@@ -405,8 +394,17 @@ export const SupplierProfessionalInfo = () => {
       experience_years_range_id: data.experience_years_range_id,
       has_government_accreditation: data.has_government_accreditation,
       classification_file: classificationFile,
-      work_fields: workFieldsList,
-      geographical_coverage: geographicalCoverage,
+      work_fields: workFieldsList.map((field) => ({
+        ...field,
+        work_field_id: field.work_field_id.toString(),
+      })),
+      geographical_coverage: geographicalCoverage.filter(
+        (coverage) =>
+          coverage &&
+          coverage.country_code &&
+          coverage.state_id &&
+          coverage.city_id
+      ),
     };
 
     const validationResult = validationSchema.safeParse(validationData);
@@ -499,7 +497,12 @@ export const SupplierProfessionalInfo = () => {
       <div className="max-w-7xl mx-auto">
         <div className="rounded-xl">
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+            <form
+              onSubmit={form.handleSubmit(onSubmit, (errors) => {
+                console.log("❌ Validation errors:", errors);
+              })}
+              className="space-y-8"
+            >
               {/* Basic Information Section */}
               <div className="bg-card rounded-lg border border-border p-6">
                 <h3 className="text-lg font-semibold text-foreground mb-6">
@@ -689,378 +692,25 @@ export const SupplierProfessionalInfo = () => {
               </div>
 
               {/* Work Fields Section */}
-              <div className="bg-card rounded-lg border border-border p-6">
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-lg font-semibold text-foreground">
-                    {tSupplier("workFields")}
-                    <span className="text-red-500 ml-1">*</span>
-                  </h3>
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="sm"
-                    onClick={addWorkField}
-                    disabled={isLoading}
-                    className="flex items-center gap-2"
-                  >
-                    <Plus className="w-4 h-4 text-design-main" />
-                    {tSupplier("addWorkField")}
-                  </Button>
-                </div>
-
-                {validationErrors.work_fields && (
-                  <div className="mb-4 p-3 bg-destructive/10 border border-destructive/20 rounded-lg">
-                    <p className="text-destructive text-sm">
-                      {validationErrors.work_fields}
-                    </p>
-                  </div>
-                )}
-
-                <div className="space-y-4">
-                  {workFieldsList.map((workField, index) => (
-                    <div
-                      key={index}
-                      className="p-4 border border-border rounded-lg"
-                    >
-                      <div className="flex items-center justify-between mb-4">
-                        <h4 className="text-sm font-medium text-foreground">
-                          {tSupplier("workField")} {index + 1}
-                        </h4>
-                        <Button
-                          type="button"
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => removeWorkField(index)}
-                          disabled={isLoading}
-                          className="text-destructive hover:text-destructive hover:bg-destructive/10"
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </Button>
-                      </div>
-
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                          <label className="text-sm font-medium text-foreground mb-2 block">
-                            {tSupplier("workFieldType")}
-                            <span className="text-red-500 ml-1">*</span>
-                          </label>
-                          <Select
-                            disabled={isLoading}
-                            value={workField.work_field_id.toString()}
-                            onValueChange={(value) =>
-                              updateWorkField(
-                                index,
-                                "work_field_id",
-                                parseInt(value)
-                              )
-                            }
-                          >
-                            <SelectTrigger className="w-full">
-                              <SelectValue
-                                placeholder={tSupplier(
-                                  "placeholders.selectWorkField"
-                                )}
-                              />
-                            </SelectTrigger>
-                            <SelectContent>
-                              {workFields.map((field: WorkFieldOption) => (
-                                <SelectItem
-                                  key={field.id}
-                                  value={field.id.toString()}
-                                >
-                                  {field.name_en || field.name}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                          {validationErrors[
-                            `work_fields.${index}.work_field_id`
-                          ] && (
-                            <p className="text-destructive text-xs mt-1">
-                              {
-                                validationErrors[
-                                  `work_fields.${index}.work_field_id`
-                                ]
-                              }
-                            </p>
-                          )}
-                        </div>
-
-                        <div>
-                          <label className="text-sm font-medium text-foreground mb-2 block">
-                            {tSupplier("fieldSpecificNotes")}
-                          </label>
-                          <Input
-                            value={workField.field_specific_notes || ""}
-                            onChange={(e) =>
-                              updateWorkField(
-                                index,
-                                "field_specific_notes",
-                                e.target.value
-                              )
-                            }
-                            disabled={isLoading}
-                            placeholder={tSupplier(
-                              "placeholders.enterFieldNotes"
-                            )}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-
-                {workFieldsList.length === 0 && (
-                  <div className="text-center py-8 text-muted-foreground">
-                    <p>{tSupplier("noWorkFields")}</p>
-                  </div>
-                )}
-              </div>
+              <SupplierWorkFieldsSection
+                workFields={workFieldsList}
+                setWorkFields={setWorkFieldsList}
+                availableWorkFields={workFields}
+                validationErrors={validationErrors}
+                setValidationErrors={setValidationErrors}
+                clearFormErrors={clearFormErrors}
+                isLoading={isLoading}
+              />
 
               {/* Geographical Coverage Section */}
-              <div className="bg-card rounded-lg border border-border p-6">
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-lg font-semibold text-foreground">
-                    {tSupplier("geographicalCoverage")}
-                    <span className="text-red-500 ml-1">*</span>
-                  </h3>
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="sm"
-                    onClick={addGeographicalCoverage}
-                    disabled={isLoading}
-                    className="flex items-center gap-2"
-                  >
-                    <Plus className="w-4 h-4 text-design-main" />
-                    {tSupplier("addCoverage")}
-                  </Button>
-                </div>
-
-                {validationErrors.geographical_coverage && (
-                  <div className="mb-4 p-3 bg-destructive/10 border border-destructive/20 rounded-lg">
-                    <p className="text-destructive text-sm">
-                      {validationErrors.geographical_coverage}
-                    </p>
-                  </div>
-                )}
-
-                <div className="space-y-4">
-                  {geographicalCoverage.map((coverage, index) => (
-                    <div
-                      key={index}
-                      className="p-4 border border-border rounded-lg"
-                    >
-                      <div className="flex items-center justify-between mb-4">
-                        <div className="flex items-center gap-2">
-                          <MapPin className="w-4 h-4 text-design-main" />
-                          <h4 className="text-sm font-medium text-foreground">
-                            {tSupplier("coverage")} {index + 1}
-                          </h4>
-                        </div>
-                        <Button
-                          type="button"
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => removeGeographicalCoverage(index)}
-                          disabled={isLoading}
-                          className="text-destructive hover:text-destructive hover:bg-destructive/10"
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </Button>
-                      </div>
-
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                          <CountrySelection
-                            selectedCountry={coverage.country_code || ""}
-                            onCountryChange={(countryCode) => {
-                              // Use direct approach like contractor component
-                              const updated = [...geographicalCoverage];
-                              updated[index].country_code = countryCode;
-                              updated[index].state_id = "";
-                              updated[index].city_id = "";
-                              setGeographicalCoverage(updated);
-
-                              // Clear validation errors
-                              clearFormErrors(
-                                `geographical_coverage.${index}.country_code`
-                              );
-                              clearFormErrors(
-                                `geographical_coverage.${index}.state_id`
-                              );
-                              clearFormErrors(
-                                `geographical_coverage.${index}.city_id`
-                              );
-                            }}
-                            disabled={isLoading}
-                            placeholder={tCommon("select.country")}
-                            label={tCommon("country")}
-                          />
-                          {validationErrors[
-                            `geographical_coverage.${index}.country_code`
-                          ] && (
-                            <p className="text-destructive text-xs mt-1">
-                              {
-                                validationErrors[
-                                  `geographical_coverage.${index}.country_code`
-                                ]
-                              }
-                            </p>
-                          )}
-                        </div>
-
-                        <div>
-                          <StateSelection
-                            countryCode={coverage.country_code || null}
-                            selectedState={coverage.state_id || ""}
-                            onStateChange={(stateCode) => {
-                              const updated = [...geographicalCoverage];
-                              updated[index].state_id = stateCode;
-                              updated[index].city_id = "";
-                              setGeographicalCoverage(updated);
-
-                              // Clear validation errors
-                              clearFormErrors(
-                                `geographical_coverage.${index}.state_id`
-                              );
-                              clearFormErrors(
-                                `geographical_coverage.${index}.city_id`
-                              );
-                            }}
-                            disabled={isLoading || !coverage.country_code}
-                            placeholder={tCommon("select.state")}
-                            label={tCommon("state")}
-                          />
-                          {validationErrors[
-                            `geographical_coverage.${index}.state_id`
-                          ] && (
-                            <p className="text-destructive text-xs mt-1">
-                              {
-                                validationErrors[
-                                  `geographical_coverage.${index}.state_id`
-                                ]
-                              }
-                            </p>
-                          )}
-                        </div>
-                      </div>
-
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-                        <div>
-                          <CitySelection
-                            stateCode={coverage.state_id || null}
-                            selectedCity={coverage.city_id || ""}
-                            onCityChange={(cityCode) => {
-                              const updated = [...geographicalCoverage];
-                              updated[index].city_id = cityCode;
-                              setGeographicalCoverage(updated);
-
-                              // Clear validation errors
-                              clearFormErrors(
-                                `geographical_coverage.${index}.city_id`
-                              );
-                            }}
-                            disabled={isLoading || !coverage.state_id}
-                            placeholder={tCommon("select.city")}
-                            label={tCommon("city")}
-                          />
-                          {validationErrors[
-                            `geographical_coverage.${index}.city_id`
-                          ] && (
-                            <p className="text-destructive text-xs mt-1">
-                              {
-                                validationErrors[
-                                  `geographical_coverage.${index}.city_id`
-                                ]
-                              }
-                            </p>
-                          )}
-                        </div>
-
-                        <div className="flex items-center space-x-2">
-                          <Checkbox
-                            id={`covers_all_areas_${index}`}
-                            checked={coverage.covers_all_areas}
-                            onCheckedChange={(checked) =>
-                              updateGeographicalCoverage(
-                                index,
-                                "covers_all_areas",
-                                checked
-                              )
-                            }
-                            disabled={isLoading}
-                          />
-                          <label
-                            htmlFor={`covers_all_areas_${index}`}
-                            className="text-sm font-medium text-foreground"
-                          >
-                            {tSupplier("coversAllAreas")}
-                          </label>
-                        </div>
-                      </div>
-
-                      <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                          <label className="text-sm font-medium text-foreground mb-2 block">
-                            {tSupplier("priority")}
-                          </label>
-                          <Select
-                            disabled={isLoading}
-                            value={coverage.priority || "medium"}
-                            onValueChange={(value) =>
-                              updateGeographicalCoverage(
-                                index,
-                                "priority",
-                                value as "high" | "medium" | "low"
-                              )
-                            }
-                          >
-                            <SelectTrigger className="w-full">
-                              <SelectValue />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectItem value="high">
-                                {tSupplier("priorities.high")}
-                              </SelectItem>
-                              <SelectItem value="medium">
-                                {tSupplier("priorities.medium")}
-                              </SelectItem>
-                              <SelectItem value="low">
-                                {tSupplier("priorities.low")}
-                              </SelectItem>
-                            </SelectContent>
-                          </Select>
-                        </div>
-
-                        <div>
-                          <label className="text-sm font-medium text-foreground mb-2 block">
-                            {tSupplier("notes")}
-                          </label>
-                          <Input
-                            value={coverage.notes || ""}
-                            onChange={(e) =>
-                              updateGeographicalCoverage(
-                                index,
-                                "notes",
-                                e.target.value
-                              )
-                            }
-                            disabled={isLoading}
-                            placeholder={tSupplier("placeholders.enterNotes")}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-
-                {geographicalCoverage.length === 0 && (
-                  <div className="text-center py-8 text-muted-foreground">
-                    <p>{tSupplier("noGeographicalCoverage")}</p>
-                  </div>
-                )}
-              </div>
+              <SupplierGeographicalCoverageSection
+                geographicalCoverage={geographicalCoverage}
+                setGeographicalCoverage={setGeographicalCoverage}
+                validationErrors={validationErrors}
+                setValidationErrors={setValidationErrors}
+                clearFormErrors={clearFormErrors}
+                isLoading={isLoading}
+              />
 
               {(error || workFieldsError) && (
                 <div className="p-4 bg-destructive/10 border border-destructive/20 rounded-lg">

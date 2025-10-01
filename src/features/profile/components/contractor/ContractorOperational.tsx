@@ -185,10 +185,6 @@ const ContractorOperational = () => {
   // Additional effect to ensure form is reset when contractorOperationalData changes
   useEffect(() => {
     if (contractorOperationalData) {
-      console.log(
-        "🔄 Resetting form with contractorOperationalData:",
-        contractorOperationalData
-      );
       const formData = {
         executed_project_range_id:
           contractorOperationalData.executed_project_range_id,
@@ -211,12 +207,10 @@ const ContractorOperational = () => {
         contractor_geographic_coverages:
           contractorOperationalData.contractor_geographic_coverages,
       };
-      console.log("🔄 Form data to reset:", formData);
       form.reset(formData);
 
       // Use setTimeout to ensure form is properly initialized before setting individual values
       setTimeout(() => {
-        console.log("🔄 Setting individual form values...");
         form.setValue(
           "executed_project_range_id",
           contractorOperationalData.executed_project_range_id
@@ -248,11 +242,6 @@ const ContractorOperational = () => {
         form.setValue(
           "target_project_value_range_ids",
           contractorOperationalData.target_project_value_range_ids
-        );
-
-        console.log(
-          "🔄 Form values after individual setValue:",
-          form.getValues()
         );
       }, 100);
     }
@@ -328,16 +317,8 @@ const ContractorOperational = () => {
   }, [watchedValues, workFields, geographicalCoverage, contractorCoverage]);
 
   const onSubmit = async (data: ContractorOperationalFormData) => {
-    console.log("🔍 Form submission started");
-    console.log("🔍 hasChanged:", hasChanged);
-    console.log("🔍 watchedValues:", watchedValues);
-    console.log("🔍 workFields:", workFields);
-    console.log("🔍 geographicalCoverage:", geographicalCoverage);
-    console.log("🔍 contractorCoverage:", contractorCoverage);
-
     // Prevent submission if no changes have been made
     if (!hasChanged) {
-      console.log("🔍 No changes detected, preventing submission");
       toast(tCommon("actions.noChanges"), {
         icon: "ℹ️",
         style: {
@@ -349,17 +330,7 @@ const ContractorOperational = () => {
       return;
     }
 
-    console.log("🔍 Changes detected, proceeding with validation");
-
     // Use Zod schema validation for form submission
-    console.log("🔍 Starting form submission validation");
-    console.log("🔍 Current form data:", data);
-    console.log("🔍 Current arrays:", {
-      workFields,
-      geographicalCoverage,
-      contractorCoverage,
-    });
-    console.log("🔍 Current validation errors:", validationErrors);
 
     const formData = {
       executed_project_range_id: data.executed_project_range_id,
@@ -393,11 +364,7 @@ const ContractorOperational = () => {
 
     // Validate using Zod schema
     const schema = createContractorOperationalSchema(t);
-    console.log("🔍 Created schema:", schema);
-    console.log("🔍 Form data to validate:", formData);
-
     const validationResult = schema.safeParse(formData);
-    console.log("🔍 Validation result:", validationResult);
 
     if (!validationResult.success) {
       // Convert Zod errors to our validation errors format
@@ -480,9 +447,7 @@ const ContractorOperational = () => {
           <Form {...form}>
             <form
               key={contractorOperationalData ? "loaded" : "loading"}
-              onSubmit={form.handleSubmit(onSubmit, (errors) => {
-                console.log("❌ Validation errors:", errors);
-              })}
+              onSubmit={form.handleSubmit(onSubmit)}
               className="space-y-6 sm:space-y-8"
             >
               <ProjectInformationSection

@@ -1,5 +1,10 @@
+// Special characters constant
+const SPECIAL_CHARS = '!@#$%^&*(),.?":{}|<>';
+
 // For server-side feedback.validation or contexts where hooks can't be used
-export const getValidationMessages = (t: (key: string) => string) => ({
+export const getValidationMessages = (
+  t: (key: string, values?: Record<string, string>) => string
+) => ({
   firstName: {
     required: t("feedback.validation.firstName.required"),
     minLength: t("feedback.validation.firstName.minLength"),
@@ -23,6 +28,9 @@ export const getValidationMessages = (t: (key: string) => string) => ({
   password: {
     required: t("feedback.validation.password.required"),
     minLength: t("feedback.validation.password.minLength"),
+    lowercase: t("feedback.validation.password.lowercase"),
+    uppercase: t("feedback.validation.password.uppercase"),
+    symbol: t("feedback.validation.password.symbol", { chars: SPECIAL_CHARS }),
   },
   confirmPassword: {
     required: t("feedback.validation.confirmPassword.required"),

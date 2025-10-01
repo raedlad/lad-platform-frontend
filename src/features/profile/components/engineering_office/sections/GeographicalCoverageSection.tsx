@@ -88,10 +88,7 @@ export const EngineeringOfficeGeographicalCoverageSection: React.FC<
 
       <div className="space-y-4">
         {geographicalCoverage.map((coverage, index) => (
-          <div
-            key={index}
-            className="p-4 border border-border  rounded-lg "
-          >
+          <div key={index} className="p-4 border border-border  rounded-lg ">
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-2">
                 <MapPin className="w-4 h-4 text-design-main" />

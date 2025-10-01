@@ -8,17 +8,7 @@ export const useGetCountries = () => {
     const fetchCountries = async () => {
       if (countries.length > 0) return;
       try {
-        console.log("Fetching countries...");
         const response = await globalApi.getCountries();
-        console.log("Countries API response:", response);
-        console.log(
-          "Countries fetched:",
-          response.data?.length || 0,
-          "countries"
-        );
-        if (response.data && response.data.length > 0) {
-          console.log("First country:", response.data[0]);
-        }
         setCountries(response.data || []);
       } catch (error) {
         console.error("Failed to fetch countries:", error);
@@ -30,31 +20,32 @@ export const useGetCountries = () => {
 };
 
 export const useGetStates = (countryCode: string | null) => {
-  const { states, setStates } = useGlobalStore();
+  const { statesByCountry, setStatesByCountry } = useGlobalStore();
 
   useEffect(() => {
     const fetchStates = async () => {
       if (!countryCode) {
-        setStates([]);
+        return;
+      }
+
+      // Check if states are already cached for this country
+      if (statesByCountry[countryCode]) {
         return;
       }
 
       try {
-        console.log("Fetching states for country code:", countryCode);
         const response = await globalApi.getStates(countryCode);
-        console.log("States API response:", response);
-        console.log("States fetched:", response.data?.length || 0, "states");
-        setStates(response.data || []);
+        setStatesByCountry(countryCode, response.data || []);
       } catch (error) {
         console.error("Failed to fetch states:", error);
-        setStates([]);
+        setStatesByCountry(countryCode, []);
       }
     };
 
     fetchStates();
-  }, [countryCode, setStates]);
+  }, [countryCode, setStatesByCountry, statesByCountry]);
 
-  return { states };
+  return { states: countryCode ? statesByCountry[countryCode] || [] : [] };
 };
 
 export const useGetCities = (stateCode: string | null) => {
@@ -62,21 +53,16 @@ export const useGetCities = (stateCode: string | null) => {
 
   useEffect(() => {
     const fetchCities = async () => {
-      console.log("🏙️ useGetCities called with stateCode:", stateCode);
       if (!stateCode) {
-        console.log("🏙️ No stateCode, clearing cities");
         setCities([]);
         return;
       }
 
       try {
-        console.log("🏙️ Fetching cities for state code:", stateCode);
         const response = await globalApi.getCities(stateCode);
-        console.log("🏙️ Cities API response:", response);
-        console.log("🏙️ Cities fetched:", response.data?.length || 0, "cities");
         setCities(response.data || []);
       } catch (error) {
-        console.error("🏙️ Failed to fetch cities:", error);
+        console.error("Failed to fetch cities:", error);
         setCities([]);
       }
     };

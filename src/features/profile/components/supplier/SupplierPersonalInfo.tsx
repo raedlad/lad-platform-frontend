@@ -77,6 +77,8 @@ export const SupplierPersonalInfo = () => {
     selectedStateId: null,
     selectedCountryId: null,
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [justSubmitted, setJustSubmitted] = useState(false);
 
   const { states } = useGetStates(locationState.selectedCountryCode);
   const t = useTranslations();
@@ -97,8 +99,6 @@ export const SupplierPersonalInfo = () => {
       country_id: null,
       city_id: null,
       state_id: null,
-      delegation_form: null,
-      avatar: null,
     },
     mode: "onBlur",
     reValidateMode: "onChange",
@@ -113,7 +113,13 @@ export const SupplierPersonalInfo = () => {
 
   // Initialize form with existing data
   useEffect(() => {
-    if (!supplierPersonalInfo || !countries) return;
+    if (!supplierPersonalInfo || !countries || isSubmitting || justSubmitted)
+      return;
+
+    console.log("Initializing form with data:", {
+      supplierPersonalInfo,
+      countries: countries.length,
+    });
 
     const formData: SupplierProfilePersonalInfo = {
       company_name: supplierPersonalInfo.company_name || "",
@@ -123,20 +129,23 @@ export const SupplierPersonalInfo = () => {
       authorized_person_phone:
         supplierPersonalInfo.authorized_person_phone || "",
       representative_email: supplierPersonalInfo.representative_email || "",
-      country_id: supplierPersonalInfo.country_id || null,
-      city_id: supplierPersonalInfo.city_id || null,
-      state_id: supplierPersonalInfo.state_id || null,
-      delegation_form: supplierPersonalInfo.delegation_form || null,
-      avatar: supplierPersonalInfo.avatar || null,
+      country_id: supplierPersonalInfo.country_id
+        ? Number(supplierPersonalInfo.country_id)
+        : null,
+      city_id: supplierPersonalInfo.city_id
+        ? Number(supplierPersonalInfo.city_id)
+        : null,
+      state_id: supplierPersonalInfo.state_id
+        ? Number(supplierPersonalInfo.state_id)
+        : null,
     };
 
     form.reset(formData);
 
     // Set location state based on existing data
     if (supplierPersonalInfo.country_id) {
-      const country = countries.find(
-        (c) => c.id === supplierPersonalInfo.country_id
-      );
+      const countryId = Number(supplierPersonalInfo.country_id);
+      const country = countries.find((c) => c.id === countryId);
       if (country) {
         setLocationState((prev) => ({
           ...prev,
@@ -145,7 +154,17 @@ export const SupplierPersonalInfo = () => {
         }));
       }
     }
-  }, [supplierPersonalInfo, countries, form]);
+
+    // Set state selection if available
+    if (supplierPersonalInfo.state_id) {
+      const stateId = Number(supplierPersonalInfo.state_id);
+      setLocationState((prev) => ({
+        ...prev,
+        selectedStateId: stateId,
+        selectedStateCode: stateId.toString(),
+      }));
+    }
+  }, [supplierPersonalInfo, countries, form, isSubmitting, justSubmitted]);
 
   const handleCountryChange = useCallback(
     (countryCode: string) => {
@@ -215,40 +234,14 @@ export const SupplierPersonalInfo = () => {
       locationState.selectedStateId !== supplierPersonalInfo.state_id ||
       currentValues.city_id !== supplierPersonalInfo.city_id;
 
-    // Check if files have changed
-    const delegationFormChanged =
-      (currentValues.delegation_form &&
-        !supplierPersonalInfo.delegation_form) ||
-      (!currentValues.delegation_form &&
-        supplierPersonalInfo.delegation_form) ||
-      (currentValues.delegation_form &&
-        supplierPersonalInfo.delegation_form &&
-        (currentValues.delegation_form.name !==
-          supplierPersonalInfo.delegation_form.name ||
-          currentValues.delegation_form.size !==
-            supplierPersonalInfo.delegation_form.size));
-
-    const avatarChanged =
-      (currentValues.avatar && !supplierPersonalInfo.avatar) ||
-      (!currentValues.avatar && supplierPersonalInfo.avatar) ||
-      (currentValues.avatar &&
-        supplierPersonalInfo.avatar &&
-        (currentValues.avatar.name !== supplierPersonalInfo.avatar.name ||
-          currentValues.avatar.size !== supplierPersonalInfo.avatar.size));
-
-    return (
-      textFieldsChanged ||
-      locationChanged ||
-      delegationFormChanged ||
-      avatarChanged
-    );
+    return textFieldsChanged || locationChanged;
   }, [form, supplierPersonalInfo, locationState]);
 
   if (isLoading && !supplierPersonalInfo) {
     return (
       <div
         className={cn(
-          "space-y-4 sm:space-y-6 flex items-center justify-center"
+          "space-y-4 sm:space-y-6 flex items-center justify-center min-w-xs"
         )}
       >
         <div className="w-full form-container max-w-md sm:min-w-xs">
@@ -300,7 +293,9 @@ export const SupplierPersonalInfo = () => {
 
   return (
     <div
-      className={cn("space-y-4 sm:space-y-6 flex items-center justify-center")}
+      className={cn(
+        "space-y-4 sm:space-y-6 flex items-center justify-center min-w-xs"
+      )}
     >
       <div className="w-full form-container max-w-md sm:min-w-xs">
         <Form {...form}>
@@ -332,22 +327,27 @@ export const SupplierPersonalInfo = () => {
                 country_id: locationState.selectedCountryId,
                 city_id: data.city_id,
                 state_id: locationState.selectedStateId,
-                delegation_form: data.delegation_form,
-                avatar: data.avatar,
               };
 
               try {
+                setIsSubmitting(true);
                 const result = await handleSupplierPersonalInfoSubmit(apiData);
                 if (result?.success) {
                   toast.success(tSupplier("success"), {
                     duration: 3000,
                     position: "top-right",
                   });
+                  // Keep the form data after successful submission
+                  setJustSubmitted(true);
+                  setIsSubmitting(false);
+                  // Reset justSubmitted after a delay to allow future updates
+                  setTimeout(() => setJustSubmitted(false), 3000);
                 } else {
                   toast.error(result?.message || tSupplier("error"), {
                     duration: 4000,
                     position: "top-right",
                   });
+                  setIsSubmitting(false);
                 }
               } catch (error) {
                 console.error(
@@ -358,6 +358,7 @@ export const SupplierPersonalInfo = () => {
                   duration: 4000,
                   position: "top-right",
                 });
+                setIsSubmitting(false);
               }
             })}
             className="form-section space-y-6"
@@ -569,241 +570,6 @@ export const SupplierPersonalInfo = () => {
                         placeholder={tCommon("select.city")}
                         label={tSupplier("city")}
                       />
-                    </FormControl>
-                    <FormMessage className="text-xs" />
-                  </FormItem>
-                )}
-              />
-            </div>
-
-            {/* File Upload Section */}
-            <div className="space-y-4">
-              <FormField
-                control={form.control}
-                name="delegation_form"
-                render={({ field }) => (
-                  <FormItem className="space-y-0.5 w-full">
-                    <div className="flex items-center gap-2">
-                      <FileText className="text-design-main p-1" />
-                      <FormLabel>
-                        {tSupplier("delegationForm")}{" "}
-                        <span className="text-red-500">*</span>
-                      </FormLabel>
-                    </div>
-                    <FormControl>
-                      <div className="space-y-2">
-                        <div
-                          className={cn(
-                            "border-2 border-dashed rounded-lg p-4 transition-all cursor-pointer",
-                            "hover:bg-muted/50 hover:border-muted-foreground/50",
-                            field.value
-                              ? "border-design-main"
-                              : "border-muted-foreground/25",
-                            isLoading && "opacity-50 cursor-not-allowed"
-                          )}
-                          onClick={() => {
-                            if (!isLoading) {
-                              document
-                                .getElementById("delegation-form-upload")
-                                ?.click();
-                            }
-                          }}
-                        >
-                          <input
-                            id="delegation-form-upload"
-                            type="file"
-                            accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.webp"
-                            className="hidden"
-                            disabled={isLoading}
-                            onChange={(e) => {
-                              const file = e.target.files?.[0];
-                              if (file) {
-                                // Validate file size (8MB max)
-                                if (file.size > 8 * 1024 * 1024) {
-                                  form.setError("delegation_form", {
-                                    message: tCommon("fileErrors.maxSize", {
-                                      maxSizeMB: "8",
-                                    }),
-                                  });
-                                  return;
-                                }
-                                // Validate file type
-                                const allowedTypes = [
-                                  "application/pdf",
-                                  "application/msword",
-                                  "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-                                  "image/jpeg",
-                                  "image/jpg",
-                                  "image/png",
-                                  "image/webp",
-                                ];
-                                if (!allowedTypes.includes(file.type)) {
-                                  form.setError("delegation_form", {
-                                    message: tCommon("fileErrors.invalidFile"),
-                                  });
-                                  return;
-                                }
-                                field.onChange(file);
-                                form.clearErrors("delegation_form");
-                              }
-                            }}
-                          />
-                          <div className="flex flex-col items-center gap-2 text-center">
-                            <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center">
-                              <Upload className="w-4 h-4 text-muted-foreground" />
-                            </div>
-                            {field.value ? (
-                              <div className="space-y-1">
-                                <p className="text-sm font-medium text-green-700">
-                                  {field.value.name}
-                                </p>
-                                <p className="text-xs text-muted-foreground">
-                                  {(field.value.size / 1024 / 1024).toFixed(2)}{" "}
-                                  MB
-                                </p>
-                                <Button
-                                  type="button"
-                                  variant="ghost"
-                                  size="sm"
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    field.onChange(null);
-                                  }}
-                                  className="h-6 px-2 text-xs"
-                                  disabled={isLoading}
-                                >
-                                  <X className="w-3 h-3 mr-1" />
-                                  {tCommon("actions.remove")}
-                                </Button>
-                              </div>
-                            ) : (
-                              <div className="space-y-1">
-                                <p className="text-sm font-medium">
-                                  {tCommon("actions.upload")}{" "}
-                                  {tSupplier("delegationForm")}
-                                </p>
-                                <p className="text-xs text-muted-foreground">
-                                  PDF, DOC, DOCX, JPG, JPEG, PNG, WEBP (max 8MB)
-                                </p>
-                              </div>
-                            )}
-                          </div>
-                        </div>
-                      </div>
-                    </FormControl>
-                    <FormMessage className="text-xs" />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="avatar"
-                render={({ field }) => (
-                  <FormItem className="space-y-0.5 w-full">
-                    <div className="flex items-center gap-2">
-                      <Image className="text-design-main p-1" />
-                      <FormLabel>
-                        {tSupplier("companyLogo")}{" "}
-                        <span className="text-red-500">*</span>
-                      </FormLabel>
-                    </div>
-                    <FormControl>
-                      <div className="space-y-2">
-                        <div
-                          className={cn(
-                            "border-2 border-dashed rounded-lg p-4 transition-all cursor-pointer",
-                            "hover:bg-muted/50 hover:border-muted-foreground/50",
-                            field.value
-                              ? "border-design-main"
-                              : "border-muted-foreground/25",
-                            isLoading && "opacity-50 cursor-not-allowed"
-                          )}
-                          onClick={() => {
-                            if (!isLoading) {
-                              document.getElementById("avatar-upload")?.click();
-                            }
-                          }}
-                        >
-                          <input
-                            id="avatar-upload"
-                            type="file"
-                            accept=".jpg,.jpeg,.png,.webp,.svg"
-                            className="hidden"
-                            disabled={isLoading}
-                            onChange={(e) => {
-                              const file = e.target.files?.[0];
-                              if (file) {
-                                // Validate file size (4MB max)
-                                if (file.size > 4 * 1024 * 1024) {
-                                  form.setError("avatar", {
-                                    message: tCommon("fileErrors.maxSize", {
-                                      maxSizeMB: "4",
-                                    }),
-                                  });
-                                  return;
-                                }
-                                // Validate file type
-                                const allowedTypes = [
-                                  "image/jpeg",
-                                  "image/jpg",
-                                  "image/png",
-                                  "image/webp",
-                                  "image/svg+xml",
-                                ];
-                                if (!allowedTypes.includes(file.type)) {
-                                  form.setError("avatar", {
-                                    message: tCommon("fileErrors.invalidFile"),
-                                  });
-                                  return;
-                                }
-                                field.onChange(file);
-                                form.clearErrors("avatar");
-                              }
-                            }}
-                          />
-                          <div className="flex flex-col items-center gap-2 text-center">
-                            <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center">
-                              <Image className="w-4 h-4 text-muted-foreground" />
-                            </div>
-                            {field.value ? (
-                              <div className="space-y-1">
-                                <p className="text-sm font-medium text-green-700">
-                                  {field.value.name}
-                                </p>
-                                <p className="text-xs text-muted-foreground">
-                                  {(field.value.size / 1024 / 1024).toFixed(2)}{" "}
-                                  MB
-                                </p>
-                                <Button
-                                  type="button"
-                                  variant="ghost"
-                                  size="sm"
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    field.onChange(null);
-                                  }}
-                                  className="h-6 px-2 text-xs"
-                                  disabled={isLoading}
-                                >
-                                  <X className="w-3 h-3 mr-1" />
-                                  {tCommon("actions.remove")}
-                                </Button>
-                              </div>
-                            ) : (
-                              <div className="space-y-1">
-                                <p className="text-sm font-medium">
-                                  {tCommon("actions.upload")}{" "}
-                                  {tSupplier("companyLogo")}
-                                </p>
-                                <p className="text-xs text-muted-foreground">
-                                  JPG, JPEG, PNG, WEBP, SVG (max 4MB)
-                                </p>
-                              </div>
-                            )}
-                          </div>
-                        </div>
-                      </div>
                     </FormControl>
                     <FormMessage className="text-xs" />
                   </FormItem>

@@ -118,18 +118,6 @@ const PersonalInfo: React.FC<PersonalInfoProps> = ({
     return profile?.state_name || tCommon("notProvided");
   };
 
-  // Helper function to get delegation form
-  const getDelegationForm = () => {
-    const delegationForm =
-      currentPersonalInfo?.delegation_form || currentProfile?.delegation_form;
-    if (delegationForm) {
-      return delegationForm instanceof File
-        ? delegationForm.name
-        : "File uploaded";
-    }
-    return tCommon("notProvided");
-  };
-
   return (
     <div className="space-y-6">
       <div className="bg-card border border-border rounded-lg p-6 dark:bg-card dark:border-border">
@@ -199,14 +187,6 @@ const PersonalInfo: React.FC<PersonalInfoProps> = ({
               {getCityName()}
             </p>
           </div>
-        </div>
-        <div className="mt-4">
-          <label className="text-sm font-medium text-gray-600 dark:text-gray-400">
-            {t("delegationForm")}
-          </label>
-          <p className="text-sm text-gray-900 dark:text-gray-100 mt-1">
-            {getDelegationForm()}
-          </p>
         </div>
       </div>
     </div>

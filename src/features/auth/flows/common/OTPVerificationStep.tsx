@@ -236,7 +236,9 @@ const OTPVerificationStep: React.FC<VerificationStepProps> = ({
             >
               {resendCooldown > 0
                 ? t("resendCooldown", { seconds: resendCooldown })
-                : `Resend ${authMethod === "email" ? "Email" : "SMS"} Code`}
+                : authMethod === "email"
+                ? t("resendEmailCode")
+                : t("resendSMSCode")}
             </Button>
 
             {/* Resend Email Verification (only show for email auth method) */}

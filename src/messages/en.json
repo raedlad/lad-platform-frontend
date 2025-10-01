@@ -437,6 +437,8 @@
       "thirdPartyDescription": "Complete verification using your selected provider",
       "noCodeReceived": "Didn't receive the code?",
       "resendCooldown": "Resend code in {seconds} seconds",
+      "resendEmailCode": "Resend Email Code",
+      "resendSMSCode": "Resend SMS Code",
       "errors": {
         "invalidCode": "Please enter a 6-digit verification code",
         "verificationFailed": "Verification failed",
@@ -1080,8 +1082,6 @@
         "phoneNumber": "Phone Number",
         "authorizedPersonPhoneNumber": "Authorized Person Phone Number",
         "commercialRegistrationNumber": "Commercial Registration Number",
-        "delegationForm": "Delegation Form",
-        "companyLogo": "Company Logo",
         "country": "Country",
         "state": "State",
         "city": "City"
@@ -1099,8 +1099,6 @@
         "country": "Country",
         "state": "State",
         "city": "City",
-        "delegationForm": "Delegation Form",
-        "companyLogo": "Company Logo",
         "noChanges": "No changes to save",
         "success": "Information updated successfully",
         "error": "Failed to update information"
@@ -1732,7 +1730,11 @@
       },
       "password": {
         "required": "Password is required",
-        "minLength": "Password must be at least 8 characters"
+        "minLength": "Password must be at least 8 characters",
+        "lowercase": "Password must contain at least one lowercase letter",
+        "uppercase": "Password must contain at least one uppercase letter",
+        "symbol": "Password must contain at least one special character ({chars})",
+        "specialChar": "Password must contain at least one special character ({chars})"
       },
       "confirmPassword": {
         "required": "Please confirm your password",
@@ -1859,12 +1861,6 @@
         }
       },
 
-      "delegationForm": {
-        "required": "Delegation form is required"
-      },
-      "avatar": {
-        "required": "Company logo is required"
-      },
       "representativeIdImage": {
         "required": "Representative ID image is required"
       },
@@ -1879,6 +1875,12 @@
       },
       "workLocations": {
         "required": "Please select at least one work location"
+      },
+      "delegationForm": {
+        "required": "Delegation form is required"
+      },
+      "avatar": {
+        "required": "Company logo is required"
       },
       "officeAffiliation": {
         "required": "Office affiliation status is required"
@@ -1906,6 +1908,8 @@
       },
       "geographicalCoverage": {
         "required": "At least one geographical coverage area is required",
+        "countryRequired": "Country is required for geographical coverage",
+        "stateRequired": "State is required for geographical coverage",
         "cityRequired": "City is required for geographical coverage"
       },
       "officialAccreditations": {

@@ -5,6 +5,61 @@ import { getValidationMessages } from "./validationMessages";
 export const createValidationSchemas = (t: (key: string) => string) => {
   const messages = getValidationMessages(t);
 
+  // Enhanced password validation with case requirements
+  const passwordValidation = z
+    .string()
+    .min(8, messages.password.minLength)
+    .refine((password) => /[a-z]/.test(password), {
+      message: messages.password.lowercase,
+    })
+    .refine((password) => /[A-Z]/.test(password), {
+      message: messages.password.uppercase,
+    })
+    .refine((password) => /[!@#$%^&*(),.?":{}|<>]/.test(password), {
+      message: messages.password.symbol,
+    });
+
+  // Optional password validation for third-party auth
+  const optionalPasswordValidation = z
+    .string()
+    .optional()
+    .refine(
+      (password) => {
+        if (!password) return true; // Allow empty for optional passwords
+        return password.length >= 8;
+      },
+      {
+        message: messages.password.minLength,
+      }
+    )
+    .refine(
+      (password) => {
+        if (!password) return true; // Allow empty for optional passwords
+        return /[a-z]/.test(password);
+      },
+      {
+        message: messages.password.lowercase,
+      }
+    )
+    .refine(
+      (password) => {
+        if (!password) return true; // Allow empty for optional passwords
+        return /[A-Z]/.test(password);
+      },
+      {
+        message: messages.password.uppercase,
+      }
+    )
+    .refine(
+      (password) => {
+        if (!password) return true; // Allow empty for optional passwords
+        return /[!@#$%^&*(),.?":{}|<>]/.test(password);
+      },
+      {
+        message: messages.password.symbol,
+      }
+    );
+
   const EmailLoginSchema = z.object({
     email: z.string().email(messages.email.invalid),
     password: z.string().min(6, messages.password.minLength),
@@ -29,7 +84,7 @@ export const createValidationSchemas = (t: (key: string) => string) => {
       lastName: z.string().min(2, messages.lastName.minLength),
       phoneNumber: z.string().min(9, messages.phoneNumber.minLength), // Made optional for email/third-party
       email: z.string().email(messages.email.invalid),
-      password: z.string().min(8, messages.password.minLength),
+      password: passwordValidation,
       confirmPassword: z.string(),
       agreeToTerms: z.boolean().refine((val) => val === true, {
         message: messages.terms.required,
@@ -56,7 +111,7 @@ export const createValidationSchemas = (t: (key: string) => string) => {
   // Email-based registration/login
   const IndividualEmailRegistrationSchema = PersonalInfoSchema.extend({
     email: z.string().email(messages.email.invalid),
-    password: z.string().min(8, messages.password.minLength),
+    password: passwordValidation,
     confirmPassword: z.string(),
     phoneNumber: z.string().min(9, messages.phoneNumber.minLength),
   });
@@ -64,7 +119,7 @@ export const createValidationSchemas = (t: (key: string) => string) => {
   // Phone-based registration/login
   const IndividualPhoneRegistrationSchema = PersonalInfoSchema.extend({
     phoneNumber: z.string().min(9, messages.phoneNumber.minLength),
-    password: z.string().min(8, messages.password.minLength),
+    password: passwordValidation,
     confirmPassword: z.string(),
   });
 
@@ -82,7 +137,7 @@ export const createValidationSchemas = (t: (key: string) => string) => {
       lastName: z.string().min(2, messages.lastName.minLength),
       email: z.string().email(messages.email.invalid),
       phoneNumber: z.string().min(9, messages.phoneNumber.minLength),
-      password: z.string().min(8, messages.password.minLength),
+      password: passwordValidation,
       confirmPassword: z.string(),
       agreeToTerms: z.boolean().refine((val) => val === true, {
         message: messages.terms.required,
@@ -113,7 +168,7 @@ export const createValidationSchemas = (t: (key: string) => string) => {
 
   const NewPasswordSchema = z
     .object({
-      password: z.string().min(8, messages.password.minLength),
+      password: passwordValidation,
       confirmPassword: z.string(),
     })
     .refine((data) => data.password === data.confirmPassword, {

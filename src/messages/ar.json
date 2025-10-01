@@ -431,6 +431,8 @@
       "thirdPartyDescription": "أكمل التحقق باستخدام الموفر الذي قمت باختياره",
       "noCodeReceived": "لم تستلم الرمز؟",
       "resendCooldown": "أعد إرسال الرمز في {seconds} ثانية",
+      "resendEmailCode": "أعد إرسال رمز البريد الإلكتروني",
+      "resendSMSCode": "أعد إرسال رمز الرسائل النصية",
       "errors": {
         "invalidCode": "يرجى إدخال رمز تحقق مكون من 6 أرقام",
         "verificationFailed": "فشل التحقق",
@@ -1074,8 +1076,6 @@
         "phoneNumber": "رقم الهاتف",
         "authorizedPersonPhoneNumber": "رقم هاتف الشخص المفوض",
         "commercialRegistrationNumber": "رقم السجل التجاري",
-        "delegationForm": "نموذج التفويض",
-        "companyLogo": "شعار الشركة",
         "country": "الدولة",
         "state": "المحافظة",
         "city": "المدينة"
@@ -1093,8 +1093,6 @@
         "country": "البلد",
         "state": "المحافظة",
         "city": "المدينة",
-        "delegationForm": "نموذج التفويض",
-        "companyLogo": "شعار الشركة",
         "noChanges": "لا توجد تغييرات للحفظ",
         "success": "تم تحديث المعلومات بنجاح",
         "error": "فشل في تحديث المعلومات"
@@ -1677,7 +1675,11 @@
       },
       "password": {
         "required": "كلمة المرور مطلوبة",
-        "minLength": "يجب أن تتكون كلمة المرور من 8 أحرف على الأقل"
+        "minLength": "يجب أن تتكون كلمة المرور من 8 أحرف على الأقل",
+        "lowercase": "يجب أن تحتوي كلمة المرور على حرف صغير واحد على الأقل",
+        "uppercase": "يجب أن تحتوي كلمة المرور على حرف كبير واحد على الأقل",
+        "symbol": "يجب أن تحتوي كلمة المرور على رمز خاص واحد على الأقل ({chars})",
+        "specialChar": "يجب أن تحتوي كلمة المرور على رمز خاص واحد على الأقل ({chars})"
       },
       "confirmPassword": {
         "required": "يرجى تأكيد كلمة المرور",
@@ -1804,9 +1806,6 @@
         }
       },
 
-      "delegationForm": {
-        "required": "وثيقة التعيين مطلوبة"
-      },
       "avatar": {
         "required": "شعار الشركة مطلوب"
       },
@@ -1824,6 +1823,9 @@
       },
       "workLocations": {
         "required": "يرجى اختيار موقع عمل واحد على الأقل"
+      },
+      "delegationForm": {
+        "required": "وثيقة التعيين مطلوبة"
       },
       "officeAffiliation": {
         "required": "حالة الانتماء للمكتب مطلوبة"
@@ -1851,6 +1853,8 @@
       },
       "geographicalCoverage": {
         "required": "منطقة تغطية جغرافية واحدة على الأقل مطلوبة",
+        "countryRequired": "الدولة مطلوبة للتغطية الجغرافية",
+        "stateRequired": "المنطقة مطلوبة للتغطية الجغرافية",
         "cityRequired": "المدينة مطلوبة للتغطية الجغرافية"
       },
       "officialAccreditations": {

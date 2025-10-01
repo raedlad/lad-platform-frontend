@@ -18,7 +18,7 @@ export interface ApiResponse<T> {
 
 export const workFieldsApi = {
   async getWorkFields(): Promise<ApiResponse<WorkField[]>> {
-    const response = await api.get("/work-fields");
+    const response = await api.get("/general-data-profile/work-fields");
     return {
       success: response.data.success,
       data: response.data.response || response.data.data,

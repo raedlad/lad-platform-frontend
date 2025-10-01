@@ -270,12 +270,6 @@ export const createProfileValidationSchemas = (t: (key: string) => string) => {
     country_id: z.number().optional().nullable(),
     city_id: z.number().optional().nullable(),
     state_id: z.number().optional().nullable(),
-    delegation_form: z.instanceof(File).refine((file) => file.size > 0, {
-      message: messages.delegationForm.required,
-    }),
-    avatar: z.instanceof(File).refine((file) => file.size > 0, {
-      message: messages.avatar.required,
-    }),
   });
 
   const SupplierProfessionalInfoSchema = z.object({
@@ -283,16 +277,26 @@ export const createProfileValidationSchemas = (t: (key: string) => string) => {
       .number()
       .min(1, messages.experienceYearsRange.required),
     classification_file: z
-      .instanceof(File)
-      .refine((file) => file.size > 0, {
-        message: messages.classificationFile.required,
-      })
+      .union([
+        z.instanceof(File).refine((file) => file.size > 0, {
+          message: messages.classificationFile.required,
+        }),
+        z.string().min(1, messages.classificationFile.required),
+        z.undefined(),
+        z.null(),
+      ])
       .optional(),
     has_government_accreditation: z.boolean(),
     work_fields: z
       .array(
         z.object({
-          work_field_id: z.number().min(1, messages.workFields.required),
+          work_field_id: z
+            .string()
+            .min(1, messages.workFields.required)
+            .transform((val) => parseInt(val, 10))
+            .refine((val) => !isNaN(val) && val > 0, {
+              message: messages.workFields.required,
+            }),
           field_specific_notes: z.string().optional(),
         })
       )
@@ -300,16 +304,35 @@ export const createProfileValidationSchemas = (t: (key: string) => string) => {
     geographical_coverage: z
       .array(
         z.object({
+          country_code: z.string().min(1, messages.countryId.required),
+          state_id: z
+            .string()
+            .min(1, messages.stateId.required)
+            .transform((val) => parseInt(val, 10))
+            .refine((val) => !isNaN(val) && val > 0, {
+              message: messages.stateId.required,
+            }),
           city_id: z
-            .number()
-            .min(1, messages.geographicalCoverage.cityRequired),
+            .string()
+            .min(1, messages.cityId.required)
+            .transform((val) => parseInt(val, 10))
+            .refine((val) => !isNaN(val) && val > 0, {
+              message: messages.cityId.required,
+            }),
           covers_all_areas: z.boolean(),
           specific_areas: z.array(z.string()).optional(),
           priority: z.enum(["high", "medium", "low"]).optional(),
           notes: z.string().optional(),
         })
       )
-      .min(1, messages.geographicalCoverage.required),
+      .min(1, messages.geographicalCoverage.required)
+      .refine(
+        (coverage) =>
+          coverage.every((item) => item !== null && item !== undefined),
+        {
+          message: messages.geographicalCoverage.required,
+        }
+      ),
   });
 
   return {
@@ -595,7 +618,16 @@ export const createContractorOperationalSchema = (
       .number()
       .min(1, messages.annualProjectsRange.required),
     classification_level_id: z.number().optional(),
-    classification_file: z.instanceof(File).optional(),
+    classification_file: z
+      .union([
+        z.instanceof(File).refine((file) => file.size > 0, {
+          message: messages.classificationFile.required,
+        }),
+        z.string().min(1, messages.classificationFile.required),
+        z.undefined(),
+        z.null(),
+      ])
+      .optional(),
     has_government_accreditation: z
       .boolean()
       .refine((val) => val !== null && val !== undefined, {

@@ -14,6 +14,8 @@ interface GlobalStoreState {
   setCountries: (countries: Country[]) => void;
   states: State[];
   setStates: (states: State[]) => void;
+  statesByCountry: Record<string, State[]>;
+  setStatesByCountry: (countryCode: string, states: State[]) => void;
   cities: City[];
   setCities: (cities: City[]) => void;
 }
@@ -31,6 +33,14 @@ export const useGlobalStore = create<GlobalStoreState>((set) => ({
   setCountries: (countries: Country[]) => set({ countries }),
   states: [],
   setStates: (states: State[]) => set({ states }),
+  statesByCountry: {},
+  setStatesByCountry: (countryCode: string, states: State[]) =>
+    set((state) => ({
+      statesByCountry: {
+        ...state.statesByCountry,
+        [countryCode]: states,
+      },
+    })),
   cities: [],
   setCities: (cities: City[]) => set({ cities }),
 }));

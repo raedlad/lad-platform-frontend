@@ -61,7 +61,7 @@ class ProfileApiService {
   }
 
   updateEngineeringOfficeProfile(data: FormData): Promise<ApiResponse<any>> {
-    return request<any>("put", "/engineering-office/profile/update", data, {
+    return request<any>("post", "/engineering-office/profile/update", data, {
       headers: {
         "Content-Type": "multipart/form-data",
       },

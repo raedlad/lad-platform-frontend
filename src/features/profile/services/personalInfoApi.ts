@@ -222,11 +222,11 @@ export const personalInfoApi = {
 
       console.log("Submitting engineering office personal info:", {
         url: "/engineering-office/profile/update",
-        method: "PUT",
+        method: "POST",
         contentType: "multipart/form-data",
       });
 
-      const response = await api.put(
+      const response = await api.post(
         "/engineering-office/profile/update",
         formData,
         {
@@ -295,6 +295,7 @@ export const personalInfoApi = {
 
     // Add file fields
     formData.append("delegation_form", contractorPersonalInfo.delegation_form);
+
     // Debug logging
     console.log("Contractor Personal Info API Data:", contractorPersonalInfo);
     console.log("FormData entries:");
@@ -342,7 +343,7 @@ export const personalInfoApi = {
   async updateEngineeringOfficeProfessionalInfo(
     professionalInfo: FormData
   ): Promise<ApiResponse> {
-    const response = await api.put(
+    const response = await api.post(
       "/engineering-office/profile/update-full-operational",
       professionalInfo,
       {

@@ -21,8 +21,6 @@ export interface SupplierProfilePersonalInfo {
   country_id: number | null;
   city_id: number | null;
   state_id: number | null;
-  delegation_form: File | null;
-  avatar: File | null;
 }
 
 // Supplier Profile State - No auth-related fields
