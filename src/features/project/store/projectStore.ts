@@ -154,14 +154,15 @@ export const useProjectStore = create<ProjectStoreState>()((set, get) => ({
     if (!originalEssentialInfoData) return true;
 
     return (
-      originalEssentialInfoData.name !== currentData.name ||
-      originalEssentialInfoData.type !== currentData.type ||
+      originalEssentialInfoData.title !== currentData.title ||
+      originalEssentialInfoData.project_type_id !==
+        currentData.project_type_id ||
       originalEssentialInfoData.city !== currentData.city ||
       originalEssentialInfoData.district !== currentData.district ||
       originalEssentialInfoData.location !== currentData.location ||
       originalEssentialInfoData.budget !== currentData.budget ||
       originalEssentialInfoData.budget_unit !== currentData.budget_unit ||
-      originalEssentialInfoData.duration !== currentData.duration ||
+      originalEssentialInfoData.duration_value !== currentData.duration_value ||
       originalEssentialInfoData.duration_unit !== currentData.duration_unit ||
       originalEssentialInfoData.area_sqm !== currentData.area_sqm ||
       originalEssentialInfoData.description !== currentData.description

@@ -122,16 +122,12 @@ export interface WorkFieldWithExperience {
 
 // Operational geographical coverage
 export interface OperationalGeographicalCoverage {
-  country_code: string;
-  state_id: string;
   city_id: string;
   covers_all_areas: boolean;
 }
 
 // Contractor geographic coverage
 export interface ContractorGeographicCoverage {
-  country_code: string;
-  state_id: string;
   city_id: string;
   covers_all_areas: boolean;
 }

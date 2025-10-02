@@ -183,14 +183,14 @@ import {
 // ];
 
 const mockProjectEssentialInfo: ProjectEssentialInfo = {
-  name: "مشروع المبنى السكني الجديد",
-  type: 1, // Just the ID - Residential Building
+  title: "مشروع المبنى السكني الجديد",
+  project_type_id: 1, // Just the ID - Residential Building
   city: "Riyadh",
   district: "Al Malaz",
   location: "King Fahd Road, Near King Saud University",
   budget: 2500000,
   budget_unit: "SAR",
-  duration: 18,
+  duration_value: 18,
   duration_unit: "months",
   area_sqm: 2500,
   description:
@@ -509,14 +509,14 @@ const mockProjects: Project[] = [
   {
     id: "proj_001",
     essential_info: {
-      name: "مشروع المبنى السكني الجديد",
-      type: 1, // Residential Building
+      title: "مشروع المبنى السكني الجديد",
+      project_type_id: 1, // Residential Building
       city: "Riyadh",
       district: "Al Malaz",
       location: "King Fahd Road, Near King Saud University",
       budget: 2500000,
       budget_unit: "SAR",
-      duration: 18,
+      duration_value: 18,
       duration_unit: "months",
       area_sqm: 2500,
       description:
@@ -552,14 +552,14 @@ const mockProjects: Project[] = [
   {
     id: "proj_002",
     essential_info: {
-      name: "مشروع المركز التجاري الحديث",
-      type: 2, // Commercial Building
+      title: "مشروع المركز التجاري الحديث",
+      project_type_id: 2, // Commercial Building
       city: "Jeddah",
       district: "Al Hamra",
       location: "Prince Sultan Road, Near Red Sea Mall",
       budget: 5000000,
       budget_unit: "SAR",
-      duration: 24,
+      duration_value: 24,
       duration_unit: "months",
       area_sqm: 5000,
       description:
@@ -596,14 +596,14 @@ const mockProjects: Project[] = [
   {
     id: "proj_003",
     essential_info: {
-      name: "مشروع البنية التحتية الذكية",
-      type: 4, // Infrastructure
+      title: "مشروع البنية التحتية الذكية",
+      project_type_id: 4, // Infrastructure
       city: "Dammam",
       district: "Al Faisaliyah",
       location: "King Abdulaziz Road, Near Dammam Port",
       budget: 8000000,
       budget_unit: "SAR",
-      duration: 36,
+      duration_value: 36,
       duration_unit: "months",
       area_sqm: 10000,
       description:
@@ -781,7 +781,10 @@ export const useProjectData = () => {
     let stepsCompleted = 0;
 
     // Step 1: Essential Info completion
-    if (project.essential_info?.name && project.essential_info?.type > 0) {
+    if (
+      project.essential_info?.title &&
+      project.essential_info?.project_type_id > 0
+    ) {
       stepsCompleted++;
     }
 
@@ -911,14 +914,14 @@ export const useProjectData = () => {
       status: { status: "in_progress" },
       id: "",
       essential_info: {
-        name: "",
-        type: 0, // ID instead of array
+        title: "",
+        project_type_id: 0, // ID instead of array
         city: "",
         district: "",
         location: "",
         budget: 0,
         budget_unit: "",
-        duration: 0,
+        duration_value: 0,
         duration_unit: "",
         area_sqm: 0,
         description: "",

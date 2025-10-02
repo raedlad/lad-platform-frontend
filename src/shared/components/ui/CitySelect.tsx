@@ -11,6 +11,10 @@ import {
 } from "@/components/ui/popover";
 import { globalApi } from "@/shared/services/globalApi";
 
+// Global cache for cities to prevent duplicate API calls
+const citiesCache = new Map<string, City[]>();
+const loadingPromises = new Map<string, Promise<City[]>>();
+
 interface City {
   id: number;
   name: string;
@@ -55,25 +59,67 @@ export const CitySelection: React.FC<CitySelectProps> = ({
   const [error, setError] = useState<string | null>(null);
   const [citySearchOpen, setCitySearchOpen] = useState(false);
 
-  // Fetch cities when stateCode changes
+  // Fetch cities with global caching
   React.useEffect(() => {
+    const cacheKey = stateCode || "all";
+
     const fetchCities = async () => {
-      setIsLoading(true);
-      try {
-        let response;
-        if (stateCode) {
-          // Fetch cities by state code
-          response = await globalApi.getCities(stateCode);
-        } else {
-          // Fetch all cities when no state code is provided
-          response = await globalApi.getAllCities();
+      // Check if we already have the cities in cache
+      if (citiesCache.has(cacheKey)) {
+        setCities(citiesCache.get(cacheKey)!);
+        setIsLoading(false);
+        return;
+      }
+
+      // Check if there's already a loading promise for this key
+      if (loadingPromises.has(cacheKey)) {
+        try {
+          const cachedCities = await loadingPromises.get(cacheKey)!;
+          setCities(cachedCities);
+          setIsLoading(false);
+        } catch (error) {
+          console.error(
+            "🏙️ CitySelection - Failed to fetch cities from cache:",
+            error
+          );
+          setCities([]);
+          setIsLoading(false);
         }
-        setCities(response.data || []);
+        return;
+      }
+
+      // Create new loading promise
+      const loadingPromise = (async () => {
+        try {
+          let response;
+          if (stateCode) {
+            response = await globalApi.getCities(stateCode);
+          } else {
+            response = await globalApi.getAllCities();
+          }
+          const citiesData = response.data || [];
+          citiesCache.set(cacheKey, citiesData);
+          return citiesData;
+        } catch (error) {
+          console.error("🏙️ CitySelection - Failed to fetch cities:", error);
+          const emptyCities: City[] = [];
+          citiesCache.set(cacheKey, emptyCities);
+          return emptyCities;
+        }
+      })();
+
+      loadingPromises.set(cacheKey, loadingPromise);
+
+      try {
+        const citiesData = await loadingPromise;
+        setCities(citiesData);
         setIsLoading(false);
       } catch (error) {
         console.error("🏙️ CitySelection - Failed to fetch cities:", error);
         setCities([]);
         setIsLoading(false);
+      } finally {
+        loadingPromises.delete(cacheKey);
       }
     };
 

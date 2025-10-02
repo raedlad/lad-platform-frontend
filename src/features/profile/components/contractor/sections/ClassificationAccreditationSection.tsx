@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Control } from "react-hook-form";
+import { useFormContext } from "react-hook-form";
 import { useTranslations } from "next-intl";
 import { Award, Upload, X } from "lucide-react";
 
@@ -28,17 +28,16 @@ import { OperationalData } from "../../../store/operationalStore";
 import { cn } from "@/lib/utils";
 
 interface ClassificationAccreditationSectionProps {
-  control: Control<ContractorOperationalFormData>;
   operationalData: OperationalData;
   isLoading: boolean;
 }
 
 function ClassificationAccreditationSection({
-  control,
   operationalData,
   isLoading,
 }: ClassificationAccreditationSectionProps) {
   const tContractor = useTranslations("profile.contractorOperational");
+  const { control } = useFormContext<ContractorOperationalFormData>();
 
   return (
     <div className="bg-card border border-border rounded-lg shadow-sm">
@@ -176,10 +175,16 @@ function ClassificationAccreditationSection({
                           {field.value ? (
                             <div className="space-y-1">
                               <p className="text-sm font-medium text-green-700">
-                                {field.value.name}
+                                {field.value instanceof File
+                                  ? field.value.name
+                                  : field.value}
                               </p>
                               <p className="text-xs text-muted-foreground">
-                                {(field.value.size / 1024 / 1024).toFixed(2)} MB
+                                {(field.value instanceof File
+                                  ? field.value.size
+                                  : 0 / 1024 / 1024
+                                ).toFixed(2)}{" "}
+                                MB
                               </p>
                               <Button
                                 type="button"

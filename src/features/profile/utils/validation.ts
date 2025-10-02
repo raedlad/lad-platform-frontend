@@ -304,14 +304,6 @@ export const createProfileValidationSchemas = (t: (key: string) => string) => {
     geographical_coverage: z
       .array(
         z.object({
-          country_code: z.string().min(1, messages.countryId.required),
-          state_id: z
-            .string()
-            .min(1, messages.stateId.required)
-            .transform((val) => parseInt(val, 10))
-            .refine((val) => !isNaN(val) && val > 0, {
-              message: messages.stateId.required,
-            }),
           city_id: z
             .string()
             .min(1, messages.cityId.required)
@@ -638,7 +630,7 @@ export const createContractorOperationalSchema = (
       .refine((val) => val !== null && val !== undefined, {
         message: messages.coversAllRegions.required,
       }),
-    target_project_value_range_ids: z.array(z.number()).optional(), // Made optional as per API
+    target_project_value_range_ids: z.array(z.number()), // Made optional as per API
     work_fields: z
       .array(
         z.object({
@@ -652,12 +644,6 @@ export const createContractorOperationalSchema = (
     operational_geographical_coverage: z
       .array(
         z.object({
-          country_code: z
-            .string()
-            .min(1, messages.operationalGeographicalCoverage.countryRequired),
-          state_id: z
-            .string()
-            .min(1, messages.operationalGeographicalCoverage.stateRequired),
           city_id: z
             .string()
             .min(1, messages.operationalGeographicalCoverage.cityRequired),
@@ -668,12 +654,6 @@ export const createContractorOperationalSchema = (
     contractor_geographic_coverages: z
       .array(
         z.object({
-          country_code: z
-            .string()
-            .min(1, messages.contractorGeographicCoverages.countryRequired),
-          state_id: z
-            .string()
-            .min(1, messages.contractorGeographicCoverages.stateRequired),
           city_id: z
             .string()
             .min(1, messages.contractorGeographicCoverages.cityRequired),

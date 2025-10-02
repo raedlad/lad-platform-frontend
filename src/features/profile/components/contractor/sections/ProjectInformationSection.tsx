@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Control } from "react-hook-form";
+import { useFormContext } from "react-hook-form";
 import { useTranslations } from "next-intl";
 import { Building, Users, Award, Briefcase, FileText } from "lucide-react";
 
@@ -27,17 +27,16 @@ import { ContractorOperationalFormData } from "../../../utils/validation";
 import { OperationalData } from "../../../store/operationalStore";
 
 interface ProjectInformationSectionProps {
-  control: Control<ContractorOperationalFormData>;
   operationalData: OperationalData;
   isLoading: boolean;
 }
 
 function ProjectInformationSection({
-  control,
   operationalData,
   isLoading,
 }: ProjectInformationSectionProps) {
   const tContractor = useTranslations("profile.contractorOperational");
+  const { control } = useFormContext<ContractorOperationalFormData>();
 
   return (
     <div className="bg-card border border-border rounded-lg shadow-sm">

@@ -4,9 +4,6 @@ import React from "react";
 import { useAuthStore } from "@auth/store/authStore";
 import { useRoleRegistration } from "@auth/flows/useRoleRegistration";
 import { OnboardingLayout } from "@auth/components/onboarding/OnboardingLayout";
-
-import AuthMethodSelection from "./common/AuthMethodSelection";
-import PersonalInfoStep from "./PersonalInfoStep";
 import CombinedRegistrationForm from "../components/forms/CombinedRegistrationForm";
 import SocialLoginForm from "../components/forms/SocialLoginForm";
 import { SignupOTPVerificationStep } from "./common/OTPVerificationStep";
@@ -14,7 +11,6 @@ import { RegistrationStore, RoleSpecificData } from "@auth/types/auth";
 
 const RoleRegistration: React.FC = () => {
   const store = useAuthStore();
-  const { handleAuthMethodSelect } = useRoleRegistration();
   const hook = useRoleRegistration();
 
   const adaptedStore = {
@@ -37,9 +33,7 @@ const RoleRegistration: React.FC = () => {
       case "socialLoginForm":
         // This step only appears when user chooses third-party auth
         const provider = store.roleData.thirdPartyInfo?.provider || "google";
-        return (
-          <SocialLoginForm role={store.currentRole!} provider={provider} />
-        );
+        return <SocialLoginForm provider={provider} />;
       case "verification":
         return (
           <SignupOTPVerificationStep

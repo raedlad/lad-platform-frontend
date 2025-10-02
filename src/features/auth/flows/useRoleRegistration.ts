@@ -159,25 +159,33 @@ export const useRoleRegistration = () => {
             );
           }
 
-          if (
+          // Check if verification is required first
+          const verificationStatus =
             registrationResult.data?.response.account_overview
-              .verification_required.email_verification.has_token
-          ) {
-            store.setAuthMethod("email");
-            store.goToNextStep();
-            return { success: true };
-          } else if (
-            registrationResult.data?.response.account_overview
-              .verification_required.phone_verification.has_token
-          ) {
-            store.setAuthMethod("phone");
-            store.goToNextStep();
-            return { success: true };
-          } else {
-            router.push("/dashboard");
-            return { success: true };
+              ?.verification_status;
+
+          if (verificationStatus?.verification_required === true) {
+            // Check which type of verification is needed
+            if (
+              registrationResult.data?.response.account_overview
+                .verification_required.email_verification.has_token
+            ) {
+              store.setAuthMethod("email");
+              store.goToNextStep();
+              return { success: true };
+            } else if (
+              registrationResult.data?.response.account_overview
+                .verification_required.phone_verification.has_token
+            ) {
+              store.setAuthMethod("phone");
+              store.goToNextStep();
+              return { success: true };
+            }
           }
-          // Check if verification is required
+
+          // No verification required, go directly to dashboard
+          router.push("/dashboard");
+          return { success: true };
         } else {
           // Handle backend validation errors
           if (

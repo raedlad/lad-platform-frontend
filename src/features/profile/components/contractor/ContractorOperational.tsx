@@ -1,18 +1,14 @@
 "use client";
 
 import React, { useState, useEffect, useMemo } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, FormProvider } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useTranslations } from "next-intl";
-import { useGetCountries } from "@/shared/hooks/globalHooks";
 
 import { Button } from "@/shared/components/ui/button";
 import { Form } from "@/shared/components/ui/form";
-import {
-  useOperationalStore,
-  ContractorOperationalData,
-} from "../../store/operationalStore";
+import { useOperationalStore } from "../../store/operationalStore";
 import { operationalApi } from "../../services/operationalApi";
 import { createContractorOperationalSchema } from "../../utils/validation";
 import { handleApiError } from "./utils/formUtils";
@@ -20,7 +16,6 @@ import {
   WorkField,
   GeographicalCoverage,
   ContractorCoverage,
-  ValidationErrors,
 } from "./types/sections";
 import { cn } from "@/lib/utils";
 import toast from "react-hot-toast";
@@ -39,7 +34,6 @@ const ContractorOperational = () => {
   const t = useTranslations("");
   const tContractor = useTranslations("profile.contractorOperational");
   const tCommon = useTranslations("common");
-  const { countries } = useGetCountries();
   const {
     operationalData,
     setOperationalData,
@@ -57,9 +51,6 @@ const ContractorOperational = () => {
   const [contractorCoverage, setContractorCoverage] = useState<
     ContractorCoverage[]
   >([]);
-  const [validationErrors, setValidationErrors] = useState<ValidationErrors>(
-    {}
-  );
 
   const form = useForm<ContractorOperationalFormData>({
     defaultValues: {
@@ -71,7 +62,7 @@ const ContractorOperational = () => {
       classification_file: undefined,
       has_government_accreditation: false,
       covers_all_regions: false,
-      target_project_value_range_ids: undefined,
+      target_project_value_range_ids: [],
       work_fields: [],
       operational_geographical_coverage: [],
       contractor_geographic_coverages: [],
@@ -103,9 +94,7 @@ const ContractorOperational = () => {
   useEffect(() => {
     const loadContractorOperationalData = async () => {
       try {
-        const data = await operationalApi.getContractorOperationalFromProfile(
-          countries
-        );
+        const data = await operationalApi.getContractorOperationalFromProfile();
         if (data) {
           setContractorOperationalData(data);
 
@@ -131,16 +120,14 @@ const ContractorOperational = () => {
           setWorkFields(data.work_fields || []);
           setGeographicalCoverage(
             (data.operational_geographical_coverage || []).map((coverage) => ({
-              ...coverage,
-              state_id: coverage.state_id || "",
               city_id: coverage.city_id || "",
+              covers_all_areas: coverage.covers_all_areas || false,
             }))
           );
           setContractorCoverage(
             (data.contractor_geographic_coverages || []).map((coverage) => ({
-              ...coverage,
-              state_id: coverage.state_id || "",
               city_id: coverage.city_id || "",
+              covers_all_areas: coverage.covers_all_areas || false,
             }))
           );
         }
@@ -159,28 +146,21 @@ const ContractorOperational = () => {
       setGeographicalCoverage(
         (contractorOperationalData.operational_geographical_coverage || []).map(
           (coverage) => ({
-            ...coverage,
-            state_id: coverage.state_id || "",
             city_id: coverage.city_id || "",
+            covers_all_areas: coverage.covers_all_areas || false,
           })
         )
       );
       setContractorCoverage(
         (contractorOperationalData.contractor_geographic_coverages || []).map(
           (coverage) => ({
-            ...coverage,
-            state_id: coverage.state_id || "",
             city_id: coverage.city_id || "",
+            covers_all_areas: coverage.covers_all_areas || false,
           })
         )
       );
     }
-  }, [
-    contractorOperationalData,
-    setContractorOperationalData,
-    form,
-    countries,
-  ]);
+  }, [contractorOperationalData, setContractorOperationalData, form]);
 
   // Additional effect to ensure form is reset when contractorOperationalData changes
   useEffect(() => {
@@ -241,7 +221,7 @@ const ContractorOperational = () => {
         );
         form.setValue(
           "target_project_value_range_ids",
-          contractorOperationalData.target_project_value_range_ids
+          contractorOperationalData.target_project_value_range_ids || []
         );
       }, 100);
     }
@@ -254,28 +234,23 @@ const ContractorOperational = () => {
       work_field_id: field.work_field_id,
       years_of_experience_in_field: field.years_of_experience_in_field || 0,
     }));
-    form.setValue("work_fields", workFieldsForForm, { shouldValidate: false });
+    form.setValue("work_fields", workFieldsForForm, { shouldValidate: true });
   }, [workFields, form]);
 
   useEffect(() => {
     form.setValue("operational_geographical_coverage", geographicalCoverage, {
-      shouldValidate: false,
+      shouldValidate: true,
     });
   }, [geographicalCoverage, form]);
 
   useEffect(() => {
     form.setValue("contractor_geographic_coverages", contractorCoverage, {
-      shouldValidate: false,
+      shouldValidate: true,
     });
   }, [contractorCoverage, form]);
 
   // Watch form values to track changes
   const watchedValues = form.watch();
-
-  // Function to clear form errors
-  const clearFormErrors = (fieldName: keyof ContractorOperationalFormData) => {
-    form.clearErrors(fieldName);
-  };
 
   // Track if form has changed
   const hasChanged = useMemo(() => {
@@ -330,7 +305,8 @@ const ContractorOperational = () => {
       return;
     }
 
-    // Use Zod schema validation for form submission
+    // Trigger validation for all fields before Zod validation
+    await form.trigger();
 
     const formData = {
       executed_project_range_id: data.executed_project_range_id,
@@ -338,7 +314,10 @@ const ContractorOperational = () => {
       experience_years_range_id: data.experience_years_range_id,
       annual_projects_range_id: data.annual_projects_range_id,
       classification_level_id: data.classification_level_id || undefined,
-      classification_file: data.classification_file,
+      classification_file:
+        data.classification_file instanceof File
+          ? data.classification_file
+          : undefined,
       has_government_accreditation: data.has_government_accreditation,
       covers_all_regions: data.covers_all_regions,
       target_project_value_range_ids: data.target_project_value_range_ids || [],
@@ -348,16 +327,14 @@ const ContractorOperational = () => {
       })),
       operational_geographical_coverage: (geographicalCoverage || []).map(
         (coverage) => ({
-          ...coverage,
-          state_id: coverage.state_id || "",
           city_id: coverage.city_id || "",
+          covers_all_areas: coverage.covers_all_areas || false,
         })
       ),
       contractor_geographic_coverages: (contractorCoverage || []).map(
         (coverage) => ({
-          ...coverage,
-          state_id: coverage.state_id || "",
           city_id: coverage.city_id || "",
+          covers_all_areas: coverage.covers_all_areas || false,
         })
       ),
     };
@@ -367,16 +344,7 @@ const ContractorOperational = () => {
     const validationResult = schema.safeParse(formData);
 
     if (!validationResult.success) {
-      // Convert Zod errors to our validation errors format
-      const errors: Record<string, string> = {};
-      validationResult.error.issues.forEach((error) => {
-        const path = error.path.join(".");
-        errors[path] = error.message;
-      });
-
-      setValidationErrors(errors);
-
-      // Also set form errors
+      // Set form errors from Zod validation
       validationResult.error.issues.forEach((error) => {
         const path = error.path.join(".");
         form.setError(path as keyof ContractorOperationalFormData, {
@@ -397,13 +365,9 @@ const ContractorOperational = () => {
     try {
       setLoading(true);
       setError(null);
-      // Don't clear validation errors here - let them show to the user
-      // setValidationErrors({});
 
       await operationalApi.updateFullOperationalProfile(formData);
       setContractorOperationalData(formData);
-      // Clear validation errors only after successful submission
-      setValidationErrors({});
       toast.success(tContractor("success.updateSuccess"), {
         style: {
           borderRadius: "10px",
@@ -445,73 +409,65 @@ const ContractorOperational = () => {
       <div className="max-w-7xl mx-auto">
         <div className="rounded-xl">
           <Form {...form}>
-            <form
-              key={contractorOperationalData ? "loaded" : "loading"}
-              onSubmit={form.handleSubmit(onSubmit)}
-              className="space-y-6 sm:space-y-8"
-            >
-              <ProjectInformationSection
-                control={form.control}
-                operationalData={operationalData}
-                isLoading={isLoading}
-              />
+            <FormProvider {...form}>
+              <form
+                key={contractorOperationalData ? "loaded" : "loading"}
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="space-y-6 sm:space-y-8"
+              >
+                <ProjectInformationSection
+                  operationalData={operationalData}
+                  isLoading={isLoading}
+                />
 
-              <ClassificationAccreditationSection
-                control={form.control}
-                operationalData={operationalData}
-                isLoading={isLoading}
-              />
+                <ClassificationAccreditationSection
+                  operationalData={operationalData}
+                  isLoading={isLoading}
+                />
 
-              <WorkFieldsSection
-                control={form.control}
-                operationalData={operationalData}
-                workFields={workFields}
-                setWorkFields={setWorkFields}
-                validationErrors={validationErrors}
-                setValidationErrors={setValidationErrors}
-                clearFormErrors={clearFormErrors}
-                isLoading={isLoading}
-              />
+                <WorkFieldsSection
+                  operationalData={operationalData}
+                  workFields={workFields}
+                  setWorkFields={setWorkFields}
+                  isLoading={isLoading}
+                />
 
-              <GeographicalCoverageSection
-                control={form.control}
-                geographicalCoverage={geographicalCoverage}
-                setGeographicalCoverage={setGeographicalCoverage}
-                contractorCoverage={contractorCoverage}
-                setContractorCoverage={setContractorCoverage}
-                validationErrors={validationErrors}
-                setValidationErrors={setValidationErrors}
-                clearFormErrors={clearFormErrors}
-                isLoading={isLoading}
-              />
+                <GeographicalCoverageSection
+                  geographicalCoverage={geographicalCoverage}
+                  setGeographicalCoverage={setGeographicalCoverage}
+                  contractorCoverage={contractorCoverage}
+                  setContractorCoverage={setContractorCoverage}
+                  isLoading={isLoading}
+                />
 
-              {error && (
-                <div className="p-4 bg-destructive/10 border border-destructive/20 rounded-lg">
-                  <p className="text-destructive text-sm">{error}</p>
+                {error && (
+                  <div className="p-4 bg-destructive/10 border border-destructive/20 rounded-lg">
+                    <p className="text-destructive text-sm">{error}</p>
+                  </div>
+                )}
+
+                <div className="flex justify-end pt-6 border-t border-border">
+                  <Button
+                    type="submit"
+                    className={cn(
+                      "px-6 sm:px-8 py-3 bg-design-main hover:bg-design-main-dark text-white font-medium rounded-lg shadow-sm transition-all duration-200 min-w-[140px] w-full sm:w-auto",
+                      (!hasChanged || isLoading) &&
+                        "cursor-not-allowed bg-muted hover:bg-muted"
+                    )}
+                    disabled={!hasChanged || isLoading}
+                  >
+                    {isLoading ? (
+                      <div className="flex items-center gap-2">
+                        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                        {tContractor("saving")}
+                      </div>
+                    ) : (
+                      tContractor("saveChanges")
+                    )}
+                  </Button>
                 </div>
-              )}
-
-              <div className="flex justify-end pt-6 border-t border-border">
-                <Button
-                  type="submit"
-                  className={cn(
-                    "px-6 sm:px-8 py-3 bg-design-main hover:bg-design-main-dark text-white font-medium rounded-lg shadow-sm transition-all duration-200 min-w-[140px] w-full sm:w-auto",
-                    (!hasChanged || isLoading) &&
-                      "cursor-not-allowed bg-muted hover:bg-muted"
-                  )}
-                  disabled={!hasChanged || isLoading}
-                >
-                  {isLoading ? (
-                    <div className="flex items-center gap-2">
-                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                      {tContractor("saving")}
-                    </div>
-                  ) : (
-                    tContractor("saveChanges")
-                  )}
-                </Button>
-              </div>
-            </form>
+              </form>
+            </FormProvider>
           </Form>
         </div>
       </div>

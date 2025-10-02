@@ -1090,6 +1090,7 @@
         "authorizedPersonName": "Authorized Person Name",
         "email": "Email",
         "representativeEmail": "Representative Email",
+        "delegationForm": "Delegation Form",
         "phoneNumber": "Phone Number",
         "authorizedPersonPhoneNumber": "Authorized Person Phone Number",
         "commercialRegistrationNumber": "Commercial Registration Number",
@@ -1129,6 +1130,9 @@
         "classificationFile": "Classification File",
         "workFields": "Work Fields",
         "geographicalCoverage": "Geographical Coverage",
+        "geographicalCoverageDescription": "Define your geographical coverage areas",
+        "coverageAreas": "Coverage Areas",
+        "coverageCount": "{count, plural, =0 {no coverages} =1 {# coverage} other {# coverages}}",
         "addWorkField": "Add Work Field",
         "addCoverage": "Add Coverage",
         "workField": "Work Field",
@@ -1162,7 +1166,9 @@
           "selectWorkField": "Select work field",
           "enterFieldNotes": "Enter field specific notes",
           "enterCityId": "Enter city ID",
-          "enterNotes": "Enter notes"
+          "enterNotes": "Enter notes",
+          "specificAreasPlaceholder": "Enter specific areas separated by commas",
+          "notesPlaceholder": "Additional notes about this coverage area"
         }
       }
     },

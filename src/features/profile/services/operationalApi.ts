@@ -87,16 +87,6 @@ export const operationalApi = {
 
       // Add operational geographical coverage
       data.operational_geographical_coverage.forEach((coverage, index) => {
-        formData.append(
-          `operational_geographical_coverage[${index}][country_code]`,
-          coverage.country_code
-        );
-        if (coverage.state_id) {
-          formData.append(
-            `operational_geographical_coverage[${index}][state_id]`,
-            coverage.state_id
-          );
-        }
         if (coverage.city_id) {
           formData.append(
             `operational_geographical_coverage[${index}][city_id]`,
@@ -111,16 +101,6 @@ export const operationalApi = {
 
       // Add contractor geographic coverages
       data.contractor_geographic_coverages.forEach((coverage, index) => {
-        formData.append(
-          `contractor_geographic_coverages[${index}][country_code]`,
-          coverage.country_code
-        );
-        if (coverage.state_id) {
-          formData.append(
-            `contractor_geographic_coverages[${index}][state_id]`,
-            coverage.state_id
-          );
-        }
         if (coverage.city_id) {
           formData.append(
             `contractor_geographic_coverages[${index}][city_id]`,
@@ -314,16 +294,6 @@ export const operationalApi = {
         formData.append("operational_geographical_coverage[]", "");
       } else {
         operationalCoverage.forEach((coverage, index) => {
-          formData.append(
-            `operational_geographical_coverage[${index}][country_code]`,
-            coverage.country_code
-          );
-          if (coverage.state_id) {
-            formData.append(
-              `operational_geographical_coverage[${index}][state_id]`,
-              coverage.state_id
-            );
-          }
           if (coverage.city_id) {
             formData.append(
               `operational_geographical_coverage[${index}][city_id]`,
@@ -344,16 +314,6 @@ export const operationalApi = {
         formData.append("contractor_geographic_coverages[]", "");
       } else {
         contractorCoverage.forEach((coverage, index) => {
-          formData.append(
-            `contractor_geographic_coverages[${index}][country_code]`,
-            coverage.country_code
-          );
-          if (coverage.state_id) {
-            formData.append(
-              `contractor_geographic_coverages[${index}][state_id]`,
-              coverage.state_id
-            );
-          }
           if (coverage.city_id) {
             formData.append(
               `contractor_geographic_coverages[${index}][city_id]`,
