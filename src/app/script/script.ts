@@ -1,5 +1,5 @@
 export const BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL || "https://admin.lad.sa";
+   "https://admin.lad.sa";
 
 type HttpError = Error & {
   response: {
