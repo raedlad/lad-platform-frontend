@@ -51,14 +51,14 @@ const BOQTable: React.FC<BOQTableProps> = ({
 
   const getUnitName = (unitId: number) => {
     const unit = units.find((u: Unit) => u.id === unitId);
-    return unit ? `${unit.name} (${unit.symbol})` : "Unknown Unit";
+    return unit ? `${unit.name} (${unit.code})` : "Unknown Unit";
   };
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat("en-US", {
       style: "currency",
       currency: "SAR",
-    }).format(amount);
+    }).format(amount || 0);
   };
 
   const handleDelete = (itemId: string) => {
@@ -130,7 +130,7 @@ const BOQTable: React.FC<BOQTableProps> = ({
                       </TableCell>
                       <TableCell className="text-right max-w-[120px]">
                         <div className="truncate">
-                          {item.quantity.toLocaleString()}
+                          {(item.quantity || 0).toLocaleString()}
                         </div>
                       </TableCell>
                       <TableCell className="text-right max-w-[140px]">
@@ -173,15 +173,14 @@ const BOQTable: React.FC<BOQTableProps> = ({
 
                           <AlertDialog>
                             <AlertDialogTrigger asChild>
-                                  <Button
-                                    type="button"
-                                    variant="ghost"
-                                    size="sm"
-                                    className="h-8 w-8 p-0 text-red-600 hover:text-red-700 hover:bg-red-50"
-                                  >
-                                    <Trash2 className="h-4 w-4" />
-                                  </Button>
-
+                              <Button
+                                type="button"
+                                variant="ghost"
+                                size="sm"
+                                className="h-8 w-8 p-0 text-red-600 hover:text-red-700 hover:bg-red-50"
+                              >
+                                <Trash2 className="h-4 w-4" />
+                              </Button>
                             </AlertDialogTrigger>
                             <AlertDialogContent>
                               <AlertDialogHeader>

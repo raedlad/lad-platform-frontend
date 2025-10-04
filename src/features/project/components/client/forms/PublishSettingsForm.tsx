@@ -48,14 +48,10 @@ const PublishSettingsForm = () => {
       setIsLoading(false);
     }
   };
-  const onValidationError = (errors: any) => {
-    console.log("❌ Validation errors:", errors);
-
-    // Get the first error field name
+  const onValidationError = (errors: Record<string, unknown>) => {
     const firstErrorField = Object.keys(errors)[0];
 
     if (firstErrorField) {
-      // Use React Hook Form's setFocus method
       form.setFocus(
         firstErrorField as keyof z.infer<typeof ProjectPublishSchema>
       );

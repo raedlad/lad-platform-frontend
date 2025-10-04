@@ -60,8 +60,11 @@
       "city": "Select City",
       "duration": "Select Duration",
       "day": "Day",
+      "days": "Days",
       "week": "Week",
+      "weeks": "Weeks",
       "month": "Month",
+      "months": "Months",
       "year": "Year"
     },
     "notProvided": "Not provided",
@@ -71,6 +74,7 @@
     "allAreas": "All Areas",
     "specificAreas": "Specific Areas",
     "ui": {
+      "or": "Or",
       "search": "Search",
       "filter": "Filter",
       "sort": "Sort",
@@ -1553,9 +1557,19 @@
       "cityPlaceholder": "Select project city",
       "district": "District",
       "districtPlaceholder": "Select project district",
-      "location": "Location",
-      "locationPlaceholder": "Enter project location",
-      "budget": "Budget",
+      "address_line": "Address",
+      "address_linePlaceholder": "Enter project address",
+      "searchLocation": "Search for a location...",
+      "useCurrentLocation": "Use current location",
+      "mapClickInstruction": "Click on the map to select a location or search for an address above.",
+      "selectFromMap": "Select from map",
+      "enterManually": "Enter manually",
+      "selectLocationTitle": "Select Location",
+      "selectLocationDescription": "Search for a location or click on the map to select the project location.",
+      "locationFromMap": "Location selected from map",
+      "mapApiKeyMissing": "Google Maps API key is not configured. Please add NEXT_PUBLIC_GOOGLE_MAPS_API_KEY to your environment variables.",
+      "budget_min": "Budget Minimum",
+      "budget_max": "Budget Maximum",
       "budgetPlaceholder": "Enter project budget",
       "duration": "Duration",
       "durationPlaceholder": "Enter project duration",
@@ -1620,7 +1634,9 @@
         "manualDescription": "Create BOQ items manually",
         "selectTemplate": "Select Template",
         "templatePlaceholder": "Choose a template...",
-        "noTemplates": "No templates available"
+        "noTemplates": "No templates available",
+        "loading": "Loading templates...",
+        "items": "items"
       },
       "boqTable": {
         "title": "BOQ Items",
@@ -1695,7 +1711,8 @@
       "title": "Project Overview",
       "name": "Project Name",
       "type": "Project Type",
-      "budget": "Budget",
+      "budget_min": "Budget Minimum",
+      "budget_max": "Budget Maximum",
       "location": "Location",
       "duration": "Duration",
       "area_sqm": "Area (sqm)",
@@ -2026,13 +2043,17 @@
         "required": "Please enter project district",
         "minLength": "District must be at least 2 characters"
       },
-      "location": {
-        "required": "Please enter project location",
-        "minLength": "Location must be at least 2 characters"
+      "address_line": {
+        "required": "Please enter project address",
+        "minLength": "Address must be at least 2 characters"
       },
-      "budget": {
-        "required": "Please enter project budget",
-        "minLength": "Budget must be at least 2 characters"
+      "budget_min": {
+        "required": "Please enter project budget minimum",
+        "minLength": "Budget minimum must be at least 2 characters"
+      },
+      "budget_max": {
+        "required": "Please enter project budget maximum",
+        "minLength": "Budget maximum must be at least 2 characters"
       },
       "duration": {
         "required": "Please enter project duration",
@@ -2063,25 +2084,25 @@
         "minFiles": "At least 1 architectural plan is required",
         "maxFiles": "Maximum 10 architectural plans are allowed",
         "maxSize": "Architectural plans file size must not exceed 5MB",
-        "invalidType": "File type not allowed. Accepted types: PDF, DWG, DXF, JPEG, PNG"
+        "invalidType": "File type not allowed. Accepted types: PDF, XLS, XLSX, CSV"
       },
       "licenses": {
         "minFiles": "At least 1 license is required",
         "maxSize": "License file size must not exceed 5MB",
         "maxFiles": "Maximum 10 licenses are allowed",
-        "invalidType": "File type not allowed. Accepted types: PDF, JPEG, JPG, PNG"
+        "invalidType": "File type not allowed. Accepted types: PDF, XLS, XLSX, CSV"
       },
       "specifications": {
         "minFiles": "At least 1 specification is required",
         "maxSize": "Specifications file size must not exceed 5MB",
         "maxFiles": "Maximum 10 specifications are allowed",
-        "invalidType": "File type not allowed. Accepted types: PDF, DOC, DOCX, XLS, XLSX"
+        "invalidType": "File type not allowed. Accepted types: PDF, DOC, DOCX, TXT"
       },
       "site_photos": {
         "minFiles": "At least 1 site photo is required",
         "maxFiles": "Maximum 10 site photos are allowed",
         "maxSize": "Each site photo file size must not exceed 10MB",
-        "invalidType": "File type not allowed. Accepted types: JPEG, PNG"
+        "invalidType": "File type not allowed. Accepted types: JPEG, PNG, WEBP, SVG"
       },
       "boqItem": {
         "name": {
@@ -2137,16 +2158,34 @@
     "title": "My Projects",
     "subtitle": "Manage and track your construction projects",
     "loading": "Loading projects...",
+    "project": "project",
+    "projects": "projects",
     "emptyState": {
       "title": "No projects yet",
       "description": "Get started by creating your first project",
       "createButton": "Create New Project"
     },
     "projectCard": {
+      "type": "Type",
+      "location": "Location",
+      "budget": "Budget",
+      "duration": "Duration",
+      "area": "Area",
       "status": {
-        "notStarted": "Not Started",
-        "inProgress": "In Progress",
-        "completed": "Completed"
+        "label": "Status",
+        "draft": "Draft",
+        "review_pending": "Review Pending",
+        "published": "Published",
+        "receiving_bids": "Receiving Bids",
+        "offer_accepted": "Offer Accepted",
+        "awaiting_contract_signature": "Awaiting Contract Signature",
+        "contract_signed": "Contract Signed",
+        "in_progress": "In Progress",
+        "cancelled": "Cancelled",
+        "rejected": "Rejected",
+        "completed": "Completed",
+        "closed_completed": "Closed Completed",
+        "notStarted": "Not Started"
       },
       "details": {
         "location": "Location",
@@ -2181,12 +2220,18 @@
     },
     "tabs": {
       "all": "All Projects",
-      "inProgress": "In Progress",
       "draft": "Draft",
-      "pendingOffers": "Pending Offers",
-      "pendingReview": "Pending Review",
-      "pendingSigning": "Pending Signing",
-      "completed": "Completed"
+      "review_pending": "Review Pending",
+      "published": "Published",
+      "receiving_bids": "Receiving Bids",
+      "offer_accepted": "Offer Accepted",
+      "awaiting_contract_signature": "Awaiting Contract",
+      "contract_signed": "Contract Signed",
+      "in_progress": "In Progress",
+      "cancelled": "Cancelled",
+      "rejected": "Rejected",
+      "completed": "Completed",
+      "closed_completed": "Closed Completed"
     },
     "pagination": {
       "showing": "Showing",

@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import { ShimmerSkeleton } from "@/components/ui/shimmer-skeleton";
 import { RadioGroup, RadioGroupItem } from "@/shared/components/ui/radio-group";
 import { Label } from "@/shared/components/ui/label";
+import { WorkType as WorkTypeType } from "../../types/project";
 
 const WorkType = ({
   onSelect,
@@ -31,10 +32,10 @@ const WorkType = ({
         setIsLoading(true);
         const result = await projectApi.getWorkTypes();
         if (result.success) {
-          setWorkTypes(result.response);
+          setWorkTypes(result.response as WorkTypeType[]);
         }
       } catch (error) {
-        console.log("Error getting work types:", error);
+        // Error handled silently
       } finally {
         setIsLoading(false);
       }

@@ -15,8 +15,7 @@ const ProjectOverviewForm = () => {
   const router = useRouter();
   const onSubmit = async () => {
     try {
-      if (projectStatus.status !== "in_progress" && completedSteps !== 6)
-        return;
+      if (projectStatus.status !== "draft" && completedSteps !== 6) return;
       setIsLoading(true);
       const response = await submitSendProjectToReview();
       if (response.success) {

@@ -12,6 +12,7 @@ import {
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 import { useLocale } from "@/hooks/useLocale";
+import { ProjectClassificationJob } from "../../types/project";
 
 const Job = ({
   onSelect,
@@ -37,10 +38,12 @@ const Job = ({
         setIsLoading(true);
         const result = await projectApi.getProjectClassificationJobs();
         if (result.success) {
-          setProjectClassificationJobs(result.response);
+          setProjectClassificationJobs(
+            result.response as ProjectClassificationJob[]
+          );
         }
       } catch (error) {
-        console.log("Error getting project classification jobs:", error);
+        // Error handled silently
       } finally {
         setIsLoading(false);
       }

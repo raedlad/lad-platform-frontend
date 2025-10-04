@@ -55,7 +55,6 @@ const DocumentsForm = () => {
           );
         }
       } catch (error) {
-        console.error("Upload error:", error);
         toast.error(
           t("project.step3.uploadFileError", {
             fileName: file.name,
@@ -96,7 +95,6 @@ const DocumentsForm = () => {
         );
         return true;
       } catch (error) {
-        console.error("Remove error:", error);
         toast.error(
           t("project.step3.removeFileError", {
             fileName: file.name,
@@ -141,7 +139,6 @@ const DocumentsForm = () => {
         );
       }
     } catch (error) {
-      console.error("Reupload error:", error);
       toast.error(
         t("project.step3.reuploadFileError", {
           fileName: newFile.name,
@@ -169,13 +166,12 @@ const DocumentsForm = () => {
     );
   };
 
-  const onSubmit = (data: any) => {
-    console.log("Documents form submitted:", data);
-    submitDocuments(data);
+  const onSubmit = (data: Record<string, unknown>) => {
+    submitDocuments(data as Parameters<typeof submitDocuments>[0]);
   };
 
-  const onValidationError = (errors: any) => {
-    console.log("Validation errors:", errors);
+  const onValidationError = (errors: Record<string, unknown>) => {
+    // Validation errors handled by form
   };
 
   return (
@@ -207,7 +203,7 @@ const DocumentsForm = () => {
                       }
                       iconClassName="text-design-main"
                       category="architectural_plans"
-                      accept=".pdf,.dwg,.dxf,.jpg,.jpeg,.png"
+                      accept=".pdf,.xls,.xlsx,.csv"
                       maxFiles={5}
                       maxSize={5 * 1024 * 1024} // 5MB
                       onUpload={(files) => {
@@ -260,7 +256,7 @@ const DocumentsForm = () => {
                       }
                       iconClassName="text-design-main"
                       category="licenses"
-                      accept=".pdf,.jpg,.jpeg,.png"
+                      accept=".pdf,.xls,.xlsx,.csv"
                       maxFiles={5}
                       maxSize={5 * 1024 * 1024} // 5MB
                       onUpload={(files) => {
@@ -308,7 +304,7 @@ const DocumentsForm = () => {
                       }
                       iconClassName="text-design-main"
                       category="specifications"
-                      accept=".pdf,.doc,.docx,.xls,.xlsx"
+                      accept=".pdf,.doc,.docx,.txt"
                       maxFiles={5}
                       maxSize={5 * 1024 * 1024} // 5MB
                       onUpload={(files) => {
@@ -359,7 +355,7 @@ const DocumentsForm = () => {
                       }
                       iconClassName="text-design-main"
                       category="site_photos"
-                      accept=".jpg,.jpeg,.png"
+                      accept=".jpg,.jpeg,.png,.webp,.svg"
                       maxFiles={10}
                       maxSize={5 * 1024 * 1024} // 5MB
                       onUpload={(files) => {

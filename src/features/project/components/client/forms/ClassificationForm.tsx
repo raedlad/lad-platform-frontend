@@ -38,16 +38,8 @@ const ClassificationForm = () => {
     },
   });
 
-  // Data loading is now handled automatically by useProjectData hook
-
-  // Update form when original data changes
   useEffect(() => {
-    console.log(completedSteps, currentStep);
     if (originalClassificationData) {
-      console.log(
-        "🔄 Resetting ClassificationForm with data:",
-        originalClassificationData
-      );
       form.reset({
         jobId: originalClassificationData.jobId || 0,
         levelId: originalClassificationData.levelId || 0,
@@ -60,17 +52,11 @@ const ClassificationForm = () => {
   const onSubmit = async (
     data: z.infer<typeof ProjectClassificationSchema>
   ) => {
-    console.log("🚀 Submitting classification:", data);
-    const result = await submitClassification(data);
-    if (!result.success) {
-      console.error("❌ Submission failed:", result.message);
-    } else {
-      console.log("✅ Submission successful:", result.message);
-    }
+    await submitClassification(data);
   };
 
-  const onValidationError = (errors: any) => {
-    console.log("❌ Validation errors:", errors);
+  const onValidationError = (errors: Record<string, unknown>) => {
+    // Validation errors handled by form
   };
 
   return (

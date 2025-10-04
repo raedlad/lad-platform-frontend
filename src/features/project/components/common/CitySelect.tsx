@@ -71,9 +71,6 @@ export const CitySelect: React.FC<CitySelectProps> = ({
   //   }
   // }, [selectedCountry, selectedState, loadCities, cities]);
 
-  useEffect(() => {
-    console.log("🏙️ Using mock Saudi cities data");
-  }, []);
 
   const handleCityChange = useCallback(
     (cityCode: string) => {
@@ -189,8 +186,6 @@ export const CitySelect: React.FC<CitySelectProps> = ({
 
     const handleItemClick = React.useCallback(
       (item: { id: string | number; name: string }) => {
-        console.log("🏙️ City selected:", item.name, "ID:", item.id);
-        // Clear any pending blur timeout to prevent interference
         if (blurTimeoutRef.current) {
           clearTimeout(blurTimeoutRef.current);
           blurTimeoutRef.current = null;

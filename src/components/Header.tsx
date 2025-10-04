@@ -19,12 +19,12 @@ export default function Header() {
   const t = useTranslations("Header");
   const menuItems = [
     { name: t("home"), href: "/home" },
-    { name: t("aboutus"), href: "/home" },
-    { name: t("services"), href: "/home" },
-    { name: t("projectGallery"), href: "/home" },
-    { name: t("contractorDirectory"), href: "/home" },
-    { name: t("suppliers"), href: "/home" },
-    { name: t("buildingMaterials"), href: "/home" },
+    { name: t("aboutus"), href: "/" },
+    { name: t("services"), href: "/" },
+    { name: t("projectGallery"), href: "/" },
+    { name: t("contractorDirectory"), href: "/" },
+    { name: t("suppliers"), href: "/" },
+    { name: t("buildingMaterials"), href: "/" },
   ];
   React.useEffect(() => {
     const handleScroll = () => {
@@ -80,7 +80,12 @@ export default function Header() {
                 <ul className="flex gap-1">
                   {menuItems.map((item, index) => (
                     <li key={index}>
-                      <Button asChild variant="ghost" size="sm">
+                      <Button
+                        asChild
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => setMenuState(false)}
+                      >
                         <Link
                           href={item.href}
                           className={cn(
@@ -122,6 +127,7 @@ export default function Header() {
                   asChild
                   size="sm"
                   className={cn("h-10 rounded-full px-6 text-white")}
+                  onClick={() => setMenuState(false)}
                 >
                   <Link href="/login">
                     <span>{t("login")}</span>

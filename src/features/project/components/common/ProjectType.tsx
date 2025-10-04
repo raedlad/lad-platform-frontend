@@ -11,6 +11,7 @@ import { useProjectStore } from "@/features/project/store/projectStore";
 import { projectApi } from "../../services/projectApi";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
+import { ProjectType as ProjectTypeType } from "../../types/project";
 
 const ProjectType = ({
   onSelect,
@@ -34,7 +35,7 @@ const ProjectType = ({
       try {
         const result = await projectApi.getProjectTypes();
         if (result.success) {
-          setProjectTypes(result.response);
+          setProjectTypes(result.response as ProjectTypeType[]);
         }
       } catch (error) {
         console.error("Failed to fetch project types:", error);

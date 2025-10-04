@@ -20,7 +20,7 @@ const CreateProject = ({ projectId }: { projectId?: string }) => {
   const canAccessStep = useProjectStore((state) => state.canAccessStep);
   const setCurrentStep = useProjectStore((state) => state.setCurrentStep);
   const setCompletedSteps = useProjectStore((state) => state.setCompletedSteps);
-  const { fetchProjectData, calculateCompletedSteps } = useProjectData();
+  const { fetchProjectData } = useProjectData();
   const hasLoadedRef = useRef(false);
 
   useEffect(() => {
@@ -35,33 +35,16 @@ const CreateProject = ({ projectId }: { projectId?: string }) => {
       return;
     }
 
-    // Check if project is already in store to avoid unnecessary API call
-    const currentProject = useProjectStore.getState().project;
-    if (currentProject && currentProject.id === projectId) {
-      const stepsCompleted = calculateCompletedSteps(currentProject);
-      const nextStep = stepsCompleted + 1;
-      const targetStep = Math.min(nextStep, 6);
-
-      setCurrentStep(targetStep);
-      setCompletedSteps(stepsCompleted);
-      hasLoadedRef.current = true;
-      return;
-    }
-
     const loadProject = async () => {
       hasLoadedRef.current = true;
 
       try {
-        const project = await fetchProjectData(projectId);
-
-        if (project) {
-          const stepsCompleted = calculateCompletedSteps(project);
-          const nextStep = stepsCompleted + 1;
-          const targetStep = Math.min(nextStep, 6);
-
-          setCurrentStep(targetStep);
-          setCompletedSteps(stepsCompleted);
-        }
+        // fetchProjectData handles everything:
+        // - Fetches project data from API
+        // - Calculates completed steps
+        // - Sets currentStep and completedSteps in store
+        // - Sets all project data
+        await fetchProjectData(projectId);
       } catch (error) {
         console.error("Error loading project:", error);
         hasLoadedRef.current = false;

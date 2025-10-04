@@ -41,11 +41,11 @@ const ProjectOverview = () => {
 
         <div className="p-2">
           <h2 className="text-sm font-medium text-design-main mb-2">
-            {t("project.step6.budget")}
+            {t("project.step6.budget_min")}
           </h2>
           <p className="text-base font-medium text-foreground">
-            {project?.essential_info.budget
-              ? `${project.essential_info.budget} ${
+            {project?.essential_info.budget_min
+              ? `${project.essential_info.budget_min} ${
                   project.essential_info.budget_unit || "SAR"
                 }`
               : "—"}
@@ -77,10 +77,10 @@ const ProjectOverview = () => {
 
         <div className="p-2">
           <h2 className="text-sm font-medium text-design-main mb-2">
-            {t("project.step6.location")}
+            {t("project.step6.address")}
           </h2>
           <p className="text-base font-medium text-foreground">
-            {project?.essential_info.location || "—"}
+            {project?.essential_info.address_line || "—"}
           </p>
         </div>
 
@@ -89,7 +89,7 @@ const ProjectOverview = () => {
             {t("project.step6.city")}
           </h2>
           <p className="text-base font-medium text-foreground">
-            {project?.essential_info.city || "—"}
+            {project?.essential_info.city_id || "—"}
           </p>
         </div>
 

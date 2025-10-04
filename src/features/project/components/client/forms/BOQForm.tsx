@@ -39,6 +39,7 @@ import { BOQItem, BOQTemplate, Unit } from "@/features/project/types/project";
 import { useCreateProject } from "@/features/project/hooks/useCreateProject";
 import { createProjectValidationSchemas } from "@/features/project/utils/validation";
 import { Plus, FileText, RotateCcw } from "lucide-react";
+import { projectApi } from "@/features/project/services/projectApi";
 
 const BOQForm = () => {
   const t = useTranslations("project.step4");
@@ -47,13 +48,17 @@ const BOQForm = () => {
     boqData,
     boqTemplates,
     units,
+    boqTemplatesLoaded,
+    unitsLoaded,
     setBOQTemplates,
     setUnits,
+    setBOQTemplatesLoaded,
+    setUnitsLoaded,
     addBOQItem,
     updateBOQItem,
     removeBOQItem,
     resetBOQ,
-    loadBOQTemplate,
+    setBOQData,
   } = useProjectStore();
 
   const { submitBOQ, loading, error } = useCreateProject();
@@ -73,6 +78,55 @@ const BOQForm = () => {
   const [showItemForm, setShowItemForm] = useState(false);
   const [editingItem, setEditingItem] = useState<BOQItem | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingTemplates, setIsLoadingTemplates] = useState(false);
+
+  // Load BOQ templates and units on mount
+  // This is now the only place where BOQ metadata is loaded
+  useEffect(() => {
+    const loadBOQData = async () => {
+      if (boqTemplatesLoaded && unitsLoaded) {
+        return;
+      }
+
+      setIsLoadingTemplates(true);
+      try {
+        if (!boqTemplatesLoaded) {
+          const templatesResponse = await projectApi.getBoqTemplates();
+          if (templatesResponse.success && templatesResponse.response) {
+            const templatesWithoutItems = templatesResponse.response.map(
+              (template) => ({
+                ...template,
+                items: [],
+              })
+            );
+            setBOQTemplates(templatesWithoutItems || []);
+            setBOQTemplatesLoaded(true);
+          }
+        }
+
+        if (!unitsLoaded) {
+          const unitsResponse = await projectApi.getBoqUnits();
+          if (unitsResponse.success) {
+            setUnits(unitsResponse.response || []);
+            setUnitsLoaded(true);
+          }
+        }
+      } catch (error) {
+        // Error handled silently
+      } finally {
+        setIsLoadingTemplates(false);
+      }
+    };
+
+    loadBOQData();
+  }, [
+    boqTemplatesLoaded,
+    unitsLoaded,
+    setBOQTemplates,
+    setBOQTemplatesLoaded,
+    setUnits,
+    setUnitsLoaded,
+  ]);
 
   // Sync form with store data
   useEffect(() => {
@@ -83,111 +137,50 @@ const BOQForm = () => {
     });
   }, [boqData, form]);
 
-  // Mock data - replace with actual API calls
-  useEffect(() => {
-    // Mock BOQ templates
-    const mockTemplates: BOQTemplate[] = [
-      {
-        id: 1,
-        name: "Residential Building Template",
-        description: "Standard template for residential construction projects",
-        category: "Residential",
-        items: [
-          {
-            name: "Concrete Foundation",
-            description: "Reinforced concrete foundation",
-            unit_id: 1,
-            quantity: 50,
-            unit_price: 150,
-            sort_order: 1,
-            is_required: true,
-          },
-          {
-            name: "Steel Reinforcement",
-            description: "Steel bars for reinforcement",
-            unit_id: 2,
-            quantity: 2000,
-            unit_price: 2.5,
-            sort_order: 2,
-            is_required: true,
-          },
-        ],
-        created_at: "2024-01-01T00:00:00Z",
-        updated_at: "2024-01-01T00:00:00Z",
-      },
-      {
-        id: 2,
-        name: "Commercial Building Template",
-        description: "Template for commercial construction projects",
-        category: "Commercial",
-        items: [
-          {
-            name: "Steel Frame Structure",
-            description: "Main structural steel frame",
-            unit_id: 3,
-            quantity: 100,
-            unit_price: 500,
-            sort_order: 1,
-            is_required: true,
-          },
-        ],
-        created_at: "2024-01-01T00:00:00Z",
-        updated_at: "2024-01-01T00:00:00Z",
-      },
-    ];
-
-    // Mock units
-    const mockUnits: Unit[] = [
-      {
-        id: 1,
-        name: "Cubic Meter",
-        symbol: "m³",
-        description: "Volume unit",
-        is_active: true,
-      },
-      {
-        id: 2,
-        name: "Kilogram",
-        symbol: "kg",
-        description: "Weight unit",
-        is_active: true,
-      },
-      {
-        id: 3,
-        name: "Square Meter",
-        symbol: "m²",
-        description: "Area unit",
-        is_active: true,
-      },
-      {
-        id: 4,
-        name: "Meter",
-        symbol: "m",
-        description: "Length unit",
-        is_active: true,
-      },
-      {
-        id: 5,
-        name: "Piece",
-        symbol: "pcs",
-        description: "Count unit",
-        is_active: true,
-      },
-    ];
-
-    setBOQTemplates(mockTemplates);
-    setUnits(mockUnits);
-  }, [setBOQTemplates, setUnits]);
-
-  const handleTemplateSelect = (templateId: string) => {
+  const handleTemplateSelect = async (templateId: string) => {
     if (templateId === "manual") return;
 
     setIsLoading(true);
-    // Simulate API call
-    setTimeout(() => {
-      loadBOQTemplate(parseInt(templateId));
+
+    try {
+      const templateResponse = await projectApi.getBoqTemplateById(
+        parseInt(templateId)
+      );
+
+      if (templateResponse.success && templateResponse.response) {
+        const template = templateResponse.response;
+
+        const boqItems: BOQItem[] = (template.items || []).map(
+          (item, index: number) => ({
+            id: `item_${Date.now()}_${index}_${Math.random()
+              .toString(36)
+              .substr(2, 9)}`,
+            name: item.name,
+            description: item.description,
+            unit_id: parseInt(item.unit_id),
+            quantity: item.default_qty || 0,
+            unit_price: item.default_price || 0,
+            sort_order: item.sort_order || index,
+            is_required: false,
+          })
+        );
+
+        const total_amount = boqItems.reduce(
+          (sum, item) => sum + item.quantity * item.unit_price,
+          0
+        );
+
+        setBOQData({
+          items: boqItems,
+          total_amount,
+          template_id: parseInt(templateId),
+        });
+      }
+    } catch (error) {
+      // Error handled silently
+    } finally {
       setIsLoading(false);
-    }, 1000);
+    }
   };
 
   const handleAddItem = () => {
@@ -219,17 +212,11 @@ const BOQForm = () => {
   };
 
   const onSubmit = async (data: z.infer<typeof BOQFormSchema>) => {
-    console.log("🚀 Submitting BOQ:", data);
-    const result = await submitBOQ(data);
-    if (!result.success) {
-      console.error("❌ BOQ submission failed:", result.message);
-    } else {
-      console.log("✅ BOQ submission successful:", result.message);
-    }
+    await submitBOQ(data);
   };
 
-  const onValidationError = (errors: any) => {
-    console.log("❌ BOQ validation errors:", errors);
+  const onValidationError = (errors: Record<string, unknown>) => {
+    // Validation errors handled by form
   };
 
   return (
@@ -246,10 +233,17 @@ const BOQForm = () => {
         >
           <div className="w-full flex flex-col sm:flex-row gap-4 sm:gap-2 sm:items-center sm:justify-between">
             <div className="flex-1 min-w-0">
-              <Select onValueChange={handleTemplateSelect} disabled={isLoading}>
+              <Select
+                onValueChange={handleTemplateSelect}
+                disabled={isLoading || isLoadingTemplates}
+              >
                 <SelectTrigger className="w-full sm:w-[300px] min-w-0">
                   <SelectValue
-                    placeholder={t("templateSelection.templatePlaceholder")}
+                    placeholder={
+                      isLoadingTemplates
+                        ? t("templateSelection.loading")
+                        : t("templateSelection.templatePlaceholder")
+                    }
                     className="truncate"
                   />
                 </SelectTrigger>
@@ -267,7 +261,7 @@ const BOQForm = () => {
                       className="truncate"
                     >
                       <span className="truncate">
-                        {template.name} - {template.category}
+                        {template.name} - {template.project_type_id}
                       </span>
                     </SelectItem>
                   ))}
@@ -335,7 +329,9 @@ const BOQForm = () => {
           {/* Error Display */}
           {form.formState.errors.items && (
             <div className="mt-4 p-3 bg-red-50 border border-red-200 rounded-md">
-              <p className="text-red-800 text-sm">{form.formState.errors.items.message}</p>
+              <p className="text-red-800 text-sm">
+                {form.formState.errors.items.message}
+              </p>
             </div>
           )}
 

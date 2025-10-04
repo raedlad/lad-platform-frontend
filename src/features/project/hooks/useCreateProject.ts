@@ -12,8 +12,16 @@ import {
   ProjectStatus,
   BOQData,
   UserProject,
+  CreateProjectApiResponse,
+  UpdateProjectApiResponse,
+  ProjectResponse,
 } from "../types/project";
 import { useProjectsStore } from "../store/ProjectsStore";
+
+interface SubmitResult {
+  success: boolean;
+  message: string;
+}
 
 export const useCreateProject = () => {
   const router = useRouter();
@@ -55,6 +63,7 @@ export const useCreateProject = () => {
     projectStatus,
     boqData,
   } = useProjectStore();
+
   const {
     addProject,
     updateProject,
@@ -70,9 +79,8 @@ export const useCreateProject = () => {
       levelId: number;
       workTypeId: number;
       notes?: string;
-    }) => {
+    }): Promise<SubmitResult> => {
       if (!projectId) {
-        console.error("No project ID available");
         return { success: false, message: "No project ID available" };
       }
 
@@ -112,25 +120,21 @@ export const useCreateProject = () => {
           notes: data.notes || "",
         };
 
-        let response: any;
-        if (shouldCreate) {
-          response = await projectApi.createClassificationProject(
-            projectId,
-            classificationData
-          );
-        } else {
-          response = await projectApi.updateClassificationProject(
-            projectId,
-            classificationData
-          );
-        }
+        const response = shouldCreate
+          ? await projectApi.createClassificationProject(
+              projectId,
+              classificationData
+            )
+          : await projectApi.updateClassificationProject(
+              projectId,
+              classificationData
+            );
 
         if (response.success) {
           setOriginalClassificationData(classificationData);
           if (shouldCreate) {
             setCompletedSteps(currentStep);
           }
-
           setCurrentStep(currentStep + 1);
 
           return {
@@ -138,11 +142,9 @@ export const useCreateProject = () => {
             message: "Classification saved successfully",
           };
         } else {
-          console.error("API Error:", response.message);
           return { success: false, message: response.message || "API Error" };
         }
       } catch (error) {
-        console.error("❌ Error:", error);
         return {
           success: false,
           message:
@@ -175,21 +177,20 @@ export const useCreateProject = () => {
     async (data: {
       title: string;
       project_type_id: number;
-      city: string;
+      city_id: string;
       district: string;
-      location: string;
-      budget: number;
+      address_line: string;
+      latitude?: number;
+      longitude?: number;
+      budget_min: number;
+      budget_max: number;
       budget_unit: string;
       duration_value: number;
       duration_unit: string;
       area_sqm: number;
       description: string;
-    }) => {
-      // Prevent double submission
+    }): Promise<SubmitResult> => {
       if (isLoading) {
-        console.log(
-          "⚠️ Submission already in progress, ignoring duplicate call"
-        );
         return {
           success: false,
           message: "Submission already in progress",
@@ -203,20 +204,7 @@ export const useCreateProject = () => {
         const shouldCreate = !projectId || completedSteps < currentStep;
         const hasChanged = hasEssentialInfoDataChanged(data);
 
-        console.log("🔍 Essential Info Debug:", {
-          projectId,
-          shouldCreate,
-          hasChanged,
-          completedSteps,
-          currentStep,
-          originalData: originalEssentialInfoData,
-          currentData: data,
-        });
-
         if (projectId && !shouldCreate && !hasChanged) {
-          console.log(
-            "✅ Step already completed with no changes, moving to next step"
-          );
           setCurrentStep(currentStep + 1);
           setLoading(false);
           return {
@@ -224,10 +212,8 @@ export const useCreateProject = () => {
             message: "No changes detected, navigating to next step",
           };
         }
+
         if (projectId && !hasChanged && shouldCreate) {
-          console.log(
-            "✅ No changes detected, marking step as completed and moving to next step"
-          );
           setCompletedSteps(currentStep);
           setCurrentStep(currentStep + 1);
           setLoading(false);
@@ -242,10 +228,13 @@ export const useCreateProject = () => {
           project_type_id:
             projectTypes?.filter((type) => type.id === data.project_type_id)[0]
               .id || 0,
-          city: data.city,
+          city_id: data.city_id,
           district: data.district,
-          location: data.location,
-          budget: data.budget,
+          address_line: data.address_line,
+          latitude: data.latitude,
+          longitude: data.longitude,
+          budget_min: data.budget_min,
+          budget_max: data.budget_max,
           budget_unit: data.budget_unit,
           duration_value: data.duration_value,
           duration_unit: data.duration_unit,
@@ -253,45 +242,87 @@ export const useCreateProject = () => {
           description: data.description,
         };
 
-        let response: any;
+        let response: CreateProjectApiResponse | UpdateProjectApiResponse;
         if (shouldCreate) {
-          console.log("🚀 Making API call to create project...");
           response = await projectApi.createEssentialInfoProject(
             essentialInfoData
           );
-          console.log("✅ API call completed with response:", response);
-          if (response.success) {
-            // Handle real API response format
-            const projectData = response.data;
-            const newProjectId = projectData.id || projectData.projectId;
-            const newProject = projectData.project || projectData;
+
+          if (response.success && "response" in response && response.response) {
+            const projectData: ProjectResponse = response.response;
+            const newProjectId = projectData?.id;
+
+            if (!newProjectId) {
+              return {
+                success: false,
+                message: "Project created but no ID returned",
+              };
+            }
 
             if (shouldCreate) {
-              const projectIdToRedirect = newProjectId;
-              // Update URL without full page reload to avoid double API call
+              const projectIdToRedirect = newProjectId.toString();
               router.replace(
                 `/dashboard/individual/projects/${projectIdToRedirect}/edit`
               );
               setCompletedSteps(currentStep);
+              setCurrentStep(currentStep + 1);
             }
-            setCurrentStep(2);
 
-            setProjectId(newProjectId);
-            setProject(newProject);
+            setProjectId(newProjectId.toString());
 
-            // Add the new project to the projects list
-            const userProject = {
-              project: newProject,
-              created_at: new Date().toISOString(),
-              updated_at: new Date().toISOString(),
+            const project: Project = {
+              id: newProjectId.toString(),
+              essential_info: {
+                title: projectData.title,
+                project_type_id: parseInt(projectData.project_type_id),
+                city_id: "",
+                district: "",
+                address_line: "",
+                budget_min: projectData.budget_min || 0,
+                budget_max: projectData.budget_max || 0,
+                budget_unit: "",
+                duration_value: parseInt(projectData.duration_value),
+                duration_unit: projectData.duration_unit,
+                area_sqm: projectData.area_sqm,
+                description: projectData.description,
+              },
+              classification: {
+                id: 0,
+                jobId: 0,
+                workTypeId: 0,
+                levelId: 0,
+                notes: "",
+              },
+              documents: {
+                architectural_plans: [],
+                licenses: [],
+                specifications: [],
+                site_photos: [],
+              },
+              status: { status: "in_progress" },
+              publish_settings: {
+                notify_matching_contractors: false,
+                notify_client_on_offer: false,
+                offers_window_days: 7,
+              },
+              boq: {
+                items: [],
+                total_amount: 0,
+              },
+            };
+
+            setProject(project);
+
+            const userProject: UserProject = {
+              project: project,
+              created_at: projectData.created_at,
+              updated_at: projectData.updated_at,
             };
             addProject(userProject);
-          } else {
-            console.error("❌ Project creation failed:", response.message);
           }
         } else {
           if (!projectId) {
-            setLoading(false); // Reset loading state
+            setLoading(false);
             return {
               success: false,
               message: "No project ID available for update",
@@ -307,22 +338,21 @@ export const useCreateProject = () => {
             });
           }
         }
+
         if (response.success) {
           setOriginalEssentialInfoData(essentialInfoData);
-          setLoading(false); // Reset loading state
+          setLoading(false);
           return {
             success: true,
             message: "Essential info saved successfully",
           };
         } else {
-          console.error("API Error:", response.message);
           const errorMessage =
             response.message || "Failed to save essential info";
-          setLoading(false); // Reset loading state
+          setLoading(false);
           return { success: false, message: errorMessage };
         }
       } catch (error) {
-        console.error("❌ Error:", error);
         const errorMessage =
           error instanceof Error
             ? error.message
@@ -348,17 +378,25 @@ export const useCreateProject = () => {
       setOriginalEssentialInfoData,
       setCompletedSteps,
       setCurrentStep,
+      isLoading,
+      router,
+      setProject,
+      addProject,
+      updateProject,
     ]
   );
 
   const uploadFile = useCallback(
-    async (file: File, collection: string, projectId: string) => {
+    async (
+      file: File,
+      collection: string,
+      projectId: string
+    ): Promise<SubmitResult & { fileId?: string }> => {
       const fileId = `file_${Date.now()}_${Math.random()
         .toString(36)
         .substr(2, 9)}`;
 
       try {
-        // Create document file object
         const documentFile: DocumentFile = {
           id: fileId,
           file,
@@ -369,17 +407,15 @@ export const useCreateProject = () => {
           uploadProgress: 0,
         };
 
-        // Add to store immediately with pending status
         addDocumentFile(collection as keyof DocumentsState, documentFile);
 
-        // Upload the file
         const response = await projectApi.uploadFile(
           projectId,
           file,
           collection
         );
 
-        if (response.success) {
+        if (response.success && response.data) {
           updateDocumentFile(collection as keyof DocumentsState, fileId, {
             uploadStatus: "completed",
             uploadProgress: 100,
@@ -412,7 +448,11 @@ export const useCreateProject = () => {
   );
 
   const removeFile = useCallback(
-    async (fileId: string, collection: string, projectId: string) => {
+    async (
+      fileId: string,
+      collection: string,
+      projectId: string
+    ): Promise<SubmitResult> => {
       try {
         const response = await projectApi.removeFile(
           projectId,
@@ -421,7 +461,6 @@ export const useCreateProject = () => {
         );
 
         if (response.success) {
-          // Only remove from local state after successful API call
           removeDocumentFile(collection as keyof DocumentsState, fileId);
           return { success: true, message: "File removed successfully" };
         } else {
@@ -431,7 +470,6 @@ export const useCreateProject = () => {
           };
         }
       } catch (error) {
-        console.error("API Error removing file:", error);
         return {
           success: false,
           message:
@@ -443,7 +481,7 @@ export const useCreateProject = () => {
   );
 
   const removeFileLocal = useCallback(
-    (fileId: string, collection: string) => {
+    (fileId: string, collection: string): SubmitResult => {
       removeDocumentFile(collection as keyof DocumentsState, fileId);
       return { success: true, message: "File removed from local state" };
     },
@@ -456,9 +494,8 @@ export const useCreateProject = () => {
       newFile: File,
       collection: string,
       projectId: string
-    ) => {
+    ): Promise<SubmitResult> => {
       try {
-        // Update file status to uploading
         updateDocumentFile(collection as keyof DocumentsState, fileId, {
           uploadStatus: "uploading",
           uploadProgress: 0,
@@ -472,7 +509,7 @@ export const useCreateProject = () => {
           collection
         );
 
-        if (response.success) {
+        if (response.success && response.data) {
           updateDocumentFile(collection as keyof DocumentsState, fileId, {
             file: newFile,
             name: newFile.name,
@@ -510,31 +547,26 @@ export const useCreateProject = () => {
       licenses: File[];
       specifications: File[];
       site_photos: File[];
-    }) => {
+    }): Promise<SubmitResult> => {
       try {
         clearError();
         setLoading(true);
-        console.log("🔍 Documents Debug:", {
-          projectId,
-          completedSteps,
-          currentStep,
-          documentsData: data,
-        });
+
         if (!projectId) {
           return {
             success: false,
             message: "No project ID available",
           };
         }
+
         if (completedSteps < currentStep) setCompletedSteps(currentStep);
         if (currentStep < 4) setCurrentStep(currentStep + 1);
-        console.log("Documents step completed successfully", currentStep);
+
         return {
           success: true,
           message: "Documents step completed successfully",
         };
       } catch (error) {
-        console.error("❌ Error:", error);
         return {
           success: false,
           message:
@@ -559,6 +591,7 @@ export const useCreateProject = () => {
 
   const submitBOQ = useCallback(
     async (data: {
+      id?: number;
       items: Array<{
         name: string;
         description: string;
@@ -570,7 +603,7 @@ export const useCreateProject = () => {
       }>;
       total_amount: number;
       template_id?: number;
-    }) => {
+    }): Promise<SubmitResult> => {
       try {
         clearError();
         setLoading(true);
@@ -582,64 +615,42 @@ export const useCreateProject = () => {
           };
         }
 
-        console.log("🔍 BOQ Debug:", {
-          projectId,
-          boqData: data,
-          completedSteps: completedSteps,
-          currentStep: currentStep,
-        });
-
-        // Here you would typically make an API call to save the BOQ data
-        // For now, we'll just simulate success
         const shouldCreate = completedSteps < currentStep;
         const hasChanged = hasBOQDataChanged(data);
 
-        let response: any;
         if (!shouldCreate && !hasChanged) {
           setCurrentStep(currentStep + 1);
-          console.log("No changes detected, navigating to next step");
           return {
             success: true,
             message: "No changes detected, navigating to next step",
           };
         }
 
-        // Simulate API call
-        await new Promise((resolve) => setTimeout(resolve, 1000));
+        const response = shouldCreate
+          ? await projectApi.createBOQProject(projectId, data)
+          : await projectApi.updateBOQProject(projectId, data);
+
+        if (!response.success) {
+          throw new Error(response.message || "Failed to save BOQ");
+        }
 
         if (shouldCreate) {
           setCompletedSteps(currentStep);
-          // Set original data for change detection
           setOriginalBOQData(data);
-          response = await projectApi.createBOQProject(projectId, data);
-          if (response.success) {
-            setCompletedSteps(currentStep);
-            setOriginalBOQData(data);
-            setCurrentStep(currentStep + 1);
-            return {
-              success: true,
-              message: "BOQ saved successfully",
-            };
-            // Note: loadAllProjectData will be called by the forms when they detect the new projectId
-          }
+          setCurrentStep(currentStep + 1);
+          return {
+            success: true,
+            message: "BOQ saved successfully",
+          };
         } else {
-          response = await projectApi.updateBOQProject(projectId, data);
-          if (response.success) {
-            setOriginalBOQData(data);
-            setCurrentStep(currentStep + 1);
-            return {
-              success: true,
-              message: "BOQ saved successfully",
-            };
-          }
+          setOriginalBOQData(data);
+          setCurrentStep(currentStep + 1);
+          return {
+            success: true,
+            message: "BOQ saved successfully",
+          };
         }
-
-        return {
-          success: false,
-          message: response.message || "Failed to save BOQ",
-        };
       } catch (error) {
-        console.error("❌ Error:", error);
         return {
           success: false,
           message:
@@ -660,14 +671,16 @@ export const useCreateProject = () => {
       setCompletedSteps,
       setCurrentStep,
       hasBOQDataChanged,
+      setOriginalBOQData,
     ]
   );
+
   const submitPublishSettings = useCallback(
     async (data: {
       notify_matching_contractors: boolean;
       notify_client_on_offer: boolean;
       offers_window_days: number;
-    }) => {
+    }): Promise<SubmitResult> => {
       try {
         clearError();
         setLoading(true);
@@ -678,16 +691,9 @@ export const useCreateProject = () => {
             message: "No project ID available",
           };
         }
+
         const shouldCreate = completedSteps < currentStep;
         const hasChanged = hasPublishSettingsChanged(data);
-
-        console.log("🔍 Publish Settings Debug:", {
-          projectId,
-          shouldCreate,
-          hasChanged,
-          completedSteps,
-          currentStep,
-        });
 
         if (projectId && !shouldCreate && !hasChanged) {
           setCurrentStep(currentStep + 1);
@@ -696,16 +702,18 @@ export const useCreateProject = () => {
             message: "No changes detected, navigating to next step",
           };
         }
+
         const publishSettingsData: PublishSettings = {
           notify_matching_contractors: data.notify_matching_contractors,
           notify_client_on_offer: data.notify_client_on_offer,
           offers_window_days: data.offers_window_days,
         };
-        let response: any;
-        response = await projectApi.handlePublishSettingsProject(
+
+        const response = await projectApi.handlePublishSettingsProject(
           projectId,
           publishSettingsData
         );
+
         if (response.success) {
           setPublishSettings(publishSettingsData);
           setCompletedSteps(currentStep);
@@ -721,7 +729,6 @@ export const useCreateProject = () => {
           };
         }
       } catch (error) {
-        console.error("❌ Error:", error);
         return {
           success: false,
           message:
@@ -743,83 +750,89 @@ export const useCreateProject = () => {
       projectId,
       completedSteps,
       currentStep,
-      setPublishSettings,
     ]
   );
 
-  const submitSendProjectToReview = useCallback(async () => {
-    try {
-      clearError();
-      setLoading(true);
-      if (!projectId) {
+  const submitSendProjectToReview =
+    useCallback(async (): Promise<SubmitResult> => {
+      try {
+        clearError();
+        setLoading(true);
+
+        if (!projectId) {
+          return {
+            success: false,
+            message: "No project ID available",
+          };
+        }
+
+        const newProject: Project = {
+          id: projectId,
+          essential_info: originalEssentialInfoData as ProjectEssentialInfo,
+          classification: originalClassificationData as ProjectClassification,
+          documents: documents as DocumentsState,
+          status: projectStatus as ProjectStatus,
+          publish_settings: publishSettings as PublishSettings,
+          boq: boqData as BOQData,
+        };
+
+        const response = await projectApi.handleSendProjectToReview(projectId);
+
+        if (response.success) {
+          setProjectStatus({ status: "review_pending" });
+          updateProject(projectId, { status: { status: "review_pending" } });
+
+          setProjects([
+            ...projects,
+            {
+              project: newProject,
+              created_at: new Date().toISOString(),
+              updated_at: new Date().toISOString(),
+            },
+          ]);
+          setCompletedSteps(currentStep);
+
+          resetProjectCreation();
+
+          return {
+            success: true,
+            message: "Project sent to review successfully",
+          };
+        }
+
         return {
           success: false,
-          message: "No project ID available",
+          message: response.message || "Failed to send project to review",
         };
-      }
-      const newProject: Project = {
-        id: projectId,
-        essential_info: originalEssentialInfoData as ProjectEssentialInfo,
-        classification: originalClassificationData as ProjectClassification,
-        documents: documents as DocumentsState,
-        status: projectStatus as ProjectStatus,
-        publish_settings: publishSettings as PublishSettings,
-        boq: boqData as BOQData,
-      };
-
-      const response = await projectApi.handleSendProjectToReview(projectId);
-      if ((response as any).success) {
-        setProjectStatus({ status: "pending_review" });
-        updateProject(projectId, { status: { status: "pending_review" } });
-
-        // Complete the project creation flow
-        console.log("Project sent to review successfully :", newProject);
-        setProjects([
-          ...projects,
-          {
-            project: newProject,
-            created_at: new Date().toISOString(),
-            updated_at: new Date().toISOString(),
-          },
-        ]);
-        setCompletedSteps(currentStep);
-
-        // Reset the project creation state for next project
-        resetProjectCreation();
-
+      } catch (error) {
         return {
-          success: true,
-          message: "Project sent to review successfully",
+          success: false,
+          message:
+            error instanceof Error
+              ? error.message
+              : "An unexpected error occurred",
         };
+      } finally {
+        setLoading(false);
       }
-
-      return {
-        success: false,
-        message:
-          (response as any).message || "Failed to send project to review",
-      };
-    } catch (error) {
-      console.error("❌ Error:", error);
-      return {
-        success: false,
-        message:
-          error instanceof Error
-            ? error.message
-            : "An unexpected error occurred",
-      };
-    } finally {
-      setLoading(false);
-    }
-  }, [
-    projectId,
-    clearError,
-    setLoading,
-    setProjectStatus,
-    updateProject,
-    setCompletedSteps,
-    currentStep,
-    resetProjectCreation,
-  ]);
+    }, [
+      projectId,
+      clearError,
+      setLoading,
+      setProjectStatus,
+      updateProject,
+      setCompletedSteps,
+      currentStep,
+      resetProjectCreation,
+      originalEssentialInfoData,
+      originalClassificationData,
+      documents,
+      projectStatus,
+      publishSettings,
+      boqData,
+      setProjects,
+      projects,
+    ]);
 
   const getCurrentProject = useCallback(() => {
     return project;

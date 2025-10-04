@@ -71,10 +71,15 @@ interface ProjectStoreState {
   originalBOQData: BOQData | null;
   boqTemplates: BOQTemplate[] | null;
   units: Unit[] | null;
+  // BOQ metadata loading states
+  boqTemplatesLoaded: boolean;
+  unitsLoaded: boolean;
   setBOQData: (boqData: BOQData) => void;
   setOriginalBOQData: (boqData: BOQData | null) => void;
   setBOQTemplates: (templates: BOQTemplate[]) => void;
   setUnits: (units: Unit[]) => void;
+  setBOQTemplatesLoaded: (loaded: boolean) => void;
+  setUnitsLoaded: (loaded: boolean) => void;
   addBOQItem: (item: BOQItem) => void;
   updateBOQItem: (itemId: string, updates: Partial<BOQItem>) => void;
   removeBOQItem: (itemId: string) => void;
@@ -98,7 +103,7 @@ interface ProjectStoreState {
 }
 
 export const useProjectStore = create<ProjectStoreState>()((set, get) => ({
-  projectStatus: { status: "in_progress" },
+  projectStatus: { status: "draft" },
   setProjectStatus: (projectStatus) => set({ projectStatus }),
   isLoading: false,
   isLoadingProjectData: false,
@@ -157,10 +162,13 @@ export const useProjectStore = create<ProjectStoreState>()((set, get) => ({
       originalEssentialInfoData.title !== currentData.title ||
       originalEssentialInfoData.project_type_id !==
         currentData.project_type_id ||
-      originalEssentialInfoData.city !== currentData.city ||
+      originalEssentialInfoData.city_id !== currentData.city_id ||
       originalEssentialInfoData.district !== currentData.district ||
-      originalEssentialInfoData.location !== currentData.location ||
-      originalEssentialInfoData.budget !== currentData.budget ||
+      originalEssentialInfoData.address_line !== currentData.address_line ||
+      originalEssentialInfoData.latitude !== currentData.latitude ||
+      originalEssentialInfoData.longitude !== currentData.longitude ||
+      originalEssentialInfoData.budget_min !== currentData.budget_min ||
+      originalEssentialInfoData.budget_max !== currentData.budget_max ||
       originalEssentialInfoData.budget_unit !== currentData.budget_unit ||
       originalEssentialInfoData.duration_value !== currentData.duration_value ||
       originalEssentialInfoData.duration_unit !== currentData.duration_unit ||
@@ -211,10 +219,15 @@ export const useProjectStore = create<ProjectStoreState>()((set, get) => ({
   originalBOQData: null,
   boqTemplates: null,
   units: null,
+  // BOQ metadata loading states
+  boqTemplatesLoaded: false,
+  unitsLoaded: false,
   setBOQData: (boqData) => set({ boqData }),
   setOriginalBOQData: (boqData) => set({ originalBOQData: boqData }),
   setBOQTemplates: (templates) => set({ boqTemplates: templates }),
   setUnits: (units) => set({ units }),
+  setBOQTemplatesLoaded: (loaded) => set({ boqTemplatesLoaded: loaded }),
+  setUnitsLoaded: (loaded) => set({ unitsLoaded: loaded }),
   addBOQItem: (item) =>
     set((state) => {
       const newItem = {
@@ -278,19 +291,29 @@ export const useProjectStore = create<ProjectStoreState>()((set, get) => ({
   loadBOQTemplate: (templateId) =>
     set((state) => {
       const template = state.boqTemplates?.find((t) => t.id === templateId);
-      if (template) {
-        const total_amount = template.items.reduce(
+      if (template && template.items) {
+        // Convert BOQTemplateItem[] to BOQItem[]
+        const boqItems: BOQItem[] = template.items.map((item, index) => ({
+          id: `item_${Date.now()}_${index}_${Math.random()
+            .toString(36)
+            .substr(2, 9)}`,
+          name: item.name,
+          description: item.description,
+          unit_id: parseInt(item.unit_id),
+          quantity: item.default_qty,
+          unit_price: item.default_price,
+          sort_order: item.sort_order,
+          is_required: false, // Default to false, can be customized
+        }));
+
+        const total_amount = boqItems.reduce(
           (sum, item) => sum + item.quantity * item.unit_price,
           0
         );
+
         return {
           boqData: {
-            items: template.items.map((item) => ({
-              ...item,
-              id: `item_${Date.now()}_${Math.random()
-                .toString(36)
-                .substr(2, 9)}`,
-            })),
+            items: boqItems,
             total_amount,
             template_id: templateId,
           },
@@ -363,6 +386,11 @@ export const useProjectStore = create<ProjectStoreState>()((set, get) => ({
         items: [],
         total_amount: 0,
       },
+      // Reset BOQ metadata loading states
+      boqTemplates: null,
+      units: null,
+      boqTemplatesLoaded: false,
+      unitsLoaded: false,
       error: null,
       isLoading: false,
     }),

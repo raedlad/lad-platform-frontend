@@ -167,7 +167,7 @@ const BOQItemForm: React.FC<BOQItemFormProps> = ({
                               <div className="flex items-center gap-2">
                                 <span className="font-medium">{unit.name}</span>
                                 <span className="text-muted-foreground">
-                                  ({unit.symbol})
+                                  ({unit.code})
                                 </span>
                               </div>
                             </SelectItem>

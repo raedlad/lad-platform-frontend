@@ -28,6 +28,7 @@ import { useGoogleAuth } from "@/features/auth/hooks";
 import { createValidationSchemas } from "@auth/utils/validation";
 import { RegistrationRole } from "@auth/types/auth";
 import { DynamicFormData } from "@/features/auth/types/auth";
+import { PhoneInput } from "@/features/auth/components/phone-input/PhoneInput";
 
 import Link from "next/link";
 import z from "zod";
@@ -178,30 +179,11 @@ const SocialLoginForm: React.FC<{ provider: string }> = ({ provider }) => {
                   <FormItem>
                     <FormLabel>{authT("personalInfo.phoneNumber")}</FormLabel>
                     <FormControl>
-                      <Input
-                        {...field}
-                        type="tel"
-                        placeholder="050 000 0000"
+                      <PhoneInput
+                        value={field.value}
+                        onChange={field.onChange}
                         disabled={isLoading}
-                        value={
-                          field.value
-                            ? field.value.replace(
-                                /(\d{3})(\d{3})(\d{4})/,
-                                "$1 $2 $3"
-                              )
-                            : ""
-                        }
-                        onChange={(e) => {
-                          // Format phone number as user types
-                          let value = e.target.value.replace(/\D/g, ""); // Remove non-digits
-                          if (value.startsWith("966")) {
-                            value = value.substring(3); // Remove 966 prefix if user types it
-                          }
-                          if (value.length > 10) {
-                            value = value.substring(0, 10); // Limit to 10 digits
-                          }
-                          field.onChange(value);
-                        }}
+                        placeholder={authT("personalInfo.phoneNumber")}
                       />
                     </FormControl>
                     <FormMessage />

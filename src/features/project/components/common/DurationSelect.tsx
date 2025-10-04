@@ -33,9 +33,9 @@ const DurationSelect = ({
         />
       </SelectTrigger>
       <SelectContent className="w-full">
-        <SelectItem value={"DAY"}>{t("common.select.day")}</SelectItem>
-        <SelectItem value={"WEEK"}>{t("common.select.week")}</SelectItem>
-        <SelectItem value={"MONTH"}>{t("common.select.month")}</SelectItem>
+        <SelectItem value={"days"}>{t("common.select.days")}</SelectItem>
+        <SelectItem value={"weeks"}>{t("common.select.weeks")}</SelectItem>
+        <SelectItem value={"months"}>{t("common.select.months")}</SelectItem>
       </SelectContent>
     </Select>
   );

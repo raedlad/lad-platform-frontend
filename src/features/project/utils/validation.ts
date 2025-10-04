@@ -14,20 +14,27 @@ export const createProjectValidationSchemas = (t: (key: string) => string) => {
         error: messages.projectType.required,
       })
       .min(1, messages.projectType.required),
-    city: z.string().min(1, messages.city.required),
+    city_id: z.string().min(1, messages.city.required),
     district: z
       .string()
       .min(1, messages.district.required)
       .min(2, messages.district.minLength),
-    location: z
+    address_line: z
       .string()
-      .min(1, messages.location.required)
-      .min(2, messages.location.minLength),
-    budget: z
+      .min(1, messages.address_line.required)
+      .min(2, messages.address_line.minLength),
+    latitude: z.number().optional(),
+    longitude: z.number().optional(),
+    budget_min: z
       .number({
-        error: messages.budget.required,
+        error: messages.budget_min.required,
       })
-      .min(1, messages.budget.required),
+      .min(1, messages.budget_min.required),
+    budget_max: z
+      .number({
+        error: messages.budget_max.required,
+      })
+      .min(1, messages.budget_max.required),
     budget_unit: z.string(),
     duration_value: z
       .number({
@@ -80,10 +87,9 @@ export const createProjectValidationSchemas = (t: (key: string) => string) => {
               (file) => {
                 const allowedTypes = [
                   "application/pdf",
-                  "application/dwg",
-                  "application/dxf",
-                  "image/jpeg", // covers .jpg & .jpeg
-                  "image/png",
+                  "application/vnd.ms-excel",
+                  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                  "text/csv",
                 ];
                 return allowedTypes.includes(file.type);
               },
@@ -108,8 +114,9 @@ export const createProjectValidationSchemas = (t: (key: string) => string) => {
               (file) => {
                 const allowedTypes = [
                   "application/pdf",
-                  "image/jpeg",
-                  "image/png",
+                  "application/vnd.ms-excel",
+                  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                  "text/csv",
                 ];
                 return allowedTypes.includes(file.type);
               },
@@ -136,8 +143,7 @@ export const createProjectValidationSchemas = (t: (key: string) => string) => {
                   "application/pdf",
                   "application/msword",
                   "application/vnd.openxmlformats-officedocument.wordprocessingml.document", // .docx
-                  "application/vnd.ms-excel", // .xls
-                  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", // .xlsx
+                  "text/plain",
                 ];
                 return allowedTypes.includes(file.type);
               },
@@ -160,7 +166,12 @@ export const createProjectValidationSchemas = (t: (key: string) => string) => {
             })
             .refine(
               (file) => {
-                const allowedTypes = ["image/jpeg", "image/png"];
+                const allowedTypes = [
+                  "image/jpeg",
+                  "image/png",
+                  "image/webp",
+                  "image/svg+xml",
+                ];
                 return allowedTypes.includes(file.type);
               },
               {

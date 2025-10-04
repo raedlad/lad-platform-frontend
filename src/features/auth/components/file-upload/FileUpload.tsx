@@ -58,6 +58,9 @@ export const FileUpload: React.FC<FileUploadProps> = ({
 
       onChange(file);
     }
+
+    // Reset the input value to allow selecting the same file again
+    e.target.value = "";
   };
 
   const handleRemoveFile = (e: React.MouseEvent) => {

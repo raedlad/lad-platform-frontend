@@ -41,6 +41,7 @@ interface LoginFormProps {
 
 const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, onError }) => {
   const t = useTranslations("auth");
+  const tCommon = useTranslations("common");
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -165,9 +166,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, onError }) => {
               <span className="w-full border-t" />
             </div>
             <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-n-1 px-2 text-n-6">
-                {t("roleSelection.or")}
-              </span>
+              <span className=" px-2 text-n-6">{tCommon("ui.or")}</span>
             </div>
           </div>
 
@@ -185,11 +184,11 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, onError }) => {
                 render={({ field }) => (
                   <FormItem className="flex flex-col">
                     <FormLabel>
-                      {t("personalInfo.email")} or{" "}
+                      {t("personalInfo.email")} {tCommon("ui.or")}{" "}
                       {t("personalInfo.phoneNumber")}
                     </FormLabel>
                     <FormControl>
-                      <Input {...field} disabled={isLoading} dir="ltr"/>
+                      <Input {...field} disabled={isLoading} dir="ltr" />
                     </FormControl>
                     <FormMessage className="min-h-5" />
                   </FormItem>
@@ -208,7 +207,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, onError }) => {
                           type={showPassword ? "text" : "password"}
                           {...field}
                           disabled={isLoading}
-                        dir="ltr"
+                          dir="ltr"
                         />
                         <Button
                           type="button"

@@ -29,6 +29,7 @@ import DurationSelect from "../../common/DurationSelect";
 import { Textarea } from "@/shared/components/ui/textarea";
 import NavigationButtons from "../../common/NavigationButtons";
 import { toast } from "react-hot-toast";
+import { LocationInput } from "../../common/LocationInput";
 
 const EssentialInfoForm = ({ create }: { create?: boolean }) => {
   const t = useTranslations("");
@@ -42,10 +43,13 @@ const EssentialInfoForm = ({ create }: { create?: boolean }) => {
       project_type_id: create
         ? 0
         : originalEssentialInfoData?.project_type_id || 0,
-      city: create ? "" : originalEssentialInfoData?.city || "",
+      city_id: create ? "" : originalEssentialInfoData?.city_id || "",
       district: create ? "" : originalEssentialInfoData?.district || "",
-      location: create ? "" : originalEssentialInfoData?.location || "",
-      budget: create ? 0 : originalEssentialInfoData?.budget || 0,
+      address_line: create ? "" : originalEssentialInfoData?.address_line || "",
+      latitude: create ? undefined : originalEssentialInfoData?.latitude,
+      longitude: create ? undefined : originalEssentialInfoData?.longitude,
+      budget_min: create ? 0 : originalEssentialInfoData?.budget_min || 0,
+      budget_max: create ? 0 : originalEssentialInfoData?.budget_max || 0,
       budget_unit: create
         ? "SAR"
         : originalEssentialInfoData?.budget_unit || "SAR",
@@ -53,27 +57,25 @@ const EssentialInfoForm = ({ create }: { create?: boolean }) => {
         ? 0
         : originalEssentialInfoData?.duration_value || 0,
       duration_unit: create
-        ? "day"
-        : originalEssentialInfoData?.duration_unit || "day",
+        ? "days"
+        : originalEssentialInfoData?.duration_unit || "days",
       area_sqm: create ? 0 : originalEssentialInfoData?.area_sqm || 0,
       description: create ? "" : originalEssentialInfoData?.description || "",
     },
   });
 
   useEffect(() => {
-    // Only load original data when editing an existing project (not creating new)
     if (originalEssentialInfoData && !create) {
-      console.log(
-        "🔄 Resetting EssentialInfoForm with existing project data:",
-        originalEssentialInfoData
-      );
       const formData = {
         title: originalEssentialInfoData.title || "",
         project_type_id: originalEssentialInfoData.project_type_id || 0,
-        city: originalEssentialInfoData.city || "",
+        city_id: originalEssentialInfoData.city_id || "",
         district: originalEssentialInfoData.district || "",
-        location: originalEssentialInfoData.location || "",
-        budget: originalEssentialInfoData.budget || 0,
+        address_line: originalEssentialInfoData.address_line || "",
+        latitude: originalEssentialInfoData.latitude,
+        longitude: originalEssentialInfoData.longitude,
+        budget_min: originalEssentialInfoData.budget_min || 0,
+        budget_max: originalEssentialInfoData.budget_max || 0,
         budget_unit: originalEssentialInfoData.budget_unit || "SAR",
         duration_value: originalEssentialInfoData.duration_value || 0,
         duration_unit: originalEssentialInfoData.duration_unit || "day",
@@ -81,37 +83,25 @@ const EssentialInfoForm = ({ create }: { create?: boolean }) => {
         description: originalEssentialInfoData.description || "",
       };
 
-      console.log("📝 Setting form data for editing:", formData);
       form.reset(formData);
-    } else if (create) {
-      console.log(
-        "🆕 Creating new project - form will use default empty values"
-      );
     }
   }, [originalEssentialInfoData, form, create]);
 
   const onSubmit = async (data: z.infer<typeof ProjectEssentialInfoSchema>) => {
-    console.log("🚀 Submitting essential info:", data);
-    console.log("📊 Original data for comparison:", originalEssentialInfoData);
-    console.log("🔍 Form values:", form.getValues());
-
     try {
       const result = await submitEssentialInfo(data);
       if (!result.success) {
-        console.error("❌ Submission failed:", result.message);
         toast.error(result.message || t("project.step1.error.generic"));
       } else {
-        console.log("✅ Submission successful:", result.message);
         toast.success(result.message || t("project.step1.success"));
       }
     } catch (error) {
-      console.error("❌ Unexpected error:", error);
       toast.error(t("project.step1.error.unexpected"));
     }
   };
 
-  const onValidationError = (errors: any) => {
-    console.log("❌ Validation errors:", errors);
+  const onValidationError = (errors: Record<string, unknown>) => {
+    // Validation errors handled by form
   };
 
   return (
@@ -167,7 +157,7 @@ const EssentialInfoForm = ({ create }: { create?: boolean }) => {
               <div className="grid grid-cols-1 items-start md:grid-cols-2 gap-6">
                 <FormField
                   control={form.control}
-                  name="city"
+                  name="city_id"
                   render={({ field }) => (
                     <FormItem className="form-item-vertical">
                       <FormControl>
@@ -207,12 +197,24 @@ const EssentialInfoForm = ({ create }: { create?: boolean }) => {
 
               <FormField
                 control={form.control}
-                name="location"
+                name="address_line"
                 render={({ field }) => (
                   <FormItem className="form-item-vertical">
-                    <FormLabel>{t("project.step1.location")} *</FormLabel>
+                    <FormLabel>{t("project.step1.address_line")} *</FormLabel>
                     <FormControl>
-                      <Input {...field} disabled={isLoading} />
+                      <LocationInput
+                        value={field.value}
+                        onChange={field.onChange}
+                        onCoordinatesChange={(lat, lng) => {
+                          form.setValue("latitude", lat);
+                          form.setValue("longitude", lng);
+                        }}
+                        disabled={isLoading}
+                        placeholder={
+                          t("project.step1.address_linePlaceholder") ||
+                          "Enter project address"
+                        }
+                      />
                     </FormControl>
                     <FormMessage className="form-message-min-height" />
                   </FormItem>
@@ -221,10 +223,12 @@ const EssentialInfoForm = ({ create }: { create?: boolean }) => {
               <div className="grid grid-cols-1 items-start md:grid-cols-2 gap-6">
                 <FormField
                   control={form.control}
-                  name="budget"
+                  name="budget_min"
                   render={({ field: budgetField }) => (
                     <FormItem className="form-item-vertical">
-                      <FormLabel>{t("project.step1.budget") + " *"}</FormLabel>
+                      <FormLabel>
+                        {t("project.step1.budget_min") + " *"}
+                      </FormLabel>
                       <FormControl>
                         <div className="relative">
                           <Input
@@ -267,7 +271,58 @@ const EssentialInfoForm = ({ create }: { create?: boolean }) => {
                     </FormItem>
                   )}
                 />
-
+                <FormField
+                  control={form.control}
+                  name="budget_max"
+                  render={({ field: budgetField }) => (
+                    <FormItem className="form-item-vertical">
+                      <FormLabel>
+                        {t("project.step1.budget_max") + " *"}
+                      </FormLabel>
+                      <FormControl>
+                        <div className="relative">
+                          <Input
+                            type="number"
+                            min={1}
+                            inputMode="numeric"
+                            className="pe-20"
+                            value={budgetField.value || ""}
+                            onChange={(e) => {
+                              const val = e.target.value;
+                              budgetField.onChange(
+                                val === "" ? 0 : Number(val)
+                              );
+                            }}
+                            disabled={isLoading}
+                          />
+                          <FormField
+                            control={form.control}
+                            name="budget_unit"
+                            render={({ field: unitField }) => (
+                              <Select
+                                value={unitField.value}
+                                onValueChange={unitField.onChange}
+                              >
+                                <SelectTrigger className="absolute end-0 top-0 bottom-0 my-auto !h-10 w-[80px] border-0 bg-transparent shadow-none rounded-none px-3">
+                                  <SelectValue />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  <SelectItem value="SAR">SAR</SelectItem>
+                                  <SelectItem value="USD">USD</SelectItem>
+                                  <SelectItem value="EUR">EUR</SelectItem>
+                                  <SelectItem value="GBP">GBP</SelectItem>
+                                </SelectContent>
+                              </Select>
+                            )}
+                          />
+                        </div>
+                      </FormControl>
+                      <FormMessage className="form-message-min-height" />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <div className="grid grid-cols-1 items-start md:grid-cols-2 gap-6">
                 <FormField
                   control={form.control}
                   name="duration_value"
@@ -309,37 +364,37 @@ const EssentialInfoForm = ({ create }: { create?: boolean }) => {
                     </FormItem>
                   )}
                 />
-              </div>
-              <FormField
-                control={form.control}
-                name="area_sqm"
-                render={({ field }) => (
-                  <FormItem className="form-item-vertical">
-                    <FormLabel>{t("project.step1.area_sqm")} *</FormLabel>
-                    <FormControl>
-                      <div className="relative">
-                        <Input
-                          dir="ltr"
-                          type="number"
-                          min={1}
-                          inputMode="numeric"
-                          className="pe-10"
-                          value={field.value || ""}
-                          onChange={(e) => {
-                            const val = e.target.value;
-                            field.onChange(val === "" ? 0 : Number(val));
-                          }}
-                          disabled={isLoading}
-                        />
-                        <div className="absolute end-0 text-design-main top-0 bottom-0 my-auto p-2 px-4 flex items-center gap-2">
-                          <span>m²</span>
+                <FormField
+                  control={form.control}
+                  name="area_sqm"
+                  render={({ field }) => (
+                    <FormItem className="form-item-vertical">
+                      <FormLabel>{t("project.step1.area_sqm")} *</FormLabel>
+                      <FormControl>
+                        <div className="relative">
+                          <Input
+                            dir="ltr"
+                            type="number"
+                            min={1}
+                            inputMode="numeric"
+                            className="pe-10"
+                            value={field.value || ""}
+                            onChange={(e) => {
+                              const val = e.target.value;
+                              field.onChange(val === "" ? 0 : Number(val));
+                            }}
+                            disabled={isLoading}
+                          />
+                          <div className="absolute end-0 text-design-main top-0 bottom-0 my-auto p-2 px-4 flex items-center gap-2">
+                            <span>m²</span>
+                          </div>
                         </div>
-                      </div>
-                    </FormControl>
-                    <FormMessage className="form-message-min-height" />
-                  </FormItem>
-                )}
-              />
+                      </FormControl>
+                      <FormMessage className="form-message-min-height" />
+                    </FormItem>
+                  )}
+                />
+              </div>
               <FormField
                 control={form.control}
                 name="description"

@@ -3,145 +3,209 @@
 import React from "react";
 import { useTranslations } from "next-intl";
 import { Project } from "@/features/project/types/project";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/shared/components/ui/card";
 import { Badge } from "@/shared/components/ui/badge";
 import { Button } from "@/shared/components/ui/button";
-import { Progress } from "@/shared/components/ui/progress";
 import {
   MapPin,
-  DollarSign,
   Clock,
   Square,
-  FileText,
-  Settings,
-  Building2,
+  HardHat,
+  BriefcaseBusiness,
+  ArrowLeft,
+  CheckCircle,
 } from "lucide-react";
 import Link from "next/link";
 
 interface ProjectCardProps {
   project: Project;
   getProjectTypeName: (typeId: number) => string;
-  getCompletionStatus: (project: Project) => {
-    completed: number;
-    total: number;
-    percentage: number;
-  };
-  getStatusBadge: (project: Project) => React.ReactNode;
-  getNextStep: (project: Project) => string;
+  getStatusText: (project: Project) => string;
 }
 
 export function ProjectCard({
   project,
   getProjectTypeName,
-  getCompletionStatus,
-  getStatusBadge,
-  getNextStep,
+  getStatusText,
 }: ProjectCardProps) {
   const t = useTranslations("projectsList");
-  const status = getCompletionStatus(project);
-  const nextStep = getNextStep(project);
+
+  const formatBudget = () => {
+    const { budget_min, budget_max, budget_unit } = project.essential_info;
+
+    if (budget_min && budget_max) {
+      return `${budget_min.toLocaleString()} - ${budget_max.toLocaleString()}${
+        budget_unit ? ` ${budget_unit}` : ""
+      }`;
+    }
+
+    if (budget_min) {
+      return `${budget_min.toLocaleString()}${
+        budget_unit ? ` ${budget_unit}` : ""
+      }`;
+    }
+
+    if (budget_max) {
+      return `${budget_max.toLocaleString()}${
+        budget_unit ? ` ${budget_unit}` : ""
+      }`;
+    }
+
+    return "Not specified";
+  };
+
+  const formatArea = () => {
+    const area = project.essential_info.area_sqm;
+    return area ? `${area.toLocaleString()} m²` : "Not specified";
+  };
+
+  const formatLocation = () => {
+    const cityName = project.essential_info.city_name;
+    const district = project.essential_info.district;
+    return cityName || district || "Location not specified";
+  };
+
+  const getStatusIcon = () => {
+    return <CheckCircle className="w-4 h-4" />;
+  };
 
   return (
-    <Card className="group hover:shadow-xl transition-all duration-300 border-border/50 hover:border-primary/20 overflow-hidden">
-      <CardHeader className="pb-4">
-        <div className="flex justify-between items-start mb-3">
-          <CardTitle className="text-lg font-semibold text-foreground line-clamp-2 group-hover:text-primary transition-colors">
-            {project.essential_info.title}
-          </CardTitle>
-          {getStatusBadge(project)}
-        </div>
-        <CardDescription className="text-sm text-muted-foreground flex items-center gap-2">
-          <Building2 className="h-4 w-4" />
-          {getProjectTypeName(project.essential_info.project_type_id)}
-        </CardDescription>
-      </CardHeader>
+    <article className="w-full border border-gray-200 dark:border-gray-700 rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow duration-200 bg-white dark:bg-gray-800">
+      <div className="flex flex-col gap-5">
+        {/* Header Section */}
+        <header className="space-y-3">
+          <div className="flex flex-col gap-3">
+            <h1 className="text-lg font-semibold text-gray-900 dark:text-white leading-tight">
+              {project.essential_info.title}
+            </h1>
 
-      <CardContent className="space-y-6">
-        {/* Project Details */}
-        <div className="space-y-3">
-          <div className="flex items-center text-sm text-muted-foreground">
-            <MapPin className="h-4 w-4 mr-3 text-primary/70" />
-            <span className="truncate">
-              {project.essential_info.city}, {project.essential_info.district}
-            </span>
-          </div>
+            {/* Description */}
+            {project.essential_info.description && (
+              <div className="space-y-1">
+                <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-2 leading-relaxed">
+                  {project.essential_info.description}
+                </p>
+              </div>
+            )}
 
-          <div className="flex items-center text-sm text-muted-foreground">
-            <DollarSign className="h-4 w-4 mr-3 text-green-600" />
-            <span className="font-medium">
-              {project.essential_info.budget.toLocaleString()}{" "}
-              {project.essential_info.budget_unit}
-            </span>
+            {/* Location and Status */}
           </div>
+        </header>
 
-          <div className="flex items-center text-sm text-muted-foreground">
-            <Clock className="h-4 w-4 mr-3 text-blue-600" />
-            <span>
-              {project.essential_info.duration_value}{" "}
-              {project.essential_info.duration_unit}
-            </span>
-          </div>
+        {/* Project Details Section */}
+        <section className="space-y-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {/* Location */}
+            <div className="flex items-start gap-3">
+              <div className="flex items-center gap-2 text-gray-700 dark:text-gray-300">
+                <MapPin className="w-4 h-4 flex-shrink-0 mt-0.5 text-design-main" />
+                <span className="text-sm font-medium">
+                  {t("projectCard.location")}:
+                </span>
+              </div>
+              <span className="text-sm text-gray-900 dark:text-white">
+                {formatLocation()}
+              </span>
+            </div>
 
-          <div className="flex items-center text-sm text-muted-foreground">
-            <Square className="h-4 w-4 mr-3 text-orange-600" />
-            <span>{project.essential_info.area_sqm.toLocaleString()} m²</span>
+            {/* Status */}
+            <div className="flex items-start gap-3">
+              <div className="flex items-center gap-2 text-gray-700 dark:text-gray-300">
+                <span className="text-design-main">{getStatusIcon()}</span>
+                <span className="text-sm font-medium">
+                  {t("projectCard.status.label")}:
+                </span>
+              </div>
+              <span className="text-sm text-gray-900 dark:text-white">
+                {getStatusText(project)}
+              </span>
+            </div>
           </div>
-        </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {/* Project Type */}
+            <div className="flex items-start gap-3">
+              <div className="flex items-center gap-2 text-gray-700 dark:text-gray-300">
+                <HardHat className="w-4 h-4 flex-shrink-0 mt-0.5 text-design-main" />
+                <span className="text-sm font-medium">
+                  {t("projectCard.type")}:
+                </span>
+              </div>
+              <span className="text-sm text-gray-900 dark:text-white">
+                {project.essential_info.project_type_name ||
+                  getProjectTypeName(project.essential_info.project_type_id)}
+              </span>
+            </div>
 
-        {/* Progress Section */}
-        <div className="space-y-3 p-4 bg-muted/30 rounded-lg">
-          <div className="flex justify-between text-sm">
-            <span className="text-muted-foreground font-medium">
-              {t("projectCard.progress.label")}
-            </span>
-            <span className="font-semibold text-foreground">
-              {status.completed}/{status.total}{" "}
-              {t("projectCard.progress.steps")}
-            </span>
+            {/* Budget */}
+            <div className="flex items-start gap-3">
+              <div className="flex items-center gap-2 text-gray-700 dark:text-gray-300">
+                <BriefcaseBusiness className="w-4 h-4 flex-shrink-0 mt-0.5 text-design-main" />
+                <span className="text-sm font-medium">
+                  {t("projectCard.budget")}:
+                </span>
+              </div>
+              <span className="text-sm text-gray-900 dark:text-white">
+                {formatBudget()}
+              </span>
+            </div>
+
+            {/* Duration */}
+            <div className="flex items-start gap-3">
+              <div className="flex items-center gap-2 text-gray-700 dark:text-gray-300">
+                <Clock className="w-4 h-4 flex-shrink-0 mt-0.5 text-design-main" />
+                <span className="text-sm font-medium">
+                  {t("projectCard.duration")}:
+                </span>
+              </div>
+              <span className="text-sm text-gray-900 dark:text-white">
+                {project.essential_info.duration_value}{" "}
+                {project.essential_info.duration_unit}
+              </span>
+            </div>
+
+            {/* Area */}
+            <div className="flex items-start gap-3">
+              <div className="flex items-center gap-2 text-gray-700 dark:text-gray-300">
+                <Square className="w-4 h-4 flex-shrink-0 mt-0.5 text-design-main" />
+                <span className="text-sm font-medium">
+                  {t("projectCard.area")}:
+                </span>
+              </div>
+              <span className="text-sm text-gray-900 dark:text-white">
+                {formatArea()}
+              </span>
+            </div>
           </div>
-          <Progress value={status.percentage} className="h-2 bg-muted" />
-          <p className="text-xs text-muted-foreground">
-            {t("projectCard.progress.nextStep")}: {nextStep}
-          </p>
-        </div>
+        </section>
 
         {/* Action Buttons */}
-        <div className="flex gap-2 pt-2">
+        <footer className="flex gap-3 pt-2">
           <Link
             href={`/dashboard/individual/projects/${project.id}/edit`}
             className="flex-1"
           >
             <Button
-              variant="outline"
+              variant="default"
               size="sm"
-              className="w-full group-hover:border-primary/50 group-hover:text-primary transition-colors"
+              className="w-full text-sm font-medium"
             >
-              <FileText className="h-4 w-4 mr-2" />
               {t("projectCard.actions.edit")}
             </Button>
           </Link>
-
           <Link
             href={`/dashboard/individual/projects/${project.id}`}
             className="flex-1"
           >
             <Button
-              variant="default"
+              variant="outline"
               size="sm"
-              className="w-full group-hover:bg-primary/90 transition-colors"
+              className="w-full text-sm font-medium border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700"
             >
-              <Settings className="h-4 w-4 mr-2" />
               {t("projectCard.actions.view")}
+              <ArrowLeft className="w-4 h-4 ml-2 ltr:rotate-180" />
             </Button>
           </Link>
-        </div>
-      </CardContent>
-    </Card>
+        </footer>
+      </div>
+    </article>
   );
 }

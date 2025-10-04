@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { ShimmerSkeleton } from "@/components/ui/shimmer-skeleton";
 import { RadioGroup, RadioGroupItem } from "@/shared/components/ui/radio-group";
 import { Label } from "@/shared/components/ui/label";
+import { Level } from "../../types/project";
 
 const Levels = ({
   onSelect,
@@ -32,10 +33,10 @@ const Levels = ({
         setIsLoading(true);
         const result = await projectApi.getProjectClassificationLevels();
         if (result.success) {
-          setProjectClassificationLevels(result.response);
+          setProjectClassificationLevels(result.response as Level[]);
         }
       } catch (error) {
-        console.log("Error getting project classification levels:", error);
+        // Error handled silently
       } finally {
         setIsLoading(false);
       }

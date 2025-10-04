@@ -1,9 +1,9 @@
 import { z } from "zod";
 import { getValidationMessages } from "./validationMessages";
+import { isValidPhoneNumber } from "./IsValidPhoneNumber";
 
 // Regex patterns
 const nameRegex = /^[\u0600-\u06FFa-zA-Z\s]+$/; // Arabic and English characters only
-const saPhoneRegex = /^05[0-9]{8}$/; // Saudi phone number format: 05XXXXXXXX (local format only)
 const nationalIdRegex = /^[0-9]{10}$/; // 10 digits
 const commercialRegisterRegex = /^[0-9]{10}$/; // 10 digits
 
@@ -36,7 +36,9 @@ export const createValidationSchemas = (t: (key: string) => string) => {
         .max(255, messages.email.maxLength),
       phone: z
         .string({ error: messages.phone.required })
-        .regex(saPhoneRegex, messages.phone.invalid),
+        .refine((phone) => isValidPhoneNumber(phone), {
+          message: messages.phone.invalid,
+        }),
       password: passwordValidation,
       password_confirmation: z.string({
         error: messages.confirmPassword.required,

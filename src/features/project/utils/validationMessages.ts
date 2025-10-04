@@ -16,13 +16,17 @@ export const getProjectValidationMessages = (t: (key: string) => string) => ({
     minLength: t("feedback.validation.district.minLength"),
     required: t("feedback.validation.district.required"),
   },
-  location: {
-    minLength: t("feedback.validation.location.minLength"),
-    required: t("feedback.validation.location.required"),
+  address_line: {
+    minLength: t("feedback.validation.address_line.minLength"),
+    required: t("feedback.validation.address_line.required"),
   },
-  budget: {
-    minLength: t("feedback.validation.budget.minLength"),
-    required: t("feedback.validation.budget.required"),
+  budget_min: {
+    minLength: t("feedback.validation.budget_min.minLength"),
+    required: t("feedback.validation.budget_min.required"),
+  },
+  budget_max: {
+    minLength: t("feedback.validation.budget_max.minLength"),
+    required: t("feedback.validation.budget_max.required"),
   },
   duration: {
     minLength: t("feedback.validation.duration.minLength"),

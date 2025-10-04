@@ -22,13 +22,9 @@ const NavigationButtons = ({
     if (currentStep === 1) return;
     setCurrentStep(currentStep - 1);
   };
-
-  useEffect(() => {
-    console.log(currentStep);
-  }, [currentStep]);
   return (
     <div className="w-full grid grid-cols-2 gap-4 items-center">
-      {currentStep !== 1 && projectStatus.status === "in_progress" ? (
+      {currentStep !== 1 && projectStatus.status === "draft" ? (
         <Button
           variant="outline"
           className="w-full max-w-xs mx-auto"
@@ -48,14 +44,14 @@ const NavigationButtons = ({
         variant="default"
         className={twMerge(
           "w-full max-w-xs mx-auto",
-          projectStatus.status === "pending_review" && "bg-p-7"
+          projectStatus.status === "review_pending" && "bg-p-7"
         )}
       >
         {isLoading
           ? t("common.actions.loading")
-          : currentStep === 6 && projectStatus.status === "in_progress"
+          : currentStep === 6 && projectStatus.status === "draft"
           ? t("project.step6.submit")
-          : currentStep === 6 && projectStatus.status === "pending_review"
+          : currentStep === 6 && projectStatus.status === "review_pending"
           ? t("project.step6.pending_review")
           : t("common.actions.continue")}
       </Button>

@@ -59,11 +59,15 @@
       "city": "اختر المدينة",
       "duration": "اختر المدة",
       "day": "يوم",
+      "days": "أيام",
       "week": "أسبوع",
+      "weeks": "أسابيع",
       "month": "شهر",
+      "months": "أشهر",
       "year": "سنة"
     },
     "ui": {
+      "or": "أو",
       "search": "بحث",
       "filter": "تصفية",
       "sort": "ترتيب",
@@ -1495,9 +1499,19 @@
       "cityPlaceholder": "اختر المدينة",
       "district": "الحي",
       "districtPlaceholder": "اختر حي المشروع",
-      "location": "الموقع الجغرافي",
-      "locationPlaceholder": "أدخل موقع المشروع",
-      "budget": "الميزانية المتوقعة",
+      "address_line": "العنوان",
+      "address_linePlaceholder": "أدخل عنوان المشروع",
+      "searchLocation": "ابحث عن موقع...",
+      "useCurrentLocation": "استخدم موقعي الحالي",
+      "mapClickInstruction": "انقر على الخريطة لتحديد الموقع أو ابحث عن العنوان أعلاه.",
+      "selectFromMap": "اختر من الخريطة",
+      "enterManually": "أدخل يدوياً",
+      "selectLocationTitle": "اختيار الموقع",
+      "selectLocationDescription": "ابحث عن موقع أو انقر على الخريطة لتحديد موقع المشروع.",
+      "locationFromMap": "تم اختيار الموقع من الخريطة",
+      "mapApiKeyMissing": "مفتاح Google Maps API غير مهيأ. يرجى إضافة NEXT_PUBLIC_GOOGLE_MAPS_API_KEY إلى متغيرات البيئة.",
+      "budget_min": "الميزانية الأدنى",
+      "budget_max": "الميزانية الأعلى",
       "budgetPlaceholder": "أدخل الميزانية المتوقعة للمشروع",
       "duration": "مدة المشروع",
       "durationPlaceholder": "أدخل مدة المشروع",
@@ -1562,7 +1576,9 @@
         "manualDescription": "إنشاء جدول المواصفات والكميات يدويا",
         "selectTemplate": "اختر القالب",
         "templatePlaceholder": "اختر قالب",
-        "noTemplates": "لا يوجد قوالب متاحة"
+        "noTemplates": "لا يوجد قوالب متاحة",
+        "loading": "جاري تحميل القوالب...",
+        "items": "بند"
       },
       "boqTable": {
         "title": "عناصر جدول المواصفات والكميات",
@@ -1637,8 +1653,9 @@
       "title": " نظرة عامة على المشروع",
       "name": "اسم المشروع",
       "type": "نوع المشروع",
-      "budget": "الميزانية",
-      "location": "الموقع",
+      "budget_min": "الميزانية الأدنى",
+      "budget_max": "الميزانية الأعلى",
+      "address": "الموقع",
       "duration": "المدة",
       "area_sqm": "المساحة",
       "description": "الوصف",
@@ -1965,13 +1982,17 @@
         "required": "يرجى إدخال اسم الحي",
         "minLength": "الحي يجب أن يكون على الأقل 2 أحرف"
       },
-      "location": {
-        "required": "يرجى إدخال الموقع",
-        "minLength": "الموقع يجب أن يكون على الأقل 2 أحرف"
+      "address_line": {
+        "required": "يرجى إدخال العنوان",
+        "minLength": "العنوان يجب أن يكون على الأقل 2 أحرف"
       },
-      "budget": {
-        "required": "يرجى إدخال الميزانية",
-        "minLength": "الميزانية يجب أن يكون على الأقل 2 أحرف"
+      "budget_min": {
+        "required": "يرجى إدخال الميزانية الأدنى",
+        "minLength": "الميزانية الأدنى يجب أن يكون على الأقل 2 أحرف"
+      },
+      "budget_max": {
+        "required": "يرجى إدخال الميزانية الأعلى",
+        "minLength": "الميزانية الأعلى يجب أن يكون على الأقل 2 أحرف"
       },
       "duration": {
         "required": "يرجى إدخال المدة",
@@ -2002,25 +2023,25 @@
         "minFiles": "مطلوب ملف واحد على الأقل",
         "maxSize": "حجم ملف المخططات المعمارية يجب ألا يتجاوز 5 ميجابايت",
         "maxFiles": "الحد الأقصى 10 ملفات",
-        "invalidType": "نوع الملف غير مسموح. الأنواع المقبولة: PDF، DWG، DXF، JPEG، JPG، PNG"
+        "invalidType": "نوع الملف غير مسموح. الأنواع المقبولة: PDF، XLS، XLSX، CSV"
       },
       "licenses": {
         "minFiles": "مطلوب ملف واحد على الأقل",
         "maxSize": "حجم ملف الرخصة يجب ألا يتجاوز 5 ميجابايت",
         "maxFiles": "الحد الأقصى 10 ملفات",
-        "invalidType": "نوع الملف غير مسموح. الأنواع المقبولة: PDF، JPEG، PNG"
+        "invalidType": "نوع الملف غير مسموح. الأنواع المقبولة: PDF، XLS، XLSX، CSV"
       },
       "specifications": {
         "minFiles": "مطلوب ملف واحد على الأقل",
         "maxSize": "حجم ملف المواصفات يجب ألا يتجاوز 5 ميجابايت",
         "maxFiles": "الحد الأقصى 10 ملفات",
-        "invalidType": "نوع الملف غير مسموح. الأنواع المقبولة: PDF, JPEG, PNG"
+        "invalidType": "نوع الملف غير مسموح. الأنواع المقبولة: PDF، DOC، DOCX، TXT"
       },
       "site_photos": {
         "minFiles": "مطلوب صورة واحدة على الأقل للموقع",
         "maxFiles": "الحد الأقصى 10 صور للموقع",
         "maxSize": "حجم كل صورة للموقع يجب ألا يتجاوز 10 ميجابايت",
-        "invalidType": "نوع الملف غير مسموح. الأنواع المقبولة: JPEG, PNG"
+        "invalidType": "نوع الملف غير مسموح. الأنواع المقبولة: JPEG، PNG، WEBP، SVG"
       },
       "boqItem": {
         "name": {
@@ -2076,16 +2097,34 @@
     "title": "مشاريعي",
     "subtitle": "إدارة ومتابعة مشاريعك الإنشائية",
     "loading": "جاري تحميل المشاريع...",
+    "project": "مشروع",
+    "projects": "مشاريع",
     "emptyState": {
       "title": "لا توجد مشاريع بعد",
       "description": "ابدأ بإنشاء مشروعك الأول",
-      "createButton": "إنشاء مشروع جديد"
+      "createButton": "مشروع جديد"
     },
     "projectCard": {
+      "type": "النوع",
+      "location": "الموقع",
+      "budget": "الميزانية",
+      "duration": "المدة",
+      "area": "المساحة",
       "status": {
-        "notStarted": "لم يبدأ",
-        "inProgress": "قيد التنفيذ",
-        "completed": "مكتمل"
+        "label": "الحالة",
+        "draft": "مسودة",
+        "review_pending": "في انتظار المراجعة",
+        "published": "منشور",
+        "receiving_bids": "استقبال العروض",
+        "offer_accepted": "تم قبول العرض",
+        "awaiting_contract_signature": "في انتظار توقيع العقد",
+        "contract_signed": "تم توقيع العقد",
+        "in_progress": "قيد التنفيذ",
+        "cancelled": "ملغي",
+        "rejected": "مرفوض",
+        "completed": "مكتمل",
+        "closed_completed": "مغلق ومكتمل",
+        "notStarted": "لم يبدأ"
       },
       "details": {
         "location": "الموقع",
@@ -2120,12 +2159,18 @@
     },
     "tabs": {
       "all": "جميع المشاريع",
-      "inProgress": "قيد التنفيذ",
       "draft": "مسودة",
-      "pendingOffers": "في انتظار العروض",
-      "pendingReview": "في انتظار المراجعة",
-      "pendingSigning": "في انتظار التوقيع",
-      "completed": "مكتمل"
+      "review_pending": "في انتظار المراجعة",
+      "published": "منشور",
+      "receiving_bids": "استقبال العروض",
+      "offer_accepted": "تم قبول العرض",
+      "awaiting_contract_signature": "في انتظار العقد",
+      "contract_signed": "تم توقيع العقد",
+      "in_progress": "قيد التنفيذ",
+      "cancelled": "ملغي",
+      "rejected": "مرفوض",
+      "completed": "مكتمل",
+      "closed_completed": "مغلق ومكتمل"
     },
     "pagination": {
       "showing": "عرض",

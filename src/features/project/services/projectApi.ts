@@ -5,136 +5,270 @@ import {
   DocumentsState,
   ProjectEssentialInfo,
   PublishSettings,
+  GetProjectApiResponse,
+  ApiResponse,
+  PaginatedApiResponse,
+  ProjectResponse,
+  BOQTemplate,
+  Unit,
+  UploadFileResponse,
+  RemoveFileResponse,
+  CreateProjectApiResponse,
+  UpdateProjectApiResponse,
 } from "../types/project";
 
 export const projectApi = {
-  getProject: async (projectId: string) => {
+  getProject: async (projectId: string): Promise<GetProjectApiResponse> => {
     try {
       const response = await api.get(`/projects/owner/${projectId}`);
       return response.data;
     } catch (error) {
-      console.log("Error getting project:", error);
       return {
         success: false,
-        message: "Error getting project",
-        data: null,
+        message:
+          error instanceof Error ? error.message : "Error getting project",
+        response: null,
       };
     }
   },
-  getProjectTypes: async () => {
+
+  getUserProjects: async (params?: {
+    status?: string;
+    per_page?: number;
+    page?: number;
+  }): Promise<PaginatedApiResponse<ProjectResponse>> => {
+    try {
+      const queryParams = new URLSearchParams();
+
+      if (params?.status) {
+        queryParams.append("status", params.status);
+      }
+
+      if (params?.per_page) {
+        queryParams.append("per_page", params.per_page.toString());
+      }
+
+      if (params?.page) {
+        queryParams.append("page", params.page.toString());
+      }
+
+      const queryString = queryParams.toString();
+      const url = `/projects/owner${queryString ? `?${queryString}` : ""}`;
+
+      const response = await api.get(url);
+      return response.data;
+    } catch (error: unknown) {
+      const errorMessage =
+        error &&
+        typeof error === "object" &&
+        "response" in error &&
+        error.response &&
+        typeof error.response === "object" &&
+        "data" in error.response &&
+        error.response.data &&
+        typeof error.response.data === "object" &&
+        "message" in error.response.data
+          ? String(error.response.data.message)
+          : error instanceof Error
+          ? error.message
+          : "Failed to get user projects";
+
+      return {
+        success: false,
+        message: errorMessage,
+        response: {
+          data: [],
+          total: 0,
+          per_page: 0,
+          current_page: 1,
+          last_page: 1,
+          from: 0,
+          to: 0,
+          links: [],
+        },
+      };
+    }
+  },
+  getProjectTypes: async (): Promise<ApiResponse> => {
     try {
       const response = await api.get("general-data-profile/project-types");
-
       return response.data;
     } catch (error) {
-      console.log("Error getting project types:", error);
       return {
         success: false,
-        message: "Error getting project types",
-        data: null,
+        message:
+          error instanceof Error
+            ? error.message
+            : "Error getting project types",
       };
     }
   },
-  getWorkTypes: async () => {
+  getWorkTypes: async (): Promise<ApiResponse> => {
     try {
       const response = await api.get("general-data-profile/work-types");
       return response.data;
     } catch (error) {
-      console.log("Error getting work types:", error);
       return {
         success: false,
-        message: "Error getting work types",
-        data: null,
+        message:
+          error instanceof Error ? error.message : "Error getting work types",
       };
     }
   },
-  getProjectClassificationJobs: async () => {
+  getProjectClassificationJobs: async (): Promise<ApiResponse> => {
     try {
       const response = await api.get(
         "/general-data-profile/classification-jobs"
       );
       return response.data;
     } catch (error) {
-      console.log("Error getting project classification jobs:", error);
       return {
         success: false,
-        message: "Error getting project classification jobs",
-        data: null,
+        message:
+          error instanceof Error
+            ? error.message
+            : "Error getting project classification jobs",
       };
     }
   },
 
-  getProjectClassificationLevels: async () => {
+  getProjectClassificationLevels: async (): Promise<ApiResponse> => {
     try {
       const response = await api.get(
         "/general-data-profile/classification-levels"
       );
       return response.data;
     } catch (error) {
-      console.log("Error getting project classifications:", error);
       return {
         success: false,
-        message: "Error getting project classifications",
-        data: null,
+        message:
+          error instanceof Error
+            ? error.message
+            : "Error getting project classifications",
       };
     }
   },
 
-  createEssentialInfoProject: async (data: ProjectEssentialInfo) => {
+  getBoqTemplates: async (): Promise<ApiResponse<BOQTemplate[]>> => {
     try {
-      console.log("🚀 Creating project with data:", data);
-
-      const response = await api.post("/projects/owner", data);
-
-      console.log("✅ Project creation response:", response.data);
-
+      const response = await api.get("/general-data-profile/boq-templates");
+      return response.data;
+    } catch (error) {
       return {
-        success: true,
-        message: "Project created successfully",
-        data: response.data,
+        success: false,
+        message:
+          error instanceof Error
+            ? error.message
+            : "Error getting BOQ templates",
+        response: [],
       };
-    } catch (error: any) {
-      console.error("❌ Error creating project:", error);
+    }
+  },
 
-      // Handle different error response formats
+  getBoqTemplateById: async (
+    templateId: number
+  ): Promise<ApiResponse<BOQTemplate>> => {
+    try {
+      const response = await api.get(
+        `/general-data-profile/boq-templates/${templateId}`
+      );
+      return response.data;
+    } catch (error) {
+      return {
+        success: false,
+        message:
+          error instanceof Error ? error.message : "Error getting BOQ template",
+        response: undefined,
+      };
+    }
+  },
+
+  getBoqTemplateItems: async (): Promise<ApiResponse> => {
+    try {
+      const response = await api.get(
+        "/general-data-profile/boq-template-items"
+      );
+      return response.data;
+    } catch (error) {
+      return {
+        success: false,
+        message:
+          error instanceof Error
+            ? error.message
+            : "Error getting BOQ template items",
+        response: [],
+      };
+    }
+  },
+
+  getBoqUnits: async (): Promise<ApiResponse<Unit[]>> => {
+    try {
+      const response = await api.get("/general-data-profile/boq-units");
+      return response.data;
+    } catch (error) {
+      return {
+        success: false,
+        message: error instanceof Error ? error.message : "Error getting units",
+        response: [],
+      };
+    }
+  },
+
+  createEssentialInfoProject: async (
+    data: ProjectEssentialInfo
+  ): Promise<CreateProjectApiResponse> => {
+    try {
+      const response = await api.post("/projects/owner", data);
+      return response.data;
+    } catch (error: unknown) {
       const errorMessage =
-        error.response?.data?.message ||
-        error.response?.data?.error ||
-        error.message ||
-        "Failed to create project";
+        error &&
+        typeof error === "object" &&
+        "response" in error &&
+        error.response &&
+        typeof error.response === "object" &&
+        "data" in error.response &&
+        error.response.data &&
+        typeof error.response.data === "object" &&
+        "message" in error.response.data
+          ? String(error.response.data.message)
+          : error instanceof Error
+          ? error.message
+          : "Failed to create project";
 
       return {
         success: false,
         message: errorMessage,
-        data: null,
+        response: null,
       };
     }
   },
   updateEssentialInfoProject: async (
     projectId: string,
     data: ProjectEssentialInfo
-  ) => {
+  ): Promise<UpdateProjectApiResponse> => {
     try {
-      console.log("🔄 Updating project essential info:", { projectId, data });
-
-      const response = await api.put(`/projects/owner/${projectId}`, data);
-
-      console.log("✅ Essential info update response:", response.data);
-
+      const response = await api.patch(`/projects/owner/${projectId}`, data);
       return {
         success: true,
         message: "Essential info updated successfully",
         data: response.data,
       };
-    } catch (error: any) {
-      console.error("❌ Error updating project essential info:", error);
-
-      // Handle different error response formats
+    } catch (error: unknown) {
       const errorMessage =
-        error.response?.data?.message ||
-        error.response?.data?.error ||
-        error.message ||
-        "Failed to update essential info";
+        error &&
+        typeof error === "object" &&
+        "response" in error &&
+        error.response &&
+        typeof error.response === "object" &&
+        "data" in error.response &&
+        error.response.data &&
+        typeof error.response.data === "object" &&
+        "message" in error.response.data
+          ? String(error.response.data.message)
+          : error instanceof Error
+          ? error.message
+          : "Failed to update essential info";
 
       return {
         success: false,
@@ -146,81 +280,118 @@ export const projectApi = {
   createClassificationProject: async (
     projectId: string,
     data: ProjectClassification
-  ) => {
+  ): Promise<ApiResponse> => {
     try {
-      const response = await new Promise((resolve) => {
-        setTimeout(() => {
-          resolve({
-            success: true,
-            message: "Classification created successfully",
-            data: {
-              projectId,
-              classification: data,
-            },
-          });
-        }, 1500);
-      });
+      const requestData = {
+        classification_job_id: data.jobId,
+        classification_level_id: data.levelId,
+        work_type_id: data.workTypeId,
+        notes: data.notes || "",
+      };
 
-      return response;
-    } catch (error) {
-      console.error("Error creating project classification:", error);
+      const response = await api.post(
+        `/projects/owner/${projectId}/classification`,
+        requestData
+      );
+
+      return {
+        success: true,
+        message: "Classification created successfully",
+        data: response.data,
+      };
+    } catch (error: unknown) {
+      const errorMessage =
+        error &&
+        typeof error === "object" &&
+        "response" in error &&
+        error.response &&
+        typeof error.response === "object" &&
+        "data" in error.response &&
+        error.response.data &&
+        typeof error.response.data === "object" &&
+        "message" in error.response.data
+          ? String(error.response.data.message)
+          : error instanceof Error
+          ? error.message
+          : "Failed to create classification";
+
       return {
         success: false,
-        message: "Failed to create classification",
-        data: null,
+        message: errorMessage,
       };
     }
   },
   updateClassificationProject: async (
     projectId: string,
     data: ProjectClassification
-  ) => {
+  ): Promise<ApiResponse> => {
     try {
-      const response = await new Promise((resolve) => {
-        setTimeout(() => {
-          resolve({
-            success: true,
-            message: "Classification updated successfully",
-            data: {
-              projectId,
-              classification: data,
-            },
-          });
-        }, 1500);
-      });
+      const requestData = {
+        classification_job_id: data.jobId,
+        classification_level_id: data.levelId,
+        work_type_id: data.workTypeId,
+        notes: data.notes || "",
+      };
 
-      return response;
-    } catch (error) {
-      console.error("Error updating project classification:", error);
+      const response = await api.put(
+        `/projects/owner/classification/${projectId}`,
+        requestData
+      );
+
+      return {
+        success: true,
+        message: "Classification updated successfully",
+        data: response.data,
+      };
+    } catch (error: unknown) {
+      const errorMessage =
+        error &&
+        typeof error === "object" &&
+        "response" in error &&
+        error.response &&
+        typeof error.response === "object" &&
+        "data" in error.response &&
+        error.response.data &&
+        typeof error.response.data === "object" &&
+        "message" in error.response.data
+          ? String(error.response.data.message)
+          : error instanceof Error
+          ? error.message
+          : "Failed to update classification";
+
       return {
         success: false,
-        message: "Failed to update classification",
-        data: null,
+        message: errorMessage,
       };
     }
   },
-  updateDocumentsProject: async (projectId: string, data: DocumentsState) => {
+  updateDocumentsProject: async (
+    projectId: string,
+    data: DocumentsState
+  ): Promise<ApiResponse> => {
     try {
-      const response = await new Promise((resolve) => {
+      const response = await new Promise<ApiResponse>((resolve) => {
         setTimeout(() => {
           resolve({
             success: true,
-            message: "Fake project created successfully",
+            message: "Documents updated successfully",
             data: {
               ...data,
-              id: Date.now(), // mock ID
+              id: Date.now(),
             },
           });
-        }, 3000); // 3 seconds
+        }, 3000);
       });
 
       return response;
     } catch (error) {
-      console.error("Error updating project documents:", error);
       throw error;
     }
   },
-  createDocumentsProject: async (projectId: string, data: DocumentsState) => {
+  createDocumentsProject: async (
+    projectId: string,
+    data: DocumentsState
+  ): Promise<ApiResponse> => {
     try {
       const response = await api.post(
         `/projects/owner/${projectId}/documents`,
@@ -228,64 +399,66 @@ export const projectApi = {
       );
       return response.data;
     } catch (error) {
-      console.error("Error creating project documents:", error);
       throw error;
     }
   },
 
   // Fake API methods for file operations
-  uploadFile: async (projectId: string, file: File, collection: string) => {
+  uploadFile: async (
+    projectId: string,
+    file: File,
+    collection: string
+  ): Promise<UploadFileResponse> => {
     try {
-      //   const response = await api.post(
-      //     `/projects/owner/${projectId}/files/upload-single`,
-      //     {
-      //       file,
-      //       collection: collection,
-      //     }
-      //   );
-      //   return response.data;
-      return new Promise<{ success: boolean; data: any; message: string }>(
-        (resolve) => {
-          const interval = setInterval(() => {
-            clearInterval(interval);
-            // Simulate successful upload
-            resolve({
-              success: true,
-              data: {
-                fileId: `file_${projectId}_${Date.now()}_${Math.random()
-                  .toString(36)
-                  .substr(2, 9)}`,
-                fileName: file.name,
-                fileSize: file.size,
-                fileType: file.type,
-                collection: collection,
-                url: `https://fake-cdn.com/uploads/${collection}/${file.name}`,
-              },
-              message: "File uploaded successfully",
-            });
-          }, 2000); // Simulate 2 second upload delay
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("collection", collection);
+
+      const response = await api.post(
+        `/projects/owner/${projectId}/files/upload-single`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
         }
       );
-    } catch (error) {
-      console.error("Error uploading file:", error);
+
+      return {
+        success: true,
+        message: "File uploaded successfully",
+        data: response.data,
+      };
+    } catch (error: unknown) {
+      const errorMessage =
+        error &&
+        typeof error === "object" &&
+        "response" in error &&
+        error.response &&
+        typeof error.response === "object" &&
+        "data" in error.response &&
+        error.response.data &&
+        typeof error.response.data === "object" &&
+        "message" in error.response.data
+          ? String(error.response.data.message)
+          : error instanceof Error
+          ? error.message
+          : "Failed to upload file";
+
       return {
         success: false,
+        message: errorMessage,
         data: null,
-        message: "Error uploading file",
       };
     }
   },
 
-  removeFile: async (projectId: string, fileId: string, collection: string) => {
+  removeFile: async (
+    projectId: string,
+    fileId: string,
+    collection: string
+  ): Promise<RemoveFileResponse> => {
     try {
-      // return new Promise<{ success: boolean; message: string }>((resolve) => {
-      //   setTimeout(() => {
-      //     resolve({
-      //       success: true,
-      //       message: "File removed successfully",
-      //     });
-      //   }, 1000); // Simulate API delay
-      // });
       const response = await api.delete(
         `/projects/owner/${projectId}/files/${fileId}`,
         {
@@ -296,10 +469,9 @@ export const projectApi = {
       );
       return response.data;
     } catch (error) {
-      console.error("Error removing file:", error);
       return {
         success: false,
-        message: "Error removing file",
+        message: error instanceof Error ? error.message : "Error removing file",
       };
     }
   },
@@ -309,7 +481,7 @@ export const projectApi = {
     fileId: string,
     newFile: File,
     collection: string
-  ) => {
+  ): Promise<UploadFileResponse> => {
     try {
       const response = await api.post(
         `/projects/owner/${projectId}/files/upload-single`,
@@ -319,141 +491,127 @@ export const projectApi = {
         }
       );
       return response.data;
-      // return new Promise<{ success: boolean; data: any; message: string }>(
-      //   (resolve) => {
-      //     const interval = setInterval(() => {
-      //       clearInterval(interval);
-      //       // Simulate successful reupload
-      //       resolve({
-      //         success: true,
-      //         data: {
-      //           fileId: fileId, // Keep same ID for reupload
-      //           fileName: newFile.name,
-      //           fileSize: newFile.size,
-      //           fileType: newFile.type,
-      //           collection: collection,
-      //           url: `https://fake-cdn.com/uploads/${collection}/${
-      //             newFile.name
-      //           }?updated=${Date.now()}`,
-      //         },
-      //         message: "File reuploaded successfully",
-      //       });
-      //     }, 1500); // Slightly faster for reupload (1.5 seconds)
-      //   }
-      // );
     } catch (error) {
-      console.error("Error reuploading file:", error);
       return {
         success: false,
         data: null,
-        message: "Error reuploading file",
+        message:
+          error instanceof Error ? error.message : "Error reuploading file",
       };
     }
   },
-  createBOQProject: async (projectId: string, data: BOQData) => {
-    try {
-      const response = await new Promise((resolve) => {
-        setTimeout(() => {
-          resolve({
-            success: true,
-            message: "BOQ created successfully",
-            data: {
-              projectId,
-              boq: data,
-            },
-          });
-        }, 1500);
-      });
 
-      return response;
+  createBOQProject: async (
+    projectId: string,
+    data: BOQData
+  ): Promise<ApiResponse> => {
+    try {
+      const apiBOQData = {
+        source: "manual",
+        total_expected: data.total_amount,
+        items: data.items.map((item) => ({
+          name: item.name,
+          description: item.description,
+          unit_id: item.unit_id.toString(),
+          quantity: item.quantity,
+          unit_price: item.unit_price,
+          line_total: item.quantity * item.unit_price,
+          sort_order: item.sort_order,
+          is_required: item.is_required,
+        })),
+      };
+
+      const response = await api.post(
+        `/projects/${projectId}/boq/manual-with-items`,
+        apiBOQData
+      );
+      return response.data;
     } catch (error) {
-      console.error("Error creating BOQ project:", error);
       return {
         success: false,
-        message: "Failed to create BOQ",
-        data: null,
+        message:
+          error instanceof Error ? error.message : "Failed to create BOQ",
       };
     }
   },
-  updateBOQProject: async (projectId: string, data: BOQData) => {
+  updateBOQProject: async (
+    projectId: string,
+    data: BOQData
+  ): Promise<ApiResponse> => {
     try {
-      const response = await new Promise((resolve) => {
-        setTimeout(() => {
-          resolve({
-            success: true,
-            message: "BOQ updated successfully",
-            data: {
-              projectId,
-              boq: data,
-            },
-          });
-        }, 1500);
-      });
+      const apiBOQData = {
+        source: "manual",
+        total_expected: data.total_amount,
+        items: data.items.map((item) => ({
+          name: item.name,
+          description: item.description,
+          unit_id: item.unit_id.toString(),
+          quantity: item.quantity,
+          unit_price: item.unit_price,
+          line_total: item.quantity * item.unit_price,
+          sort_order: item.sort_order,
+          is_required: item.is_required,
+        })),
+      };
 
-      return response;
+      const response = await api.put(
+        `/project-boqs/${projectId}/manual-with-items`,
+        apiBOQData
+      );
+      return response.data;
     } catch (error) {
-      console.error("Error updating BOQ project:", error);
       return {
         success: false,
-        message: "Failed to update BOQ",
-        data: null,
+        message:
+          error instanceof Error ? error.message : "Failed to update BOQ",
       };
     }
   },
   handlePublishSettingsProject: async (
     projectId: string,
     data: PublishSettings
-  ) => {
+  ): Promise<ApiResponse> => {
     try {
-      const response = await new Promise((resolve) => {
-        setTimeout(() => {
-          resolve({
-            success: true,
-            message: "Publish settings saved successfully",
-            data: {
-              ...data,
-              projectId,
-              publish_settings: data,
-            },
-          });
-        }, 1500);
-      });
-
-      return response;
+      const response = await api.post(
+        `/projects/${projectId}/publishing-settings`,
+        data
+      );
+      return response.data;
     } catch (error) {
-      console.error("Error handling publish settings:", error);
       return {
         success: false,
-        message: "Failed to save publish settings",
-        data: null,
+        message:
+          error instanceof Error
+            ? error.message
+            : "Failed to save publish settings",
       };
     }
   },
-  handleSendProjectToReview: async (projectId: string) => {
+  handleSendProjectToReview: async (
+    projectId: string
+  ): Promise<ApiResponse> => {
     try {
-      const response = await new Promise((resolve) => {
-        setTimeout(() => {
-          resolve({
-            success: true,
-            message: "Project sent to review successfully",
-            data: {
-              projectId,
-              project: {
-                id: projectId,
-                status: { status: "pending_review" },
-              },
-            },
-          });
-        }, 2000);
-      });
+      const response = await api.post(`/projects/${projectId}/review-requests`);
+      return response.data;
+    } catch (error: unknown) {
+      const errorMessage =
+        error &&
+        typeof error === "object" &&
+        "response" in error &&
+        error.response &&
+        typeof error.response === "object" &&
+        "data" in error.response &&
+        error.response.data &&
+        typeof error.response.data === "object" &&
+        "message" in error.response.data
+          ? String(error.response.data.message)
+          : error instanceof Error
+          ? error.message
+          : "Failed to send project to review";
 
-      return response;
-    } catch (error) {
-      console.error("Error sending project to review:", error);
       return {
         success: false,
-        message: "Failed to send project to review",
-        data: null,
+        message: errorMessage,
       };
     }
   },
