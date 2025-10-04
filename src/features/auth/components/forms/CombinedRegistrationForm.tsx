@@ -110,12 +110,9 @@ const CombinedRegistrationForm: React.FC<{ role: string }> = ({ role }) => {
       ...(role === "engineering_office" && {
         business_name: "",
         license_number: "",
-        commercial_register_number: "",
-        commercial_register_file: undefined,
       }),
       ...(role === "freelance_engineer" && {
         engineers_association_number: "",
-        commercial_register_file: undefined,
       }),
       ...(role === "contractor" && {
         business_name: "",
@@ -540,92 +537,25 @@ const CombinedRegistrationForm: React.FC<{ role: string }> = ({ role }) => {
                         </FormItem>
                       )}
                     />
-                    <FormField
-                      control={form.control}
-                      name="commercial_register_number"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>
-                            {authT("personalInfo.commercialRegisterNumber")}
-                          </FormLabel>
-                          <FormControl>
-                            <Input {...field} disabled={isLoading} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="commercial_register_file"
-                      render={({ field: { onChange, value, ...field } }) => (
-                        <FormItem>
-                          <FormControl>
-                            <FileUpload
-                              value={value}
-                              onChange={onChange}
-                              disabled={isLoading}
-                              label={authT(
-                                "personalInfo.commercialRegisterFile"
-                              )}
-                              placeholder={authT(
-                                "personalInfo.commercialRegisterFile"
-                              )}
-                              accept=".pdf,.jpg,.jpeg,.png,.webp"
-                              maxSizeMB={8}
-                              id="commercial-register-file-upload-engineering"
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
                   </>
                 )}
 
                 {role === "freelance_engineer" && (
-                  <>
-                    <FormField
-                      control={form.control}
-                      name="engineers_association_number"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>
-                            {authT("personalInfo.engineersAssociationNumber")}
-                          </FormLabel>
-                          <FormControl>
-                            <Input {...field} disabled={isLoading} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="commercial_register_file"
-                      render={({ field: { onChange, value, ...field } }) => (
-                        <FormItem>
-                          <FormControl>
-                            <FileUpload
-                              value={value}
-                              onChange={onChange}
-                              disabled={isLoading}
-                              label={authT(
-                                "personalInfo.commercialRegisterFile"
-                              )}
-                              placeholder={authT(
-                                "personalInfo.commercialRegisterFile"
-                              )}
-                              accept=".pdf,.jpg,.jpeg,.png,.webp"
-                              maxSizeMB={8}
-                              id="commercial-register-file-upload-freelance"
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </>
+                  <FormField
+                    control={form.control}
+                    name="engineers_association_number"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>
+                          {authT("personalInfo.engineersAssociationNumber")}
+                        </FormLabel>
+                        <FormControl>
+                          <Input {...field} disabled={isLoading} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
                 )}
 
                 {/* Terms and Privacy - Note: Terms validation is handled separately */}

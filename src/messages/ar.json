@@ -507,8 +507,8 @@
       "confirmPassword": "تأكيد كلمة المرور",
       "nationalId": "رقم الهوية الوطنية",
       "commercialRegisterNumber": "رقم السجل التجاري",
-      "licenseNumber": "رقم الترخيص",
-      "engineersAssociationNumber": "رقم نقابة المهندسين",
+      "licenseNumber": "رقم الترخيص المهني",
+      "engineersAssociationNumber": "رقم العضوية في هيئة المهندسين",
       "businessName": "اسم الشركة",
       "commercialRegisterFile": "ملف السجل التجاري",
       "continue": "متابعة"
@@ -891,8 +891,8 @@
         "phoneNumber": "رقم الهاتف",
         "nationalId": "رقم الهوية الوطنية",
         "commercialRegisterNumber": "رقم السجل التجاري",
-        "licenseNumber": "رقم الترخيص",
-        "engineersAssociationNumber": "رقم نقابة المهندسين",
+        "licenseNumber": "رقم الترخيص المهني",
+        "engineersAssociationNumber": "رقم العضوية في هيئة المهندسين",
         "country": "البلد",
         "city": "المدينة",
         "state": "المحافظة",
@@ -931,7 +931,7 @@
         "description": "تحديث معلومات المهندس المستقل والتفاصيل",
         "fullName": "الاسم الكامل",
         "nationalId": "رقم الهوية الوطنية",
-        "engineersAssociationNumber": "رقم نقابة المهندسين",
+        "engineersAssociationNumber": "رقم العضوية في هيئة المهندسين",
         "engineeringType": "نوع الهندسة",
         "experienceYearsRange": "نطاق سنوات الخبرة",
         "isAssociatedWithOffice": "مرتبط بمكتب",
@@ -1730,8 +1730,8 @@
         "maxLength": "يجب ألا يتجاوز رقم الهوية الوطنية 20 حرفاً"
       },
       "engineersAssociationNumber": {
-        "required": "رقم نقابة المهندسين مطلوب",
-        "maxLength": "يجب ألا يتجاوز رقم نقابة المهندسين 50 حرفاً"
+        "required": "رقم العضوية في هيئة المهندسين مطلوب",
+        "maxLength": "يجب ألا يتجاوز رقم العضوية في هيئة المهندسين 50 حرفاً"
       },
       "country": {
         "required": "البلد مطلوب"

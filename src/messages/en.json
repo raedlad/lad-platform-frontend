@@ -514,8 +514,8 @@
       "confirmPassword": "Confirm Password",
       "nationalId": "National ID",
       "commercialRegisterNumber": "Commercial Register Number",
-      "licenseNumber": "License Number",
-      "engineersAssociationNumber": "Engineers Association Number",
+      "licenseNumber": "Professional License Number",
+      "engineersAssociationNumber": "Engineers Association Membership Number",
       "businessName": "Business Name",
       "commercialRegisterFile": "Commercial Register File",
       "continue": "Continue"
@@ -897,8 +897,8 @@
         "phoneNumber": "Phone Number",
         "nationalId": "National ID",
         "commercialRegisterNumber": "Commercial Register Number",
-        "licenseNumber": "License Number",
-        "engineersAssociationNumber": "Engineers Association Number",
+        "licenseNumber": "Professional License Number",
+        "engineersAssociationNumber": "Engineers Association Membership Number",
         "country": "Country",
         "city": "City",
         "state": "State",
@@ -937,7 +937,7 @@
         "description": "Update your freelance engineer information and contact details",
         "fullName": "Full Name",
         "nationalId": "National ID",
-        "engineersAssociationNumber": "Engineers Association Number",
+        "engineersAssociationNumber": "Engineers Association Membership Number",
         "engineeringType": "Engineering Type",
         "experienceYearsRange": "Experience Years Range",
         "isAssociatedWithOffice": "Is Associated with Office",
@@ -1790,8 +1790,8 @@
         "maxLength": "National ID must not exceed 20 characters"
       },
       "engineersAssociationNumber": {
-        "required": "Engineers association number is required",
-        "maxLength": "Engineers association number must not exceed 50 characters"
+        "required": "Engineers association membership number is required",
+        "maxLength": "Engineers association membership number must not exceed 50 characters"
       },
       "country": {
         "required": "Country is required"

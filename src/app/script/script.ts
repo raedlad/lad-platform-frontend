@@ -1,5 +1,4 @@
-export const BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL || "https://admin.lad.sa";
+export const BASE_URL = "https://admin.lad.sa";
 
 type HttpError = Error & {
   response: {
@@ -50,7 +49,8 @@ const getXsrfToken = (): string | undefined => {
 };
 
 const fetchCsrfCookie = async (): Promise<void> => {
-  const response = await fetch(buildUrl("/sanctum/csrf-cookie"), {
+  // Use the correct CSRF endpoint URL directly
+  const response = await fetch("https://admin.lad.sa/sanctum/csrf-cookie", {
     method: "GET",
     credentials: "include",
     headers: {
@@ -60,13 +60,17 @@ const fetchCsrfCookie = async (): Promise<void> => {
   });
 
   if (!response.ok) {
-    throw new Error(`CSRF cookie request failed with status ${response.status}`);
+    throw new Error(
+      `CSRF cookie request failed with status ${response.status}`
+    );
   }
 
   cachedXsrfToken = readCookie("XSRF-TOKEN");
 };
 
-const normaliseBody = (body: unknown): {
+const normaliseBody = (
+  body: unknown
+): {
   payload?: BodyInit;
   contentType?: string;
 } => {
@@ -110,7 +114,10 @@ const safeParse = async (response: Response): Promise<unknown> => {
   return null;
 };
 
-const request = async <T>(path: string, options: RequestOptions): Promise<{ data: T }> => {
+const request = async <T>(
+  path: string,
+  options: RequestOptions
+): Promise<{ data: T }> => {
   const { payload, contentType } = normaliseBody(options.body);
   const method = (options.method ?? "GET").toUpperCase();
 

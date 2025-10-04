@@ -106,36 +106,6 @@ export const createValidationSchemas = (t: (key: string) => string) => {
       .string({ error: messages.licenseNumber.required })
       .min(1, messages.licenseNumber.required)
       .max(50, messages.licenseNumber.maxLength),
-    commercial_register_number: z
-      .string({ error: messages.commercialRegisterNumber.required })
-      .regex(
-        commercialRegisterRegex,
-        messages.commercialRegisterNumber.invalid
-      ),
-    commercial_register_file: z
-      .any()
-      .refine((file) => file instanceof File, {
-        message: messages.commercialRegisterFile.required,
-      })
-      .refine((file) => !file || file.size <= 8 * 1024 * 1024, {
-        message: messages.commercialRegisterFile.maxSize,
-      })
-      .refine(
-        (file) => {
-          if (!file) return true;
-          const allowedTypes = [
-            "application/pdf",
-            "image/jpeg",
-            "image/jpg",
-            "image/png",
-            "image/webp",
-          ];
-          return allowedTypes.includes(file.type);
-        },
-        {
-          message: messages.commercialRegisterFile.invalidType,
-        }
-      ),
   });
 
   const freelanceEngineerRegistrationSchema = baseRegistrationSchema.extend({
@@ -143,30 +113,6 @@ export const createValidationSchemas = (t: (key: string) => string) => {
       .string({ error: messages.engineersAssociationNumber.required })
       .max(50, messages.engineersAssociationNumber.maxLength)
       .min(1, messages.engineersAssociationNumber.required),
-    commercial_register_file: z
-      .any()
-      .refine((file) => file instanceof File, {
-        message: messages.commercialRegisterFile.required,
-      })
-      .refine((file) => !file || file.size <= 8 * 1024 * 1024, {
-        message: messages.commercialRegisterFile.maxSize,
-      })
-      .refine(
-        (file) => {
-          if (!file) return true;
-          const allowedTypes = [
-            "application/pdf",
-            "image/jpeg",
-            "image/jpg",
-            "image/png",
-            "image/webp",
-          ];
-          return allowedTypes.includes(file.type);
-        },
-        {
-          message: messages.commercialRegisterFile.invalidType,
-        }
-      ),
   });
 
   const contractorRegistrationSchema = baseRegistrationSchema.extend({
