@@ -1,3 +1,4 @@
+"use client";
 import { useEffect, useState } from "react";
 import type { FormEvent } from "react";
 import api, { BASE_URL } from "./script";
