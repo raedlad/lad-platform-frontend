@@ -103,7 +103,7 @@ export const authApi = {
 
     try {
       // Fetch CSRF cookie before social login
-      await csrfService.fetchCsrfCookie();
+      // await csrfService.fetchCsrfCookie();
 
       // Adjust endpoint/body to match your backend
       const response = await api.post(`/auth/social/${provider}`, {
@@ -168,10 +168,10 @@ export const authApi = {
     role: string
   ): Promise<ApiResponse<RegistrationResponse>> => {
     try {
-      // Fetch CSRF cookie before registration
-      await csrfService.fetchCsrfCookie();
+      // // Fetch CSRF cookie before registration
+      // await csrfService.fetchCsrfCookie();
 
-      console.log("🔄 Second handshake: Starting registration request");
+      // console.log("🔄 Second handshake: Starting registration request");
       let response;
 
       // Check if this is organization, freelance engineer, engineering office, contractor, or supplier registration (use FormData for file upload)
@@ -587,17 +587,13 @@ export const authApi = {
 
     try {
       // Fetch CSRF cookie before login
-      await csrfService.fetchCsrfCookie();
+      // await csrfService.fetchCsrfCookie();
 
-      console.log("🔄 Second handshake: Starting login request");
+      // console.log("🔄 Second handshake: Starting login request");
       const response = await api.post("/auth/login", {
         identifier: data.email || data.phoneNumber,
         password: data.password,
       });
-
-      console.log(
-        "✅ Second handshake completed: Authentication request successful"
-      );
 
       // Extract user data and tokens from the response
       const userData = response.data?.response;
@@ -708,7 +704,7 @@ export const authApi = {
 
     try {
       // Fetch CSRF cookie before forgot password request
-      await csrfService.fetchCsrfCookie();
+      // await csrfService.fetchCsrfCookie();
 
       const response = await api.post(
         "/auth/verification/forgot-password",
