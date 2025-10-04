@@ -11,6 +11,7 @@ export const api = axios.create({
     "Content-Type": "application/json",
     "Accept-Language": getLocaleFromClient(),
   },
+  withCredentials: true,
 });
 
 // Request interceptor for adding auth tokens, etc.
