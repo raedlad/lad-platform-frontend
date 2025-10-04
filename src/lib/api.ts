@@ -3,7 +3,9 @@ import { getLocaleFromClient, defaultLocale } from "@/i18n";
 
 // Create axios instance with base configuration
 export const api = axios.create({
-  baseURL: "https://moatasem.pinpaiss.com/api/v1/",
+  baseURL:
+    process.env.NEXT_PUBLIC_API_BASE_URL ||
+    "https://moatasem.pinpaiss.com/api/v1/",
   timeout: 30000, // 10 seconds timeout
   headers: {
     "Content-Type": "application/json",
