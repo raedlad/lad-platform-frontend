@@ -1,208 +1,253 @@
-"use client";
+import { useEffect, useState } from "react";
+import type { FormEvent } from "react";
+import api, { BASE_URL } from "./script";
 
-import React, { useState } from "react";
+type MeResponse = Record<string, unknown>;
 
-// Import the API utility
-import api from "./script";
+type ErrorWithResponse = {
+  response?: {
+    status?: number;
+    data?: unknown;
+  };
+  message?: string;
+};
 
-interface ApiResponse {
-  data?: any;
-  error?: string;
-  status?: number;
-  loading: boolean;
-}
+const safeStringify = (value: unknown): string => {
+  if (typeof value === "string") {
+    return value;
+  }
+  if (value === undefined) {
+    return "";
+  }
+  try {
+    return JSON.stringify(value);
+  } catch {
+    return String(value);
+  }
+};
 
-export default function ApiTestPage() {
-  const [endpoint, setEndpoint] = useState("/api/test");
-  const [method, setMethod] = useState<"GET" | "POST">("GET");
-  const [requestBody, setRequestBody] = useState("");
-  const [response, setResponse] = useState<ApiResponse>({ loading: false });
+const describeError = (
+  error: unknown
+): { status: number | "unknown"; detail: string } => {
+  if (error && typeof error === "object") {
+    const err = error as ErrorWithResponse;
+    const status = err.response?.status ?? "unknown";
+    const detailSource = err.response?.data ?? err.message ?? error;
 
-  const handleApiCall = async () => {
-    setResponse({ loading: true });
+    return { status, detail: safeStringify(detailSource) };
+  }
 
-    try {
-      let result;
+  return {
+    status: "unknown",
+    detail: safeStringify(error),
+  };
+};
 
-      if (method === "GET") {
-        result = await api.get(endpoint);
-      } else {
-        const body = requestBody.trim() ? JSON.parse(requestBody) : undefined;
-        result = await api.post(endpoint, body);
+export default function App() {
+  const [email, setEmail] = useState("admin@gmail.com");
+  const [password, setPassword] = useState("password123");
+  const [me, setMe] = useState<MeResponse | null>(null);
+  const [status, setStatus] = useState("Ready");
+  const [logs, setLogs] = useState<string[]>([]);
+
+  const log = (msg: string) =>
+    setLogs((previousLogs) => [`> ${msg}`, ...previousLogs]);
+
+  // (اختياري) جلب CSRF عند التحميل الأول
+  useEffect(() => {
+    (async () => {
+      try {
+        setStatus("Fetching CSRF cookie…");
+        await api.get("/sanctum/csrf-cookie");
+        setStatus("CSRF cookie fetched");
+        log(`GET ${BASE_URL}/sanctum/csrf-cookie ✅`);
+      } catch (e) {
+        setStatus("Failed to get CSRF");
+        const { status: errorStatus, detail } = describeError(e);
+        log(`CSRF error: ${errorStatus} ${detail}`);
       }
+    })();
+  }, []);
 
-      setResponse({
-        data: result.data,
-        loading: false,
-      });
-    } catch (error: any) {
-      setResponse({
-        error: error.message || "An error occurred",
-        status: error.response?.status,
-        loading: false,
-      });
+  const handleLogin = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    try {
+      setStatus("Logging in…");
+      await api.post("/login", { email, password });
+      setStatus("Logged in ✅");
+      log(`POST ${BASE_URL}/login ✅`);
+    } catch (e) {
+      setStatus("Login failed");
+      const { status: errorStatus, detail } = describeError(e);
+      log(`Login error: ${errorStatus} ${detail}`);
     }
   };
 
-  const formatJson = (data: any) => {
+  const handleMe = async () => {
     try {
-      return JSON.stringify(data, null, 2);
-    } catch {
-      return String(data);
+      setStatus("Calling /api/me…");
+      const { data } = await api.get<MeResponse>("/api/me");
+      setMe(data);
+      setStatus("Got /api/me ✅");
+      log(`GET ${BASE_URL}/api/me ✅ => ${JSON.stringify(data)}`);
+    } catch (e) {
+      setStatus("Call /api/me failed");
+      setMe(null);
+      const { status: errorStatus, detail } = describeError(e);
+      log(`Me error: ${errorStatus} ${detail}`);
+    }
+  };
+
+  const handleLogout = async () => {
+    try {
+      setStatus("Logging out…");
+      await api.post("/logout");
+      setMe(null);
+      setStatus("Logged out ✅");
+      log(`POST ${BASE_URL}/logout ✅`);
+    } catch (e) {
+      setStatus("Logout failed");
+      const { status: errorStatus, detail } = describeError(e);
+      log(`Logout error: ${errorStatus} ${detail}`);
+    }
+  };
+
+  const handleFullFlow = async () => {
+    // فلو كامل: csrf -> login -> me
+    try {
+      setStatus("Flow: CSRF -> Login -> Me …");
+      await api.get("/sanctum/csrf-cookie");
+      await api.post("/login", { email, password });
+      const { data } = await api.get<MeResponse>("/api/me");
+      setMe(data);
+      setStatus("Flow done ✅");
+      log("Flow done ✅");
+    } catch (e) {
+      setStatus("Flow failed");
+      const { status: errorStatus, detail } = describeError(e);
+      log(`Flow error: ${errorStatus} ${detail}`);
     }
   };
 
   return (
-    <div className="container mx-auto p-6 max-w-4xl">
-      <div className="bg-white rounded-lg shadow-lg p-6">
-        <div className="mb-6">
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">
-            API Test Interface
-          </h1>
-          <p className="text-gray-600">
-            Test your API endpoints using the configured API client
-          </p>
-        </div>
+    <div
+      style={{
+        fontFamily: "sans-serif",
+        maxWidth: 720,
+        margin: "30px auto",
+        padding: 16,
+      }}
+    >
+      <h1>Sanctum Cookie Auth — React Demo</h1>
+      <p>
+        <strong>API:</strong> {BASE_URL}
+      </p>
 
-        {/* Request Configuration */}
-        <div className="mb-8">
-          <h3 className="text-lg font-semibold text-gray-800 mb-4">
-            Request Configuration
-          </h3>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                HTTP Method
-              </label>
-              <select
-                value={method}
-                onChange={(e) => setMethod(e.target.value as "GET" | "POST")}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                <option value="GET">GET</option>
-                <option value="POST">POST</option>
-              </select>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Endpoint
-              </label>
-              <input
-                type="text"
-                value={endpoint}
-                onChange={(e) => setEndpoint(e.target.value)}
-                placeholder="/api/endpoint"
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
+      <section
+        style={{
+          marginTop: 16,
+          padding: 12,
+          border: "1px solid #ddd",
+          borderRadius: 8,
+        }}
+      >
+        <h3>Login</h3>
+        <form onSubmit={handleLogin} style={{ display: "grid", gap: 8 }}>
+          <label>
+            Email
+            <input
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              style={{ width: "100%", padding: 8 }}
+            />
+          </label>
+          <label>
+            Password
+            <input
+              value={password}
+              type="password"
+              onChange={(e) => setPassword(e.target.value)}
+              style={{ width: "100%", padding: 8 }}
+            />
+          </label>
+          <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+            <button type="submit">Login</button>
+            <button type="button" onClick={handleMe}>
+              /api/me
+            </button>
+            <button type="button" onClick={handleLogout}>
+              Logout
+            </button>
+            <button type="button" onClick={handleFullFlow}>
+              Run Full Flow
+            </button>
+            <button
+              type="button"
+              onClick={async () => {
+                try {
+                  await api.get("/sanctum/csrf-cookie");
+                  setStatus("CSRF refetched");
+                  log("Refetched CSRF ✅");
+                } catch (e) {
+                  setStatus("CSRF failed");
+                  const { status: errorStatus, detail } = describeError(e);
+                  log(`CSRF error: ${errorStatus} ${detail}`);
+                }
+              }}
+            >
+              Refresh CSRF
+            </button>
           </div>
+        </form>
+      </section>
 
-          {method === "POST" && (
-            <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Request Body (JSON)
-              </label>
-              <textarea
-                value={requestBody}
-                onChange={(e) => setRequestBody(e.target.value)}
-                placeholder='{"key": "value"}'
-                rows={6}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 font-mono text-sm"
-              />
-            </div>
-          )}
+      <section
+        style={{
+          marginTop: 16,
+          padding: 12,
+          border: "1px solid #ddd",
+          borderRadius: 8,
+        }}
+      >
+        <h3>Status</h3>
+        <div>{status}</div>
+      </section>
 
-          <button
-            onClick={handleApiCall}
-            disabled={response.loading}
-            className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
-          >
-            {response.loading ? "Sending Request..." : "Send Request"}
-          </button>
-        </div>
+      <section
+        style={{
+          marginTop: 16,
+          padding: 12,
+          border: "1px solid #ddd",
+          borderRadius: 8,
+        }}
+      >
+        <h3>/api/me (protected)</h3>
+        <pre style={{ background: "#f8f8f8", padding: 8, overflowX: "auto" }}>
+          {me ? JSON.stringify(me, null, 2) : "No data"}
+        </pre>
+      </section>
 
-        <div className="border-t pt-6 mb-6"></div>
-
-        {/* Response Display */}
-        <div className="mb-8">
-          <h3 className="text-lg font-semibold text-gray-800 mb-4">Response</h3>
-
-          {response.loading && (
-            <div className="flex items-center justify-center p-8">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
-              <span className="ml-2 text-gray-600">Loading...</span>
-            </div>
-          )}
-
-          {response.error && (
-            <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-              <div className="flex items-center mb-2">
-                <span className="bg-red-600 text-white px-2 py-1 rounded text-sm font-medium">
-                  Error
-                </span>
-                {response.status && (
-                  <span className="ml-2 text-red-800 font-medium">
-                    Status: {response.status}
-                  </span>
-                )}
-              </div>
-              <pre className="text-red-700 whitespace-pre-wrap font-mono text-sm">
-                {response.error}
-              </pre>
-            </div>
-          )}
-
-          {response.data && !response.loading && (
-            <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-              <div className="flex items-center mb-2">
-                <span className="bg-green-600 text-white px-2 py-1 rounded text-sm font-medium">
-                  Success
-                </span>
-                <span className="ml-2 text-green-800 font-medium">
-                  Response Data
-                </span>
-              </div>
-              <pre className="text-green-700 whitespace-pre-wrap font-mono text-sm overflow-auto max-h-96">
-                {formatJson(response.data)}
-              </pre>
-            </div>
-          )}
-
-          {!response.loading && !response.error && !response.data && (
-            <div className="text-center text-gray-500 p-8">
-              No response yet. Click "Send Request" to test an endpoint.
-            </div>
-          )}
-        </div>
-
-        <div className="border-t pt-6"></div>
-
-        {/* API Information */}
-        <div>
-          <h3 className="text-lg font-semibold text-gray-800 mb-4">
-            API Information
-          </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-            <div>
-              <strong className="text-gray-800">Base URL:</strong>
-              <p className="text-gray-600 font-mono mt-1">
-                {process.env.NEXT_PUBLIC_API_BASE_URL || "https://admin.lad.sa"}
-              </p>
-            </div>
-            <div>
-              <strong className="text-gray-800">Features:</strong>
-              <ul className="text-gray-600 list-disc list-inside mt-1">
-                <li>CSRF Token Handling</li>
-                <li>Automatic Cookie Management</li>
-                <li>Error Handling</li>
-                <li>JSON Response Parsing</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
+      <section
+        style={{
+          marginTop: 16,
+          padding: 12,
+          border: "1px solid #ddd",
+          borderRadius: 8,
+        }}
+      >
+        <h3>Logs</h3>
+        <pre
+          style={{
+            background: "#0b1020",
+            color: "#bde",
+            padding: 8,
+            minHeight: 120,
+            overflowX: "auto",
+          }}
+        >
+          {logs.join("\n")}
+        </pre>
+      </section>
     </div>
   );
 }
