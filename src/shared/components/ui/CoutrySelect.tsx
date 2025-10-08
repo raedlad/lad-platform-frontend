@@ -36,6 +36,7 @@ interface CountrySelectProps {
   enableSearch?: boolean;
   placeholder?: string;
   label?: string;
+  hasLabel?: boolean;
 }
 
 export const CountrySelection: React.FC<CountrySelectProps> = ({
@@ -46,6 +47,7 @@ export const CountrySelection: React.FC<CountrySelectProps> = ({
   enableSearch = true,
   placeholder,
   label,
+  hasLabel = true,
 }) => {
   const t = useTranslations();
   const { countries } = useGetCountries();
@@ -119,10 +121,14 @@ export const CountrySelection: React.FC<CountrySelectProps> = ({
     if (data.length === 0 && isLoading) {
       return (
         <div className="space-y-2">
-          <div className="flex items-center gap-2">
-            {Icon && <Icon className="text-design-main p-1" />}
-            <label className="text-sm font-medium">{label}</label>
-          </div>
+          {hasLabel && (
+            <div className="flex items-center gap-2">
+              {Icon && <Icon className="text-design-main p-1" />}
+              {label && hasLabel && (
+                <label className="text-sm font-medium">{label}</label>
+              )}
+            </div>
+          )}
           <div className="flex h-10 w-full items-center justify-center rounded-md border border-input bg-background px-3 py-2 text-sm">
             <span className="text-muted-foreground">
               {t("common.select.loading")}
@@ -247,10 +253,12 @@ export const CountrySelection: React.FC<CountrySelectProps> = ({
 
     return (
       <div className="space-y-2">
-        <div className="flex items-center gap-2">
-          {Icon && <Icon className="text-design-main p-1" />}
-          <label className="text-sm font-medium">{label}</label>
-        </div>
+        {hasLabel && (
+          <div className="flex items-center gap-2">
+            {Icon && <Icon className="text-design-main p-1" />}
+            <label className="text-sm font-medium">{label}</label>
+          </div>
+        )}
         <Popover open={open} onOpenChange={handleOpenChange}>
           <PopoverTrigger asChild>
             <Button
@@ -348,12 +356,14 @@ export const CountrySelection: React.FC<CountrySelectProps> = ({
   if (error && countries.length === 0) {
     return (
       <div className="space-y-2">
-        <div className="flex items-center gap-2">
-          <MapPin className="text-design-main p-1" />
-          <label className="text-sm font-medium">
-            {label || t("common.select.country")}
-          </label>
-        </div>
+        {hasLabel && (
+          <div className="flex items-center gap-2">
+            <MapPin className="text-design-main p-1" />
+            <label className="text-sm font-medium">
+              {label || t("common.select.country")}
+            </label>
+          </div>
+        )}
         <div className="flex h-10 w-full items-center justify-center rounded-md border border-destructive bg-destructive/10 px-3 py-2 text-sm">
           <span className="text-destructive">Error loading countries</span>
         </div>
@@ -386,12 +396,12 @@ export const CountrySelection: React.FC<CountrySelectProps> = ({
         />
       ) : (
         <div key="country-select" className="space-y-2">
-          <div className="flex items-center gap-2">
-            <MapPin className="text-design-main p-1" />
-            <label className="text-sm font-medium">
-              {label || t("common.select.country")}
-            </label>
-          </div>
+          {hasLabel && (
+            <div className="flex items-center gap-2">
+              <MapPin className="text-design-main p-1" />
+              <label className="text-sm font-medium">{label}</label>
+            </div>
+          )}
           <div className="flex h-10 w-full items-center justify-center rounded-md border border-input bg-background px-3 py-2 text-sm">
             <span className="text-muted-foreground">
               {countries && countries.length > 0

@@ -146,21 +146,22 @@ export const useRoleRegistration = () => {
         if (registrationResult.success) {
           // Registration successful - now we need to verify
           const verificationData = registrationResult.data?.response;
-          
+
           if (verificationData) {
             // Store intent token and code verifier from new response
             store.setVerificationToken(verificationData.intent_token);
             store.setCodeVerifier(verificationData.code_verifier);
-            
+
             // Store the contact info (email or phone) that was used for registration
-            const contactInfo = store.authMethod === 'email' 
-              ? registrationData.email 
-              : registrationData.phone;
+            const contactInfo =
+              store.authMethod === "email"
+                ? registrationData.email
+                : registrationData.phone;
             store.setVerificationContact(contactInfo);
-            
+
             // Store the full registration data to send during verification
             store.setRegistrationData(registrationData);
-            
+
             // Move to verification step
             store.goToNextStep();
             return { success: true };
@@ -215,17 +216,15 @@ export const useRoleRegistration = () => {
         // Get the contact info and auth method from the store
         const contactInfo = store.verificationContact;
         const authMethod = store.authMethod;
-        
+
         if (!contactInfo) {
           throw new Error(
             "Contact information not available for verification."
           );
         }
-        
-        if (!authMethod || (authMethod !== 'email' && authMethod !== 'phone')) {
-          throw new Error(
-            "Invalid authentication method."
-          );
+
+        if (!authMethod || (authMethod !== "email" && authMethod !== "phone")) {
+          throw new Error("Invalid authentication method.");
         }
 
         // Use the new verifyRegistrationIntent function
@@ -235,10 +234,7 @@ export const useRoleRegistration = () => {
           authMethod
         );
 
-        if (
-          verificationResult.success &&
-          verificationResult.data?.isVerified
-        ) {
+        if (verificationResult.success && verificationResult.data?.isVerified) {
           // User data should be returned in the verification response
           const userData = verificationResult.data?.response;
           if (userData) {
@@ -272,7 +268,7 @@ export const useRoleRegistration = () => {
 
       // Use the new resendRegistrationOtp function
       const resendResult = await authApi.resendRegistrationOtp();
-      
+
       if (resendResult.success) {
         return { success: true };
       } else {

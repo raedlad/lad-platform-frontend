@@ -190,7 +190,7 @@ export const authApi = {
         formData.append("password_confirmation", data.data.password || "");
         formData.append("user_type", role.toLowerCase());
         formData.append("phone", data.data.phone || "");
-        
+
         // Add country_id and phone_code
         if (data.data.country_id) {
           formData.append("country_id", String(data.data.country_id));
@@ -256,7 +256,7 @@ export const authApi = {
           phone: data.data.phone || "",
           phone_code: data.data.phone_code,
         };
-        
+
         // Add country_id if available
         if (data.data.country_id) {
           transformedData.country_id = String(data.data.country_id);
@@ -284,7 +284,8 @@ export const authApi = {
         success: true,
         data: {
           message:
-            response.data?.message || "Registration successful. Please verify your account.",
+            response.data?.message ||
+            "Registration successful. Please verify your account.",
           response: verificationData,
         },
         message: response.data?.message || "Registration successful",
@@ -405,9 +406,12 @@ export const authApi = {
   verifyRegistrationIntent: async (
     otp: string,
     contactInfo: string,
-    authMethod: 'email' | 'phone'
+    authMethod: "email" | "phone"
   ): Promise<ApiResponse<VerifyPhoneResponse>> => {
-    console.log("API Call: verifyRegistrationIntent", { contactInfo, authMethod });
+    console.log("API Call: verifyRegistrationIntent", {
+      contactInfo,
+      authMethod,
+    });
 
     try {
       // Get intent_token, code_verifier, and registration data from store
@@ -416,59 +420,68 @@ export const authApi = {
       const codeVerifier = storeState.codeVerifier;
       const registrationData = storeState.registrationData;
       const currentRole = storeState.currentRole;
-      
+
       if (!intentToken) {
         throw new Error("Intent token not found");
       }
-      
+
       if (!codeVerifier) {
         throw new Error("Code verifier not found");
       }
 
       // Check if we need to use FormData (for file uploads)
-      const hasFile = registrationData?.commercial_register_file instanceof File;
-      
+      const hasFile =
+        registrationData?.commercial_register_file instanceof File;
+
       let requestPayload: any;
       let headers: any = {};
 
       if (hasFile) {
         // Use FormData for file uploads
         const formData = new FormData();
-        
+
         // Add verification fields
         formData.append("code", otp);
         formData.append("code_verifier", codeVerifier);
-        
-        // Add contact info based on auth method
-        if (authMethod === 'email') {
-          formData.append("email", contactInfo);
-        } else {
-          formData.append("phone", contactInfo);
+
+        // Add both email and phone from registration data (same as initial registration)
+        if (registrationData?.email) {
+          formData.append("email", registrationData.email);
         }
-        
+        if (registrationData?.phone) {
+          formData.append("phone", registrationData.phone);
+        }
+
         // Add user_type
         if (currentRole) {
           formData.append("user_type", currentRole.toLowerCase());
         }
-        
+
         // Include all registration data (includes all role-specific fields)
         if (registrationData) {
           Object.entries(registrationData).forEach(([key, value]) => {
             // Skip fields we've already added and skip undefined/null
-            if (value !== undefined && value !== null && 
-                key !== 'email' && key !== 'phone') {
+            if (
+              value !== undefined &&
+              value !== null &&
+              key !== "email" &&
+              key !== "phone"
+            ) {
               if (value instanceof File) {
                 // Handle file upload (commercial_register_file)
                 formData.append(key, value);
-              } else if (typeof value === 'string' || typeof value === 'number') {
-                // Handle all other fields (name, password, national_id, business_name, 
+              } else if (
+                typeof value === "string" ||
+                typeof value === "number"
+              ) {
+                // Handle all other fields (name, password, national_id, business_name,
                 // commercial_register_number, license_number, engineers_association_number, etc.)
                 formData.append(key, String(value));
               }
             }
           });
         }
-        
+
         requestPayload = formData;
         headers = { "Content-Type": "multipart/form-data" };
       } else {
@@ -479,26 +492,30 @@ export const authApi = {
         };
 
         // Add contact info based on auth method
-        if (authMethod === 'email') {
+        if (authMethod === "email") {
           requestPayload.email = contactInfo;
         } else {
           requestPayload.phone = contactInfo;
         }
-        
+
         // Add user_type
         if (currentRole) {
           requestPayload.user_type = currentRole.toLowerCase();
         }
-        
+
         // Include registration data (includes all role-specific fields)
         if (registrationData) {
           Object.entries(registrationData).forEach(([key, value]) => {
             // Skip fields we've already added, skip files, and skip undefined/null
-            if (value !== undefined && value !== null && 
-                !(value instanceof File) && 
-                key !== 'email' && key !== 'phone') {
+            if (
+              value !== undefined &&
+              value !== null &&
+              !(value instanceof File) &&
+              key !== "email" &&
+              key !== "phone"
+            ) {
               // Ensure country_id is a string
-              if (key === 'country_id') {
+              if (key === "country_id") {
                 requestPayload[key] = String(value);
               } else {
                 requestPayload[key] = value;
@@ -516,11 +533,11 @@ export const authApi = {
 
       // Check if response includes user data (after successful verification)
       const userData = response.data?.response;
-      
+
       if (userData) {
         // Store user data and tokens
         const tokens = userData?.extra?.tokens;
-        
+
         if (tokens && userData) {
           tokenStorage.storeTokens(tokens, userData);
         }
@@ -567,7 +584,9 @@ export const authApi = {
   },
 
   // Resend Registration OTP (New registration flow)
-  resendRegistrationOtp: async (): Promise<ApiResponse<{ message: string }>> => {
+  resendRegistrationOtp: async (): Promise<
+    ApiResponse<{ message: string }>
+  > => {
     console.log("API Call: resendRegistrationOtp");
 
     try {
@@ -577,7 +596,9 @@ export const authApi = {
         throw new Error("Intent token not found");
       }
 
-      const response = await api.post(`/auth/register-intents/${intentToken}/send`);
+      const response = await api.post(
+        `/auth/register-intents/${intentToken}/send`
+      );
 
       return {
         success: true,
@@ -621,15 +642,18 @@ export const authApi = {
         Object.assign(requestPayload, data.registrationData);
       }
 
-      const response = await api.post("/auth/verification/verify-phone", requestPayload);
+      const response = await api.post(
+        "/auth/verification/verify-phone",
+        requestPayload
+      );
 
       // Check if response includes user data (after successful verification)
       const userData = response.data?.response;
-      
+
       if (userData) {
         // Store user data and tokens
         const tokens = userData?.extra?.tokens;
-        
+
         if (tokens && userData) {
           tokenStorage.storeTokens(tokens, userData);
         }
@@ -691,15 +715,18 @@ export const authApi = {
         Object.assign(requestPayload, data.registrationData);
       }
 
-      const response = await api.post("/auth/verification/verify-email", requestPayload);
+      const response = await api.post(
+        "/auth/verification/verify-email",
+        requestPayload
+      );
 
       // Check if response includes user data (after successful verification)
       const userData = response.data?.response;
-      
+
       if (userData) {
         // Store user data and tokens
         const tokens = userData?.extra?.tokens;
-        
+
         if (tokens && userData) {
           tokenStorage.storeTokens(tokens, userData);
         }

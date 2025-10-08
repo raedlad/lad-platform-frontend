@@ -315,6 +315,7 @@ const CombinedRegistrationForm: React.FC<{ role: string }> = ({ role }) => {
                               );
                             }
                           }}
+                          hasLabel={false}
                           disabled={isLoading}
                           placeholder={commonT("select.country")}
                         />
