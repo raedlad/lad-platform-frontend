@@ -71,7 +71,7 @@ interface FileItem {
   metadata: {
     customName: string;
     description: string;
-    expiryDate: string;
+    expiryDate: Date | undefined;
   };
   metadataErrors?: {
     customName?: string;
@@ -130,19 +130,10 @@ const ManualFileUploadZone: React.FC<ManualFileUploadZoneProps> = ({
     return <File className="w-4 h-4 text-gray-500" />;
   };
 
-  const validateDate = (dateString: string): string | null => {
-    if (!dateString.trim()) {
+  const validateDate = (date: Date | undefined): string | null => {
+    if (!date) {
       return null; // Empty date is allowed
     }
-
-    // Check if the date string matches YYYY-MM-DD format
-    const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
-    if (!dateRegex.test(dateString)) {
-      return t("validation.dateFormat");
-    }
-
-    // Parse the date
-    const date = new Date(dateString);
 
     // Check if it's a valid date
     if (isNaN(date.getTime())) {
@@ -217,7 +208,7 @@ const ManualFileUploadZone: React.FC<ManualFileUploadZoneProps> = ({
           metadata: {
             customName: file.name.split(".").slice(0, -1).join("."), // filename without extension as default
             description: "",
-            expiryDate: "",
+            expiryDate: undefined,
           },
           metadataErrors: {},
         };
@@ -321,7 +312,11 @@ const ManualFileUploadZone: React.FC<ManualFileUploadZoneProps> = ({
 
     try {
       // Upload file with metadata - store will now throw errors
-      await uploadFile(safeRole, safeDocId, fileItem.file, fileItem.metadata);
+      await uploadFile(safeRole, safeDocId, fileItem.file, {
+        customName: fileItem.metadata.customName,
+        description: fileItem.metadata.description,
+        expiryDate: fileItem.metadata.expiryDate ? fileItem.metadata.expiryDate.toISOString() : "",
+      });
 
       // Upload successful - show toast and remove from local state
       toast.success(t("toast.uploadSuccess"), {

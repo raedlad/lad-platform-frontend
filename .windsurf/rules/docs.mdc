@@ -1,0 +1,9 @@
+---
+alwaysApply: true
+---
+Reference the following files to stay on track with the project alignments: 
+@.windsurf/clean_code.md
+@.windsurf/code_quality.md
+@.windsurf/tailwind.md
+@.windsurf/tech.md
+@.windsurf/system_guide.md

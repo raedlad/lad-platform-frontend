@@ -91,6 +91,7 @@ export const useRoleRegistration = () => {
           password: data.password!,
           password_confirmation: data.password!,
           phone: data.phone!,
+          phone_code: data.phone_code,
           country_id: data.country_id || "SA", // Default to Saudi Arabia
         };
 
@@ -143,49 +144,29 @@ export const useRoleRegistration = () => {
         );
 
         if (registrationResult.success) {
-          // Store tokens and user data
-          if (
-            registrationResult.data?.response.extra.tokens &&
-            registrationResult.data?.response
-          ) {
-            tokenStorage.storeTokens(
-              registrationResult.data.response.extra.tokens,
-              registrationResult.data.response as any
-            );
+          // Registration successful - now we need to verify
+          const verificationData = registrationResult.data?.response;
+          
+          if (verificationData) {
+            // Store intent token and code verifier from new response
+            store.setVerificationToken(verificationData.intent_token);
+            store.setCodeVerifier(verificationData.code_verifier);
+            
+            // Store the contact info (email or phone) that was used for registration
+            const contactInfo = store.authMethod === 'email' 
+              ? registrationData.email 
+              : registrationData.phone;
+            store.setVerificationContact(contactInfo);
+            
+            // Store the full registration data to send during verification
+            store.setRegistrationData(registrationData);
+            
+            // Move to verification step
+            store.goToNextStep();
+            return { success: true };
+          } else {
+            throw new Error("No verification data received from server");
           }
-          if (registrationResult.data?.response) {
-            store.setUserData(
-              registrationResult.data.response as unknown as AuthUser
-            );
-          }
-
-          // Check if verification is required first
-          const verificationStatus =
-            registrationResult.data?.response.account_overview
-              ?.verification_status;
-
-          if (verificationStatus?.verification_required === true) {
-            // Check which type of verification is needed
-            if (
-              registrationResult.data?.response.account_overview
-                .verification_required.email_verification.has_token
-            ) {
-              store.setAuthMethod("email");
-              store.goToNextStep();
-              return { success: true };
-            } else if (
-              registrationResult.data?.response.account_overview
-                .verification_required.phone_verification.has_token
-            ) {
-              store.setAuthMethod("phone");
-              store.goToNextStep();
-              return { success: true };
-            }
-          }
-
-          // No verification required, go directly to dashboard
-          router.push("/dashboard");
-          return { success: true };
         } else {
           // Handle backend validation errors
           if (
@@ -231,58 +212,46 @@ export const useRoleRegistration = () => {
         store.setLoading(true);
         store.clearError();
 
-        const userFromStorage = tokenStorage.getUser();
-        const emailFromStore =
-          (store.roleData as RoleSpecificData).personalInfo?.email ||
-          (store.roleData as RoleSpecificData).thirdPartyInfo?.email ||
-          (store.roleData as RoleSpecificData).thirdPartyInfo?.email;
-        const phoneFromStore = (store.roleData as RoleSpecificData).phoneInfo
-          ?.phoneNumber;
-        const contactInfo =
-          store.authMethod === "phone"
-            ? phoneFromStore || userFromStorage?.phone
-            : emailFromStore || userFromStorage?.email;
+        // Get the contact info and auth method from the store
+        const contactInfo = store.verificationContact;
+        const authMethod = store.authMethod;
+        
         if (!contactInfo) {
           throw new Error(
             "Contact information not available for verification."
           );
         }
-        if (store.authMethod === "email") {
-          const verificationResult = await authApi.verifyEmail({
-            email: contactInfo as string,
-            token: code,
-          });
+        
+        if (!authMethod || (authMethod !== 'email' && authMethod !== 'phone')) {
+          throw new Error(
+            "Invalid authentication method."
+          );
+        }
 
-          if (
-            verificationResult.success &&
-            verificationResult.data?.isVerified
-          ) {
+        // Use the new verifyRegistrationIntent function
+        const verificationResult = await authApi.verifyRegistrationIntent(
+          code,
+          contactInfo,
+          authMethod
+        );
+
+        if (
+          verificationResult.success &&
+          verificationResult.data?.isVerified
+        ) {
+          // User data should be returned in the verification response
+          const userData = verificationResult.data?.response;
+          if (userData) {
+            store.setUserData(userData);
             store.setIsVerified(true);
-            // Don't change the step - let useRoleRedirect handle the redirect
-            return { success: true };
-          } else {
-            throw new Error(
-              verificationResult.message || "Invalid verification code"
-            );
           }
+          // Redirect to dashboard will be handled by useRoleRedirect
+          router.push("/dashboard");
+          return { success: true };
         } else {
-          const verificationResult = await authApi.verifyPhone({
-            phoneNumber: contactInfo as string,
-            token: code,
-          });
-
-          if (
-            verificationResult.success &&
-            verificationResult.data?.isVerified
-          ) {
-            store.setIsVerified(true);
-            // Don't change the step - let useRoleRedirect handle the redirect
-            return { success: true };
-          } else {
-            throw new Error(
-              verificationResult.message || "Invalid verification code"
-            );
-          }
+          throw new Error(
+            verificationResult.message || "Invalid verification code"
+          );
         }
       } catch (error) {
         const errorMessage =
@@ -293,7 +262,7 @@ export const useRoleRegistration = () => {
         store.setLoading(false);
       }
     },
-    [store]
+    [store, router]
   );
 
   const handleResendCode = useCallback(async () => {
@@ -301,34 +270,13 @@ export const useRoleRegistration = () => {
       store.setLoading(true);
       store.clearError();
 
-      const userFromStorage = tokenStorage.getUser();
-      const emailFromStore =
-        (store.roleData as RoleSpecificData).personalInfo?.email ||
-        (store.roleData as RoleSpecificData).thirdPartyInfo?.email;
-      const phoneFromStore = (store.roleData as RoleSpecificData).phoneInfo
-        ?.phoneNumber;
-      const contactInfo =
-        store.authMethod === "phone"
-          ? phoneFromStore || userFromStorage?.phone
-          : emailFromStore || userFromStorage?.email;
-      if (!contactInfo) {
-        throw new Error("Contact information not available to resend code.");
-      }
-
-      if (store.authMethod === "phone") {
-        const resendResult = await authApi.sendPhoneOtp(contactInfo as string);
-        if (resendResult.success) {
-          return { success: true };
-        } else {
-          throw new Error(resendResult.message || "Failed to resend code");
-        }
+      // Use the new resendRegistrationOtp function
+      const resendResult = await authApi.resendRegistrationOtp();
+      
+      if (resendResult.success) {
+        return { success: true };
       } else {
-        const resendResult = await authApi.resendEmailVerification();
-        if (resendResult.success) {
-          return { success: true };
-        } else {
-          throw new Error(resendResult.message || "Failed to resend code");
-        }
+        throw new Error(resendResult.message || "Failed to resend code");
       }
     } catch (error) {
       const errorMessage =
@@ -384,12 +332,10 @@ export const useRoleRegistration = () => {
   }, [store]);
 
   const getStepTitle = useCallback(() => {
-    // This would need to be implemented based on your step configuration
     return "Individual Registration";
   }, []);
 
   const getStepDescription = useCallback(() => {
-    // This would need to be implemented based on your step configuration
     return "Complete your individual registration";
   }, []);
 

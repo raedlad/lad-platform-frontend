@@ -30,6 +30,10 @@ import { Textarea } from "@/shared/components/ui/textarea";
 import NavigationButtons from "../../common/NavigationButtons";
 import { toast } from "react-hot-toast";
 import { LocationInput } from "../../common/LocationInput";
+import {
+  formatNumberWithCommas,
+  parseFormattedNumber,
+} from "@/lib/numberFormat";
 
 const EssentialInfoForm = ({ create }: { create?: boolean }) => {
   const t = useTranslations("");
@@ -232,16 +236,19 @@ const EssentialInfoForm = ({ create }: { create?: boolean }) => {
                       <FormControl>
                         <div className="relative">
                           <Input
-                            type="number"
-                            min={1}
+                            type="text"
                             inputMode="numeric"
                             className="pe-20"
-                            value={budgetField.value || ""}
+                            value={
+                              budgetField.value
+                                ? formatNumberWithCommas(budgetField.value)
+                                : ""
+                            }
                             onChange={(e) => {
                               const val = e.target.value;
-                              budgetField.onChange(
-                                val === "" ? 0 : Number(val)
-                              );
+                              const numericValue =
+                                val === "" ? 0 : parseFormattedNumber(val);
+                              budgetField.onChange(numericValue);
                             }}
                             disabled={isLoading}
                           />
@@ -282,16 +289,19 @@ const EssentialInfoForm = ({ create }: { create?: boolean }) => {
                       <FormControl>
                         <div className="relative">
                           <Input
-                            type="number"
-                            min={1}
+                            type="text"
                             inputMode="numeric"
                             className="pe-20"
-                            value={budgetField.value || ""}
+                            value={
+                              budgetField.value
+                                ? formatNumberWithCommas(budgetField.value)
+                                : ""
+                            }
                             onChange={(e) => {
                               const val = e.target.value;
-                              budgetField.onChange(
-                                val === "" ? 0 : Number(val)
-                              );
+                              const numericValue =
+                                val === "" ? 0 : parseFormattedNumber(val);
+                              budgetField.onChange(numericValue);
                             }}
                             disabled={isLoading}
                           />
@@ -334,16 +344,19 @@ const EssentialInfoForm = ({ create }: { create?: boolean }) => {
                       <FormControl>
                         <div className="relative">
                           <Input
-                            type="number"
-                            min={1}
+                            type="text"
                             inputMode="numeric"
                             className="pe-24"
-                            value={durationField.value || ""}
+                            value={
+                              durationField.value
+                                ? formatNumberWithCommas(durationField.value)
+                                : ""
+                            }
                             onChange={(e) => {
                               const val = e.target.value;
-                              durationField.onChange(
-                                val === "" ? 0 : Number(val)
-                              );
+                              const numericValue =
+                                val === "" ? 0 : parseFormattedNumber(val);
+                              durationField.onChange(numericValue);
                             }}
                             disabled={isLoading}
                           />
@@ -374,19 +387,24 @@ const EssentialInfoForm = ({ create }: { create?: boolean }) => {
                         <div className="relative">
                           <Input
                             dir="ltr"
-                            type="number"
-                            min={1}
+                            type="text"
                             inputMode="numeric"
                             className="pe-10"
-                            value={field.value || ""}
+                            value={
+                              field.value
+                                ? formatNumberWithCommas(field.value)
+                                : ""
+                            }
                             onChange={(e) => {
                               const val = e.target.value;
-                              field.onChange(val === "" ? 0 : Number(val));
+                              const numericValue =
+                                val === "" ? 0 : parseFormattedNumber(val);
+                              field.onChange(numericValue);
                             }}
                             disabled={isLoading}
                           />
                           <div className="absolute end-0 text-design-main top-0 bottom-0 my-auto p-2 px-4 flex items-center gap-2">
-                            <span>m²</span>
+                            <span>{t("project.step1.area_unit")}</span>
                           </div>
                         </div>
                       </FormControl>

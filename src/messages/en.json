@@ -1,7 +1,9 @@
 {
   "common": {
     "actions": {
+      "actions": "actions",
       "loading": "Loading...",
+      "processing": "processing",
       "submit": "Submit",
       "continue": "Continue",
       "back": "Back",
@@ -12,6 +14,9 @@
       "save": "Save",
       "saving": "Saving...",
       "edit": "Edit",
+      "editing": "Editing...",
+      "add": "add",
+      "adding": "adding...",
       "delete": "Delete",
       "confirm": "Confirm",
       "close": "Close",
@@ -27,12 +32,17 @@
       "reset": "Reset",
       "error": "An error occurred",
       "noChanges": "No changes to save",
+      "tryAgain": "Try again",
+      "notSpecified": "Not specified",
+      "days": "days",
       "create": "Create",
       "deleting": "Deleting...",
       "update": "Update",
       "updating": "Updating...",
       "retry": "Retry",
-      "retrying": "Retrying..."
+      "retrying": "Retrying...",
+      "moveUp": "move up",
+      "moveDown": "move down"
     },
     "country": "Country",
     "state": "State",
@@ -94,14 +104,34 @@
       "loadingStates": "Loading states...",
       "loadingCities": "Loading cities...",
       "noStatesAvailable": "No states available",
-      "noCitiesAvailable": "No cities available"
+      "noCitiesAvailable": "No cities available",
+      "filters": "Filters",
+      "clearAll": "Clear All",
+      "minAmount": "Min Amount",
+      "maxAmount": "Max Amount",
+      "fromDate": "From Date",
+      "toDate": "To Date",
+      "noLimit": "No Limit",
+      "description": "Description",
+      "notes": "Notes",
+      "attachments": "Attachments",
+      "rating": "Rating",
+      "projectOwner": "Project Owner"
     },
     "days": "days",
+    "time": {
+      "days": "{count, plural, =1 {# day} other {# days}}"
+    },
+    "loading": "Loading...",
+    "filters": "Filters",
+    "sortBy": "Sort by",
+    "previous": "Previous",
+    "next": "Next",
+    "pageOf": "Page {current} of {total}",
+    "viewDetails": "View Details",
     "error": "Error",
     "tryAgain": "Try Again",
-    "viewDetails": "View Details",
     "edit": "Edit",
-    "filters": "Filters",
     "clearSearch": "Clear Search"
   },
 
@@ -618,7 +648,9 @@
   },
 
   "offers": {
+    "applyOffer": "Apply Offer",
     "searchOffers": "Search offers...",
+    "areaUnit": "m²",
     "sortBy": "Sort by",
     "sortByDate": "Date",
     "sortByAmount": "Amount",
@@ -638,19 +670,46 @@
     "startDate": "Start Date",
     "endDate": "End Date",
     "description": "Description",
-    "submittedOn": "Submitted on",
     "receivedOn": "Received on",
     "accept": "Accept",
     "reject": "Reject",
-    "withdraw": "Withdraw",
+    "withdraw": "Withdraw Offer",
+    "withdrawTitle": "Withdraw Offer Confirmation",
+    "withdrawConfirm": "Are you sure you want to withdraw this offer? This action cannot be undone.",
+    "withdrawError": "Failed to withdraw offer. Please try again.",
     "counterOffer": "Counter Offer",
     "projectsCompleted": "projects completed",
     "submitOffer": "Submit Offer",
     "closed": "Closed",
     "bidders": "bidders",
-    "notSpecified": "Not specified",
+    "searchProjects": "Search projects...",
+    "allProjectTypes": "All Project Types",
+    "residential": "Residential",
+    "commercial": "Commercial",
+    "industrial": "Industrial",
+    "infrastructure": "Infrastructure",
+    "loadingProjects": "Loading projects...",
+    "location": "Location",
+    "open": "Open",
+    "inProgress": "In Progress",
+    "type": "Type",
+    "budget": "Budget",
+    "duration": "Duration",
+    "area": "Area",
+    "create": {
+      "title": "Create Complete Offer",
+      "description": "Submit a comprehensive offer with project phases and payment plans"
+    },
+    "statu": {
+      "pending": "Pending",
+      "accepted": "Accepted",
+      "rejected": "Rejected",
+      "closed": "Closed"
+    },
     "createCompleteOffer": {
       "title": "Create Complete Offer",
+      "description": "Submit a comprehensive offer with project phases and payment plans",
+      "submitOffer": "Submit Offer",
       "basicInfo": "Basic Information",
       "offerAmount": "Offer Amount",
       "qualityCertificate": "Quality Certificate",
@@ -659,22 +718,22 @@
       "expectedEndDate": "Expected End Date",
       "offerValidity": "Offer Validity",
       "executionDuration": "Execution Duration",
-      "projectDetails": "Project Details",
-      "projectDetailsPlaceholder": "Describe the project scope, requirements, and your approach...",
+      "details": "Offer Details",
+      "attachments": "Attachments",
+      "offerDetailsPlaceholder": "Describe the offer scope, requirements, and your approach...",
       "includeWarranty": "Include warranty",
       "projectPhases": "Project Phases",
       "addPhase": "Add Phase",
+      "editPhase": "Edit Phase",
+      "noPhases": "No phases added yet. Click \"Add Phase\" to create one.",
       "phase": "Phase",
       "phaseTitle": "Phase Title",
       "phaseTitlePlaceholder": "e.g., Planning & Design",
-      "status": "Status",
-      "pending": "Pending",
-      "inProgress": "In Progress",
-      "completed": "Completed",
-      "onHold": "On Hold",
+      "phaseDescription": "Description",
       "phaseDescriptionPlaceholder": "Describe what will be done in this phase...",
       "paymentPlans": "Payment Plans",
       "addPaymentPlan": "Add Payment Plan",
+      "editPaymentPlan": "Edit Payment Plan",
       "payment": "Payment",
       "paymentName": "Payment Name",
       "paymentNamePlaceholder": "e.g., Initial Payment",
@@ -684,6 +743,87 @@
       "bankAccountId": "Bank Account ID",
       "referenceNote": "Reference Note",
       "referenceNotePlaceholder": "Optional reference note"
+    },
+    "warranty": "Warranty",
+    "attachment": "attachment",
+    "attachments": "attachments",
+    "justNow": "just now",
+    "minutesAgo": "{count}m ago",
+    "hoursAgo": "{count}h ago",
+    "daysAgo": "{count}d ago",
+    "view": {
+      "title": "Offer Details",
+      "description": "Review the complete offer information and details",
+      "notFound": "Offer not found"
+    },
+    "details": {
+      "financialDetails": "Financial Details",
+      "offeredAmount": "Offered Amount",
+      "currency": "Currency",
+      "timeline": "Timeline",
+      "estimatedDuration": "Estimated Duration",
+      "proposedStartDate": "Proposed Start Date",
+      "proposedEndDate": "Proposed End Date",
+      "additionalInfo": "Additional Information",
+      "termsConditions": "Terms & Conditions",
+      "contractorInfo": "Contractor Information",
+      "projectDetails": "Project Details",
+      "offerSummary": "Offer Summary"
+    },
+    "projectOffers": {
+      "title": "Project Offers",
+      "description": "Review and manage all offers received for this project",
+      "totalOffers": "offers received",
+      "noOffers": "No offers yet",
+      "noOffersDescription": "No offers have been submitted for this project yet. Check back later or share your project with contractors."
+    },
+    "filters": {
+      "status": "Status",
+      "allStatus": "All Status"
+    },
+    "sort": {
+      "newest": "Newest First",
+      "oldest": "Oldest First",
+      "highest": "Highest Amount",
+      "lowest": "Lowest Amount"
+    },
+    "errors": {
+      "loadFailed": "Failed to load offers"
+    },
+    "allOffers": "All Offers",
+    "receivedOffers": "Received Offers",
+    "manageReceivedOffers": "Manage all offers received for your projects",
+    "viewProjectOffers": "View all offers for project {projectId}",
+    "totalOffers": "Total Offers",
+    "offerDetails": "Offer Details",
+    "overview": "Overview",
+    "contractor": "Contractor",
+    "phases": "Phases",
+    "contractorInfo": "Contractor Information",
+    "specialties": "Specialties",
+    "completedProjects": "Completed Projects",
+    "rating": "Rating",
+    "counter": "Counter Offer",
+    "acceptSuccess": "Offer accepted successfully",
+    "acceptError": "Failed to accept offer",
+    "rejectSuccess": "Offer rejected successfully",
+    "rejectError": "Failed to reject offer",
+    "rejectOffer": "Reject Offer",
+    "rejectReason": "Rejection Reason",
+    "rejectReasonPlaceholder": "Please provide a reason for rejecting this offer...",
+    "confirmReject": "Confirm Rejection",
+    "hasWarranty": "Includes warranty",
+    "notFound": "Offer not found",
+    "noPhases": "No project phases defined",
+    "noAttachments": "No attachments available",
+    "submittedOn": "Submitted on {date}",
+    "status": {
+      "pending": "Pending",
+      "accepted": "Accepted",
+      "rejected": "Rejected",
+      "withdrawn": "Withdrawn",
+      "counter_offer": "Counter Offer",
+      "expired": "Expired"
     }
   },
 
@@ -762,7 +902,8 @@
       "documents": "Documents",
       "projects": "Achieved Projects",
       "operational": "Operational & Technical Details",
-      "professionalInfo": "Professional Info"
+      "professionalInfo": "Professional Info",
+      "bankAccounts": "Bank Accounts"
     },
     "tabs": {
       "personalData": "Personal Info",
@@ -770,6 +911,7 @@
       "projects": "Achieved Projects",
       "operational": "Operational & Technical Details",
       "professionalInfo": "Professional Info",
+      "bankAccounts": "Bank Accounts",
       "fields": {
         "fullName": "Full Name",
         "phoneNumber": "Phone Number",
@@ -1496,6 +1638,120 @@
       "text": "Your account is {percentage}% complete"
     }
   },
+  "bankAccount": {
+    "title": "Bank Accounts",
+    "description": "Manage your bank accounts for payments and withdrawals",
+    "addAccount": "Add Account",
+    "addFirstAccount": "Add Your First Bank Account",
+    "noAccounts": "No bank accounts added yet",
+    "maxAccountsReached": "You have reached the maximum of {max} bank accounts.",
+    "addTitle": "Add Bank Account",
+    "editTitle": "Edit Bank Account",
+    "addDescription": "Enter your bank account details to receive payments",
+    "editDescription": "Update your bank account information",
+    "bankType": "Bank",
+    "selectBank": "Select a bank",
+    "accountHolderName": "Account Holder Name",
+    "accountHolderNamePlaceholder": "Enter the account holder name",
+    "accountHolderNameDescription": "Name as it appears on the bank account",
+    "accountNumber": "Account Number",
+    "accountNumberPlaceholder": "Enter account number",
+    "accountNumberDescription": "10-20 digit account number",
+    "iban": "IBAN",
+    "ibanPlaceholder": "SA0000000000000000000000",
+    "ibanDescription": "24-character Saudi IBAN starting with SA",
+    "branchName": "Branch Name",
+    "branchNamePlaceholder": "Enter branch name (optional)",
+    "branchCode": "Branch Code",
+    "branchCodePlaceholder": "Enter branch code (optional)",
+    "swiftCode": "SWIFT/BIC Code",
+    "swiftCodePlaceholder": "AAAABBCC123",
+    "swiftCodeDescription": "8 or 11 character SWIFT/BIC code (optional)",
+    "accountHolder": "Account Holder",
+    "branch": "Branch",
+    "primary": "Primary",
+    "new": "New",
+    "rejectionReason": "Rejection Reason",
+    "setPrimary": "Set as Primary",
+    "requestVerification": "Request Verification",
+    "deleteTitle": "Delete Bank Account",
+    "deleteDescription": "Are you sure you want to delete this bank account? This action cannot be undone.",
+    "createSuccess": "Bank account created successfully",
+    "createError": "Failed to create bank account",
+    "updateSuccess": "Bank account updated successfully",
+    "updateError": "Failed to update bank account",
+    "deleteSuccess": "Bank account deleted successfully",
+    "deleteError": "Failed to delete bank account",
+    "setPrimarySuccess": "Bank account set as primary",
+    "setPrimaryError": "Failed to set primary bank account",
+    "ibanCopied": "IBAN copied to clipboard",
+    "copyFailed": "Failed to copy IBAN",
+    "status": {
+      "verified": "Verified",
+      "pending": "Pending",
+      "rejected": "Rejected"
+    },
+    "actions": {
+      "edit": "Edit",
+      "delete": "Delete",
+      "setPrimary": "Set as Primary",
+      "verify": "Verify",
+      "reject": "Reject",
+      "viewDetails": "View Details",
+      "copyIban": "Copy IBAN"
+    },
+    "badges": {
+      "primary": "Primary",
+      "verified": "Verified",
+      "pending": "Pending Verification",
+      "rejected": "Rejected"
+    },
+    "deleteDialog": {
+      "title": "Delete Bank Account",
+      "description": "Are you sure you want to delete this bank account? This action cannot be undone.",
+      "confirmDelete": "Delete Account",
+      "cancel": "Cancel"
+    },
+    "rejectDialog": {
+      "title": "Reject Bank Account",
+      "description": "Please provide a reason for rejecting this bank account",
+      "reasonLabel": "Rejection Reason",
+      "reasonPlaceholder": "Enter rejection reason",
+      "submit": "Reject Account",
+      "cancel": "Cancel"
+    },
+    "messages": {
+      "createSuccess": "Bank account created successfully",
+      "createError": "Failed to create bank account",
+      "updateSuccess": "Bank account updated successfully",
+      "updateError": "Failed to update bank account",
+      "deleteSuccess": "Bank account deleted successfully",
+      "deleteError": "Failed to delete bank account",
+      "setPrimarySuccess": "Bank account set as primary",
+      "setPrimaryError": "Failed to set primary bank account",
+      "verifySuccess": "Bank account verified successfully",
+      "verifyError": "Failed to verify bank account",
+      "rejectSuccess": "Bank account rejected",
+      "rejectError": "Failed to reject bank account",
+      "ibanCopied": "IBAN copied to clipboard",
+      "ibanCopyError": "Failed to copy IBAN"
+    },
+    "validation": {
+      "bankTypeRequired": "Bank is required",
+      "accountHolderNameRequired": "Account holder name is required",
+      "accountHolderNameMinLength": "Account holder name must be at least 2 characters",
+      "accountHolderNameMaxLength": "Account holder name must not exceed 100 characters",
+      "accountNumberRequired": "Account number is required",
+      "accountNumberInvalid": "Account number must be 10-20 digits",
+      "ibanRequired": "IBAN is required",
+      "ibanInvalid": "Invalid Saudi IBAN format. Must start with SA followed by 22 digits",
+      "branchNameMaxLength": "Branch name must not exceed 100 characters",
+      "branchCodeMaxLength": "Branch code must not exceed 20 characters",
+      "swiftCodeInvalid": "Invalid SWIFT/BIC code format",
+      "rejectionReasonRequired": "Rejection reason is required",
+      "rejectionReasonMinLength": "Rejection reason must be at least 10 characters"
+    } 
+  },
   "settings": {
     "title": "Settings",
     "menu": {
@@ -1547,6 +1803,9 @@
   "project": {
     "title": "Create New Project",
     "description": "Follow the steps below to create your new project and send it to the appropriate contractors",
+    "details": "Project Details",
+    "status": "Project Status",
+    "deadline": "Project Deadline",
     "step1": {
       "title": "Essential Information",
       "name": "Project Name",
@@ -1575,6 +1834,7 @@
       "durationPlaceholder": "Enter project duration",
       "area_sqm": "Area (sqm)",
       "area_sqmPlaceholder": "Enter area (sqm)",
+      "area_unit": "m²",
       "description": "Description",
       "descriptionPlaceholder": "Enter project description",
       "success": "Essential information saved successfully!",
@@ -1725,7 +1985,244 @@
       "error": "Failed to send project to review"
     }
   },
-
+  "projectsList": {
+    "title": "My Projects",
+    "subtitle": "Manage and track your construction projects",
+    "loading": "Loading projects...",
+    "project": "project",
+    "projects": "projects",
+    "emptyState": {
+      "title": "No projects yet",
+      "description": "Get started by creating your first project",
+      "createButton": "Create New Project"
+    },
+    "projectCard": {
+      "type": "Type",
+      "location": "Location",
+      "budget": "Budget",
+      "duration": "Duration",
+      "area": "Area",
+      "status": {
+        "label": "Status",
+        "draft": "Draft",
+        "review_pending": "Review Pending",
+        "published": "Published",
+        "receiving_bids": "Receiving Bids",
+        "offer_accepted": "Offer Accepted",
+        "awaiting_contract_signature": "Awaiting Contract Signature",
+        "contract_signed": "Contract Signed",
+        "in_progress": "In Progress",
+        "cancelled": "Cancelled",
+        "rejected": "Rejected",
+        "completed": "Completed",
+        "closed_completed": "Closed Completed",
+        "notStarted": "Not Started"
+      },
+      "details": {
+        "location": "Location",
+        "budget": "Budget",
+        "duration": "Duration",
+        "area": "Area"
+      },
+      "progress": {
+        "label": "Progress",
+        "steps": "steps",
+        "nextStep": "Next"
+      },
+      "actions": {
+        "edit": "Edit",
+        "view": "View"
+      }
+    },
+    "projectTypes": {
+      "1": "Residential Building",
+      "2": "Commercial Building",
+      "3": "Industrial Building",
+      "4": "Infrastructure",
+      "unknown": "Unknown"
+    },
+    "steps": {
+      "essentialInfo": "Essential Information",
+      "classification": "Classification",
+      "documents": "Documents",
+      "boq": "BOQ",
+      "publishSettings": "Publish Settings",
+      "completed": "Completed"
+    },
+    "tabs": {
+      "all": "All Projects",
+      "draft": "Draft",
+      "review_pending": "Review Pending",
+      "published": "Published",
+      "receiving_bids": "Receiving Bids",
+      "offer_accepted": "Offer Accepted",
+      "awaiting_contract_signature": "Awaiting Contract",
+      "contract_signed": "Contract Signed",
+      "in_progress": "In Progress",
+      "cancelled": "Cancelled",
+      "rejected": "Rejected",
+      "completed": "Completed",
+      "closed_completed": "Closed Completed"
+    },
+    "pagination": {
+      "showing": "Showing",
+      "of": "of",
+      "results": "results",
+      "previous": "Previous",
+      "next": "Next",
+      "page": "Page",
+      "goToPage": "Go to page"
+    }
+  },
+  "contract": {
+    "status": {
+      "waiting_for_draft": "Waiting for Contract Draft",
+      "awaiting_client_review": "Awaiting Client Review",
+      "awaiting_contractor_review": "Awaiting Contractor Review",
+      "awaiting_client_modification": "Awaiting Client Modification",
+      "approved_awaiting_signatures": "Approved - Awaiting Signatures",
+      "awaiting_contractor_signature": "Awaiting Contractor Signature",
+      "signed_active": "Signed - Active"
+    },
+    "view": {
+      "title": "Contracting Contract",
+      "contractDetails": "Contract Details",
+      "firstParty": "First Party (Project Owner)",
+      "name": "Name",
+      "nationality": "Nationality",
+      "mobile": "Mobile",
+      "email": "Email",
+      "secondParty": "Second Party (Contractor)",
+      "projectDetails": "Project Details",
+      "projectName": "Project Name",
+      "workType": "Work Type",
+      "location": "Location",
+      "area": "Area",
+      "officeAddress": "Office Address",
+      "timePeriod": "Time Period",
+      "executionPeriod": "Execution Period",
+      "startDate": "Start Date",
+      "contractDate": "Contract Date",
+      "financialTerms": "Financial Terms",
+      "totalAmount": "Total Amount",
+      "advancePayment": "Advance Payment",
+      "productPayment": "Product Payment",
+      "finalPayment": "Final Payment",
+      "contractTerms": "Contract Terms",
+      "standardClauses": "Standard Contract Clauses",
+      "readOnly": "Read-only",
+      "additionalClauses": "Additional Clauses",
+      "editable": "Editable",
+      "noAdditionalClauses": "No additional clauses added yet.",
+      "latestComment": "Latest Comment from Contractor"
+    },
+    "progress": {
+      "draft": "Draft",
+      "review": "Review",
+      "approved": "Approved",
+      "sign": "Sign",
+      "active": "Active",
+      "current_status": "Current Status",
+      "title": "title"
+    },
+    "roles": {
+      "client": "Client",
+      "contractor": "Contractor",
+      "client_owner": "Client (Owner)",
+      "current_role": "Current Role"
+    },
+    "clauses": {
+      "standard": "Standard Contract Clauses",
+      "additional": "Additional Clauses",
+      "read_only": "Read-only",
+      "editable": "Editable",
+      "no_additional": "No additional clauses added yet",
+      "add_new": "Add New Clause",
+      "edit": "Edit Additional Clauses",
+      "edit_description": "Add, edit, or remove additional clauses to customize the contract",
+      "canOnlyBeEditedByClient": "Additional clauses can only be edited by the client during the review phase.",
+      "title": "Edit Additional Clauses",
+      "description": "Add, edit, or remove additional clauses to customize the contract",
+      "editClauseText": "Edit clause text...",
+      "noAdditionalClauses": "No additional clauses added yet. Click the button below to add your first clause.",
+      "enterNewClauseText": "Enter new clause text...",
+      "addClause": "Add Clause",
+      "deleteConfirmTitle": "Delete Clause",
+      "deleteConfirmDescription": "Are you sure you want to delete this clause? This action cannot be undone.",
+      "unsavedChangesTitle": "Unsaved Changes",
+      "unsavedChangesDescription": "You have unsaved changes. Are you sure you want to close without saving?",
+      "discardChanges": "Discard Changes"
+    },
+    "actions": {
+      "title": "title",
+      "send_to_contractor": "Send to Contractor",
+      "request_changes": "Request Changes",
+      "approve_contract": "Approve Contract",
+      "reject_contract": "Reject Contract",
+      "sign_contract": "Sign Contract",
+      "download_pdf": "Download PDF",
+      "upload_signed_pdf": "Upload Signed PDF",
+      "no_actions": "No actions available in the current state. Waiting for the other party's response."
+    },
+    "upload": {
+      "title": "Upload Signed Contract",
+      "description": "Upload your signed PDF contract with OTP verification",
+      "step_of": "Step {step} of 3",
+      "select_file": "Select File",
+      "verify_otp": "Verify Code",
+      "complete": "Complete",
+      "click_to_upload": "Click to upload signed PDF",
+      "pdf_only": "PDF files only, max 10MB",
+      "file_selected": "File selected",
+      "otp_sent": "A code has been sent to your registered mobile number. Please enter it below to verify your identity.",
+      "otp_testing": "For testing: Use OTP code \"123456\"",
+      "enter_otp": "Enter The Code",
+      "enter_6_digit": "Enter 6-digit code",
+      "resend_otp_description": "If you haven't received the code ?",
+      "resend_otp": "Resend code",
+      "success_title": "Contract Signed Successfully!",
+      "success_description": "Your signed contract has been uploaded and verified.",
+      "send_otp": "Send code",
+      "verify_upload": "Verify & Upload"
+    },
+    "timeline": {
+      "title": "Negotiation Timeline",
+      "description": "Track all contract versions and modifications",
+      "version": "Version",
+      "latest": "Latest",
+      "no_history": "No version history available yet."
+    },
+    "role_switcher": {
+      "title": "Role Switcher (Development Mode)",
+      "description": "Switch between Client and Contractor views for testing",
+      "client_view": "Client View",
+      "contractor_view": "Contractor View",
+      "reset_demo": "Reset Demo"
+    },
+    "messages": {
+      "contract_sent": "Contract sent to contractor successfully!",
+      "change_request_sent": "Change request sent to client!",
+      "contract_approved": "Contract approved! Ready for signatures.",
+      "contract_signed": "Contract signed by {role}!",
+      "otp_sent": "OTP sent to your registered mobile number (Use: 123456)",
+      "contract_signed_success": "Contract signed successfully!",
+      "pdf_downloaded": "Contract PDF downloaded successfully!",
+      "failed_send_otp": "Failed to send OTP. Please try again.",
+      "invalid_otp": "Invalid OTP or upload failed. Please try again.",
+      "failed_generate_pdf": "Failed to generate PDF",
+      "select_file_first": "Please select a file first",
+      "enter_otp_code": "Please enter the OTP code",
+      "pdf_file_only": "Please select a PDF file only",
+      "file_size_limit": "File size must be less than 10MB"
+    },
+    "dialogs": {
+      "request_changes": {
+        "comment_label": "Change Request Comment",
+        "comment_placeholder": "Please describe the changes you need...",
+        "send_button": "Send Request"
+      }
+    }
+  },
   "feedback": {
     "errors": {
       "general": "Something went wrong",
@@ -2141,6 +2638,77 @@
           "minValue": "Offers window days must be greater than 0",
           "required": "Offers window days is required"
         }
+      },
+      "offers": {
+        "offerAmount": {
+          "required": "Offer amount is required",
+          "minValue": "Offer amount must be greater than or equal to 0"
+        },
+        "offerValidityValue": {
+          "required": "Offer validity value is required",
+          "minValue": "Offer validity must be at least 1"
+        },
+        "offerValidityUnit": {
+          "required": "Offer validity unit is required"
+        },
+        "executionDurationValue": {
+          "required": "Execution duration value is required",
+          "minValue": "Execution duration must be at least 1"
+        },
+        "executionDurationUnit": {
+          "required": "Execution duration unit is required"
+        },
+        "expectedStartDate": {
+          "required": "Expected start date is required"
+        },
+        "expectedEndDate": {
+          "required": "Expected end date is required",
+          "afterStartDate": "End date must be after start date"
+        },
+        "details": {
+          "required": "Offer details are required",
+          "minLength": "Offer details must be at least 10 characters"
+        },
+        "qualityCertificate": {
+          "maxLength": "Quality certificate must not exceed 255 characters"
+        },
+        "phases": {
+          "minItems": "At least one project phase is required",
+          "title": {
+            "required": "Phase title is required",
+            "minLength": "Phase title must be at least 2 characters"
+          },
+          "description": {
+            "required": "Phase description is required",
+            "minLength": "Phase description must be at least 2 characters"
+          },
+          "status": {
+            "required": "Phase status is required"
+          }
+        },
+        "paymentPlans": {
+          "minItems": "At least one payment plan is required",
+          "name": {
+            "required": "Payment plan name is required",
+            "minLength": "Payment plan name must be at least 2 characters"
+          },
+          "amount": {
+            "required": "Payment amount is required",
+            "minValue": "Payment amount must be greater than or equal to 0"
+          },
+          "percentageOfContract": {
+            "required": "Percentage of contract is required",
+            "minValue": "Percentage must be at least 0",
+            "maxValue": "Percentage cannot exceed 100"
+          },
+          "dueOn": {
+            "required": "Payment due date is required"
+          },
+          "userBankAccountId": {
+            "required": "Bank account is required",
+            "minValue": "Please select a valid bank account"
+          }
+        }
       }
     }
   },
@@ -2152,95 +2720,5 @@
     "organizationName": "Enter organization name",
     "organizationContactPersonFullName": "Enter organization contact person full name",
     "organizationPhoneNumber": "Enter organization phone number"
-  },
-
-  "projectsList": {
-    "title": "My Projects",
-    "subtitle": "Manage and track your construction projects",
-    "loading": "Loading projects...",
-    "project": "project",
-    "projects": "projects",
-    "emptyState": {
-      "title": "No projects yet",
-      "description": "Get started by creating your first project",
-      "createButton": "Create New Project"
-    },
-    "projectCard": {
-      "type": "Type",
-      "location": "Location",
-      "budget": "Budget",
-      "duration": "Duration",
-      "area": "Area",
-      "status": {
-        "label": "Status",
-        "draft": "Draft",
-        "review_pending": "Review Pending",
-        "published": "Published",
-        "receiving_bids": "Receiving Bids",
-        "offer_accepted": "Offer Accepted",
-        "awaiting_contract_signature": "Awaiting Contract Signature",
-        "contract_signed": "Contract Signed",
-        "in_progress": "In Progress",
-        "cancelled": "Cancelled",
-        "rejected": "Rejected",
-        "completed": "Completed",
-        "closed_completed": "Closed Completed",
-        "notStarted": "Not Started"
-      },
-      "details": {
-        "location": "Location",
-        "budget": "Budget",
-        "duration": "Duration",
-        "area": "Area"
-      },
-      "progress": {
-        "label": "Progress",
-        "steps": "steps",
-        "nextStep": "Next"
-      },
-      "actions": {
-        "edit": "Edit",
-        "view": "View"
-      }
-    },
-    "projectTypes": {
-      "1": "Residential Building",
-      "2": "Commercial Building",
-      "3": "Industrial Building",
-      "4": "Infrastructure",
-      "unknown": "Unknown"
-    },
-    "steps": {
-      "essentialInfo": "Essential Information",
-      "classification": "Classification",
-      "documents": "Documents",
-      "boq": "BOQ",
-      "publishSettings": "Publish Settings",
-      "completed": "Completed"
-    },
-    "tabs": {
-      "all": "All Projects",
-      "draft": "Draft",
-      "review_pending": "Review Pending",
-      "published": "Published",
-      "receiving_bids": "Receiving Bids",
-      "offer_accepted": "Offer Accepted",
-      "awaiting_contract_signature": "Awaiting Contract",
-      "contract_signed": "Contract Signed",
-      "in_progress": "In Progress",
-      "cancelled": "Cancelled",
-      "rejected": "Rejected",
-      "completed": "Completed",
-      "closed_completed": "Closed Completed"
-    },
-    "pagination": {
-      "showing": "Showing",
-      "of": "of",
-      "results": "results",
-      "previous": "Previous",
-      "next": "Next",
-      "page": "Page",
-      "goToPage": "Go to page"
-    }
   }
 }

@@ -1,29 +1,32 @@
-// "use client";
+"use client";
 
-// import React from "react";
-// import { IndividualOffersList } from "@/features/offers/components/individual/IndividualOffersList";
+import React from "react";
+import { IndividualOffersList } from "@/features/offers/components/individual/display/IndividualOffersList";
+import { Card, CardContent, CardHeader, CardTitle } from "@/shared/components/ui/card";
+import { useTranslations } from "next-intl";
 
-// const IndividualOffersPage = () => {
-//   return (
-//     <div className="space-y-6">
-//       <div>
-//         <h1 className="text-2xl font-bold text-gray-900">Received Offers</h1>
-//         <p className="text-gray-600">
-//           Review and manage offers received for your projects
-//         </p>
-//       </div>
+export default function OwnerOffersPage() {
+  const t = useTranslations();
 
-//       <IndividualOffersList />
-//     </div>
-//   );
-// };
-
-// export default IndividualOffersPage;
-
-export default function IndividualOffersPage() {
   return (
-    <div>
-      <h1>Individual Offers</h1>
+    <div className="container mx-auto py-6 space-y-6">
+      {/* Page Header */}
+      <div className="flex flex-col space-y-2">
+        <h1 className="text-3xl font-bold tracking-tight">{t("offers.allOffers")}</h1>
+        <p className="text-muted-foreground">
+          {t("offers.manageReceivedOffers")}
+        </p>
+      </div>
+
+      {/* Offers List */}
+      <Card>
+        <CardHeader>
+          <CardTitle>{t("offers.receivedOffers")}</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <IndividualOffersList />
+        </CardContent>
+      </Card>
     </div>
   );
-} 
+}

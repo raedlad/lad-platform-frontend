@@ -1,7 +1,9 @@
 {
   "common": {
     "actions": {
+      "actions": "الإجراءات",
       "loading": "جاري التحميل...",
+      "processing": "جاري المعالجة",
       "submit": "إرسال",
       "continue": "متابعة",
       "back": "رجوع",
@@ -12,6 +14,9 @@
       "save": "حفظ",
       "saving": "جاري الحفظ...",
       "edit": "تعديل",
+      "editing": "جاري التعديل",
+      "add": "إضافة",
+      "adding": "جاري الإضافة...",
       "delete": "حذف",
       "confirm": "تأكيد",
       "close": "إغلاق",
@@ -26,12 +31,17 @@
       "reset": "إعادة تعيين",
       "error": "حدث خطأ",
       "noChanges": "لا توجد تغييرات للحفظ",
+      "tryAgain": "حاول مرة أخرى",
+      "notSpecified": "غير محدد",
+      "days": "أيام",
       "create": "إنشاء",
       "deleting": "جاري الحذف...",
       "update": "تحديث",
       "updating": "جاري التحديث...",
       "retry": "إعادة المحاولة",
-      "retrying": "جاري إعادة المحاولة..."
+      "retrying": "جاري إعادة المحاولة...",
+      "moveUp": "الانتقال إلى الأعلى",
+      "moveDown": "الانتقال إلى الأسفل"
     },
     "country": "الدولة",
     "state": "المحافظة",
@@ -87,7 +97,19 @@
       "loadingStates": "جاري تحميل المحافظات...",
       "loadingCities": "جاري تحميل المدن...",
       "noStatesAvailable": "لا توجد محافظات متاحة",
-      "noCitiesAvailable": "لا توجد مدن متاحة"
+      "noCitiesAvailable": "لا توجد مدن متاحة",
+      "filters": "تصفية",
+      "clearAll": "مسح الكل",
+      "minAmount": "الحد الأدنى",
+      "maxAmount": "الحد الأقصى",
+      "fromDate": "من تاريخ",
+      "toDate": "إلى تاريخ",
+      "noLimit": "لا حد",
+      "attachments": "المرفقات",
+      "rating": "التقييم",
+      "notes": "الملاحظات",
+      "description": "الوصف",
+      "projectOwner": "صاحب المشروع"
     },
     "yes": "نعم",
     "no": "لا",
@@ -96,12 +118,22 @@
     "specificAreas": "مناطق محددة",
     "notProvided": "لم يتم تحديد",
     "days": "أيام",
+    "time": {
+      "days": "{count, plural, =1 {يوم واحد} =2 {يومان} other {# أيام}}"
+    },
     "error": "خطأ",
-    "tryAgain": "حاول مرة أخرى",
+    "loading": "جاري التحميل...",
+    "filters": "تصفية",
+    "sortBy": "ترتيب حسب",
+    "previous": "السابق",
+    "next": "التالي",
+    "pageOf": "صفحة {current} من {total}",
     "viewDetails": "عرض التفاصيل",
+    "tryAgain": "حاول مرة أخرى",
     "edit": "تعديل",
-    "filters": "تصفيات",
-    "clearSearch": "مسح البحث"
+    "clearSearch": "مسح البحث",
+    "refresh": "إعادة التحميل",
+    "clearFilters": "مسح التصفية"
   },
 
   "Header": {
@@ -596,7 +628,10 @@
   },
 
   "offers": {
+    "title": "عروضي",
+    "applyOffer": "تقديم عرض",
     "searchOffers": "البحث في العروض...",
+    "areaUnit": "م²",
     "sortBy": "ترتيب حسب",
     "sortByDate": "التاريخ",
     "sortByAmount": "المبلغ",
@@ -620,48 +655,124 @@
     "receivedOn": "تم الاستلام في",
     "accept": "قبول",
     "reject": "رفض",
-    "withdraw": "سحب",
+    "withdraw": "سحب العرض",
+    "withdrawTitle": "تأكيد سحب العرض",
+    "withdrawConfirm": "هل أنت متأكد من أنك تريد سحب هذا العرض؟ لا يمكن التراجع عن هذا الإجراء.",
+    "withdrawError": "فشل سحب العرض. يرجى المحاولة مرة أخرى.",
     "counterOffer": "عرض مضاد",
     "projectsCompleted": "مشروع مكتمل",
     "submitOffer": "تقديم عرض",
     "closed": "مغلق",
     "bidders": "مقدمي عروض",
-    "notSpecified": "غير محدد",
+    "searchProjects": "البحث في المشاريع...",
+    "allProjectTypes": "جميع أنواع المشاريع",
+    "residential": "سكني",
+    "commercial": "تجاري",
+    "industrial": "صناعي",
+    "infrastructure": "بنية تحتية",
+    "loadingProjects": "جاري تحميل المشاريع...",
+    "location": "الموقع",
+    "status": "الحالة",
+    "open": "مفتوح",
+    "inProgress": "قيد التنفيذ",
+    "type": "النوع",
+    "budget": "الميزانية",
+    "duration": "المدة",
+    "area": "المساحة",
+    "create": {
+      "title": "إنشاء عرض كامل",
+      "description": "تقديم عرض شامل مع مراحل المشروع وخطط الدفع"
+    },
+    "statu": {
+      "pending": "في الانتظار",
+      "accepted": "تم القبول",
+      "rejected": "تم الرفض",
+      "closed": "مغلق"
+    },
+
     "createCompleteOffer": {
-      "title": "إنشاء عرض شامل",
+      "title": "إنشاء عرض متكامل",
+      "description": "تقديم عرض شامل مع مراحل المشروع وخطط الدفع",
+      "submitOffer": "تقديم العرض",
       "basicInfo": "المعلومات الأساسية",
-      "offerAmount": "مبلغ العرض",
+      "offerAmount": "قيمة العرض",
       "qualityCertificate": "شهادة الجودة",
       "qualityCertificatePlaceholder": "رقم الشهادة أو المرجع",
-      "expectedStartDate": "تاريخ البداية المتوقع",
-      "expectedEndDate": "تاريخ النهاية المتوقع",
+      "expectedStartDate": "تاريخ البدء المتوقع",
+      "expectedEndDate": "تاريخ الانتهاء المتوقع",
       "offerValidity": "صلاحية العرض",
       "executionDuration": "مدة التنفيذ",
-      "projectDetails": "تفاصيل المشروع",
-      "projectDetailsPlaceholder": "اوصف نطاق المشروع والمتطلبات ومنهجيتك...",
+      "details": "تفاصيل العرض",
+      "attachments": "المرفقات",
+      "offerDetailsPlaceholder": "تفاصيل العرض وآلية التنفيذ",
       "includeWarranty": "تضمين الضمان",
       "projectPhases": "مراحل المشروع",
       "addPhase": "إضافة مرحلة",
-      "phase": "المرحلة",
+      "noPhases": "لا يوجد مراحل انقر على إضافة مرحلة للإضافة",
+      "editPhase": "تعديل المرحلة",
+      "phase": "مرحلة",
       "phaseTitle": "عنوان المرحلة",
-      "phaseTitlePlaceholder": "مثل: التخطيط والتصميم",
-      "status": "الحالة",
-      "pending": "قيد الانتظار",
-      "inProgress": "قيد التنفيذ",
-      "completed": "مكتملة",
-      "onHold": "معلقة",
-      "phaseDescriptionPlaceholder": "اوصف ما سيتم تنفيذه في هذه المرحلة...",
+      "phaseTitlePlaceholder": "مثال: التخطيط والتصميم",
+      "phaseDescription": "الوصف",
+      "phaseDescriptionPlaceholder": "صف ما سيتم إنجازه في هذه المرحلة...",
       "paymentPlans": "خطط الدفع",
       "addPaymentPlan": "إضافة خطة دفع",
-      "payment": "الدفعة",
+      "editPaymentPlan": "تعديل خطة الدفع",
+      "payment": "دفعة",
       "paymentName": "اسم الدفعة",
-      "paymentNamePlaceholder": "مثل: الدفعة الأولى",
+      "paymentNamePlaceholder": "مثال: الدفعة الأولية",
       "amount": "المبلغ",
-      "percentageOfContract": "نسبة العقد",
+      "percentageOfContract": "نسبة من العقد",
       "dueDate": "تاريخ الاستحقاق",
       "bankAccountId": "رقم الحساب البنكي",
       "referenceNote": "ملاحظة مرجعية",
       "referenceNotePlaceholder": "ملاحظة مرجعية اختيارية"
+    },
+    "warranty": "ضمان",
+    "attachment": "مرفق",
+    "attachments": "مرفقات",
+    "justNow": "الآن",
+    "minutesAgo": "منذ {count} دقيقة",
+    "hoursAgo": "منذ {count} ساعة",
+    "daysAgo": "منذ {count} يوم",
+    "view": {
+      "title": "تفاصيل العرض",
+      "description": "مراجعة المعلومات والتفاصيل الكاملة للعرض",
+      "notFound": "العرض غير موجود"
+    },
+    "details": {
+      "financialDetails": "التفاصيل المالية",
+      "offeredAmount": "المبلغ المعروض",
+      "currency": "العملة",
+      "timeline": "الجدول الزمني",
+      "estimatedDuration": "المدة المقدرة",
+      "proposedStartDate": "تاريخ البدء المقترح",
+      "proposedEndDate": "تاريخ الانتهاء المقترح",
+      "additionalInfo": "معلومات إضافية",
+      "termsConditions": "الشروط والأحكام",
+      "contractorInfo": "معلومات المقاول",
+      "projectDetails": "تفاصيل المشروع",
+      "offerSummary": "ملخص العرض"
+    },
+    "projectOffers": {
+      "title": "عروض المشروع",
+      "description": "راجع وإدارة جميع العروض المستلمة لهذا المشروع",
+      "totalOffers": "عروض مستلمة",
+      "noOffers": "لا توجد عروض بعد",
+      "noOffersDescription": "لم يتم تقديم أي عروض لهذا المشروع حتى الآن. تحقق لاحقاً أو شارك مشروعك مع المقاولين."
+    },
+    "filters": {
+      "status": "الحالة",
+      "allStatus": "جميع الحالات"
+    },
+    "sort": {
+      "newest": "الأحدث أولاً",
+      "oldest": "الأقدم أولاً",
+      "highest": "الأعلى قيمة",
+      "lowest": "الأقل قيمة"
+    },
+    "errors": {
+      "loadFailed": "فشل تحميل العروض"
     }
   },
 
@@ -753,7 +864,8 @@
       "documents": "المستندات",
       "projects": "المشاريع المنجزة",
       "operational": "التفاصيل الفنية والتشغيلية",
-      "professionalInfo": "المعلومات المهنية"
+      "professionalInfo": "المعلومات المهنية",
+      "bankAccounts": "الحسابات البنكية"
     },
     "tabs": {
       "personalData": "المعلومات الشخصية",
@@ -763,6 +875,7 @@
       "projects": "المشاريع المنجزة",
       "operational": "التفاصيل الفنية والتشغيلية",
       "professionalInfo": "المعلومات المهنية",
+      "bankAccounts": "الحسابات البنكية",
       "fields": {
         "fullName": "الاسم الكامل",
         "phoneNumber": "رقم الهاتف",
@@ -1438,6 +1551,120 @@
       "text": "حسابك مكتمل بنسبة {percentage}%"
     }
   },
+  "bankAccount": {
+    "title": "الحسابات البنكية",
+    "description": "إدارة الحسابات البنكية الخاصة بك للمدفوعات والسحوبات",
+    "addAccount": "إضافة حساب",
+    "addFirstAccount": "أضف حسابك البنكي الأول",
+    "noAccounts": "لم تتم إضافة حسابات بنكية بعد",
+    "maxAccountsReached": "لقد وصلت إلى الحد الأقصى وهو {max} حسابات بنكية.",
+    "addTitle": "إضافة حساب بنكي",
+    "editTitle": "تعديل حساب بنكي",
+    "addDescription": "أدخل تفاصيل حسابك البنكي لاستلام المدفوعات",
+    "editDescription": "تحديث معلومات حسابك البنكي",
+    "bankType": "البنك",
+    "selectBank": "اختر البنك",
+    "accountHolderName": "اسم صاحب الحساب",
+    "accountHolderNamePlaceholder": "أدخل اسم صاحب الحساب",
+    "accountHolderNameDescription": "الاسم كما يظهر في الحساب البنكي",
+    "accountNumber": "رقم الحساب",
+    "accountNumberPlaceholder": "أدخل رقم الحساب",
+    "accountNumberDescription": "رقم حساب من 10-20 رقم",
+    "iban": "رقم الآيبان (IBAN)",
+    "ibanPlaceholder": "SA0000000000000000000000",
+    "ibanDescription": "رقم الآيبان السعودي المكون من 24 حرف يبدأ بـ SA",
+    "branchName": "اسم الفرع",
+    "branchNamePlaceholder": "أدخل اسم الفرع (اختياري)",
+    "branchCode": "رمز الفرع",
+    "branchCodePlaceholder": "أدخل رمز الفرع (اختياري)",
+    "swiftCode": "رمز السويفت (SWIFT/BIC)",
+    "swiftCodePlaceholder": "AAAABBCC123",
+    "swiftCodeDescription": "رمز السويفت المكون من 8 أو 11 حرف (اختياري)",
+    "accountHolder": "صاحب الحساب",
+    "branch": "الفرع",
+    "primary": "رئيسي",
+    "new": "جديد",
+    "rejectionReason": "سبب الرفض",
+    "setPrimary": "تعيين كحساب رئيسي",
+    "requestVerification": "طلب التوثيق",
+    "deleteTitle": "حذف الحساب البنكي",
+    "deleteDescription": "هل أنت متأكد من رغبتك في حذف هذا الحساب البنكي؟ لا يمكن التراجع عن هذا الإجراء.",
+    "createSuccess": "تم إنشاء الحساب البنكي بنجاح",
+    "createError": "فشل في إنشاء الحساب البنكي",
+    "updateSuccess": "تم تحديث الحساب البنكي بنجاح",
+    "updateError": "فشل في تحديث الحساب البنكي",
+    "deleteSuccess": "تم حذف الحساب البنكي بنجاح",
+    "deleteError": "فشل في حذف الحساب البنكي",
+    "setPrimarySuccess": "تم تعيين الحساب كحساب رئيسي",
+    "setPrimaryError": "فشل في تعيين الحساب الرئيسي",
+    "ibanCopied": "تم نسخ رقم الآيبان",
+    "copyFailed": "فشل في نسخ رقم الآيبان",
+    "status": {
+      "verified": "موثق",
+      "pending": "قيد المراجعة",
+      "rejected": "مرفوض"
+    },
+    "actions": {
+      "edit": "تعديل",
+      "delete": "حذف",
+      "setPrimary": "تعيين كحساب رئيسي",
+      "verify": "توثيق",
+      "reject": "رفض",
+      "viewDetails": "عرض التفاصيل",
+      "copyIban": "نسخ رقم الآيبان"
+    },
+    "badges": {
+      "primary": "رئيسي",
+      "verified": "موثق",
+      "pending": "قيد التوثيق",
+      "rejected": "مرفوض"
+    },
+    "deleteDialog": {
+      "title": "حذف الحساب البنكي",
+      "description": "هل أنت متأكد من رغبتك في حذف هذا الحساب البنكي؟ لا يمكن التراجع عن هذا الإجراء.",
+      "confirmDelete": "حذف الحساب",
+      "cancel": "إلغاء"
+    },
+    "rejectDialog": {
+      "title": "رفض الحساب البنكي",
+      "description": "يرجى تقديم سبب رفض هذا الحساب البنكي",
+      "reasonLabel": "سبب الرفض",
+      "reasonPlaceholder": "أدخل سبب الرفض",
+      "submit": "رفض الحساب",
+      "cancel": "إلغاء"
+    },
+    "messages": {
+      "createSuccess": "تم إنشاء الحساب البنكي بنجاح",
+      "createError": "فشل في إنشاء الحساب البنكي",
+      "updateSuccess": "تم تحديث الحساب البنكي بنجاح",
+      "updateError": "فشل في تحديث الحساب البنكي",
+      "deleteSuccess": "تم حذف الحساب البنكي بنجاح",
+      "deleteError": "فشل في حذف الحساب البنكي",
+      "setPrimarySuccess": "تم تعيين الحساب البنكي كحساب رئيسي",
+      "setPrimaryError": "فشل في تعيين الحساب البنكي الرئيسي",
+      "verifySuccess": "تم توثيق الحساب البنكي بنجاح",
+      "verifyError": "فشل في توثيق الحساب البنكي",
+      "rejectSuccess": "تم رفض الحساب البنكي",
+      "rejectError": "فشل في رفض الحساب البنكي",
+      "ibanCopied": "تم نسخ رقم الآيبان إلى الحافظة",
+      "ibanCopyError": "فشل في نسخ رقم الآيبان"
+    },
+    "validation": {
+      "bankTypeRequired": "البنك مطلوب",
+      "accountHolderNameRequired": "اسم صاحب الحساب مطلوب",
+      "accountHolderNameMinLength": "يجب أن يكون اسم صاحب الحساب على الأقل حرفين",
+      "accountHolderNameMaxLength": "يجب ألا يتجاوز اسم صاحب الحساب 100 حرف",
+      "accountNumberRequired": "رقم الحساب مطلوب",
+      "accountNumberInvalid": "يجب أن يكون رقم الحساب من 10-20 رقم",
+      "ibanRequired": "رقم الآيبان مطلوب",
+      "ibanInvalid": "تنسيق الآيبان السعودي غير صحيح. يجب أن يبدأ بـ SA متبوعاً بـ 22 رقم",
+      "branchNameMaxLength": "يجب ألا يتجاوز اسم الفرع 100 حرف",
+      "branchCodeMaxLength": "يجب ألا يتجاوز رمز الفرع 20 حرف",
+      "swiftCodeInvalid": "تنسيق رمز السويفت غير صحيح",
+      "rejectionReasonRequired": "سبب الرفض مطلوب",
+      "rejectionReasonMinLength": "يجب أن يكون سبب الرفض على الأقل 10 أحرف"
+    }
+  },
   "settings": {
     "title": "الإعدادات",
     "menu": {
@@ -1517,6 +1744,7 @@
       "durationPlaceholder": "أدخل مدة المشروع",
       "area_sqm": "المساحة (متر مربع)",
       "area_sqmPlaceholder": "أدخل المساحة المتوقعة للمشروع",
+      "area_unit": "م²",
       "description": "الوصف",
       "descriptionPlaceholder": "أدخل وصف المشروع",
       "success": "تم حفظ البيانات الأساسية بنجاح!",
@@ -1665,6 +1893,245 @@
       "pending_review": "قيد المراجعة",
       "success": "تم إرسال المشروع للمراجعة بنجاح",
       "error": "فشل إرسال المشروع للمراجعة"
+    }
+  },
+  
+  "projectsList": {
+    "title": "مشاريعي",
+    "subtitle": "إدارة ومتابعة مشاريعك الإنشائية",
+    "loading": "جاري تحميل المشاريع...",
+    "project": "مشروع",
+    "projects": "مشاريع",
+    "emptyState": {
+      "title": "لا توجد مشاريع بعد",
+      "description": "ابدأ بإنشاء مشروعك الأول",
+      "createButton": "مشروع جديد"
+    },
+    "projectCard": {
+      "type": "النوع",
+      "location": "الموقع",
+      "budget": "الميزانية",
+      "duration": "المدة",
+      "area": "المساحة",
+      "status": {
+        "label": "الحالة",
+        "draft": "مسودة",
+        "review_pending": "في انتظار المراجعة",
+        "published": "منشور",
+        "receiving_bids": "استقبال العروض",
+        "offer_accepted": "تم قبول العرض",
+        "awaiting_contract_signature": "في انتظار توقيع العقد",
+        "contract_signed": "تم توقيع العقد",
+        "in_progress": "قيد التنفيذ",
+        "cancelled": "ملغي",
+        "rejected": "مرفوض",
+        "completed": "مكتمل",
+        "closed_completed": "مغلق ومكتمل",
+        "notStarted": "لم يبدأ"
+      },
+      "details": {
+        "location": "الموقع",
+        "budget": "الميزانية",
+        "duration": "المدة",
+        "area": "المساحة"
+      },
+      "progress": {
+        "label": "التقدم",
+        "steps": "خطوات",
+        "nextStep": "التالي"
+      },
+      "actions": {
+        "edit": "تعديل",
+        "view": "عرض"
+      }
+    },
+    "projectTypes": {
+      "1": "مبنى سكني",
+      "2": "مبنى تجاري",
+      "3": "مبنى صناعي",
+      "4": "بنية تحتية",
+      "unknown": "غير محدد"
+    },
+    "steps": {
+      "essentialInfo": "البيانات الأساسية",
+      "classification": "التصنيف",
+      "documents": "المستندات",
+      "boq": "جدول الكميات",
+      "publishSettings": "إعدادات النشر",
+      "completed": "مكتمل"
+    },
+    "tabs": {
+      "all": "جميع المشاريع",
+      "draft": "مسودة",
+      "review_pending": "في انتظار المراجعة",
+      "published": "منشور",
+      "receiving_bids": "استقبال العروض",
+      "offer_accepted": "تم قبول العرض",
+      "awaiting_contract_signature": "في انتظار العقد",
+      "contract_signed": "تم توقيع العقد",
+      "in_progress": "قيد التنفيذ",
+      "cancelled": "ملغي",
+      "rejected": "مرفوض",
+      "completed": "مكتمل",
+      "closed_completed": "مغلق ومكتمل"
+    },
+    "pagination": {
+      "showing": "عرض",
+      "of": "من",
+      "results": "نتيجة",
+      "previous": "السابق",
+      "next": "التالي",
+      "page": "صفحة",
+      "goToPage": "انتقل إلى الصفحة"
+    }
+  },
+  "contract": {
+    "status": {
+      "waiting_for_draft": "في انتظار مسودة العقد",
+      "awaiting_client_review": "في انتظار مراجعة العميل",
+      "awaiting_contractor_review": "في انتظار مراجعة المقاول",
+      "awaiting_client_modification": "في انتظار تعديل العميل",
+      "approved_awaiting_signatures": "معتمد - في انتظار التوقيعات",
+      "awaiting_contractor_signature": "في انتظار توقيع المقاول",
+      "signed_active": "موقع - نشط"
+    },
+    "view": {
+      "title": "عقد مقاولة",
+      "contractDetails": "تفاصيل العقد",
+      "firstParty": "الطرف الأول (مالك المشروع)",
+      "name": "الاسم",
+      "nationality": "الجنسية",
+      "mobile": "الهاتف المحمول",
+      "email": "البريد الإلكتروني",
+      "secondParty": "الطرف الثاني (المقاول)",
+      "projectDetails": "تفاصيل المشروع",
+      "projectName": "اسم المشروع",
+      "workType": "نوع العمل",
+      "location": "الموقع",
+      "area": "المساحة",
+      "officeAddress": "عنوان المكتب",
+      "timePeriod": "الفترة الزمنية",
+      "executionPeriod": "فترة التنفيذ",
+      "startDate": "تاريخ البدء",
+      "contractDate": "تاريخ العقد",
+      "financialTerms": "الشروط المالية",
+      "totalAmount": "إجمالي المبلغ",
+      "advancePayment": "الدفعة المقدمة",
+      "productPayment": "دفعة المنتج",
+      "finalPayment": "الدفعة النهائية",
+      "contractTerms": "شروط العقد",
+      "standardClauses": "البنود القياسية للعقد",
+      "readOnly": "للقراءة فقط",
+      "additionalClauses": "البنود الإضافية",
+      "editable": "قابل للتعديل",
+      "noAdditionalClauses": "لم يتم إضافة بنود إضافية بعد.",
+      "latestComment": "أحدث تعليق من المقاول"
+    },
+    "progress": {
+      "draft": "مسودة",
+      "review": "مراجعة",
+      "approved": "معتمد",
+      "sign": "توقيع",
+      "active": "نشط",
+      "current_status": "الحالة الحالية",
+      "title": "عنوان "
+    },
+    "roles": {
+      "client": "العميل",
+      "contractor": "المقاول",
+      "client_owner": "العميل (المالك)",
+      "current_role": "الدور الحالي"
+    },
+    "clauses": {
+      "standard": "البنود القياسية للعقد",
+      "additional": "البنود الإضافية",
+      "read_only": "للقراءة فقط",
+      "editable": "قابل للتعديل",
+      "no_additional": "لم يتم إضافة بنود إضافية بعد",
+      "add_new": "إضافة بند جديد",
+      "edit": "تعديل البنود الإضافية",
+      "edit_description": "إضافة أو تعديل أو حذف البنود الإضافية لتخصيص العقد",
+      "canOnlyBeEditedByClient": "يمكن تعديل البنود الإضافية من قبل العميل فقط أثناء مرحلة المراجعة.",
+      "title": "تعديل البنود الإضافية",
+      "description": "إضافة أو تعديل أو حذف البنود الإضافية لتخصيص العقد",
+      "editClauseText": "تعديل نص البند...",
+      "noAdditionalClauses": "لم يتم إضافة بنود إضافية بعد. انقر على الزر أدناه لإضافة البند الأول.",
+      "enterNewClauseText": "أدخل نص البند الجديد...",
+      "addClause": "إضافة بند",
+      "deleteConfirmTitle": "حذف البند",
+      "deleteConfirmDescription": "هل أنت متأكد من حذف هذا البند؟ لا يمكن التراجع عن هذا الإجراء.",
+      "unsavedChangesTitle": "تغييرات غير محفوظة",
+      "unsavedChangesDescription": "لديك تغييرات غير محفوظة. هل أنت متأكد من الإغلاق بدون حفظ؟",
+      "discardChanges": "تجاهل التغييرات"
+    },
+    "actions": {
+      "title": "عنوان",
+      "send_to_contractor": "إرسال للمقاول",
+      "request_changes": "طلب تعديلات",
+      "approve_contract": "الموافقة على العقد",
+      "reject_contract": "رفض العقد",
+      "sign_contract": "توقيع العقد",
+      "download_pdf": "تحميل PDF",
+      "upload_signed_pdf": "رفع PDF موقع",
+      "no_actions": "لا توجد إجراءات متاحة في الحالة الحالية. في انتظار رد الطرف الآخر."
+    },
+    "upload": {
+      "title": "رفع العقد الموقع",
+      "description": "رفع ملف PDF الموقع مع التحقق من رمز OTP",
+      "step_of": "الخطوة {step} من 3",
+      "select_file": "اختيار الملف",
+      "verify_otp": "التحقق من OTP",
+      "complete": "مكتمل",
+      "click_to_upload": "انقر لرفع ملف PDF موقع",
+      "pdf_only": "ملفات PDF فقط، حد أقصى 10 ميجابايت",
+      "file_selected": "تم اختيار الملف",
+      "otp_sent": "تم إرسال رمز OTP إلى رقم هاتفك المسجل. يرجى إدخاله أدناه للتحقق من هويتك.",
+      "otp_testing": "للاختبار: استخدم رمز OTP \"123456\"",
+      "enter_otp": "أدخل رمز التحقق",
+      "enter_6_digit": "أدخل رمز التحقق المكون من 6 أرقام",
+      "resend_otp_description": "لم تتلقى رمز التحقق؟",
+      "resend_otp_link": "إعادة إرسال الرمز",
+      "success_title": "تم توقيع العقد بنجاح!",
+      "success_description": "تم رفع والتحقق من العقد الموقع.",
+      "send_otp": "إرسال OTP",
+      "verify_upload": "التحقق والرفع"
+    },
+    "timeline": {
+      "title": "الجدول الزمني للتفاوض",
+      "description": "تتبع جميع إصدارات العقد والتعديلات",
+      "version": "الإصدار",
+      "latest": "الأحدث",
+      "no_history": "لا يوجد تاريخ إصدارات متاح بعد."
+    },
+    "role_switcher": {
+      "title": "مبدل الأدوار (وضع التطوير)",
+      "description": "التبديل بين عرض العميل والمقاول للاختبار",
+      "client_view": "عرض العميل",
+      "contractor_view": "عرض المقاول",
+      "reset_demo": "إعادة تعيين العرض التوضيحي"
+    },
+    "messages": {
+      "contract_sent": "تم إرسال العقد للمقاول بنجاح!",
+      "change_request_sent": "تم إرسال طلب التعديل للعميل!",
+      "contract_approved": "تم الموافقة على العقد! جاهز للتوقيعات.",
+      "contract_signed": "تم توقيع العقد من قبل {role}!",
+      "otp_sent": "تم إرسال OTP إلى رقم هاتفك المسجل (استخدم: 123456)",
+      "contract_signed_success": "تم توقيع العقد بنجاح!",
+      "pdf_downloaded": "تم تحميل ملف PDF للعقد بنجاح!",
+      "failed_send_otp": "فشل في إرسال OTP. يرجى المحاولة مرة أخرى.",
+      "invalid_otp": "رمز OTP غير صحيح أو فشل في الرفع. يرجى المحاولة مرة أخرى.",
+      "failed_generate_pdf": "فشل في إنشاء ملف PDF",
+      "select_file_first": "يرجى اختيار ملف أولاً",
+      "enter_otp_code": "يرجى إدخال رمز OTP",
+      "pdf_file_only": "يرجى اختيار ملف PDF فقط",
+      "file_size_limit": "يجب أن يكون حجم الملف أقل من 10 ميجابايت"
+    },
+    "dialogs": {
+      "request_changes": {
+        "comment_label": "تعليق طلب التعديل",
+        "comment_placeholder": "يرجى وصف التغييرات المطلوبة...",
+        "send_button": "إرسال الطلب"
+      }
     }
   },
   "feedback": {
@@ -2080,6 +2547,77 @@
           "minValue": "مدة استقبال العروض يجب أن يكون أكبر من 0",
           "required": "مدة استقبال العروض مطلوبة"
         }
+      },
+      "offers": {
+        "offerAmount": {
+          "required": "قيمة العرض مطلوبة",
+          "minValue": "قيمة العرض يجب أن تكون أكبر من أو تساوي 0"
+        },
+        "offerValidityValue": {
+          "required": "قيمة مدة صلاحية العرض مطلوبة",
+          "minValue": "مدة صلاحية العرض يجب أن تكون على الأقل 1"
+        },
+        "offerValidityUnit": {
+          "required": "وحدة مدة صلاحية العرض مطلوبة"
+        },
+        "executionDurationValue": {
+          "required": "قيمة مدة التنفيذ مطلوبة",
+          "minValue": "مدة التنفيذ يجب أن تكون على الأقل 1"
+        },
+        "executionDurationUnit": {
+          "required": "وحدة مدة التنفيذ مطلوبة"
+        },
+        "expectedStartDate": {
+          "required": "تاريخ البدء المتوقع مطلوب"
+        },
+        "expectedEndDate": {
+          "required": "تاريخ الانتهاء المتوقع مطلوب",
+          "afterStartDate": "تاريخ الانتهاء يجب أن يكون بعد تاريخ البدء"
+        },
+        "details": {
+          "required": "تفاصيل العرض مطلوبة",
+          "minLength": "تفاصيل العرض يجب أن تكون على الأقل 10 أحرف"
+        },
+        "qualityCertificate": {
+          "maxLength": "شهادة الجودة يجب ألا تتجاوز 255 حرف"
+        },
+        "phases": {
+          "minItems": "مرحلة واحدة على الأقل من المشروع مطلوبة",
+          "title": {
+            "required": "عنوان المرحلة مطلوب",
+            "minLength": "عنوان المرحلة يجب أن يكون على الأقل حرفين"
+          },
+          "description": {
+            "required": "وصف المرحلة مطلوب",
+            "minLength": "وصف المرحلة يجب أن يكون على الأقل حرفين"
+          },
+          "status": {
+            "required": "حالة المرحلة مطلوبة"
+          }
+        },
+        "paymentPlans": {
+          "minItems": "خطة دفع واحدة على الأقل مطلوبة",
+          "name": {
+            "required": "اسم خطة الدفع مطلوب",
+            "minLength": "اسم خطة الدفع يجب أن يكون على الأقل حرفين"
+          },
+          "amount": {
+            "required": "مبلغ الدفع مطلوب",
+            "minValue": "مبلغ الدفع يجب أن يكون أكبر من أو يساوي 0"
+          },
+          "percentageOfContract": {
+            "required": "نسبة العقد مطلوبة",
+            "minValue": "النسبة يجب أن تكون على الأقل 0",
+            "maxValue": "النسبة لا يمكن أن تتجاوز 100"
+          },
+          "dueOn": {
+            "required": "تاريخ استحقاق الدفع مطلوب"
+          },
+          "userBankAccountId": {
+            "required": "الحساب البنكي مطلوب",
+            "minValue": "يرجى اختيار حساب بنكي صالح"
+          }
+        }
       }
     }
   },
@@ -2091,95 +2629,5 @@
     "organizationName": "أدخل اسم المؤسسة",
     "organizationContactPersonFullName": "أدخل اسم الشخص المفوض",
     "organizationPhoneNumber": "أدخل رقم الهاتف الخاص بالمؤسسة"
-  },
-
-  "projectsList": {
-    "title": "مشاريعي",
-    "subtitle": "إدارة ومتابعة مشاريعك الإنشائية",
-    "loading": "جاري تحميل المشاريع...",
-    "project": "مشروع",
-    "projects": "مشاريع",
-    "emptyState": {
-      "title": "لا توجد مشاريع بعد",
-      "description": "ابدأ بإنشاء مشروعك الأول",
-      "createButton": "مشروع جديد"
-    },
-    "projectCard": {
-      "type": "النوع",
-      "location": "الموقع",
-      "budget": "الميزانية",
-      "duration": "المدة",
-      "area": "المساحة",
-      "status": {
-        "label": "الحالة",
-        "draft": "مسودة",
-        "review_pending": "في انتظار المراجعة",
-        "published": "منشور",
-        "receiving_bids": "استقبال العروض",
-        "offer_accepted": "تم قبول العرض",
-        "awaiting_contract_signature": "في انتظار توقيع العقد",
-        "contract_signed": "تم توقيع العقد",
-        "in_progress": "قيد التنفيذ",
-        "cancelled": "ملغي",
-        "rejected": "مرفوض",
-        "completed": "مكتمل",
-        "closed_completed": "مغلق ومكتمل",
-        "notStarted": "لم يبدأ"
-      },
-      "details": {
-        "location": "الموقع",
-        "budget": "الميزانية",
-        "duration": "المدة",
-        "area": "المساحة"
-      },
-      "progress": {
-        "label": "التقدم",
-        "steps": "خطوات",
-        "nextStep": "التالي"
-      },
-      "actions": {
-        "edit": "تعديل",
-        "view": "عرض"
-      }
-    },
-    "projectTypes": {
-      "1": "مبنى سكني",
-      "2": "مبنى تجاري",
-      "3": "مبنى صناعي",
-      "4": "بنية تحتية",
-      "unknown": "غير محدد"
-    },
-    "steps": {
-      "essentialInfo": "البيانات الأساسية",
-      "classification": "التصنيف",
-      "documents": "المستندات",
-      "boq": "جدول الكميات",
-      "publishSettings": "إعدادات النشر",
-      "completed": "مكتمل"
-    },
-    "tabs": {
-      "all": "جميع المشاريع",
-      "draft": "مسودة",
-      "review_pending": "في انتظار المراجعة",
-      "published": "منشور",
-      "receiving_bids": "استقبال العروض",
-      "offer_accepted": "تم قبول العرض",
-      "awaiting_contract_signature": "في انتظار العقد",
-      "contract_signed": "تم توقيع العقد",
-      "in_progress": "قيد التنفيذ",
-      "cancelled": "ملغي",
-      "rejected": "مرفوض",
-      "completed": "مكتمل",
-      "closed_completed": "مغلق ومكتمل"
-    },
-    "pagination": {
-      "showing": "عرض",
-      "of": "من",
-      "results": "نتيجة",
-      "previous": "السابق",
-      "next": "التالي",
-      "page": "صفحة",
-      "goToPage": "انتقل إلى الصفحة"
-    }
   }
 }

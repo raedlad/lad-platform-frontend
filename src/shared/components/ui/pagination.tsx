@@ -57,7 +57,7 @@ function PaginationLink({
       data-active={isActive}
       className={cn(
         buttonVariants({
-          variant: isActive ? "outline" : "ghost",
+          variant: isActive ? "default" : "outline",
           size,
         }),
         className
@@ -79,7 +79,7 @@ function PaginationPrevious({
       className={cn("gap-1 px-2.5 sm:pl-2.5", className)}
       {...props}
     >
-      <ChevronLeftIcon />
+      <ChevronLeftIcon className="rtl:rotate-180 text-design-main" />
       <span className="hidden sm:block">{t("common.actions.previous")}</span>
     </PaginationLink>
   );
@@ -98,7 +98,7 @@ function PaginationNext({
       {...props}
     >
       <span className="hidden sm:block">{t("common.actions.next")}</span>
-      <ChevronRightIcon />
+      <ChevronRightIcon className="rtl:rotate-180 text-design-main" />
     </PaginationLink>
   );
 }

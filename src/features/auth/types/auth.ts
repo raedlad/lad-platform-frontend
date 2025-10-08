@@ -101,6 +101,7 @@ export interface PersonalInfo {
   email?: string;
   phone?: string; // Primary phone field from validation schema
   phoneNumber?: string; // Legacy field for backward compatibility
+  phone_code?: string; // Phone country code (e.g., +966)
   password?: string;
   password_confirmation?: string; // Field name from validation schema
   confirmPassword?: string; // Legacy field for backward compatibility
@@ -213,39 +214,9 @@ export interface RegistrationRequest<
 export interface RegistrationResponse {
   message: string;
   response: {
-    id: number;
-    name: string;
-    email: string;
-    phone: string;
-    user_type: string;
-    account_overview: {
-      verification_status: {
-        verification_required: boolean;
-        email_verified: boolean;
-        phone_verified: boolean;
-      };
-      verification_required: {
-        email_verification: {
-          has_token: boolean;
-          token_type: string;
-        };
-        phone_verification: {
-          has_token: boolean;
-          token_type: string;
-        };
-      };
-    };
-    extra: {
-      tokens?: {
-        access_token: string;
-        access_token_expires_at: string;
-        access_token_expires_in: number;
-        token_type: string;
-        refresh_token: string;
-        refresh_token_expires_at: string;
-        refresh_token_expires_in: number;
-      };
-    };
+    intent_token: string; // Intent token for registration
+    code_verifier: string; // Code verifier for verification
+    expires_at: string; // Token expiry time
   };
 }
 
@@ -297,11 +268,13 @@ export interface VerificationStatusResponse {
 export interface VerifyPhoneRequest {
   phoneNumber: string;
   token: string;
+  registrationData?: any; // Optional registration data to send during verification
 }
 
 export interface VerifyPhoneResponse {
   message: string;
   isVerified: boolean;
+  response?: AuthUser; // User data returned after successful verification
 }
 
 // Resend email verification (for existing users)
@@ -317,11 +290,13 @@ export interface ResendEmailVerificationResponse {
 export interface VerifyEmailRequest {
   email: string;
   token: string;
+  registrationData?: any; // Optional registration data to send during verification
 }
 
 export interface VerifyEmailResponse {
   message: string;
   isVerified: boolean;
+  response?: AuthUser; // User data returned after successful verification
 }
 
 // Resend OTP Request/Response Types
@@ -332,15 +307,15 @@ export interface ResendOtpRequest {
 export interface ResendOtpResponse {
   message: string;
 }
-
 // Specific Registration Data Payloads (simplified for API)
 // These should mirror the Zod schemas but be flattened for API consumption
 
 // Base registration data interface matching the validation schema
-export interface BaseRegistrationData {
+export interface BaseRegistrationApiData {
   name: string;
-  email?: string;
+  email: string;
   phone: string;
+  phone_code?: string;
   password: string;
   password_confirmation: string;
   country_id?: string;
@@ -348,19 +323,19 @@ export interface BaseRegistrationData {
 }
 
 // Individual registration data
-export interface IndividualRegistrationData extends BaseRegistrationData {
+export interface IndividualRegistrationData extends BaseRegistrationApiData {
   national_id: string;
 }
 
 // Supplier registration data
-export interface SupplierRegistrationData extends BaseRegistrationData {
+export interface SupplierRegistrationData extends BaseRegistrationApiData {
   business_name: string;
   commercial_register_number: string;
 }
 
 // Engineering office registration data
 export interface EngineeringOfficeRegistrationData
-  extends BaseRegistrationData {
+  extends BaseRegistrationApiData {
   business_name: string;
   license_number: string;
   commercial_register_number: string;
@@ -368,24 +343,24 @@ export interface EngineeringOfficeRegistrationData
 
 // Freelance engineer registration data
 export interface FreelanceEngineerRegistrationData
-  extends BaseRegistrationData {
+  extends BaseRegistrationApiData {
   engineers_association_number: string;
 }
 
 // Contractor registration data
-export interface ContractorRegistrationData extends BaseRegistrationData {
+export interface ContractorRegistrationData extends BaseRegistrationApiData {
   business_name: string;
   commercial_register_number: string;
 }
 
 // Organization registration data
-export interface OrganizationRegistrationData extends BaseRegistrationData {
+export interface OrganizationRegistrationData extends BaseRegistrationApiData {
   business_name: string;
   commercial_register_number: string;
 }
 
 // Governmental registration data
-export interface GovernmentalRegistrationData extends BaseRegistrationData {
+export interface GovernmentalRegistrationData extends BaseRegistrationApiData {
   commercial_register_number: string;
 }
 
@@ -405,6 +380,7 @@ export interface DynamicRegistrationData {
   name: string;
   email: string;
   phone: string;
+  phone_code?: string;
   password: string;
   password_confirmation: string;
   country_id: string;
@@ -423,10 +399,11 @@ export interface RegistrationApiData {
   name: string;
   email: string;
   phone: string;
+  phone_code?: string;
   password: string;
   password_confirmation: string;
   user_type: string;
-  countryOfResidence?: string;
+  country_id?: string;
 
   // Role-specific fields
   national_id?: string;
@@ -443,6 +420,7 @@ export interface DynamicFormData {
   name: string;
   email: string;
   phone: string;
+  phone_code?: string;
   password: string;
   password_confirmation: string;
   country_id: string;

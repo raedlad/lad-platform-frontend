@@ -42,6 +42,9 @@ import { RegistrationRole } from "@auth/types/auth";
 import { FileUpload } from "@/features/auth/components/file-upload";
 import { DynamicFormData } from "@/features/auth/types/auth";
 import { PhoneInput } from "@/features/auth/components/phone-input/PhoneInput";
+import { CountrySelection } from "@/shared/components/ui/CoutrySelect";
+import { useGetCountries } from "@/shared/hooks/globalHooks";
+import { parsePhoneNumber } from "react-phone-number-input";
 
 const CombinedRegistrationForm: React.FC<{ role: string }> = ({ role }) => {
   const store = useAuthStore();
@@ -90,6 +93,8 @@ const CombinedRegistrationForm: React.FC<{ role: string }> = ({ role }) => {
 
   const schema = getSchemaForRole(role);
 
+  const { countries } = useGetCountries();
+
   const form = useForm<any>({
     resolver: zodResolver(schema),
     mode: "onBlur", // Enable real-time validation
@@ -97,9 +102,10 @@ const CombinedRegistrationForm: React.FC<{ role: string }> = ({ role }) => {
       name: "",
       email: "",
       phone: "",
+      phone_code: "",
       password: "",
       password_confirmation: "",
-      country_id: "",
+      country_id: "SA",
       // Role-specific fields
       ...(role === "individual" && { national_id: "" }),
       ...(role === "supplier" && {
@@ -158,7 +164,29 @@ const CombinedRegistrationForm: React.FC<{ role: string }> = ({ role }) => {
 
     store.setAuthMethod("email");
 
-    const result = await onSubmit(values, role);
+    // Extract phone code from phone number if available
+    let phoneCode = values.phone_code;
+    if (!phoneCode && values.phone) {
+      try {
+        const parsedPhone = parsePhoneNumber(values.phone);
+        if (parsedPhone) {
+          phoneCode = `+${parsedPhone.countryCallingCode}`;
+        }
+      } catch (error) {
+        console.error("Error parsing phone number:", error);
+      }
+    }
+
+    // Get country_id from form or find from countries
+    const country = countries?.find((c) => c.iso2 === values.country_id);
+
+    const submitData = {
+      ...values,
+      phone_code: phoneCode,
+      country_id: country?.id || values.country_id,
+    };
+
+    const result = await onSubmit(submitData, role);
 
     if (!result.success) {
       // Error handling is done in the onSubmit function
@@ -264,6 +292,38 @@ const CombinedRegistrationForm: React.FC<{ role: string }> = ({ role }) => {
                   )}
                 />
 
+                {/* Country Select */}
+                <FormField
+                  control={form.control}
+                  name="country_id"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel> {commonT("country")}</FormLabel>
+                      <FormControl>
+                        <CountrySelection
+                          selectedCountry={field.value}
+                          onCountryChange={(value) => {
+                            field.onChange(value);
+                            // Update phone code when country changes
+                            const selectedCountry = countries?.find(
+                              (c) => c.iso2 === value
+                            );
+                            if (selectedCountry) {
+                              form.setValue(
+                                "phone_code",
+                                selectedCountry.phone_code
+                              );
+                            }
+                          }}
+                          disabled={isLoading}
+                          placeholder={commonT("select.country")}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
                 {/* Phone Number */}
                 <FormField
                   control={form.control}
@@ -276,7 +336,23 @@ const CombinedRegistrationForm: React.FC<{ role: string }> = ({ role }) => {
                       <FormControl>
                         <PhoneInput
                           value={field.value}
-                          onChange={field.onChange}
+                          onChange={(value) => {
+                            field.onChange(value);
+                            // Extract and update phone code
+                            if (value) {
+                              try {
+                                const parsedPhone = parsePhoneNumber(value);
+                                if (parsedPhone) {
+                                  form.setValue(
+                                    "phone_code",
+                                    `+${parsedPhone.countryCallingCode}`
+                                  );
+                                }
+                              } catch (error) {
+                                console.error("Error parsing phone:", error);
+                              }
+                            }
+                          }}
                           disabled={isLoading}
                           placeholder={authT("personalInfo.phoneNumber")}
                         />

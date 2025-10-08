@@ -2,6 +2,11 @@
 import { z } from "zod";
 import { getProfileValidationMessages } from "./validationMessages";
 
+// IBAN validation for Saudi Arabia (starts with SA and has 24 characters total)
+const saudiIbanRegex = /^SA[0-9]{22}$/;
+
+// Account number validation (typically 10-20 digits)
+const accountNumberRegex = /^[0-9]{10,20}$/;
 export const createProfileValidationSchemas = (t: (key: string) => string) => {
   const messages = getProfileValidationMessages(t);
 
@@ -326,6 +331,98 @@ export const createProfileValidationSchemas = (t: (key: string) => string) => {
         }
       ),
   });
+  // Bank Account Schema for creating new accounts (all required fields)
+  const BankAccountCreateSchema = z.object({
+      bank_type_id: z
+        .number({
+          message: messages.bankType.required,
+        })
+        .min(1, messages.bankType.required),
+      
+      full_name: z
+        .string()
+        .min(2, messages.accountHolderName.minLength)
+        .max(100, messages.accountHolderName.maxLength),
+      
+      account_number: z
+        .string()
+        .regex(accountNumberRegex, messages.accountNumber.invalid),
+      
+      iban: z
+        .string()
+        .regex(saudiIbanRegex, messages.iban.invalid)
+        .transform(val => val.toUpperCase()),
+      
+      branch_name: z
+        .string()
+        .max(100, messages.branchName.maxLength)
+        .optional(),
+      
+      branch_code: z
+        .string()
+        .max(20, messages.branchCode.maxLength)
+        .optional(),
+      
+      swift_bic: z
+        .string()
+        .regex(/^[A-Z]{6}[A-Z0-9]{2}([A-Z0-9]{3})?$/, messages.swiftCode.invalid)
+        .optional()
+        .or(z.literal("")),
+      
+      qr_media_ref: z.string().optional(),
+      
+      external_account_id: z.string().optional(),
+      
+      is_primary: z.boolean().optional(),
+    });
+
+  const BankAccountUpdateSchema = z.object({
+      bank_type_id: z
+        .number({
+          message: messages.bankType.required,
+        })
+        .min(1, messages.bankType.required)
+        .optional(),
+      
+      full_name: z
+        .string()
+        .min(2, messages.accountHolderName.minLength)
+        .max(100, messages.accountHolderName.maxLength)
+        .optional(),
+      
+      account_number: z
+        .string()
+        .regex(accountNumberRegex, messages.accountNumber.invalid)
+        .optional(),
+      
+      iban: z
+        .string()
+        .regex(saudiIbanRegex, messages.iban.invalid)
+        .transform(val => val.toUpperCase())
+        .optional(),
+      
+      branch_name: z
+        .string()
+        .max(100, messages.branchName.maxLength)
+        .optional(),
+      
+      branch_code: z
+        .string()
+        .max(20, messages.branchCode.maxLength)
+        .optional(),
+      
+      swift_bic: z
+        .string()
+        .regex(/^[A-Z]{6}[A-Z0-9]{2}([A-Z0-9]{3})?$/, messages.swiftCode.invalid)
+        .optional()
+        .or(z.literal("")),
+      
+      qr_media_ref: z.string().optional(),
+      
+      external_account_id: z.string().optional(),
+      
+      is_primary: z.boolean().optional(),
+    });
 
   return {
     IndividualProfilePersonalInfoSchema,
@@ -337,6 +434,10 @@ export const createProfileValidationSchemas = (t: (key: string) => string) => {
     FreelanceEngineerProfessionalInfoSchema,
     EngineeringOfficePersonalInfoProfileSchema,
     EngineeringOfficeProfessionalInfoSchema,
+    BankAccountCreateSchema,
+    BankAccountUpdateSchema,
+    // Legacy export for backward compatibility
+    BackAccountSchema: BankAccountCreateSchema,
   };
 };
 export const IndividualProfileValidationSchema = z.object({

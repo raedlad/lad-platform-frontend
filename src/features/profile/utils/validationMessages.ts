@@ -97,7 +97,6 @@ export const getProfileValidationMessages = (t: (key: string) => string) => ({
     required: t("feedback.validation.aboutUs.required"),
     maxLength: t("feedback.validation.aboutUs.maxLength"),
   },
-  // Contractor Operational Validation Messages
   executedProjectRange: {
     required: t(
       "feedback.validation.contractorOperational.executedProjectRange.required"
@@ -186,5 +185,34 @@ export const getProfileValidationMessages = (t: (key: string) => string) => ({
     required: t(
       "feedback.validation.contractorOperational.coversAllRegions.required"
     ),
+  },
+  bankType: {
+    required: t("bankAccount.validation.bankTypeRequired"),
+  },
+  accountHolderName: {
+    required: t("bankAccount.validation.accountHolderNameRequired"),
+    minLength: t("bankAccount.validation.accountHolderNameMinLength"),
+    maxLength: t("bankAccount.validation.accountHolderNameMaxLength"),
+  },
+  accountNumber: {
+    required: t("bankAccount.validation.accountNumberRequired"),
+    invalid: t("bankAccount.validation.accountNumberInvalid"),
+  },
+  iban: {
+    required: t("bankAccount.validation.ibanRequired"),
+    invalid: t("bankAccount.validation.ibanInvalid"),
+  },
+  branchName: {
+    maxLength: t("bankAccount.validation.branchNameMaxLength"),
+  },
+  branchCode: {
+    maxLength: t("bankAccount.validation.branchCodeMaxLength"),
+  },
+  swiftCode: {
+    invalid: t("bankAccount.validation.swiftCodeInvalid"),
+  },
+  rejectionReason: {
+    required: t("bankAccount.validation.rejectionReasonRequired") || "Rejection reason is required",
+    minLength: t("bankAccount.validation.rejectionReasonMinLength") || "Rejection reason must be at least 10 characters",
   },
 });

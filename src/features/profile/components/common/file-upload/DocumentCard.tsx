@@ -70,7 +70,7 @@ const DocumentCard: React.FC<DocumentCardProps> = ({
   const [editData, setEditData] = useState({
     customName: file.customName || file.fileName,
     description: file.description || "",
-    expiryDate: file.expiryDate || "",
+    expiryDate: file.expiryDate ? new Date(file.expiryDate) : undefined,
   });
 
   const getFileIcon = (fileName: string) => {
@@ -138,7 +138,12 @@ const DocumentCard: React.FC<DocumentCardProps> = ({
   };
 
   const handleSave = () => {
-    updateFileMetadata(role, docId, file.id, editData);
+    const updatedData = {
+      customName: editData.customName,
+      description: editData.description,
+      expiryDate: editData.expiryDate ? editData.expiryDate.toISOString() : undefined,
+    };
+    updateFileMetadata(role, docId, file.id, updatedData);
     setIsEditing(false);
   };
 
@@ -146,7 +151,7 @@ const DocumentCard: React.FC<DocumentCardProps> = ({
     setEditData({
       customName: file.customName || file.fileName,
       description: file.description || "",
-      expiryDate: file.expiryDate || "",
+      expiryDate: file.expiryDate ? new Date(file.expiryDate) : undefined,
     });
     setIsEditing(false);
   };

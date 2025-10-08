@@ -190,6 +190,14 @@ export const authApi = {
         formData.append("password_confirmation", data.data.password || "");
         formData.append("user_type", role.toLowerCase());
         formData.append("phone", data.data.phone || "");
+        
+        // Add country_id and phone_code
+        if (data.data.country_id) {
+          formData.append("country_id", String(data.data.country_id));
+        }
+        if (data.data.phone_code) {
+          formData.append("phone_code", data.data.phone_code);
+        }
 
         // Add role-specific fields
         if (role === "organization") {
@@ -232,7 +240,7 @@ export const authApi = {
           );
         }
 
-        response = await api.post("/auth/register", formData, {
+        response = await api.post("/auth/register-intents", formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
@@ -246,7 +254,13 @@ export const authApi = {
           password_confirmation: data.data.password || "",
           user_type: role.toLowerCase(),
           phone: data.data.phone || "",
+          phone_code: data.data.phone_code,
         };
+        
+        // Add country_id if available
+        if (data.data.country_id) {
+          transformedData.country_id = String(data.data.country_id);
+        }
 
         // Add role-specific fields (only for roles that don't use FormData)
         if (role === "individual") {
@@ -256,38 +270,22 @@ export const authApi = {
             data.data.commercial_register_number || "";
         }
 
-        response = await api.post("/auth/register", transformedData);
+        response = await api.post("/auth/register-intents", transformedData);
       }
 
       console.log(
         "✅ Second handshake completed: Registration request successful"
       );
 
-      // Extract user data and tokens from the new response structure
-      const userData = response.data?.response;
-      const tokens = userData?.extra?.tokens;
+      // Extract verification data from the new response structure
+      const verificationData = response.data?.response;
 
       return {
         success: true,
         data: {
           message:
-            response.data?.message || "Individual registered successfully",
-          response: {
-            id: userData?.id,
-            name: userData?.name,
-            email: userData?.email,
-            phone: userData?.phone,
-            user_type: userData?.user_type,
-            account_overview: {
-              verification_status:
-                userData?.account_overview?.verification_status,
-              verification_required:
-                userData?.account_overview?.verification_required,
-            },
-            extra: {
-              tokens: tokens,
-            },
-          },
+            response.data?.message || "Registration successful. Please verify your account.",
+          response: verificationData,
         },
         message: response.data?.message || "Registration successful",
       };
@@ -403,6 +401,209 @@ export const authApi = {
     }
   },
 
+  // Verify Registration Intent (New registration flow)
+  verifyRegistrationIntent: async (
+    otp: string,
+    contactInfo: string,
+    authMethod: 'email' | 'phone'
+  ): Promise<ApiResponse<VerifyPhoneResponse>> => {
+    console.log("API Call: verifyRegistrationIntent", { contactInfo, authMethod });
+
+    try {
+      // Get intent_token, code_verifier, and registration data from store
+      const storeState = useAuthStore.getState();
+      const intentToken = storeState.verificationToken;
+      const codeVerifier = storeState.codeVerifier;
+      const registrationData = storeState.registrationData;
+      const currentRole = storeState.currentRole;
+      
+      if (!intentToken) {
+        throw new Error("Intent token not found");
+      }
+      
+      if (!codeVerifier) {
+        throw new Error("Code verifier not found");
+      }
+
+      // Check if we need to use FormData (for file uploads)
+      const hasFile = registrationData?.commercial_register_file instanceof File;
+      
+      let requestPayload: any;
+      let headers: any = {};
+
+      if (hasFile) {
+        // Use FormData for file uploads
+        const formData = new FormData();
+        
+        // Add verification fields
+        formData.append("code", otp);
+        formData.append("code_verifier", codeVerifier);
+        
+        // Add contact info based on auth method
+        if (authMethod === 'email') {
+          formData.append("email", contactInfo);
+        } else {
+          formData.append("phone", contactInfo);
+        }
+        
+        // Add user_type
+        if (currentRole) {
+          formData.append("user_type", currentRole.toLowerCase());
+        }
+        
+        // Include all registration data (includes all role-specific fields)
+        if (registrationData) {
+          Object.entries(registrationData).forEach(([key, value]) => {
+            // Skip fields we've already added and skip undefined/null
+            if (value !== undefined && value !== null && 
+                key !== 'email' && key !== 'phone') {
+              if (value instanceof File) {
+                // Handle file upload (commercial_register_file)
+                formData.append(key, value);
+              } else if (typeof value === 'string' || typeof value === 'number') {
+                // Handle all other fields (name, password, national_id, business_name, 
+                // commercial_register_number, license_number, engineers_association_number, etc.)
+                formData.append(key, String(value));
+              }
+            }
+          });
+        }
+        
+        requestPayload = formData;
+        headers = { "Content-Type": "multipart/form-data" };
+      } else {
+        // Use JSON for non-file requests
+        requestPayload = {
+          code: otp,
+          code_verifier: codeVerifier,
+        };
+
+        // Add contact info based on auth method
+        if (authMethod === 'email') {
+          requestPayload.email = contactInfo;
+        } else {
+          requestPayload.phone = contactInfo;
+        }
+        
+        // Add user_type
+        if (currentRole) {
+          requestPayload.user_type = currentRole.toLowerCase();
+        }
+        
+        // Include registration data (includes all role-specific fields)
+        if (registrationData) {
+          Object.entries(registrationData).forEach(([key, value]) => {
+            // Skip fields we've already added, skip files, and skip undefined/null
+            if (value !== undefined && value !== null && 
+                !(value instanceof File) && 
+                key !== 'email' && key !== 'phone') {
+              // Ensure country_id is a string
+              if (key === 'country_id') {
+                requestPayload[key] = String(value);
+              } else {
+                requestPayload[key] = value;
+              }
+            }
+          });
+        }
+      }
+
+      const response = await api.post(
+        `/auth/register-intents/${intentToken}/verify-with-finalize-account`,
+        requestPayload,
+        hasFile ? { headers } : undefined
+      );
+
+      // Check if response includes user data (after successful verification)
+      const userData = response.data?.response;
+      
+      if (userData) {
+        // Store user data and tokens
+        const tokens = userData?.extra?.tokens;
+        
+        if (tokens && userData) {
+          tokenStorage.storeTokens(tokens, userData);
+        }
+
+        // Update auth store with user data
+        useAuthStore.setState((state) => ({
+          ...state,
+          user: userData,
+          isAuthenticated: true,
+          isVerified: true,
+          phoneVerificationRequired: false,
+          emailVerificationRequired: false,
+          tokens: tokens,
+        }));
+      }
+
+      return {
+        success: true,
+        data: {
+          message: "Verification successful",
+          isVerified: true,
+          response: userData,
+        },
+        message: "Verification successful",
+      };
+    } catch (error: unknown) {
+      const err = error as ApiError;
+      console.error("Registration intent verification error:", err.message);
+      if (err.response?.data) {
+        return {
+          success: false,
+          message: err.response.data.message || "Verification failed",
+          errors: err.response.data.errors || {
+            general: ["Verification failed"],
+          },
+        };
+      }
+      return {
+        success: false,
+        message: "Verification failed",
+        errors: { general: ["Verification failed"] },
+      };
+    }
+  },
+
+  // Resend Registration OTP (New registration flow)
+  resendRegistrationOtp: async (): Promise<ApiResponse<{ message: string }>> => {
+    console.log("API Call: resendRegistrationOtp");
+
+    try {
+      // Get intent_token from store
+      const intentToken = useAuthStore.getState().verificationToken;
+      if (!intentToken) {
+        throw new Error("Intent token not found");
+      }
+
+      const response = await api.post(`/auth/register-intents/${intentToken}/send`);
+
+      return {
+        success: true,
+        data: { message: "OTP resent successfully" },
+        message: response.data?.message || "OTP resent successfully",
+      };
+    } catch (error: unknown) {
+      const err = error as ApiError;
+      console.error("Resend registration OTP error:", err.message);
+      if (err.response?.data) {
+        return {
+          success: false,
+          message: err.response.data.message || "Failed to resend OTP",
+          errors: err.response.data.errors || {
+            general: ["Failed to resend OTP"],
+          },
+        };
+      }
+      return {
+        success: false,
+        message: "Failed to resend OTP",
+        errors: { general: ["Failed to resend OTP"] },
+      };
+    }
+  },
+
   // Verify Phone
   verifyPhone: async (
     data: VerifyPhoneRequest
@@ -410,54 +611,37 @@ export const authApi = {
     console.log("API Call: verifyPhone", data);
 
     try {
-      const response = await api.post("/auth/verification/verify-phone", {
+      const requestPayload: any = {
         phone: data.phoneNumber,
         token: data.token,
-      });
+      };
 
-      // Update local storage and auth store on success
-      const currentUser = tokenStorage.getUser();
-      if (currentUser) {
-        const emailVerified =
-          currentUser?.account_overview?.verification_status?.email_verified ===
-          true;
+      // Include registration data if provided
+      if (data.registrationData) {
+        Object.assign(requestPayload, data.registrationData);
+      }
 
-        const updatedUser = {
-          ...currentUser,
-          phone_verified_at: new Date().toISOString(),
-          account_overview: {
-            ...currentUser.account_overview,
-            verification_status: {
-              ...currentUser.account_overview?.verification_status,
-              phone_verified: true,
-              verification_required: !emailVerified ? true : false,
-            },
-            verification_required: {
-              ...currentUser.account_overview?.verification_required,
-              phone_verification: {
-                ...(currentUser.account_overview?.verification_required
-                  ?.phone_verification || { token_type: "" }),
-                has_token: false,
-              },
-            },
-          },
-        } as AuthUser;
+      const response = await api.post("/auth/verification/verify-phone", requestPayload);
 
-        // Persist updated user
-        if (typeof window !== "undefined") {
-          localStorage.setItem("user", JSON.stringify(updatedUser));
+      // Check if response includes user data (after successful verification)
+      const userData = response.data?.response;
+      
+      if (userData) {
+        // Store user data and tokens
+        const tokens = userData?.extra?.tokens;
+        
+        if (tokens && userData) {
+          tokenStorage.storeTokens(tokens, userData);
         }
 
-        // Update flags
-        tokenStorage.setPhoneVerificationTokenFlag(false);
-        tokenStorage.setVerificationRequired(!emailVerified ? true : false);
-
-        // Update store
+        // Update auth store with user data
         useAuthStore.setState((state) => ({
           ...state,
-          user: updatedUser,
-          isVerified: emailVerified, // if email was verified, this completes verification
+          user: userData,
+          isAuthenticated: true,
+          isVerified: true,
           phoneVerificationRequired: false,
+          tokens: tokens,
         }));
       }
 
@@ -466,6 +650,7 @@ export const authApi = {
         data: {
           message: "Phone verified successfully",
           isVerified: true,
+          response: userData, // Include user data in response
         },
         message: "Phone verification successful",
       };
@@ -496,54 +681,37 @@ export const authApi = {
     console.log("API Call: verifyEmail", data);
 
     try {
-      const response = await api.post("/auth/verification/verify-email", {
+      const requestPayload: any = {
         email: data.email,
         token: data.token,
-      });
+      };
 
-      // Update local storage and auth store on success
-      const currentUser = tokenStorage.getUser();
-      if (currentUser) {
-        const emailVerified =
-          currentUser?.account_overview?.verification_status?.phone_verified ===
-          true;
+      // Include registration data if provided
+      if (data.registrationData) {
+        Object.assign(requestPayload, data.registrationData);
+      }
 
-        const updatedUser = {
-          ...currentUser,
-          email_verified_at: new Date().toISOString(),
-          account_overview: {
-            ...currentUser.account_overview,
-            verification_status: {
-              ...currentUser.account_overview?.verification_status,
-              email_verified: true,
-              verification_required: !emailVerified ? true : false,
-            },
-            verification_required: {
-              ...currentUser.account_overview?.verification_required,
-              email_verification: {
-                ...(currentUser.account_overview?.verification_required
-                  ?.email_verification || { token_type: "" }),
-                has_token: false,
-              },
-            },
-          },
-        } as AuthUser;
+      const response = await api.post("/auth/verification/verify-email", requestPayload);
 
-        // Persist updated user
-        if (typeof window !== "undefined") {
-          localStorage.setItem("user", JSON.stringify(updatedUser));
+      // Check if response includes user data (after successful verification)
+      const userData = response.data?.response;
+      
+      if (userData) {
+        // Store user data and tokens
+        const tokens = userData?.extra?.tokens;
+        
+        if (tokens && userData) {
+          tokenStorage.storeTokens(tokens, userData);
         }
 
-        // Update flags
-        tokenStorage.setEmailVerificationTokenFlag(false);
-        tokenStorage.setVerificationRequired(!emailVerified ? true : false);
-
-        // Update store
+        // Update auth store with user data
         useAuthStore.setState((state) => ({
           ...state,
-          user: updatedUser,
-          isVerified: emailVerified, // if email was verified, this completes verification
+          user: userData,
+          isAuthenticated: true,
+          isVerified: true,
           emailVerificationRequired: false,
+          tokens: tokens,
         }));
       }
 
@@ -552,6 +720,7 @@ export const authApi = {
         data: {
           message: "Email verified successfully",
           isVerified: true,
+          response: userData, // Include user data in response
         },
         message: "Email verification successful",
       };

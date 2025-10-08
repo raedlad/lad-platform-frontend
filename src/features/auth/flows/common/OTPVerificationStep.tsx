@@ -84,6 +84,7 @@ const OTPVerificationStep: React.FC<VerificationStepProps> = ({
   const onResend = handleResendCode;
   const isLoading = store.isLoading;
   const authMethod = store.authMethod!;
+  const storeError = store.error; // Get error from store
 
   const contactInfo =
     authMethod === "email"
@@ -201,8 +202,10 @@ const OTPVerificationStep: React.FC<VerificationStepProps> = ({
           </div>
 
           {/* Error Message */}
-          {error && (
-            <div className="text-sm text-red-600 text-center">{error}</div>
+          {(error || storeError) && (
+            <div className="text-sm text-red-600 text-center">
+              {error || storeError}
+            </div>
           )}
 
           {/* Success Message */}

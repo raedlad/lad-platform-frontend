@@ -26,6 +26,10 @@ export interface AuthStoreState extends BaseRegistrationState {
   currentStep: string | null;
   authMethod: AuthMethod | null;
   verificationCode: string;
+  verificationToken?: string; // Intent token received from registration
+  codeVerifier?: string; // Code verifier for OTP verification
+  verificationContact?: string; // Email or phone to verify
+  registrationData?: any; // Store registration data for verification
   isVerified: boolean;
   isLoading: boolean;
   error: string | null;
@@ -50,6 +54,10 @@ export interface AuthStoreState extends BaseRegistrationState {
     data: Record<string, unknown>
   ) => void;
   setVerificationCode: (code: string) => void;
+  setVerificationToken: (token: string) => void;
+  setCodeVerifier: (verifier: string) => void;
+  setVerificationContact: (contact: string) => void;
+  setRegistrationData: (data: any) => void;
   setIsVerified: (verified: boolean) => void;
   setLoading: (loading: boolean) => void;
   setError: (error: string | null) => void;
@@ -86,6 +94,10 @@ export const useAuthStore = create<AuthStoreState>()((set, get) => ({
   currentStep: tokenStorage.getCurrentStep(),
   authMethod: null,
   verificationCode: "",
+  verificationToken: undefined,
+  codeVerifier: undefined,
+  verificationContact: undefined,
+  registrationData: undefined,
   isVerified: false,
   isLoading: false,
   error: null,
@@ -128,6 +140,10 @@ export const useAuthStore = create<AuthStoreState>()((set, get) => ({
       roleData: { ...state.roleData, [key]: data },
     })),
   setVerificationCode: (code) => set({ verificationCode: code }),
+  setVerificationToken: (token) => set({ verificationToken: token }),
+  setCodeVerifier: (verifier) => set({ codeVerifier: verifier }),
+  setVerificationContact: (contact) => set({ verificationContact: contact }),
+  setRegistrationData: (data) => set({ registrationData: data }),
   setIsVerified: (verified) => set({ isVerified: verified }),
   setLoading: (loading) => set({ isLoading: loading }),
   setError: (error) => set({ error }),
@@ -185,6 +201,10 @@ export const useAuthStore = create<AuthStoreState>()((set, get) => ({
       authMethod: null,
       roleData: {},
       verificationCode: "",
+      verificationToken: undefined,
+      codeVerifier: undefined,
+      verificationContact: undefined,
+      registrationData: undefined,
       isVerified: false,
       isLoading: false,
       error: null,
@@ -207,6 +227,10 @@ export const useAuthStore = create<AuthStoreState>()((set, get) => ({
       authMethod: null,
       roleData: {},
       verificationCode: "",
+      verificationToken: undefined,
+      codeVerifier: undefined,
+      verificationContact: undefined,
+      registrationData: undefined,
       isVerified: false,
       isLoading: false,
       error: null,
@@ -249,6 +273,10 @@ export const useAuthStore = create<AuthStoreState>()((set, get) => ({
         authMethod: null,
         roleData: {},
         verificationCode: "",
+        verificationToken: undefined,
+        codeVerifier: undefined,
+        verificationContact: undefined,
+        registrationData: undefined,
         isVerified: false,
         error: null,
       });

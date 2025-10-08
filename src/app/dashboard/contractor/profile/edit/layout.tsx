@@ -49,6 +49,12 @@ const EditProfileLayout = ({ children }: { children: React.ReactNode }) => {
       icon: Building,
       description: "Operational and technical details",
     },
+    {
+      title: t("sidebar.bankAccounts"),
+      href: "/dashboard/contractor/profile/edit/bank-account",
+      icon: Building,
+      description: "Bank accounts and bank account details",
+    },
   ];
 
   const isActive = (href: string) => {

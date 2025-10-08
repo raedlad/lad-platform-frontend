@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import AvatarUpload from "@/features/profile/components/common/AvatarUpload";
-import { User, FileText, PenLine, FolderOpen, Building } from "lucide-react";
+import { User, FileText, PenLine, FolderOpen, Building, CreditCard } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useAuthStore } from "@/features/auth/store";
 import { Button } from "@/shared/components/ui/button";
@@ -75,6 +75,12 @@ export default function Page() {
       title: t("tabs.operational"),
       description: t("tabs.operational"),
       icon: Building,
+      type: "tab",
+    },
+    {
+      title: t("tabs.bankAccounts"),
+      description: t("tabs.bankAccounts"),
+      icon: CreditCard,
       type: "tab",
     },
   ];
