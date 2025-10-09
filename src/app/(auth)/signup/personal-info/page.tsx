@@ -13,6 +13,7 @@ export default function PersonalInfoPage() {
   const currentStep = store.currentStep;
   const isLoading = store.isLoading;
   const [isNavigating, setIsNavigating] = React.useState(false);
+  const prevStepRef = React.useRef(currentStep);
 
   // Redirect if no role selected
   React.useEffect(() => {
@@ -21,12 +22,17 @@ export default function PersonalInfoPage() {
     }
   }, [role, router]);
 
-  // Navigate to verification page when step changes to verification
+  // Navigate to verification page only when step CHANGES to verification (not if already verification)
   React.useEffect(() => {
-    if (currentStep === "verification" && !isNavigating) {
+    if (
+      currentStep === "verification" && 
+      prevStepRef.current !== "verification" && 
+      !isNavigating
+    ) {
       setIsNavigating(true);
       router.push("/signup/verify");
     }
+    prevStepRef.current = currentStep;
   }, [currentStep, router, isNavigating]);
 
   if (!role) {
@@ -34,7 +40,7 @@ export default function PersonalInfoPage() {
   }
 
   // Show loading state while navigating to prevent glitch
-  if (isNavigating || (currentStep === "verification" && isLoading)) {
+  if (isNavigating && isLoading) {
     return (
       <OnboardingLayout>
         <div className="w-full max-w-md flex items-center justify-center min-h-[400px]">

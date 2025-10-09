@@ -41,6 +41,7 @@ interface RegistrationHook {
 interface VerificationStepProps {
   store: RegistrationStore;
   hook: RegistrationHook;
+  onBack?: () => void;
 }
 
 // Wrapper component that handles dashboard redirect after successful verification
