@@ -178,8 +178,20 @@ export const useRoleRegistration = () => {
             registrationResult.errors &&
             Object.keys(registrationResult.errors).length > 0
           ) {
-            // Extract field-specific errors
+            // Check if it's only a general error (no field-specific errors)
+            const errorKeys = Object.keys(registrationResult.errors);
+            if (errorKeys.length === 1 && errorKeys[0] === "general") {
+              // For general errors, just use the message directly
+              const generalMessages = registrationResult.errors.general;
+              const errorMessage = Array.isArray(generalMessages)
+                ? generalMessages.join(", ")
+                : generalMessages;
+              throw new Error(errorMessage || registrationResult.message || "Registration failed");
+            }
+
+            // Extract field-specific errors (exclude general from field display)
             const fieldErrors = Object.entries(registrationResult.errors)
+              .filter(([field]) => field !== "general") // Exclude "general" from field errors
               .map(
                 ([field, messages]) =>
                   `${field}: ${

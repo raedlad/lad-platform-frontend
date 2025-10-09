@@ -17,12 +17,6 @@ export const createValidationSchemas = (t: (key: string) => string) => {
     .refine((password) => /[a-z]/.test(password), {
       message: messages.password.lowercase,
     })
-    .refine((password) => /[A-Z]/.test(password), {
-      message: messages.password.uppercase,
-    })
-    .refine((password) => /[!@#$%^&*(),.?":{}|<>]/.test(password), {
-      message: messages.password.symbol,
-    });
   const baseRegistrationSchema = z
     .object({
       name: z
