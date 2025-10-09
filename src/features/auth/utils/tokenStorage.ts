@@ -205,6 +205,14 @@ export const tokenStorage = {
     localStorage.removeItem("verification_required");
     localStorage.removeItem("email_verification_required");
     localStorage.removeItem("phone_verification_required");
+    localStorage.removeItem("current_role");
+    localStorage.removeItem("current_step");
+  },
+
+  // Clear entire localStorage (all items)
+  clearLocalStorage: () => {
+    if (typeof window === "undefined") return;
+    localStorage.clear();
   },
 
   // Check if user is authenticated
