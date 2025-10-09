@@ -99,40 +99,95 @@ const CombinedRegistrationForm: React.FC<{ role: string }> = ({ role }) => {
     resolver: zodResolver(schema),
     mode: "onBlur", // Enable real-time validation
     defaultValues: {
-      name: "",
-      email: "",
-      phone: "",
-      phone_code: "",
+      name: store.roleData.personalInfo?.name || "",
+      email: store.roleData.personalInfo?.email || "",
+      phone: store.roleData.personalInfo?.phone || "",
+      phone_code: store.roleData.personalInfo?.phone_code || "",
       password: "",
       password_confirmation: "",
-      country_id: "SA",
+      country_id: store.roleData.personalInfo?.country_id || "SA",
+      terms: false,
       // Role-specific fields
-      ...(role === "individual" && { national_id: "" }),
+      ...(role === "individual" && { 
+        national_id: store.roleData.personalInfo?.national_id || "" 
+      }),
       ...(role === "supplier" && {
-        business_name: "",
-        commercial_register_number: "",
-        commercial_register_file: undefined,
+        business_name: store.roleData.personalInfo?.business_name || "",
+        commercial_register_number: store.roleData.personalInfo?.commercial_register_number || "",
+        commercial_register_file: store.roleData.personalInfo?.commercial_register_file,
       }),
       ...(role === "engineering_office" && {
-        business_name: "",
-        license_number: "",
+        business_name: store.roleData.personalInfo?.business_name || "",
+        license_number: store.roleData.personalInfo?.license_number || "",
       }),
       ...(role === "freelance_engineer" && {
-        engineers_association_number: "",
+        engineers_association_number: store.roleData.personalInfo?.engineers_association_number || "",
       }),
       ...(role === "contractor" && {
-        business_name: "",
-        commercial_register_number: "",
-        commercial_register_file: undefined,
+        business_name: store.roleData.personalInfo?.business_name || "",
+        commercial_register_number: store.roleData.personalInfo?.commercial_register_number || "",
+        commercial_register_file: store.roleData.personalInfo?.commercial_register_file,
       }),
       ...(role === "organization" && {
-        business_name: "",
-        commercial_register_number: "",
-        commercial_register_file: undefined,
+        business_name: store.roleData.personalInfo?.business_name || "",
+        commercial_register_number: store.roleData.personalInfo?.commercial_register_number || "",
+        commercial_register_file: store.roleData.personalInfo?.commercial_register_file,
       }),
     },
     shouldUnregister: true,
   });
+  React.useEffect(() => {
+    if (store.roleData.personalInfo && Object.keys(store.roleData.personalInfo).length > 0) {
+      const personalInfo = store.roleData.personalInfo;
+            let countryCode = "SA";
+      if (personalInfo.country_id && countries) {
+        const countryByIso = countries.find(c => c.iso2 === personalInfo.country_id);
+        if (countryByIso) {
+          countryCode = countryByIso.iso2;
+        } else {
+          const countryById = countries.find(c => c.id.toString() === personalInfo.country_id?.toString());
+          countryCode = countryById?.iso2 || personalInfo.country_id;
+        }
+      } else if (personalInfo.country_id) {
+        countryCode = personalInfo.country_id;
+      }
+      
+      form.reset({
+        name: personalInfo.name || "",
+        email: personalInfo.email || "",
+        phone: personalInfo.phone || "",
+        phone_code: personalInfo.phone_code || "",
+        password: "",
+        password_confirmation: "",
+        country_id: countryCode,
+        terms: false,
+        ...(role === "individual" && { national_id: personalInfo.national_id || "" }),
+        ...(role === "supplier" && {
+          business_name: personalInfo.business_name || "",
+          commercial_register_number: personalInfo.commercial_register_number || "",
+          commercial_register_file: personalInfo.commercial_register_file,
+        }),
+        ...(role === "engineering_office" && {
+          business_name: personalInfo.business_name || "",
+          license_number: personalInfo.license_number || "",
+        }),
+        ...(role === "freelance_engineer" && {
+          engineers_association_number: personalInfo.engineers_association_number || "",
+        }),
+        ...(role === "contractor" && {
+          business_name: personalInfo.business_name || "",
+          commercial_register_number: personalInfo.commercial_register_number || "",
+          commercial_register_file: personalInfo.commercial_register_file,
+        }),
+        ...(role === "organization" && {
+          business_name: personalInfo.business_name || "",
+          commercial_register_number: personalInfo.commercial_register_number || "",
+          commercial_register_file: personalInfo.commercial_register_file,
+        }),
+      });
+    }
+  }, [role, form, store.roleData.personalInfo]);
+
   React.useEffect(() => {
     if (store.roleData.thirdPartyInfo) {
       const thirdPartyInfo = store.roleData.thirdPartyInfo;
@@ -149,7 +204,6 @@ const CombinedRegistrationForm: React.FC<{ role: string }> = ({ role }) => {
     }
   }, [store.roleData.thirdPartyInfo, form]);
 
-  // Clear errors when user starts typing
   React.useEffect(() => {
     const subscription = form.watch((value, { name }) => {
       if (name && store.error) {
@@ -163,8 +217,6 @@ const CombinedRegistrationForm: React.FC<{ role: string }> = ({ role }) => {
     store.clearError();
 
     store.setAuthMethod("email");
-
-    // Extract phone code from phone number if available
     let phoneCode = values.phone_code;
     if (!phoneCode && values.phone) {
       try {
@@ -172,14 +224,10 @@ const CombinedRegistrationForm: React.FC<{ role: string }> = ({ role }) => {
         if (parsedPhone) {
           phoneCode = `+${parsedPhone.countryCallingCode}`;
         }
-      } catch (error) {
-        console.error("Error parsing phone number:", error);
+      } catch {
       }
     }
-
-    // Get country_id from form or find from countries
     const country = countries?.find((c) => c.iso2 === values.country_id);
-
     const submitData = {
       ...values,
       phone_code: phoneCode,
@@ -189,25 +237,18 @@ const CombinedRegistrationForm: React.FC<{ role: string }> = ({ role }) => {
     const result = await onSubmit(submitData, role);
 
     if (!result.success) {
-      // Error handling is done in the onSubmit function
     }
   };
 
   const handleGoogleSignUp = () => {
-    // Set auth method to third party first
     store.setAuthMethod("thirdParty");
-
     clearLastResult();
-
-    // Start the Google OAuth flow
     signInWithGoogle();
   };
 
-  // Handle the result when it becomes available
   React.useEffect(() => {
     if (lastResult) {
       if (lastResult.success && lastResult.profile) {
-        // Store the third-party info in the store
         store.setRoleData("thirdPartyInfo", {
           firstName: lastResult.profile.firstName || "",
           lastName: lastResult.profile.lastName || "",
@@ -215,10 +256,7 @@ const CombinedRegistrationForm: React.FC<{ role: string }> = ({ role }) => {
           provider: "google",
         });
 
-        // Go to social login form step
         store.setCurrentStep("socialLoginForm");
-
-        // Clear the result
         clearLastResult();
       } else if (lastResult.error) {
         store.setError(lastResult.error);
@@ -227,20 +265,14 @@ const CombinedRegistrationForm: React.FC<{ role: string }> = ({ role }) => {
   }, [lastResult, store, clearLastResult]);
 
   const handleAppleSignUp = () => {
-    // Mock Apple OAuth for development
-    // In a real app, this would initiate Apple OAuth similar to Google
     const mockAppleData = {
       firstName: "Apple",
       lastName: "User",
       email: "apple.user@privaterelay.appleid.com",
       provider: "apple",
     };
-
-    // Store the third-party info in the store
     store.setRoleData("thirdPartyInfo", mockAppleData);
     store.setAuthMethod("thirdParty");
-
-    // Go to social login form step
     store.setCurrentStep("socialLoginForm");
   };
 
@@ -349,8 +381,8 @@ const CombinedRegistrationForm: React.FC<{ role: string }> = ({ role }) => {
                                     `+${parsedPhone.countryCallingCode}`
                                   );
                                 }
-                              } catch (error) {
-                                console.error("Error parsing phone:", error);
+                              } catch {
+                                // Silently handle parsing errors
                               }
                             }
                           }}
@@ -635,24 +667,40 @@ const CombinedRegistrationForm: React.FC<{ role: string }> = ({ role }) => {
                   />
                 )}
 
-                {/* Terms and Privacy - Note: Terms validation is handled separately */}
-                <div className="flex flex-row items-start space-x-3 space-y-0">
-                  <Checkbox id="terms-checkbox" disabled={isLoading} />
-                  <div className="form-checkbox-content">
-                    <FormLabel htmlFor="terms-checkbox" className="flex flex-wrap">
-                      <span>
-                        {authT("terms.text")}{" "}
-                        <Link href="#" className="link-muted">
-                          {authT("terms.termsLink")}
-                        </Link>{" "}
-                        {authT("terms.and")}{" "}
-                        <Link href="#" className="link-alt">
-                          {authT("terms.privacyLink")}
-                        </Link>
-                      </span>
-                    </FormLabel>
-                  </div>
-                </div>
+                {/* Terms and Privacy */}
+                <FormField
+                  control={form.control}
+                  name="terms"
+                  render={({ field }) => (
+                    <FormItem>
+                      <div className="flex flex-row items-start space-x-3 space-y-0">
+                        <FormControl>
+                          <Checkbox
+                            id="terms-checkbox"
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                            disabled={isLoading}
+                          />
+                        </FormControl>
+                        <div className="form-checkbox-content">
+                          <FormLabel htmlFor="terms-checkbox" className="flex flex-wrap">
+                            <span>
+                              {authT("terms.text")}{" "}
+                              <Link href="#" className="link-muted">
+                                {authT("terms.termsLink")}
+                              </Link>{" "}
+                              {authT("terms.and")}{" "}
+                              <Link href="#" className="link-alt">
+                                {authT("terms.privacyLink")}
+                              </Link>
+                            </span>
+                          </FormLabel>
+                        </div>
+                      </div>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
                 {/* Error Display */}
                 {store.error && (

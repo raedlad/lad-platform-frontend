@@ -15,7 +15,7 @@ export function OnboardingLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-[calc(100vh-100px)] w-full grid grid-cols-1 lg:grid-cols-12 gap-0 items-center">
       {/* Left Side - Image Card */}
-      <div className="w-full h-full hidden lg:flex lg:col-span-4 bg-blue-400">
+      <div className="w-full h-full hidden lg:flex lg:col-span-4">
         <OnboardingRightCard />
       </div>
 

@@ -16,10 +16,12 @@ const RoleRegistration: React.FC = () => {
   const adaptedStore = {
     currentStep: store.currentStep || "",
     authMethod: store.authMethod,
-    personalInfo:
-      store.roleData.personalInfo ||
-      store.roleData.phoneInfo ||
-      (store.roleData.thirdPartyInfo as RoleSpecificData),
+    personalInfo: {
+      email: store.verificationContact && store.authMethod === "email" ? store.verificationContact : undefined,
+      phone: store.verificationContact && store.authMethod === "phone" ? store.verificationContact : undefined,
+      phoneNumber: store.verificationContact && store.authMethod === "phone" ? store.verificationContact : undefined,
+      ...(store.roleData.personalInfo || store.roleData.phoneInfo || {}),
+    },
     phoneInfo: store.roleData.phoneInfo,
     thirdPartyInfo: store.roleData.thirdPartyInfo,
     isLoading: store.isLoading,

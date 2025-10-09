@@ -84,6 +84,9 @@ export const useRoleRegistration = () => {
         store.setLoading(true);
         store.clearError();
 
+        // Store personal info in store for persistence
+        store.setRoleData("personalInfo", data as unknown as Record<string, unknown>);
+
         // Prepare data based on role
         const registrationData: DynamicRegistrationData = {
           name: data.name!,

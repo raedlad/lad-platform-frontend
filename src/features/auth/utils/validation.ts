@@ -48,6 +48,11 @@ export const createValidationSchemas = (t: (key: string) => string) => {
         .max(100)
         .optional(),
       commercial_register_file: z.any().optional(),
+      terms: z
+        .boolean()
+        .refine((val) => val === true, {
+          message: messages.terms.required,
+        }),
     })
     .refine((data) => data.password === data.password_confirmation, {
       message: messages.confirmPassword.mismatch,

@@ -1,14 +1,9 @@
 "use client";
 
-import SignUpForm from "@/features/auth/components/forms/SignupFlow";
-import React from "react";
+import { redirect } from "next/navigation";
 
 const page = () => {
-  return (
-    <div className="">
-      <SignUpForm />
-    </div>
-  );
+  return redirect("/signup/role");
 };
 
 export default page;
