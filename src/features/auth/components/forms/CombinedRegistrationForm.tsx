@@ -519,7 +519,7 @@ const CombinedRegistrationForm: React.FC<{ role: string }> = ({ role }) => {
                             placeholder={authT(
                               "personalInfo.commercialRegisterFile"
                             )}
-                            accept=".pdf,.jpg,.jpeg,.png,.webp"
+                            accept=".jpg,.jpeg,.png,"
                             maxSizeMB={8}
                             id="commercial-register-file-upload-supplier"
                           />
@@ -545,7 +545,7 @@ const CombinedRegistrationForm: React.FC<{ role: string }> = ({ role }) => {
                             placeholder={authT(
                               "personalInfo.commercialRegisterFile"
                             )}
-                            accept=".pdf,.jpg,.jpeg,.png,.webp"
+                            accept=".jpg,.jpeg,.png"
                             maxSizeMB={8}
                             id="commercial-register-file-upload-contractor"
                           />
@@ -571,7 +571,7 @@ const CombinedRegistrationForm: React.FC<{ role: string }> = ({ role }) => {
                             placeholder={authT(
                               "personalInfo.commercialRegisterFile"
                             )}
-                            accept=".pdf,.jpg,.jpeg,.png,.webp"
+                            accept=".jpg,.jpeg,.png"
                             maxSizeMB={8}
                             id="commercial-register-file-upload"
                           />
@@ -637,9 +637,9 @@ const CombinedRegistrationForm: React.FC<{ role: string }> = ({ role }) => {
 
                 {/* Terms and Privacy - Note: Terms validation is handled separately */}
                 <div className="flex flex-row items-start space-x-3 space-y-0">
-                  <Checkbox checked={true} disabled={isLoading} />
+                  <Checkbox id="terms-checkbox" disabled={isLoading} />
                   <div className="form-checkbox-content">
-                    <FormLabel className="flex flex-wrap">
+                    <FormLabel htmlFor="terms-checkbox" className="flex flex-wrap">
                       <span>
                         {authT("terms.text")}{" "}
                         <Link href="#" className="link-muted">

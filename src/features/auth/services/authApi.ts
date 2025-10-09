@@ -491,11 +491,12 @@ export const authApi = {
           code_verifier: codeVerifier,
         };
 
-        // Add contact info based on auth method
-        if (authMethod === "email") {
-          requestPayload.email = contactInfo;
-        } else {
-          requestPayload.phone = contactInfo;
+        // Add both email and phone from registration data (same as initial registration)
+        if (registrationData?.email) {
+          requestPayload.email = registrationData.email;
+        }
+        if (registrationData?.phone) {
+          requestPayload.phone = registrationData.phone;
         }
 
         // Add user_type

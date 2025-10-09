@@ -369,7 +369,6 @@
     "forgotPassword": "هل نسيت كلمة المرور؟",
     "resendCode": "إعادة إرسال الرمز",
     "continue": "متابعة",
-
     "passwordReset": {
       "sentPasswordReset": "لقد أرسلنا رابط إعادة التعيين إلى",
       "checkEmail": "تحقق من بريدك الإلكتروني",
