@@ -101,6 +101,12 @@ export const createValidationSchemas = (t: (key: string) => string) => {
       .string({ error: messages.businessName.required })
       .min(2, messages.businessName.minLength)
       .max(255, messages.businessName.maxLength),
+    commercial_register_number: z
+      .string({ error: messages.commercialRegisterNumber.required })
+      .regex(
+        commercialRegisterRegex,
+        messages.commercialRegisterNumber.invalid
+      ),
     license_number: z
       .string({ error: messages.licenseNumber.required })
       .min(1, messages.licenseNumber.required)

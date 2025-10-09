@@ -111,6 +111,7 @@ const CombinedRegistrationForm: React.FC<{ role: string }> = ({ role }) => {
       }),
       ...(role === "engineering_office" && {
         business_name: store.roleData.personalInfo?.business_name || "",
+        commercial_register_number: store.roleData.personalInfo?.commercial_register_number || "",
         license_number: store.roleData.personalInfo?.license_number || "",
         commercial_register_file: store.roleData.personalInfo?.commercial_register_file,
       }),
@@ -165,6 +166,7 @@ const CombinedRegistrationForm: React.FC<{ role: string }> = ({ role }) => {
         }),
         ...(role === "engineering_office" && {
           business_name: personalInfo.business_name || "",
+          commercial_register_number: personalInfo.commercial_register_number || "",
           license_number: personalInfo.license_number || "",
           commercial_register_file: personalInfo.commercial_register_file,
         }),
@@ -620,6 +622,21 @@ const CombinedRegistrationForm: React.FC<{ role: string }> = ({ role }) => {
                         <FormItem>
                           <FormLabel>
                             {authT("personalInfo.businessName")}
+                          </FormLabel>
+                          <FormControl>
+                            <Input {...field} disabled={isLoading} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="commercial_register_number"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>
+                            {authT("personalInfo.commercialRegisterNumber")}
                           </FormLabel>
                           <FormControl>
                             <Input {...field} disabled={isLoading} />
