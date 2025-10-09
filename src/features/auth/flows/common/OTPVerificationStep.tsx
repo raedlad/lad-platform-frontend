@@ -128,7 +128,6 @@ const OTPVerificationStep: React.FC<VerificationStepProps> = ({
 
     if (!result.success) {
       setError(result.error || t("errors.verificationFailed"));
-      setVerificationCode("");
     }
   };
 
