@@ -15,6 +15,7 @@ export default function DashboardPage() {
       router.push("/login");
       return;
     }
+
     // Get user data
     const userData = tokenStorage.getUser();
     if (userData) {
