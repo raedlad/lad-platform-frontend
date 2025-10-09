@@ -120,9 +120,9 @@ const OnboardingRightCard = () => {
           <Image
             src={stepImage}
             alt={currentStepInfo.label}
+            loading="lazy"
             fill
             className="object-cover"
-            priority
             onError={(e) => {}}
           />
         </motion.div>
