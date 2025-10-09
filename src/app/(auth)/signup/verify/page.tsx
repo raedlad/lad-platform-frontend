@@ -24,10 +24,6 @@ export default function VerifyPage() {
     }
   }, [role, currentStep, router]);
 
-  const handleBack = () => {
-    store.setCurrentStep("personalInfo");
-    router.push("/signup/personal-info");
-  };
 
   if (!role || currentStep !== "verification") {
     return null;
