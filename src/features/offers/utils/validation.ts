@@ -17,12 +17,8 @@ export const createCompleteOfferValidationSchema = (
       .number()
       .min(0, messages.paymentPlans.percentageOfContract.minValue)
       .max(100, messages.paymentPlans.percentageOfContract.maxValue),
-    dueOn: z.string().min(1, messages.paymentPlans.dueOn.required),
     sortOrder: z.number().min(0),
-    userBankAccountId: z
-      .number()
-      .min(1, messages.paymentPlans.userBankAccountId.minValue),
-    referenceNote: z.string().optional(),
+
   });
 
   const OfferPhaseSchema = z.object({

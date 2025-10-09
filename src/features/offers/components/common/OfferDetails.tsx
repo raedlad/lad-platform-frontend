@@ -11,6 +11,7 @@ import {
 } from "../../utils";
 import { Badge } from "@/shared/components/ui/badge";
 import { Calendar, Clock, DollarSign, FileText, User, Layers, CreditCard, ChevronDown } from "lucide-react";
+import { WorkflowStageBadge } from "@/features/workflow";
 import {
   Table,
   TableBody,
@@ -23,9 +24,16 @@ import {
 interface OfferDetailsProps {
   offer: Offer;
   hideContractorInfo?: boolean;
+  projectStatus?: string;
+  userRole?: "owner" | "contractor";
 }
 
-export const OfferDetails: React.FC<OfferDetailsProps> = ({ offer, hideContractorInfo = false }) => {
+export const OfferDetails: React.FC<OfferDetailsProps> = ({ 
+  offer, 
+  hideContractorInfo = false,
+  projectStatus,
+  userRole,
+}) => {
   const t = useTranslations();
   const [expandedPhases, setExpandedPhases] = useState<Set<number>>(new Set());
 
@@ -42,11 +50,23 @@ export const OfferDetails: React.FC<OfferDetailsProps> = ({ offer, hideContracto
   return (
     <div className="space-y-8">
       {/* Section Title */}
-      <div className="flex items-center gap-3 pb-4 border-b border-n-3 dark:border-n-7">
-        <div className="w-1 h-8 bg-design-main rounded-full"></div>
-        <h2 className="text-2xl font-bold text-n-9 dark:text-n-1">
-          {t("offers.yourOffer")}
-        </h2>
+      <div className="flex items-center justify-between gap-3 pb-4 border-b border-n-3 dark:border-n-7">
+        <div className="flex items-center gap-3">
+          <div className="w-1 h-8 bg-design-main rounded-full"></div>
+          <h2 className="text-2xl font-bold text-n-9 dark:text-n-1">
+            {t("offers.yourOffer")}
+          </h2>
+        </div>
+        {projectStatus && (
+          <WorkflowStageBadge
+            projectStatus={projectStatus}
+            hasOffers={true}
+            offerAccepted={offer.status === "accepted"}
+            userRole={userRole}
+            showIcon={true}
+            size="md"
+          />
+        )}
       </div>
 
       {/* Key Metrics */}

@@ -155,12 +155,13 @@ export const useRoleRegistration = () => {
             store.setVerificationToken(verificationData.intent_token);
             store.setCodeVerifier(verificationData.code_verifier);
 
-            // Store the contact info (email or phone) that was used for registration
-            const contactInfo =
-              store.authMethod === "email"
-                ? registrationData.email
-                : registrationData.phone;
+            // Force phone verification for all registrations
+            // Registration only uses phone verification, no email verification
+            store.setAuthMethod("phone");
+            
+            const contactInfo = registrationData.phone;
             store.setVerificationContact(contactInfo);
+
 
             // Store the full registration data to send during verification
             store.setRegistrationData(registrationData);

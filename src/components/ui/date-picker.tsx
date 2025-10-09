@@ -27,6 +27,8 @@ interface DatePickerProps {
   id?: string;
   "aria-label"?: string;
   "aria-describedby"?: string;
+  fromDate?: Date; // Minimum selectable date
+  toDate?: Date; // Maximum selectable date
 }
 
 export function DatePicker({
@@ -38,6 +40,8 @@ export function DatePicker({
   className,
   error,
   id,
+  fromDate,
+  toDate,
 }: DatePickerProps) {
   const [open, setOpen] = React.useState(false);
   const [inputValue, setInputValue] = React.useState("");
@@ -233,6 +237,13 @@ export function DatePicker({
               selected={value}
               onSelect={handleSelect}
               initialFocus
+              fromDate={fromDate}
+              toDate={toDate}
+              disabled={(date) => {
+                if (fromDate && date < fromDate) return true;
+                if (toDate && date > toDate) return true;
+                return false;
+              }}
             />
           </PopoverContent>
         </Popover>

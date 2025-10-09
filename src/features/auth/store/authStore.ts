@@ -166,6 +166,7 @@ export const useAuthStore = create<AuthStoreState>()((set, get) => ({
       user: userData,
       isAuthenticated: true,
       isVerified: !verificationStatus?.verification_required || false,
+      error: null, // Clear any registration/verification errors when user is authenticated
     }));
   },
 

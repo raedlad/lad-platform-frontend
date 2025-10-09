@@ -15,19 +15,44 @@ import {
   CheckCircle,
 } from "lucide-react";
 import Link from "next/link";
+import { WorkflowStageBadge, useWorkflowNavigation } from "@/features/workflow";
 
 interface ProjectCardProps {
   project: Project;
   getProjectTypeName: (typeId: number) => string;
   getStatusText: (project: Project) => string;
+  userRole?: "owner" | "contractor";
+  hasOffers?: boolean;
+  offerAccepted?: boolean;
+  hasContract?: boolean;
+  contractStatus?: string;
+  contractId?: string | number;
 }
 
 export function ProjectCard({
   project,
   getProjectTypeName,
   getStatusText,
+  userRole = "owner",
+  hasOffers,
+  offerAccepted,
+  hasContract,
+  contractStatus,
+  contractId,
 }: ProjectCardProps) {
   const t = useTranslations("projectsList");
+
+  // Workflow navigation hook
+  const { stageRoute, actionButtonText } = useWorkflowNavigation({
+    projectId: project.id,
+    projectStatus: project.status.status,
+    hasOffers,
+    offerAccepted,
+    hasContract,
+    contractStatus,
+    userRole,
+    contractId,
+  });
 
   const formatBudget = () => {
     const { budget_min, budget_max, budget_unit } = project.essential_info;
@@ -74,9 +99,17 @@ export function ProjectCard({
         {/* Header Section */}
         <header className="space-y-3">
           <div className="flex flex-col gap-3">
-            <h1 className="text-lg font-semibold text-gray-900 dark:text-white leading-tight">
-              {project.essential_info.title}
-            </h1>
+            <div className="flex items-start justify-between gap-3">
+              <h1 className="text-lg font-semibold text-gray-900 dark:text-white leading-tight flex-1">
+                {project.essential_info.title}
+              </h1>
+              <WorkflowStageBadge
+                projectStatus={project.status.status}
+                userRole={userRole}
+                showIcon={true}
+                size="sm"
+              />
+            </div>
 
             {/* Description */}
             {project.essential_info.description && (
@@ -191,8 +224,9 @@ export function ProjectCard({
               {t("projectCard.actions.edit")}
             </Button>
           </Link>
+          {/* Workflow-aware navigation button */}
           <Link
-            href={`/dashboard/individual/projects/${project.id}`}
+            href={stageRoute.path}
             className="flex-1"
           >
             <Button
@@ -200,7 +234,7 @@ export function ProjectCard({
               size="sm"
               className="w-full text-sm font-medium border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700"
             >
-              {t("projectCard.actions.view")}
+              {actionButtonText}
               <ArrowLeft className="w-4 h-4 ml-2 ltr:rotate-180" />
             </Button>
           </Link>

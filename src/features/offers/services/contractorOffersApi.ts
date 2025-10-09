@@ -99,24 +99,33 @@ export const contractorOffersApi = {
       });
     }
 
+    // Phases with embedded payment plans
     if (data.phases && data.phases.length > 0) {
       data.phases.forEach((phase: OfferPhase, index: number) => {
-        formData.append(`phases[${index}][title]`, phase.title);
-        formData.append(`phases[${index}][description]`, phase.description);
+        formData.append(`phases[${index + 1}][title]`, phase.title);
+        formData.append(`phases[${index + 1}][description]`, phase.description);
         formData.append(
-          `phases[${index}][order]`,
+          `phases[${index + 1}][order]`,
           (phase.order + 1).toString()
         );
-      });
-    }
 
-    if (data.phases && data.phases.length > 0) {
-      data.phases.forEach((phase: OfferPhase, index: number) => {
-        const amounts = phase.paymentPlans
-          .map((plan: OfferPaymentPlan) => plan.amount)
-          .join(",");
-        formData.append(`global_payment_plans[${index}][amount]`, amounts);
-        formData.append(`global_payment_plans[${index}][name]`, phase.title);
+        // Add payment plans for each phase
+        if (phase.paymentPlans && phase.paymentPlans.length > 0) {
+          phase.paymentPlans.forEach((plan: OfferPaymentPlan, planIndex: number) => {
+            formData.append(
+              `phases[${index + 1}][payment_plans][${planIndex}][name]`,
+              plan.name
+            );
+            formData.append(
+              `phases[${index + 1}][payment_plans][${planIndex}][amount]`,
+              plan.amount.toString()
+            );
+            formData.append(
+              `phases[${index + 1}][payment_plans][${planIndex}][sort_order]`,
+              planIndex.toString()
+            );
+          });
+        }
       });
     }
     const response = await api.post(
@@ -178,7 +187,7 @@ export const contractorOffersApi = {
     id: string,
     data: UpdateOfferRequest
   ): Promise<ContractorOffer> => {
-    const response = await api.put(`/contractor/offers/${id}`, data);
+    const response = await api.patch(`/contractor/offers/${id}`, data);
     return response.data;
   },
 
@@ -233,33 +242,39 @@ export const contractorOffersApi = {
       });
     }
 
-    // Phases array
+    // Phases with embedded payment plans
     if (data.phases && data.phases.length > 0) {
       data.phases.forEach((phase: OfferPhase, index: number) => {
-        formData.append(`phases[${index}][title]`, phase.title);
-        formData.append(`phases[${index}][description]`, phase.description);
+        formData.append(`phases[${index + 1}][title]`, phase.title);
+        formData.append(`phases[${index + 1}][description]`, phase.description);
         formData.append(
-          `phases[${index}][order]`,
+          `phases[${index + 1}][order]`,
           (phase.order + 1).toString()
         );
-      });
 
-      // Global payment plans array
-      data.phases.forEach((phase: OfferPhase, index: number) => {
-        const amounts = phase.paymentPlans
-          .map((plan: OfferPaymentPlan) => plan.amount)
-          .join(",");
-        formData.append(`global_payment_plans[${index}][amount]`, amounts);
-        formData.append(`global_payment_plans[${index}][name]`, phase.title);
+        // Add payment plans for each phase
+        if (phase.paymentPlans && phase.paymentPlans.length > 0) {
+          phase.paymentPlans.forEach((plan: OfferPaymentPlan, planIndex: number) => {
+            formData.append(
+              `phases[${index + 1}][payment_plans][${planIndex}][name]`,
+              plan.name
+            );
+            formData.append(
+              `phases[${index + 1}][payment_plans][${planIndex}][amount]`,
+              plan.amount.toString()
+            );
+            formData.append(
+              `phases[${index + 1}][payment_plans][${planIndex}][sort_order]`,
+              planIndex.toString()
+            );          });
+        }
       });
     }
-    const response = await api.post(`/contractor/offers/${id}`, formData, {
+    const response = await api.patch(`/contractor/projects/${projectId}/complete-offers/${id}`, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
     });
-
-    // Transform the API response from snake_case to camelCase
     const apiData = response.data.response || response.data;
     const transformedOffer: ContractorOffer = {
       id: apiData.id?.toString() || "",

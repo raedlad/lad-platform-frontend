@@ -30,7 +30,6 @@ import { Eye, EyeOff } from "lucide-react";
 import { useGoogleAuth } from "@/features/auth/hooks";
 
 import Link from "next/link";
-import z from "zod";
 import {
   getPasswordStrength,
   getPasswordStrengthColor,
@@ -55,12 +54,6 @@ const CombinedRegistrationForm: React.FC<{ role: string }> = ({ role }) => {
   const authT = useTranslations("auth");
   const isLoading = store.isLoading;
 
-  // State to track if user has clicked social login
-  const [hasClickedSocialLogin, setHasClickedSocialLogin] =
-    React.useState(false);
-  const [socialProvider, setSocialProvider] = React.useState<string | null>(
-    null
-  );
 
   const onSubmit = handlePersonalInfoSubmit;
   const {
@@ -119,6 +112,7 @@ const CombinedRegistrationForm: React.FC<{ role: string }> = ({ role }) => {
       ...(role === "engineering_office" && {
         business_name: store.roleData.personalInfo?.business_name || "",
         license_number: store.roleData.personalInfo?.license_number || "",
+        commercial_register_file: store.roleData.personalInfo?.commercial_register_file,
       }),
       ...(role === "freelance_engineer" && {
         engineers_association_number: store.roleData.personalInfo?.engineers_association_number || "",
@@ -134,7 +128,7 @@ const CombinedRegistrationForm: React.FC<{ role: string }> = ({ role }) => {
         commercial_register_file: store.roleData.personalInfo?.commercial_register_file,
       }),
     },
-    shouldUnregister: true,
+    shouldUnregister: false, // Prevent clearing form fields on re-render
   });
   React.useEffect(() => {
     if (store.roleData.personalInfo && Object.keys(store.roleData.personalInfo).length > 0) {
@@ -152,15 +146,17 @@ const CombinedRegistrationForm: React.FC<{ role: string }> = ({ role }) => {
         countryCode = personalInfo.country_id;
       }
       
+      // Preserve current password values to prevent clearing on error
+      const currentValues = form.getValues();
       form.reset({
         name: personalInfo.name || "",
         email: personalInfo.email || "",
         phone: personalInfo.phone || "",
         phone_code: personalInfo.phone_code || "",
-        password: "",
-        password_confirmation: "",
+        password: currentValues.password || "",
+        password_confirmation: currentValues.password_confirmation || "",
         country_id: countryCode,
-        terms: false,
+        terms: currentValues.terms || false,
         ...(role === "individual" && { national_id: personalInfo.national_id || "" }),
         ...(role === "supplier" && {
           business_name: personalInfo.business_name || "",
@@ -170,6 +166,7 @@ const CombinedRegistrationForm: React.FC<{ role: string }> = ({ role }) => {
         ...(role === "engineering_office" && {
           business_name: personalInfo.business_name || "",
           license_number: personalInfo.license_number || "",
+          commercial_register_file: personalInfo.commercial_register_file,
         }),
         ...(role === "freelance_engineer" && {
           engineers_association_number: personalInfo.engineers_association_number || "",
@@ -215,8 +212,6 @@ const CombinedRegistrationForm: React.FC<{ role: string }> = ({ role }) => {
 
   const handleSubmit = async (values: any) => {
     store.clearError();
-
-    store.setAuthMethod("email");
     let phoneCode = values.phone_code;
     if (!phoneCode && values.phone) {
       try {
@@ -237,6 +232,8 @@ const CombinedRegistrationForm: React.FC<{ role: string }> = ({ role }) => {
     const result = await onSubmit(submitData, role);
 
     if (!result.success) {
+      // Error is already handled in the registration flow
+      // Don't reset form or clear password fields
     }
   };
 
@@ -641,6 +638,25 @@ const CombinedRegistrationForm: React.FC<{ role: string }> = ({ role }) => {
                           </FormLabel>
                           <FormControl>
                             <Input {...field} disabled={isLoading} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="commercial_register_file"
+                      render={({ field: { onChange, value, ...field } }) => (
+                        <FormItem>
+                          <FormLabel>
+                            {authT("personalInfo.commercialRegisterFile")}
+                          </FormLabel>
+                          <FormControl>
+                            <FileUpload
+                              value={value}
+                              onChange={onChange}
+                              disabled={isLoading}
+                            />
                           </FormControl>
                           <FormMessage />
                         </FormItem>

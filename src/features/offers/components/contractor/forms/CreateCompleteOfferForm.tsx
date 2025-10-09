@@ -3,6 +3,7 @@ import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMemo, useState, useEffect } from "react";
+import { toast } from "sonner";
 import {
   Plus,
   Trash2,
@@ -12,6 +13,7 @@ import {
   ChevronUp,
   ChevronDown,
 } from "lucide-react";
+import { formatCurrency } from "@/shared/utils/formatters";
 
 import { Button } from "@shared/components/ui/button";
 import { Input } from "@shared/components/ui/input";
@@ -123,14 +125,31 @@ export const CreateCompleteOfferForm: React.FC<
 
   const onSubmit = async (data: any) => {
     try {
+      // Validate total phases amount equals offer amount
+      const totalPhasesAmount = phases.reduce((sum, phase) => {
+        const phaseAmount = phase.paymentPlans?.reduce((pSum, plan) => pSum + plan.amount, 0) || 0;
+        return sum + phaseAmount;
+      }, 0);
+
+      if (totalPhasesAmount !== data.offerAmount) {
+        toast.error(
+          t("offers.errors.phasesAmountMismatch", {
+            defaultValue: `Total phases amount (${formatCurrency(totalPhasesAmount)}) must equal offer amount (${formatCurrency(data.offerAmount)})`
+          })
+        );
+        return;
+      }
+
       const requestData: CreateCompleteOfferRequest = {
         ...data,
         projectId,
         phases,
       };
       await submitCompleteOffer(projectId, requestData);
+      toast.success(t("offers.success.created", { defaultValue: "Offer submitted successfully" }));
       onSuccess?.();
     } catch (error) {
+      toast.error(t("offers.errors.create", { defaultValue: "Failed to create offer" }));
       throw error;
     }
   };
@@ -265,6 +284,7 @@ export const CreateCompleteOfferForm: React.FC<
                             field.onChange(date?.toISOString().split("T")[0])
                           }
                           placeholder="YYYY-MM-DD"
+                          fromDate={new Date()}
                         />
                       </FormControl>
                       <FormMessage />
@@ -711,7 +731,7 @@ export const CreateCompleteOfferForm: React.FC<
             </TooltipProvider>
 
             {/* Form Actions */}
-            <div className="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-4 pt-4 border-t">
+            <div className="flex flex-col sm:flex-row justify-end items-stretch sm:items-center gap-4 pt-4 border-t">
               <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
                 <Button
                   type="button"

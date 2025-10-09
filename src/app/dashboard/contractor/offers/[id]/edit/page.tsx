@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { UpdateCompleteOfferForm } from "@/features/offers/components";
 import { useContractorOffers } from "@/features/offers/hooks/useContractorOffers";
+import toast from "react-hot-toast";
 
 export default function UpdateCompleteOfferPage() {
   const t = useTranslations();
@@ -24,6 +25,7 @@ export default function UpdateCompleteOfferPage() {
   }, [offerId, fetchOfferDetails]);
 
   const handleSuccess = () => {
+    toast.success(t("offers.success.update", { default: "Offer updated successfully" }));
     router.push("/dashboard/contractor/offers");
   };
 
@@ -95,17 +97,7 @@ export default function UpdateCompleteOfferPage() {
       <div className="w-full">
         <div className="w-full flex flex-col gap-6">
           {/* Header */}
-          <div className="w-full flex justify-between">
-            <div className="w-full flex flex-col gap-2 max-w-sm">
-              <h1 className="text-2xl font-bold">
-                {t("offers.update.title", { default: "Update Offer" })}
-              </h1>
-              <p>
-                {t("offers.update.description", {
-                  default: "Update your complete offer details",
-                })}
-              </p>
-            </div>
+          <div className="w-full flex justify-end">
             <Link href="/dashboard/contractor/offers">
               <Button
                 variant="outline"
@@ -113,7 +105,7 @@ export default function UpdateCompleteOfferPage() {
                 className="border-design-main text-design-main px-6"
               >
                 {t("common.actions.back")}
-                <ArrowLeft className="h-4 w-4" />
+                <ArrowLeft className="h-4 w-4 ltr:rotate-180" />
               </Button>
             </Link>
           </div>

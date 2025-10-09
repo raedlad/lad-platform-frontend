@@ -23,6 +23,8 @@ interface RegistrationStore {
   thirdPartyInfo?: Record<string, unknown>; // Optional for freelance engineer store
   isLoading: boolean;
   error: string | null;
+  verificationContact?: string; // Contact (email/phone) being verified
+  clearError?: () => void; // Method to clear errors
 }
 
 // Generic interface for any registration hook
@@ -86,19 +88,26 @@ const OTPVerificationStep: React.FC<VerificationStepProps> = ({
   const isLoading = store.isLoading;
   const authMethod = store.authMethod!;
   const storeError = store.error; // Get error from store
+  // Use verificationContact from store (phone number only for registration)
+  // Registration only uses phone verification
+  const contactInfo = store.verificationContact ||
+    store.personalInfo?.phoneNumber ||
+    store.personalInfo?.organizationPhoneNumber ||
+    store.personalInfo?.authorizedPersonMobileNumber;
 
-  const contactInfo =
-    authMethod === "email"
-      ? store.personalInfo?.email || store.personalInfo?.organizationEmail
-      : authMethod === "phone"
-      ? store.personalInfo?.phoneNumber ||
-        store.personalInfo?.organizationPhoneNumber ||
-        store.personalInfo?.authorizedPersonMobileNumber
-      : undefined;
   const [verificationCode, setVerificationCode] = useState("");
   const [resendCooldown, setResendCooldown] = useState(0);
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+
+  // Clear store error when component unmounts to prevent persistence
+  useEffect(() => {
+    return () => {
+      if (store.error && store.clearError) {
+        store.clearError();
+      }
+    };
+  }, [store]);
 
   useEffect(() => {
     if (resendCooldown > 0) {

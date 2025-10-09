@@ -591,14 +591,28 @@ export const authApi = {
     console.log("API Call: resendRegistrationOtp");
 
     try {
-      // Get intent_token from store
-      const intentToken = useAuthStore.getState().verificationToken;
+      // Get intent_token, auth method, and contact info from store
+      const storeState = useAuthStore.getState();
+      const intentToken = storeState.verificationToken;
+      const authMethod = storeState.authMethod;
+      const verificationContact = storeState.verificationContact;
+
       if (!intentToken) {
         throw new Error("Intent token not found");
       }
 
+      // Prepare payload with contact info based on auth method
+      const payload: any = {};
+      
+      if (authMethod === "phone" && verificationContact) {
+        payload.phone = verificationContact;
+      } else if (authMethod === "email" && verificationContact) {
+        payload.email = verificationContact;
+      }
+
       const response = await api.post(
-        `/auth/register-intents/${intentToken}/send`
+        `/auth/register-intents/${intentToken}/send`,
+        payload
       );
 
       return {

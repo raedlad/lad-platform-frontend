@@ -6,7 +6,7 @@ import { useIndividualOffers } from "../../../hooks";
 import { OwnerOffersAllQueryParams } from "../../../services";
 import { OfferList } from "../../common/OfferList";
 import { toast } from "sonner";
-import { useOfferWorkflow } from "@/features/workflow";
+// import { useOfferWorkflow } from "@/features/workflow";
 import { useAuthStore } from "@/features/auth/store/authStore";
 
 interface IndividualOffersListProps {
@@ -34,20 +34,20 @@ export const IndividualOffersList: React.FC<IndividualOffersListProps> = ({
     requestCounterOffer,
   } = useIndividualOffers(projectId, false, true);
 
-  // Workflow integration for offer acceptance
-  const { acceptOfferWithWorkflow, isAccepting } = useOfferWorkflow({
-    onSuccess: () => {
-      // Refresh offers list after successful acceptance
-      if (projectId) {
-        fetchProjectOffers(projectId);
-      } else {
-        fetchAllOffers(queryParams);
-      }
-    },
-    onError: (error) => {
-      console.error('Workflow error:', error);
-    },
-  });
+  // // Workflow integration for offer acceptance
+  // const { acceptOfferWithWorkflow, isAccepting } = useOfferWorkflow({
+  //   onSuccess: () => {
+  //     // Refresh offers list after successful acceptance
+  //     if (projectId) {
+  //       fetchProjectOffers(projectId);
+  //     } else {
+  //       fetchAllOffers(queryParams);
+  //     }
+  //   },
+  //   onError: (error) => {
+  //     console.error('Workflow error:', error);
+  //   },
+  // });
 
   // Initial fetch on mount
   useEffect(() => {
@@ -72,11 +72,11 @@ export const IndividualOffersList: React.FC<IndividualOffersListProps> = ({
     try {
       // Use workflow adapter for offer acceptance
       // This will handle both the offer acceptance and workflow transition
-      await acceptOfferWithWorkflow(
-        offer.projectId.toString(), 
-        offer.id.toString(), 
-        user.id.toString()
-      );
+      // await acceptOfferWithWorkflow(
+      //   offer.projectId.toString(), 
+      //   offer.id.toString(), 
+      //   user.id.toString()
+      // );
       // Success toast and refresh handled by useOfferWorkflow hook
     } catch (error: any) {
       // Error already handled by hook, but log for debugging
@@ -181,7 +181,7 @@ export const IndividualOffersList: React.FC<IndividualOffersListProps> = ({
     <OfferList
       offers={offers}
       variant="individual"
-      isLoading={isLoading || isSubmitting || isAccepting}
+      isLoading={isLoading || isSubmitting}
       error={error}
       pagination={pagination}
       onAccept={handleAccept}

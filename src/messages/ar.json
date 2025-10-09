@@ -650,7 +650,6 @@
     "startDate": "تاريخ البداية",
     "endDate": "تاريخ النهاية",
     "description": "الوصف",
-    "submittedOn": "تم الإرسال في",
     "receivedOn": "تم الاستلام في",
     "accept": "قبول",
     "reject": "رفض",
@@ -671,7 +670,6 @@
     "infrastructure": "بنية تحتية",
     "loadingProjects": "جاري تحميل المشاريع...",
     "location": "الموقع",
-    "status": "الحالة",
     "open": "مفتوح",
     "inProgress": "قيد التنفيذ",
     "type": "النوع",
@@ -725,7 +723,10 @@
       "dueDate": "تاريخ الاستحقاق",
       "bankAccountId": "رقم الحساب البنكي",
       "referenceNote": "ملاحظة مرجعية",
-      "referenceNotePlaceholder": "ملاحظة مرجعية اختيارية"
+      "referenceNotePlaceholder": "ملاحظة مرجعية اختيارية",
+      "maxAmount": "الحد الأقصى",
+      "deletePhaseTitle": "حذف المرحلة",
+      "deletePhaseDescription": "هل أنت متأكد من حذف هذه المرحلة؟ لا يمكن التراجع عن هذا الإجراء."
     },
     "warranty": "ضمان",
     "attachment": "مرفق",
@@ -770,8 +771,51 @@
       "highest": "الأعلى قيمة",
       "lowest": "الأقل قيمة"
     },
+    "success": {
+      "created": "تم تقديم العرض",
+      "updated": "تم تحديث العرض بنجاح"
+    },
     "errors": {
-      "loadFailed": "فشل تحميل العروض"
+      "loadFailed": "فشل تحميل العروض",
+      "update": "فشل تحديث العرض",
+      "create": "فشل في إنشاء العرض",
+      "phaseAmountExceedsOffer": "مبلغ المرحلة لا يمكن أن يتجاوز مبلغ العرض الأساسي",
+      "phasesAmountMismatch": "يجب أن يساوي مجموع مبالغ المراحل مبلغ العرض الأساسي"
+    },
+    "allOffers": "جميع العروض",
+    "receivedOffers": "العروض المستلمة",
+    "manageReceivedOffers": "إدارة جميع العروض المستلمة لمشاريعك",
+    "viewProjectOffers": "عرض جميع العروض للمشروع {projectId}",
+    "totalOffers": "إجمالي العروض",
+    "offerDetails": "تفاصيل العرض",
+    "overview": "نظرة عامة",
+    "contractor": "المقاول",
+    "phases": "المراحل",
+    "contractorInfo": "معلومات المقاول",
+    "specialties": "التخصصات",
+    "completedProjects": "المشاريع المكتملة",
+    "rating": "التقييم",
+    "counter": "عرض مقابل",
+    "acceptSuccess": "تم قبول العرض بنجاح",
+    "acceptError": "فشل في قبول العرض",
+    "rejectSuccess": "تم رفض العرض بنجاح",
+    "rejectError": "فشل في رفض العرض",
+    "rejectOffer": "رفض العرض",
+    "rejectReason": "سبب الرفض",
+    "rejectReasonPlaceholder": "يرجى تقديم سبب لرفض هذا العرض...",
+    "confirmReject": "تأكيد الرفض",
+    "hasWarranty": "يشمل ضمان",
+    "notFound": "لم يتم العثور على العرض",
+    "noPhases": "لا توجد مراحل للمشروع",
+    "noAttachments": "لا توجد مرفقات",
+    "submittedOn": "تم التقديم في {date}",
+    "status": {
+      "pending": "قيد الانتظار",
+      "accepted": "مقبول",
+      "rejected": "مرفوض",
+      "withdrawn": "منسحب",
+      "counter_offer": "عرض مقابل",
+      "expired": "منتهي الصلاحية"
     }
   },
 

@@ -1,50 +1,47 @@
 /**
- * Workflow Feature Export
- * Centralized exports for the workflow feature
+ * Workflow Feature - Connector Module
+ * Tracks project lifecycle stages across features (project, offers, contract)
+ * No API calls - pure logic based on existing feature data
  */
 
 // Types
 export type {
-  WorkflowStatus,
-  WorkflowEvent,
-  WorkflowTransition,
-  WorkflowCondition,
-  WorkflowAction,
-  WorkflowContext,
-  ProjectWorkflowState,
-  WorkflowTransitionResult,
-  WorkflowValidationResult,
-  WorkflowHistoryEntry,
+  WorkflowStage,
+  StageDefinition,
+  WorkflowProgress,
+  StageAction,
 } from "./types/workflow";
 
-// Services
-export { workflowApi } from "./services/workflowApi";
-export { workflowOrchestrator } from "./services/workflowOrchestrator";
-
-// Adapters
-export { offersWorkflowAdapter } from "./adapters/offersWorkflowAdapter";
-export { contractWorkflowAdapter } from "./adapters/contractWorkflowAdapter";
-
-// Store
-export { useWorkflowStore } from "./store/workflowStore";
-
-// Hooks
-export { useWorkflow } from "./hooks/useWorkflow";
-export { useProjectWorkflow } from "./hooks/useProjectWorkflow";
-export { useOfferWorkflow } from "./hooks/useOfferWorkflow";
-export { useContractWorkflow } from "./hooks/useContractWorkflow";
+export { WORKFLOW_STAGES, getOrderedStages, getStageById } from "./types/workflow";
 
 // Utils
 export {
-  WORKFLOW_TRANSITIONS,
-  WORKFLOW_STATUS_LABELS,
-  WORKFLOW_STATUS_COLORS,
-  WORKFLOW_EVENT_LABELS,
-  getNextStatuses,
-  getTransitionEvent,
-  isValidTransition,
-  getTransitionByEvent,
-} from "./utils/workflowConstants";
+  determineCurrentStage,
+  calculateWorkflowProgress,
+  canUserViewStage,
+  getStageColorClass,
+  getStageBorderColorClass,
+  getStageBackgroundColorClass,
+  formatStageDisplay,
+} from "./utils/workflowUtils";
+
+// Navigation Utils
+export {
+  getWorkflowRoute,
+  getStageRoute,
+  getFallbackRoute,
+  navigateToStage,
+  getStageActionText,
+} from "./utils/workflowNavigation";
+export type { NavigationParams, StageRoute } from "./utils/workflowNavigation";
+
+// Hooks
+export { useWorkflowStage } from "./hooks/useWorkflowStage";
+export type { UseWorkflowStageParams, UseWorkflowStageReturn } from "./hooks/useWorkflowStage";
+export { useWorkflowNavigation } from "./hooks/useWorkflowNavigation";
+export type { UseWorkflowNavigationParams, UseWorkflowNavigationReturn } from "./hooks/useWorkflowNavigation";
 
 // Components
-export { ProjectStatusBadge, WorkflowStatusTracker, WorkflowActions } from "./components";
+export { WorkflowStageBadge } from "./components/WorkflowStageBadge";
+export { WorkflowProgressStepper } from "./components/WorkflowProgressStepper";
+export { WorkflowStageCard } from "./components/WorkflowStageCard";

@@ -2,13 +2,30 @@
 import { useTranslations } from "next-intl";
 import React from "react";
 import { useProjectStore } from "@/features/project/store/projectStore";
+import { WorkflowStageCard } from "@/features/workflow";
 
-const ProjectOverview = () => {
+interface ProjectOverviewProps {
+  userRole?: "owner" | "contractor";
+}
+
+const ProjectOverview: React.FC<ProjectOverviewProps> = ({ userRole }) => {
   const t = useTranslations("");
   const { project } = useProjectStore();
   const { projectTypes } = useProjectStore();
   return (
     <div className="w-full space-y-6">
+      {/* Workflow Stage Card */}
+      {project && (
+        <WorkflowStageCard
+          projectStatus={project.status.status}
+          userRole={userRole}
+          title={t("workflow.currentStage", { defaultValue: "Project Stage" })}
+          showStepper={true}
+          stepperVariant="horizontal"
+          className="w-full"
+        />
+      )}
+
       <div className="w-full p-2">
         <h2 className="text-sm font-medium text-design-main mb-2">
           {t("project.step6.name")}

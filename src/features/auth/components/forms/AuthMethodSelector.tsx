@@ -100,16 +100,8 @@ export default function AuthMethodSelector() {
             </div>
           </div>
 
-          {/* Email and Phone Options */}
+          {/* Phone Only Option */}
           <div className="space-y-3">
-            <Button
-              variant="outline"
-              className="w-full"
-              onClick={() => handleAuthMethodSelect("email")}
-            >
-              {t("authMethod.email")}
-            </Button>
-
             <Button
               variant="outline"
               className="w-full"

@@ -6,21 +6,43 @@ import { Separator } from "@/components/ui/separator";
 import { FileText, Shield } from "lucide-react";
 import { Contract } from "../types/contract";
 import { useTranslations } from "next-intl";
+import { WorkflowStageBadge } from "@/features/workflow";
+
 interface ContractViewerProps {
   contract: Contract;
   isEditable: boolean;
+  projectStatus?: string;
+  userRole?: "owner" | "contractor";
 }
 
 export const ContractViewer: React.FC<ContractViewerProps> = ({
   contract,
   isEditable,
+  projectStatus,
+  userRole,
 }) => {
   const t = useTranslations("contract.view");
   return (
     <div className="border-2 border-design-main rounded-lg p-6 mb-6">
       {/* Header */}
       <div className="text-center mb-6">
-        <h2 className="text-xl font-bold  mb-4">{t("title")}</h2>
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex-1" />
+          <h2 className="text-xl font-bold flex-1 text-center">{t("title")}</h2>
+          <div className="flex-1 flex justify-end">
+            {projectStatus && (
+              <WorkflowStageBadge
+                projectStatus={projectStatus}
+                hasContract={true}
+                contractStatus={contract.status}
+                offerAccepted={true}
+                userRole={userRole}
+                showIcon={true}
+                size="sm"
+              />
+            )}
+          </div>
+        </div>
         <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-lg p-3">
           <h3 className="font-semibold text-blue-900 dark:text-blue-100">
             {t("contractDetails")}

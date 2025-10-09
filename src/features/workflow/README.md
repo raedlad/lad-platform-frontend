@@ -1,374 +1,354 @@
-# Workflow Feature Documentation
+# Workflow Feature - Multi-Stage Project Lifecycle Tracker
 
 ## Overview
 
-The Workflow feature orchestrates the automatic status transitions between Project Creation, Offers, and Contracts. It implements a state machine that ensures the project moves through the correct lifecycle stages.
-
-## Status Flow
-
-```
-draft → receiving_bids → offer_accepted → awaiting_contract_signature → contract_signed → in_progress → completed
-```
+The **Workflow** feature is a connector module that tracks the current stage of a project throughout its lifecycle. It acts as a bridge between the `project`, `offers`, and `contract` features, determining the current stage based on existing data without making any API calls.
 
 ## Architecture
 
-### 1. Types (`types/workflow.ts`)
-- **WorkflowStatus**: Status enum matching project lifecycle
-- **WorkflowEvent**: Events that trigger transitions
-- **WorkflowTransition**: Defines valid state transitions
-- **WorkflowContext**: Context passed through transitions
-- **ProjectWorkflowState**: Current workflow state for a project
-- **WorkflowTransitionResult**: Result of a transition operation
+This is a **pure connector feature** with no backend API integration:
+- **No API calls** - All logic is client-side
+- **Feature-based architecture** - Derives state from existing features
+- **Pure functions** - Stage determination based on project/offer/contract data
 
-### 2. Services
+## Workflow Stages
 
-#### workflowApi (`services/workflowApi.ts`)
-Handles all API calls for workflow operations:
-- `getProjectWorkflowState(projectId)` - Get current workflow state
-- `transitionProjectStatus(projectId, toStatus, event, metadata)` - Transition status
-- `triggerWorkflowEvent(projectId, event, metadata)` - Trigger workflow event
-- `validateTransition(projectId, toStatus)` - Validate if transition is allowed
-- `getWorkflowHistory(projectId)` - Get workflow transition history
+The system tracks 8 distinct stages in a project lifecycle:
 
-#### workflowOrchestrator (`services/workflowOrchestrator.ts`)
-Main orchestration logic for workflow transitions:
-- `handleOfferAccepted(projectId, offerId, userId)` - Handles offer acceptance workflow
-- `handleContractCreated(projectId, offerId, contractId, userId)` - Handles contract creation
-- `handleContractSigned(projectId, contractId, signedBy, userId)` - Handles contract signing
-- `handleExecutionStart(projectId, contractId, userId)` - Handles execution start
-- `validateTransition(projectId, toStatus)` - Validates transitions
+1. **Project Creation** (`project_creation`)
+   - Project is being created and configured
+   - Status: `draft`, `review_pending`
 
-### 3. Adapters
+2. **Awaiting Offers** (`awaiting_offers`)
+   - Project published, waiting for contractor offers
+   - Status: `published`, `receiving_bids`
 
-#### offersWorkflowAdapter (`adapters/offersWorkflowAdapter.ts`)
-Connects the offers feature with workflow:
-- `acceptOfferWithWorkflow(projectId, offerId, userId)` - Accept offer and update workflow
-- `canAcceptOffer(projectId, offerId)` - Check if offer can be accepted
-- `getOfferAcceptanceValidation(projectId)` - Get validation errors
+3. **Reviewing Offers** (`offer_review`)
+   - Owner is reviewing and evaluating contractor offers
+   - Has offers but none accepted yet
 
-#### contractWorkflowAdapter (`adapters/contractWorkflowAdapter.ts`)
-Connects the contract feature with workflow:
-- `createContractWithWorkflow(projectId, offerId, contractId, userId)` - Create contract and update workflow
-- `signContractWithWorkflow(projectId, contractId, signedBy, userId)` - Sign contract and update workflow
-- `canSignContract(projectId)` - Check if contract can be signed
-- `handleFullySignedContract(projectId, contractId, userId)` - Handle both parties signing
+4. **Contract Negotiation** (`contract_negotiation`)
+   - Offer accepted, contract terms being negotiated
+   - Status: `offer_accepted`, `awaiting_contract_signature`
 
-### 4. Store (`store/workflowStore.ts`)
-Zustand store for workflow state management:
-- Manages current workflow state and history
-- Provides actions for transitions
-- Integrates with orchestrator and adapters
+5. **Contract Signing** (`contract_signing`)
+   - Contract finalized, awaiting signatures
+   - Contract status: `Approved - Awaiting Signatures`, `Awaiting Contractor Signature`
 
-### 5. Hooks
+6. **Project Execution** (`project_execution`)
+   - Contract signed, project work in progress
+   - Status: `contract_signed`, `in_progress`
 
-#### useWorkflow (`hooks/useWorkflow.ts`)
-Main hook for workflow operations:
-```typescript
-const {
-  currentStatus,
-  isTransitioning,
-  acceptOffer,
-  signContract,
-  startExecution,
-  canTransition,
-  refresh
-} = useWorkflow({ projectId, autoFetch: true });
-```
+7. **Project Completion** (`project_completion`)
+   - Project work completed, final review
+   - Status: `completed`
 
-#### useProjectWorkflow (`hooks/useProjectWorkflow.ts`)
-Project-specific workflow with notifications:
-```typescript
-const {
-  acceptOfferWithWorkflow,
-  signContractWithWorkflow,
-  startExecutionWithWorkflow
-} = useProjectWorkflow({
-  projectId,
-  onStatusChange: (newStatus) => console.log(newStatus),
-  onError: (error) => console.error(error)
-});
-```
-
-#### useOfferWorkflow (`hooks/useOfferWorkflow.ts`)
-Specialized hook for offer acceptance:
-```typescript
-const {
-  acceptOfferWithWorkflow,
-  canAcceptOffer,
-  isAccepting
-} = useOfferWorkflow({
-  onSuccess: () => router.push('/dashboard'),
-  onError: (error) => console.error(error)
-});
-```
-
-#### useContractWorkflow (`hooks/useContractWorkflow.ts`)
-Specialized hook for contract operations:
-```typescript
-const {
-  signContractWithWorkflow,
-  createContractWithWorkflow,
-  canSignContract,
-  isSigning
-} = useContractWorkflow({
-  onSuccess: () => router.push('/dashboard'),
-  onError: (error) => console.error(error)
-});
-```
-
-## Usage Examples
-
-### 1. Accepting an Offer with Workflow
-
-```typescript
-import { useOfferWorkflow } from '@/features/workflow';
-import { useAuthStore } from '@/features/auth';
-
-function OfferAcceptButton({ projectId, offerId }) {
-  const user = useAuthStore(state => state.user);
-  const { acceptOfferWithWorkflow, isAccepting } = useOfferWorkflow({
-    onSuccess: () => {
-      // Redirect to contract page
-      router.push(`/dashboard/projects/${projectId}/contract`);
-    }
-  });
-
-  const handleAccept = async () => {
-    try {
-      await acceptOfferWithWorkflow(projectId, offerId, user.id);
-    } catch (error) {
-      console.error('Failed to accept offer:', error);
-    }
-  };
-
-  return (
-    <Button 
-      onClick={handleAccept} 
-      disabled={isAccepting}
-    >
-      {isAccepting ? 'Accepting...' : 'Accept Offer'}
-    </Button>
-  );
-}
-```
-
-### 2. Signing a Contract with Workflow
-
-```typescript
-import { useContractWorkflow } from '@/features/workflow';
-import { useAuthStore } from '@/features/auth';
-
-function ContractSignButton({ projectId, contractId }) {
-  const user = useAuthStore(state => state.user);
-  const { signContractWithWorkflow, isSigning } = useContractWorkflow({
-    onSuccess: () => {
-      // Refresh contract data
-      router.refresh();
-    }
-  });
-
-  const handleSign = async () => {
-    try {
-      await signContractWithWorkflow(
-        projectId, 
-        contractId, 
-        'client', // or 'contractor'
-        user.id
-      );
-    } catch (error) {
-      console.error('Failed to sign contract:', error);
-    }
-  };
-
-  return (
-    <Button 
-      onClick={handleSign} 
-      disabled={isSigning}
-    >
-      {isSigning ? 'Signing...' : 'Sign Contract'}
-    </Button>
-  );
-}
-```
-
-### 3. Checking Workflow Status
-
-```typescript
-import { useWorkflow } from '@/features/workflow';
-import { WORKFLOW_STATUS_LABELS } from '@/features/workflow';
-
-function ProjectStatusBadge({ projectId }) {
-  const { currentStatus, canTransition } = useWorkflow({
-    projectId,
-    autoFetch: true
-  });
-
-  if (!currentStatus) return null;
-
-  return (
-    <div>
-      <Badge>{WORKFLOW_STATUS_LABELS[currentStatus]}</Badge>
-      {canTransition('in_progress') && (
-        <Button>Start Execution</Button>
-      )}
-    </div>
-  );
-}
-```
-
-## Workflow Transitions
-
-### 1. Project Published
-- **From**: `draft`
-- **To**: `receiving_bids`
-- **Event**: `PROJECT_PUBLISHED`
-- **Trigger**: Owner publishes project after completing all steps
-
-### 2. Offer Accepted
-- **From**: `receiving_bids`
-- **To**: `offer_accepted`
-- **Event**: `OFFER_ACCEPTED`
-- **Trigger**: Owner accepts a contractor's offer
-- **Side Effects**: 
-  - Contract creation initiated
-  - Other offers rejected automatically
-
-### 3. Contract Created
-- **From**: `offer_accepted`
-- **To**: `awaiting_contract_signature`
-- **Event**: `CONTRACT_CREATED`
-- **Trigger**: Backend creates contract from accepted offer
-- **Side Effects**: 
-  - Notifications sent to both parties
-  - Contract draft ready for review
-
-### 4. Contract Signed
-- **From**: `awaiting_contract_signature`
-- **To**: `contract_signed`
-- **Event**: `CONTRACT_FULLY_SIGNED`
-- **Trigger**: Both client and contractor sign the contract
-- **Intermediate Events**:
-  - `CONTRACT_SIGNED_BY_CLIENT`
-  - `CONTRACT_SIGNED_BY_CONTRACTOR`
-
-### 5. Execution Started
-- **From**: `contract_signed`
-- **To**: `in_progress`
-- **Event**: `EXECUTION_STARTED`
-- **Trigger**: Owner starts project execution
-- **Note**: Execution feature will be added later
-
-## Backend API Expectations
-
-The workflow system expects these API endpoints:
-
-### Workflow State
-```
-GET /projects/{projectId}/workflow/state
-Response: {
-  projectId, currentStatus, previousStatus,
-  acceptedOfferId, contractId, lastTransitionAt,
-  canTransitionTo: [], pendingActions: []
-}
-```
-
-### Workflow Transition
-```
-POST /projects/{projectId}/workflow/transition
-Body: { to_status, event, metadata }
-Response: { success, newStatus, previousStatus, event, message }
-```
-
-### Workflow Events
-```
-POST /projects/{projectId}/workflow/events
-Body: { event, metadata }
-Response: { success, newStatus, message }
-```
-
-### Workflow History
-```
-GET /projects/{projectId}/workflow/history
-Response: { history: [...] }
-```
-
-### Workflow Validation
-```
-POST /projects/{projectId}/workflow/validate
-Body: { to_status }
-Response: { can_transition, reasons: [] }
-```
-
-## Integration Points
-
-### With Project Feature
-- Project creation sets initial status to `draft`
-- Project publishing triggers `PROJECT_PUBLISHED` event
-
-### With Offers Feature
-- Offer acceptance calls `offersWorkflowAdapter.acceptOfferWithWorkflow()`
-- This updates project status to `offer_accepted`
-- Backend should automatically create contract
-
-### With Contract Feature
-- Contract creation triggers `CONTRACT_CREATED` event
-- Contract signing calls `contractWorkflowAdapter.signContractWithWorkflow()`
-- Full signature transitions to `contract_signed`
-
-## Future: Execution Feature
-
-The workflow is prepared for the execution feature:
-- Status will transition from `contract_signed` to `in_progress`
-- Event `EXECUTION_STARTED` will trigger this
-- Additional statuses can be added for execution phases
-
-## Error Handling
-
-All workflow operations include comprehensive error handling:
-- Validation before transitions
-- Rollback on failure
-- User-friendly error messages
-- Toast notifications for user feedback
-
-## Best Practices
-
-1. **Always use workflow hooks** instead of directly calling APIs
-2. **Check `canTransition`** before showing action buttons
-3. **Handle loading states** with `isTransitioning` or `isAccepting`
-4. **Provide callbacks** for success/error handling
-5. **Refresh workflow state** after external changes
-6. **Use adapters** for feature integration, not direct orchestrator calls
-
-## Testing Considerations
-
-When testing workflow:
-1. Test each transition independently
-2. Verify validation prevents invalid transitions
-3. Check side effects (notifications, contract creation)
-4. Test error scenarios and rollback
-5. Verify state consistency across features
+8. **Project Closed** (`project_closed`)
+   - Project fully completed and closed
+   - Status: `closed_completed`, `cancelled`
 
 ## File Structure
 
 ```
 src/features/workflow/
 ├── types/
-│   └── workflow.ts
-├── services/
-│   ├── workflowApi.ts
-│   └── workflowOrchestrator.ts
-├── adapters/
-│   ├── offersWorkflowAdapter.ts
-│   └── contractWorkflowAdapter.ts
-├── store/
-│   └── workflowStore.ts
-├── hooks/
-│   ├── useWorkflow.ts
-│   ├── useProjectWorkflow.ts
-│   ├── useOfferWorkflow.ts
-│   └── useContractWorkflow.ts
+│   └── workflow.ts           # Type definitions and stage metadata
 ├── utils/
-│   └── workflowConstants.ts
-├── index.ts
-└── README.md
+│   └── workflowUtils.ts      # Pure utility functions
+├── hooks/
+│   └── useWorkflowStage.ts   # React hook for stage access
+├── components/
+│   ├── WorkflowStageBadge.tsx       # Badge component
+│   ├── WorkflowProgressStepper.tsx  # Progress stepper component
+│   └── WorkflowStageCard.tsx        # Card with full progress
+├── index.ts                  # Public exports
+└── README.md                 # This file
 ```
+
+## Usage
+
+### Basic Usage - Hook
+
+```tsx
+import { useWorkflowStage } from '@/features/workflow';
+
+function ProjectView({ project }) {
+  const { currentStage, display, progress } = useWorkflowStage({
+    projectStatus: project.status.status,
+    hasOffers: project.offers?.length > 0,
+    offerAccepted: project.status.status === 'offer_accepted',
+    hasContract: !!project.contract,
+    contractStatus: project.contract?.status,
+    userRole: 'owner', // or 'contractor'
+  });
+
+  return (
+    <div>
+      <h3>Current Stage: {display.label}</h3>
+      <p>{display.description}</p>
+      <p>Progress: {progress.progressPercentage}%</p>
+    </div>
+  );
+}
+```
+
+### Component - Stage Badge
+
+Display a simple badge with the current stage:
+
+```tsx
+import { WorkflowStageBadge } from '@/features/workflow';
+
+function ProjectCard({ project, userRole }) {
+  return (
+    <div>
+      <h1>{project.title}</h1>
+      <WorkflowStageBadge
+        projectStatus={project.status.status}
+        userRole={userRole}
+        showIcon={true}
+        size="sm"
+      />
+    </div>
+  );
+}
+```
+
+### Component - Progress Stepper
+
+Display full workflow progress with all stages:
+
+```tsx
+import { WorkflowProgressStepper } from '@/features/workflow';
+
+function ProjectProgress({ project, userRole }) {
+  return (
+    <WorkflowProgressStepper
+      projectStatus={project.status.status}
+      hasOffers={project.offers?.length > 0}
+      offerAccepted={project.status.status === 'offer_accepted'}
+      hasContract={!!project.contract}
+      contractStatus={project.contract?.status}
+      userRole={userRole}
+      variant="horizontal" // or "vertical"
+      showLabels={true}
+    />
+  );
+}
+```
+
+### Component - Full Stage Card
+
+Complete card component with stage badge and optional stepper:
+
+```tsx
+import { WorkflowStageCard } from '@/features/workflow';
+
+function ProjectOverview({ project, userRole }) {
+  return (
+    <WorkflowStageCard
+      projectStatus={project.status.status}
+      hasOffers={project.offers?.length > 0}
+      offerAccepted={project.status.status === 'offer_accepted'}
+      hasContract={!!project.contract}
+      contractStatus={project.contract?.status}
+      userRole={userRole}
+      title="Project Stage"
+      showStepper={true}
+      stepperVariant="horizontal"
+    />
+  );
+}
+```
+
+## Integration Points
+
+### Project Feature
+- **ProjectCard**: Shows stage badge in header
+- **ProjectOverview**: Shows full stage card with stepper
+
+### Offers Feature
+- **OfferDetails**: Shows stage badge in header with offer-aware status
+
+### Contract Feature
+- **ContractViewer**: Shows stage badge in header with contract-aware status
+
+## API
+
+### Types
+
+```typescript
+type WorkflowStage =
+  | "project_creation"
+  | "awaiting_offers"
+  | "offer_review"
+  | "contract_negotiation"
+  | "contract_signing"
+  | "project_execution"
+  | "project_completion"
+  | "project_closed";
+
+interface WorkflowProgress {
+  currentStage: WorkflowStage;
+  currentStageOrder: number;
+  totalStages: number;
+  completedStages: number;
+  progressPercentage: number;
+  nextStage?: WorkflowStage;
+  previousStage?: WorkflowStage;
+  isComplete: boolean;
+}
+```
+
+### Utility Functions
+
+```typescript
+// Determine current stage from data
+determineCurrentStage(params: {
+  projectStatus: string;
+  hasOffers?: boolean;
+  offerAccepted?: boolean;
+  hasContract?: boolean;
+  contractStatus?: string;
+}): WorkflowStage;
+
+// Calculate progress information
+calculateWorkflowProgress(currentStage: WorkflowStage): WorkflowProgress;
+
+// Check user permissions
+canUserViewStage(stage: WorkflowStage, userRole: "owner" | "contractor"): boolean;
+
+// Get stage display colors
+getStageColorClass(stage: WorkflowStage): string;
+getStageBorderColorClass(stage: WorkflowStage): string;
+getStageBackgroundColorClass(stage: WorkflowStage): string;
+
+// Format for display
+formatStageDisplay(stage: WorkflowStage, locale: "en" | "ar"): {
+  label: string;
+  description: string;
+};
+```
+
+### Hook Return Type
+
+```typescript
+interface UseWorkflowStageReturn {
+  currentStage: WorkflowStage;
+  stageDefinition: StageDefinition;
+  progress: WorkflowProgress;
+  display: {
+    label: string;
+    description: string;
+    colorClass: string;
+    borderColorClass: string;
+    backgroundColorClass: string;
+  };
+  canView: boolean;
+}
+```
+
+## Localization
+
+The workflow feature supports both English and Arabic:
+- Stage labels and descriptions are provided in both languages
+- Automatically uses current locale via `next-intl`
+- RTL-friendly component layout
+
+## Styling
+
+All components use:
+- Tailwind CSS classes
+- Dark mode support
+- Consistent design tokens
+- Responsive layouts
+- Accessible color contrasts
+
+## Stage Color Scheme
+
+- **Project Creation**: Blue
+- **Awaiting Offers**: Orange
+- **Reviewing Offers**: Purple
+- **Contract Negotiation**: Yellow
+- **Contract Signing**: Indigo
+- **Project Execution**: Green
+- **Project Completion**: Teal
+- **Project Closed**: Gray
+
+## Best Practices
+
+1. **Always pass userRole** when available for proper permission checking
+2. **Provide all available data** to `determineCurrentStage` for accurate stage detection
+3. **Use components over raw hooks** for consistent UI/UX
+4. **Consider context** when choosing between badge, stepper, or full card
+5. **Keep workflow logic pure** - no side effects or API calls
+
+## Examples in Codebase
+
+### Owner View - Project Card
+```typescript
+// src/features/project/components/display/ProjectCard.tsx
+<WorkflowStageBadge
+  projectStatus={project.status.status}
+  userRole="owner"
+  showIcon={true}
+  size="sm"
+/>
+```
+
+### Contractor View - Offer Details
+```typescript
+// src/features/offers/components/common/OfferDetails.tsx
+<WorkflowStageBadge
+  projectStatus={projectStatus}
+  hasOffers={true}
+  offerAccepted={offer.status === "accepted"}
+  userRole="contractor"
+  showIcon={true}
+  size="md"
+/>
+```
+
+### Contract View
+```typescript
+// src/features/contract/components/ContractViewer.tsx
+<WorkflowStageBadge
+  projectStatus={projectStatus}
+  hasContract={true}
+  contractStatus={contract.status}
+  offerAccepted={true}
+  userRole={userRole}
+  showIcon={true}
+  size="sm"
+/>
+```
+
+## Future Enhancements
+
+Potential additions (when needed):
+- Stage-specific actions/CTAs
+- Estimated time in each stage
+- Stage transition history
+- Custom stage events/notifications
+- Stage-based permissions/guards
+
+## Troubleshooting
+
+**Q: Stage not updating after status change?**
+A: Ensure you're passing updated data to the hook/component. The workflow is reactive to prop changes.
+
+**Q: Wrong stage being shown?**
+A: Check all parameters being passed. The stage determination logic follows a specific priority order (see `workflowUtils.ts`).
+
+**Q: Colors not showing correctly?**
+A: Ensure Tailwind classes are properly configured and dark mode is set up correctly.
+
+## Contributing
+
+When adding new stages or modifying logic:
+1. Update `WORKFLOW_STAGES` in `types/workflow.ts`
+2. Update `determineCurrentStage` logic in `utils/workflowUtils.ts`
+3. Update this README with new stage information
+4. Test with all user roles (owner/contractor)
+5. Verify in both light and dark modes
+6. Check both English and Arabic localizations

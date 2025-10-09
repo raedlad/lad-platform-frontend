@@ -3,6 +3,7 @@ import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMemo, useState, useEffect, useCallback } from "react";
+import { toast } from "react-hot-toast";
 import {
   Plus,
   Trash2,
@@ -176,8 +177,26 @@ export const UpdateCompleteOfferForm: React.FC<
   const offerAmount = form.watch("offerAmount");
 
   const onSubmit = async (data: any) => {
+    if (!offer) return;
+
     try {
       setSubmitError(null);
+
+      // Validate total phases amount equals offer amount
+      const totalPhasesAmount = phases.reduce((sum, phase) => {
+        const phaseAmount = phase.paymentPlans?.reduce((pSum, plan) => pSum + plan.amount, 0) || 0;
+        return sum + phaseAmount;
+      }, 0);
+
+      if (totalPhasesAmount !== data.offerAmount) {
+        toast.error(
+          t("offers.errors.phasesAmountMismatch", {
+            defaultValue: "Total phases amount must equal offer amount"
+          })
+        );
+        return;
+      }
+
       const updateData = {
         offerAmount: data.offerAmount,
         offerValidityValue: data.offerValidityValue,
@@ -191,14 +210,25 @@ export const UpdateCompleteOfferForm: React.FC<
         files: data.files,
         phases: phases,
       };
-      await updateCompleteOffer(offer.id, updateData);
+      
+      // Use project_id if projectId is not available (API transformation issue)
+      const projectId = offer.projectId || (offer as any).project_id;
+      
+      if (!projectId) {
+        toast.error(t("offers.errors.missingProjectId", { defaultValue: "Project ID is missing. Cannot update offer." }));
+        return;
+      }
+      
+      await updateCompleteOffer(offer.id, updateData, projectId);
+      toast.success(t("offers.success.updated", { defaultValue: "Offer updated successfully" }));
       onSuccess?.();
     } catch (error: any) {
       const errorMessage =
         error?.response?.data?.message ||
         error?.message ||
-        t("offers.update.error", { default: "Failed to update offer" });
+        t("offers.errors.update", { default: "Failed to update offer" });
       setSubmitError(errorMessage);
+      toast.error(errorMessage);
       console.error("Failed to update offer:", error);
     }
   };
@@ -256,11 +286,21 @@ export const UpdateCompleteOfferForm: React.FC<
     }).format(amount || 0);
   };
 
+  // Handle validation errors
+  const onError = (errors: any) => {
+    const firstError = Object.values(errors)[0] as any;
+    if (firstError?.message) {
+      toast.error(firstError.message);
+    } else {
+      toast.error(t("common.errors.validationFailed", { defaultValue: "Please check the form for errors" }));
+    }
+  };
+
   return (
     <>
       <div className="w-full flex flex-col gap-6">
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <form onSubmit={form.handleSubmit(onSubmit, onError)} className="space-y-6">
             {/* Basic Offer Information */}
             <div className="space-y-6">
               <div className="flex items-center gap-2 text-base font-semibold">
@@ -317,6 +357,7 @@ export const UpdateCompleteOfferForm: React.FC<
                             field.onChange(date?.toISOString().split("T")[0])
                           }
                           placeholder="YYYY-MM-DD"
+                          fromDate={new Date()}
                         />
                       </FormControl>
                       <FormMessage />
@@ -786,7 +827,7 @@ export const UpdateCompleteOfferForm: React.FC<
             )}
 
             {/* Form Actions */}
-            <div className="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-4 pt-4 border-t">
+            <div className="flex flex-col sm:flex-row justify-end items-stretch sm:items-center gap-4 pt-4 border-t">
               <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
                 <Button
                   type="button"
@@ -803,8 +844,8 @@ export const UpdateCompleteOfferForm: React.FC<
                   className="w-full sm:w-auto bg-design-main hover:bg-design-main/90 sm:min-w-[140px]"
                 >
                   {isSubmitting
-                    ? t("common.actions.loading")
-                    : t("offers.updateCompleteOffer.submitOffer", {
+                    ? t("common.actions.updating")
+                    : t("common.actions.update", {
                         default: "Update Offer",
                       })}
                 </Button>
