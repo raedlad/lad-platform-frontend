@@ -150,15 +150,12 @@ export const authApi = {
         return {
           success: false,
           message: err.response.data.message || "Social login failed",
-          errors: err.response.data.errors || {
-            general: ["Social login failed"],
-          },
+          errors: err.response.data.errors,
         };
       }
       return {
         success: false,
         message: "Social login failed",
-        errors: { general: ["Social login failed"] },
       };
     }
   },
@@ -302,9 +299,7 @@ export const authApi = {
         return {
           success: false,
           message: backendError.message || "Registration failed",
-          errors: backendError.errors || {
-            general: [backendError.message || "Registration failed"],
-          },
+          errors: backendError.errors,
         };
       }
 
@@ -313,14 +308,12 @@ export const authApi = {
         return {
           success: false,
           message: err.message,
-          errors: { general: [err.message] },
         };
       }
 
       return {
         success: false,
         message: "Registration failed",
-        errors: { general: ["Registration failed"] },
       };
     }
   },
@@ -348,15 +341,12 @@ export const authApi = {
         return {
           success: false,
           message: err.response.data.message || "Failed to send phone OTP",
-          errors: err.response.data.errors || {
-            general: ["Failed to send phone OTP"],
-          },
+          errors: err.response.data.errors,
         };
       }
       return {
         success: false,
         message: "Failed to send phone OTP",
-        errors: { general: ["Failed to send phone OTP"] },
       };
     }
   },
@@ -389,15 +379,12 @@ export const authApi = {
           success: false,
           message:
             err.response.data.message || "Failed to resend email verification",
-          errors: err.response.data.errors || {
-            general: ["Failed to resend email verification"],
-          },
+          errors: err.response.data.errors,
         };
       }
       return {
         success: false,
         message: "Failed to resend email verification",
-        errors: { general: ["Failed to resend email verification"] },
       };
     }
   },
@@ -571,15 +558,12 @@ export const authApi = {
         return {
           success: false,
           message: err.response.data.message || "Verification failed",
-          errors: err.response.data.errors || {
-            general: ["Verification failed"],
-          },
+          errors: err.response.data.errors,
         };
       }
       return {
         success: false,
         message: "Verification failed",
-        errors: { general: ["Verification failed"] },
       };
     }
   },
@@ -627,15 +611,12 @@ export const authApi = {
         return {
           success: false,
           message: err.response.data.message || "Failed to resend OTP",
-          errors: err.response.data.errors || {
-            general: ["Failed to resend OTP"],
-          },
+          errors: err.response.data.errors,
         };
       }
       return {
         success: false,
         message: "Failed to resend OTP",
-        errors: { general: ["Failed to resend OTP"] },
       };
     }
   },
@@ -700,15 +681,12 @@ export const authApi = {
         return {
           success: false,
           message: err.response.data.message || "Phone verification failed",
-          errors: err.response.data.errors || {
-            general: ["Phone verification failed"],
-          },
+          errors: err.response.data.errors,
         };
       }
       return {
         success: false,
         message: "Phone verification failed",
-        errors: { general: ["Phone verification failed"] },
       };
     }
   },
@@ -773,15 +751,12 @@ export const authApi = {
         return {
           success: false,
           message: err.response.data.message || "Email verification failed",
-          errors: err.response.data.errors || {
-            general: ["Email verification failed"],
-          },
+          errors: err.response.data.errors,
         };
       }
       return {
         success: false,
         message: "Email verification failed",
-        errors: { general: ["Email verification failed"] },
       };
     }
   },
@@ -864,13 +839,12 @@ export const authApi = {
         return {
           success: false,
           message: err.response.data.message || "Login failed",
-          errors: err.response.data.errors || { general: ["Login failed"] },
+          errors: err.response.data.errors,
         };
       }
       return {
         success: false,
         message: "Login failed",
-        errors: { general: ["Login failed"] },
       };
     }
   },
@@ -932,9 +906,7 @@ export const authApi = {
       return {
         success: false,
         message: err.response?.data?.message || "Forgot password failed",
-        errors: err.response?.data?.errors || {
-          general: ["Forgot password failed"],
-        },
+        errors: err.response?.data?.errors,
       };
     }
   },
