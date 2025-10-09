@@ -181,7 +181,8 @@ export const authApi = {
       ) {
         // Use FormData for file upload registration
         const formData = new FormData();
-        formData.append("name", data.data.name || "");
+        formData.append("first_name", data.data.first_name || "");
+        formData.append("last_name", data.data.last_name || "");
         formData.append("email", data.data.email || "");
         formData.append("password", data.data.password || "");
         formData.append("password_confirmation", data.data.password || "");
@@ -245,7 +246,8 @@ export const authApi = {
       } else {
         // Transform the data to match backend expectations for other roles
         const transformedData: RegistrationApiData = {
-          name: data.data.name || "",
+          first_name: data.data.first_name || "",
+          last_name: data.data.last_name || "",
           email: data.data.email || "",
           password: data.data.password || "",
           password_confirmation: data.data.password || "",

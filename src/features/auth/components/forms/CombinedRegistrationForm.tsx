@@ -54,7 +54,6 @@ const CombinedRegistrationForm: React.FC<{ role: string }> = ({ role }) => {
   const authT = useTranslations("auth");
   const isLoading = store.isLoading;
 
-
   const onSubmit = handlePersonalInfoSubmit;
   const {
     showPassword,
@@ -92,7 +91,8 @@ const CombinedRegistrationForm: React.FC<{ role: string }> = ({ role }) => {
     resolver: zodResolver(schema),
     mode: "onBlur", // Enable real-time validation
     defaultValues: {
-      name: store.roleData.personalInfo?.name || "",
+      first_name: store.roleData.personalInfo?.first_name || "",
+      last_name: store.roleData.personalInfo?.last_name || "",
       email: store.roleData.personalInfo?.email || "",
       phone: store.roleData.personalInfo?.phone || "",
       phone_code: store.roleData.personalInfo?.phone_code || "",
@@ -101,56 +101,73 @@ const CombinedRegistrationForm: React.FC<{ role: string }> = ({ role }) => {
       country_id: store.roleData.personalInfo?.country_id || "SA",
       terms: false,
       // Role-specific fields
-      ...(role === "individual" && { 
-        national_id: store.roleData.personalInfo?.national_id || "" 
+      ...(role === "individual" && {
+        national_id: store.roleData.personalInfo?.national_id || "",
       }),
       ...(role === "supplier" && {
         business_name: store.roleData.personalInfo?.business_name || "",
-        commercial_register_number: store.roleData.personalInfo?.commercial_register_number || "",
-        commercial_register_file: store.roleData.personalInfo?.commercial_register_file,
+        commercial_register_number:
+          store.roleData.personalInfo?.commercial_register_number || "",
+        commercial_register_file:
+          store.roleData.personalInfo?.commercial_register_file,
       }),
       ...(role === "engineering_office" && {
         business_name: store.roleData.personalInfo?.business_name || "",
-        commercial_register_number: store.roleData.personalInfo?.commercial_register_number || "",
+        commercial_register_number:
+          store.roleData.personalInfo?.commercial_register_number || "",
         license_number: store.roleData.personalInfo?.license_number || "",
-        commercial_register_file: store.roleData.personalInfo?.commercial_register_file,
+        commercial_register_file:
+          store.roleData.personalInfo?.commercial_register_file,
       }),
       ...(role === "freelance_engineer" && {
-        engineers_association_number: store.roleData.personalInfo?.engineers_association_number || "",
+        engineers_association_number:
+          store.roleData.personalInfo?.engineers_association_number || "",
       }),
       ...(role === "contractor" && {
         business_name: store.roleData.personalInfo?.business_name || "",
-        commercial_register_number: store.roleData.personalInfo?.commercial_register_number || "",
-        commercial_register_file: store.roleData.personalInfo?.commercial_register_file,
+        commercial_register_number:
+          store.roleData.personalInfo?.commercial_register_number || "",
+        commercial_register_file:
+          store.roleData.personalInfo?.commercial_register_file,
       }),
       ...(role === "organization" && {
         business_name: store.roleData.personalInfo?.business_name || "",
-        commercial_register_number: store.roleData.personalInfo?.commercial_register_number || "",
-        commercial_register_file: store.roleData.personalInfo?.commercial_register_file,
+        commercial_register_number:
+          store.roleData.personalInfo?.commercial_register_number || "",
+        commercial_register_file:
+          store.roleData.personalInfo?.commercial_register_file,
       }),
     },
     shouldUnregister: false, // Prevent clearing form fields on re-render
   });
   React.useEffect(() => {
-    if (store.roleData.personalInfo && Object.keys(store.roleData.personalInfo).length > 0) {
+    if (
+      store.roleData.personalInfo &&
+      Object.keys(store.roleData.personalInfo).length > 0
+    ) {
       const personalInfo = store.roleData.personalInfo;
-            let countryCode = "SA";
+      let countryCode = "SA";
       if (personalInfo.country_id && countries) {
-        const countryByIso = countries.find(c => c.iso2 === personalInfo.country_id);
+        const countryByIso = countries.find(
+          (c) => c.iso2 === personalInfo.country_id
+        );
         if (countryByIso) {
           countryCode = countryByIso.iso2;
         } else {
-          const countryById = countries.find(c => c.id.toString() === personalInfo.country_id?.toString());
+          const countryById = countries.find(
+            (c) => c.id.toString() === personalInfo.country_id?.toString()
+          );
           countryCode = countryById?.iso2 || personalInfo.country_id;
         }
       } else if (personalInfo.country_id) {
         countryCode = personalInfo.country_id;
       }
-      
+
       // Preserve current password values to prevent clearing on error
       const currentValues = form.getValues();
       form.reset({
-        name: personalInfo.name || "",
+        first_name: personalInfo.first_name || "",
+        last_name: personalInfo.last_name || "",
         email: personalInfo.email || "",
         phone: personalInfo.phone || "",
         phone_code: personalInfo.phone_code || "",
@@ -158,29 +175,36 @@ const CombinedRegistrationForm: React.FC<{ role: string }> = ({ role }) => {
         password_confirmation: currentValues.password_confirmation || "",
         country_id: countryCode,
         terms: currentValues.terms || false,
-        ...(role === "individual" && { national_id: personalInfo.national_id || "" }),
+        ...(role === "individual" && {
+          national_id: personalInfo.national_id || "",
+        }),
         ...(role === "supplier" && {
           business_name: personalInfo.business_name || "",
-          commercial_register_number: personalInfo.commercial_register_number || "",
+          commercial_register_number:
+            personalInfo.commercial_register_number || "",
           commercial_register_file: personalInfo.commercial_register_file,
         }),
         ...(role === "engineering_office" && {
           business_name: personalInfo.business_name || "",
-          commercial_register_number: personalInfo.commercial_register_number || "",
+          commercial_register_number:
+            personalInfo.commercial_register_number || "",
           license_number: personalInfo.license_number || "",
           commercial_register_file: personalInfo.commercial_register_file,
         }),
         ...(role === "freelance_engineer" && {
-          engineers_association_number: personalInfo.engineers_association_number || "",
+          engineers_association_number:
+            personalInfo.engineers_association_number || "",
         }),
         ...(role === "contractor" && {
           business_name: personalInfo.business_name || "",
-          commercial_register_number: personalInfo.commercial_register_number || "",
+          commercial_register_number:
+            personalInfo.commercial_register_number || "",
           commercial_register_file: personalInfo.commercial_register_file,
         }),
         ...(role === "organization" && {
           business_name: personalInfo.business_name || "",
-          commercial_register_number: personalInfo.commercial_register_number || "",
+          commercial_register_number:
+            personalInfo.commercial_register_number || "",
           commercial_register_file: personalInfo.commercial_register_file,
         }),
       });
@@ -190,12 +214,12 @@ const CombinedRegistrationForm: React.FC<{ role: string }> = ({ role }) => {
   React.useEffect(() => {
     if (store.roleData.thirdPartyInfo) {
       const thirdPartyInfo = store.roleData.thirdPartyInfo;
-      // Combine firstName and lastName into name field
-      if (thirdPartyInfo.firstName || thirdPartyInfo.lastName) {
-        const fullName = `${thirdPartyInfo.firstName || ""} ${
-          thirdPartyInfo.lastName || ""
-        }`.trim();
-        form.setValue("name", fullName);
+      // Set firstName and lastName from third party
+      if (thirdPartyInfo.firstName) {
+        form.setValue("first_name", thirdPartyInfo.firstName);
+      }
+      if (thirdPartyInfo.lastName) {
+        form.setValue("last_name", thirdPartyInfo.lastName);
       }
       if (thirdPartyInfo.email) {
         form.setValue("email", thirdPartyInfo.email);
@@ -221,8 +245,7 @@ const CombinedRegistrationForm: React.FC<{ role: string }> = ({ role }) => {
         if (parsedPhone) {
           phoneCode = `+${parsedPhone.countryCallingCode}`;
         }
-      } catch {
-      }
+      } catch {}
     }
     const country = countries?.find((c) => c.iso2 === values.country_id);
     const submitData = {
@@ -288,20 +311,37 @@ const CombinedRegistrationForm: React.FC<{ role: string }> = ({ role }) => {
                 onSubmit={form.handleSubmit(handleSubmit)}
                 className="form-section"
               >
-                {/* Full Name */}
-                <FormField
-                  control={form.control}
-                  name="name"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>{authT("personalInfo.fullName")}</FormLabel>
-                      <FormControl>
-                        <Input {...field} disabled={isLoading} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                {/* First Name */}
+                <div className="w-full justify-around flex items-start gap-2">
+                  <FormField
+                    control={form.control}
+                    name="first_name"
+                    render={({ field }) => (
+                      <FormItem className="w-full">
+                        <FormLabel>{authT("personalInfo.firstName")}</FormLabel>
+                        <FormControl>
+                          <Input {...field} disabled={isLoading} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  {/* Last Name */}
+                  <FormField
+                    control={form.control}
+                    name="last_name"
+                    render={({ field }) => (
+                      <FormItem className="w-full">
+                        <FormLabel>{authT("personalInfo.lastName")}</FormLabel>
+                        <FormControl>
+                          <Input {...field} disabled={isLoading} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
 
                 {/* Email */}
                 <FormField
@@ -716,7 +756,10 @@ const CombinedRegistrationForm: React.FC<{ role: string }> = ({ role }) => {
                           />
                         </FormControl>
                         <div className="form-checkbox-content">
-                          <FormLabel htmlFor="terms-checkbox" className="flex flex-wrap">
+                          <FormLabel
+                            htmlFor="terms-checkbox"
+                            className="flex flex-wrap"
+                          >
                             <span>
                               {authT("terms.text")}{" "}
                               <Link href="#" className="link-muted">

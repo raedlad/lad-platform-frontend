@@ -19,9 +19,14 @@ export const createValidationSchemas = (t: (key: string) => string) => {
     })
   const baseRegistrationSchema = z
     .object({
-      name: z
-        .string({ error: messages.name.required })
-        .min(2, messages.name.minLength)
+      first_name: z
+        .string({ error: messages.firstName.required })
+        .min(2, messages.firstName.minLength)
+        .max(255, messages.name.maxLength)
+        .regex(nameRegex, messages.name.invalid),
+      last_name: z
+        .string({ error: messages.lastName.required })
+        .min(2, messages.lastName.minLength)
         .max(255, messages.name.maxLength)
         .regex(nameRegex, messages.name.invalid),
       email: z

@@ -95,9 +95,11 @@ export interface BaseRegistrationState {
   error: string | null;
 }
 export interface PersonalInfo {
-  name?: string; // Full name field from validation schema
-  firstName?: string;
-  lastName?: string;
+  name?: string; // Full name field from validation schema (legacy)
+  first_name?: string; // First name field (API format)
+  last_name?: string; // Last name field (API format)
+  firstName?: string; // First name (camelCase for third-party)
+  lastName?: string; // Last name (camelCase for third-party)
   email?: string;
   phone?: string; // Primary phone field from validation schema
   phoneNumber?: string; // Legacy field for backward compatibility
@@ -396,7 +398,9 @@ export interface DynamicRegistrationData {
 
 // API request data type for registration
 export interface RegistrationApiData {
-  name: string;
+  name?: string; // Legacy support
+  first_name?: string;
+  last_name?: string;
   email: string;
   phone: string;
   phone_code?: string;
@@ -417,7 +421,9 @@ export interface RegistrationApiData {
 // Dynamic form data type for form handling
 export interface DynamicFormData {
   // Base fields (required)
-  name: string;
+  name?: string; // Legacy support
+  first_name?: string;
+  last_name?: string;
   email: string;
   phone: string;
   phone_code?: string;

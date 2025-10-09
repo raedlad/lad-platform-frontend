@@ -6,7 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@shared/components/ui/button";
 import { Textarea } from "@shared/components/ui/textarea";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { useContractWorkflow } from "@/features/workflow";
+// import { useContractWorkflow } from "@/features/workflow";
 import { useAuthStore } from "@/features/auth/store/authStore";
 import {
   Dialog,
@@ -50,15 +50,15 @@ export const ContractActions: React.FC<ContractActionsProps> = ({ projectId }) =
     generateContractPDF,
   } = useContractStore();
 
-  // Workflow integration for contract signing
-  const { signContractWithWorkflow, isSigning } = useContractWorkflow({
-    onSuccess: () => {
-      toast.success('Contract signed successfully. Workflow updated.');
-    },
-    onError: (error) => {
-      console.error('Workflow error:', error);
-    },
-  });
+  // // Workflow integration for contract signing
+  // const { signContractWithWorkflow, isSigning } = useContractWorkflow({
+  //   onSuccess: () => {
+  //     toast.success('Contract signed successfully. Workflow updated.');
+  //   },
+  //   onError: (error: any) => {
+  //     console.error('Workflow error:', error);
+  //   },
+  // });
 
   const [showRequestChangesDialog, setShowRequestChangesDialog] =
     useState(false);
@@ -104,18 +104,18 @@ export const ContractActions: React.FC<ContractActionsProps> = ({ projectId }) =
 
     // Use workflow integration if projectId is provided
     if (projectId) {
-      try {
-        await signContractWithWorkflow(
-          projectId,
-          contract.id,
-          currentRole as 'client' | 'contractor',
-          user.id.toString()
-        );
-        // Success handled by workflow hook
-      } catch (error) {
-        // Error already handled by hook
-        console.error('Failed to sign contract with workflow:', error);
-      }
+      // try {
+      //   await signContractWithWorkflow(
+      //     projectId,
+      //     contract.id,
+      //     currentRole as 'client' | 'contractor',
+      //     user.id.toString()
+      //   );
+      //   // Success handled by workflow hook
+      // } catch (error) {
+      //   // Error already handled by hook
+      //   console.error('Failed to sign contract with workflow:', error);
+      // }
     } else {
       // Fallback to original sign method without workflow
       originalSignContract();
