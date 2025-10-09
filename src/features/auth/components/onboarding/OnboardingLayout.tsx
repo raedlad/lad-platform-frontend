@@ -15,7 +15,7 @@ export function OnboardingLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-[calc(100vh-100px)] w-full grid grid-cols-1 lg:grid-cols-12 gap-0 items-center">
       {/* Left Side - Image Card */}
-      <div className="w-full h-full hidden lg:flex lg:col-span-4">
+      <div className="w-full h-full hidden lg:flex lg:col-span-4 bg-blue-400">
         <OnboardingRightCard />
       </div>
 
@@ -33,8 +33,9 @@ export function OnboardingLayout({ children }: { children: React.ReactNode }) {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.4, ease: "easeInOut" }}
-                className="w-full flex items-center justify-center max-w-md mx-auto"
+                className="w-full flex flex-col items-center justify-center max-w-md mx-auto gap-4"
               >
+                <OnboardingProgress total={steps.length} />
                 {children}
               </motion.div>
             </AnimatePresence>
