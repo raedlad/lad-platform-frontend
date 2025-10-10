@@ -112,11 +112,7 @@ export const createValidationSchemas = (t: (key: string) => string) => {
         commercialRegisterRegex,
         messages.commercialRegisterNumber.invalid
       ),
-    license_number: z
-      .string({ error: messages.licenseNumber.required })
-      .min(1, messages.licenseNumber.required)
-      .max(50, messages.licenseNumber.maxLength),
-  });
+});
 
   const freelanceEngineerRegistrationSchema = baseRegistrationSchema.extend({
     engineers_association_number: z

@@ -43,8 +43,8 @@ export const ContractViewer: React.FC<ContractViewerProps> = ({
             )}
           </div>
         </div>
-        <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-lg p-3">
-          <h3 className="font-semibold text-blue-900 dark:text-blue-100">
+        <div className="bg-design-main/5 dark:bg-design-main/10 border border-design-main/20 dark:border-design-main/70 rounded-lg p-3">
+          <h3 className="font-semibold text-design-main dark:text-design-main">
             {t("contractDetails")}
           </h3>
         </div>
@@ -59,23 +59,23 @@ export const ContractViewer: React.FC<ContractViewerProps> = ({
           </div>
 
           <div className="space-y-3">
-            <div className="flex justify-between border-b border-gray-200 dark:border-gray-700 pb-2">
+            <div className="flex justify-between border-b border-design-main/20 dark:border-design-main/70 pb-2">
               <span className="text-sm text-muted-foreground">{t("name")}</span>
               <span className="font-medium">Ahmed Al-Qasimi</span>
             </div>
-            <div className="flex justify-between border-b border-gray-200 dark:border-gray-700 pb-2">
+            <div className="flex justify-between border-b border-design-main/20 dark:border-design-main/70 pb-2">
               <span className="text-sm text-muted-foreground">
                 {t("nationality")}:
               </span>
               <span className="font-medium">Saudi Arabian</span>
             </div>
-            <div className="flex justify-between border-b border-gray-200 dark:border-gray-700 pb-2">
+            <div className="flex justify-between border-b border-design-main/20 dark:border-design-main/70 pb-2">
               <span className="text-sm text-muted-foreground">
                 {t("mobile")}:
               </span>
               <span className="font-medium">+966 50 123 4567</span>
             </div>
-            <div className="flex justify-between border-b border-gray-200 dark:border-gray-700 pb-2">
+            <div className="flex justify-between border-b border-design-main/20 dark:border-design-main/70 pb-2">
               <span className="text-sm text-muted-foreground">
                 {t("email")}:
               </span>
@@ -87,29 +87,29 @@ export const ContractViewer: React.FC<ContractViewerProps> = ({
         {/* Right Column - Second Party */}
         <div className="space-y-4">
           <div className="text-center">
-            <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-4">
+            <h4 className="font-semibold text-design-main dark:text-design-main mb-4">
               {t("secondParty")}
             </h4>
           </div>
 
           <div className="space-y-3">
-            <div className="flex justify-between border-b border-gray-200 dark:border-gray-700 pb-2">
+            <div className="flex justify-between border-b border-design-main/20 dark:border-design-main/70 pb-2">
               <span className="text-sm text-muted-foreground">{t("name")}</span>
               <span className="font-medium">Ahmed Al-Qasimi</span>
             </div>
-            <div className="flex justify-between border-b border-gray-200 dark:border-gray-700 pb-2">
+            <div className="flex justify-between border-b border-design-main/20 dark:border-design-main/70 pb-2">
               <span className="text-sm text-muted-foreground">
                 {t("nationality")}:
               </span>
               <span className="font-medium">Saudi Arabian</span>
             </div>
-            <div className="flex justify-between border-b border-gray-200 dark:border-gray-700 pb-2">
+            <div className="flex justify-between border-b border-design-main/20 dark:border-design-main/70 pb-2">
               <span className="text-sm text-muted-foreground">
                 {t("mobile")}
               </span>
               <span className="font-medium">+966 50 123 4567</span>
             </div>
-            <div className="flex justify-between border-b border-gray-200 dark:border-gray-700 pb-2">
+            <div className="flex justify-between border-b border-design-main/20 dark:border-design-main/70 pb-2">
               <span className="text-sm text-muted-foreground">
                 {t("email")}
               </span>
@@ -123,33 +123,33 @@ export const ContractViewer: React.FC<ContractViewerProps> = ({
 
       {/* Project Details Section */}
       <div className="space-y-4">
-        <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-700 rounded-lg p-3">
-          <h4 className="font-semibold text-amber-900 dark:text-amber-100 text-center">
+        <div className="bg-design-main/5 dark:bg-design-main/10 border border-design-main/20 dark:border-design-main/70 rounded-lg p-3">
+          <h4 className="font-semibold text-design-main dark:text-design-main text-center">
             {t("projectDetails")}
           </h4>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <div className="space-y-3">
-            <div className="flex justify-between border-b border-gray-200 dark:border-gray-700 pb-2">
+            <div className="flex justify-between border-b border-design-main/20 dark:border-design-main/70 pb-2">
               <span className="text-sm text-muted-foreground">
                 {t("projectName")}:
               </span>
               <span className="font-medium">{contract.project.title}</span>
             </div>
-            <div className="flex justify-between border-b border-gray-200 dark:border-gray-700 pb-2">
+            <div className="flex justify-between border-b border-design-main/20 dark:border-design-main/70 pb-2">
               <span className="text-sm text-muted-foreground">
                 {t("workType")}:
               </span>
               <span className="font-medium">Interior Design</span>
             </div>
-            <div className="flex justify-between border-b border-gray-200 dark:border-gray-700 pb-2">
+            <div className="flex justify-between border-b border-design-main/20 dark:border-design-main/70 pb-2">
               <span className="text-sm text-muted-foreground">
                 {t("location")}:
               </span>
               <span className="font-medium">Riyadh, Saudi Arabia</span>
             </div>
-            <div className="flex justify-between border-b border-gray-200 dark:border-gray-700 pb-2">
+            <div className="flex justify-between border-b border-design-main/20 dark:border-design-main/70 pb-2">
               <span className="text-sm text-muted-foreground">
                 {t("area")}:
               </span>
@@ -158,13 +158,13 @@ export const ContractViewer: React.FC<ContractViewerProps> = ({
           </div>
 
           <div className="space-y-3">
-            <div className="flex justify-between border-b border-gray-200 dark:border-gray-700 pb-2">
+            <div className="flex justify-between border-b border-design-main/20 dark:border-design-main/70 pb-2">
               <span className="text-sm text-muted-foreground">
                 {t("officeAddress")}:
               </span>
               <span className="font-medium">Al-Olaya District</span>
             </div>
-            <div className="flex justify-between border-b border-gray-200 dark:border-gray-700 pb-2">
+            <div className="flex justify-between border-b border-design-main/20 dark:border-design-main/70 pb-2">
               <span className="text-sm text-muted-foreground">
                 {t("location")}:
               </span>
@@ -180,24 +180,24 @@ export const ContractViewer: React.FC<ContractViewerProps> = ({
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Left Column - Time Period */}
         <div className="space-y-4">
-          <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4">
-            <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-4 text-center">
+          <div className="bg-card rounded-lg p-4">
+            <h4 className="font-semibold text-design-main dark:text-design-main mb-4 text-center">
               {t("timePeriod")}
             </h4>
             <div className="space-y-3">
-              <div className="flex justify-between border-b border-gray-200 dark:border-gray-700 pb-2">
+              <div className="flex justify-between border-b border-design-main/20 dark:border-design-main/70 pb-2">
                 <span className="text-sm text-muted-foreground">
                   {t("executionPeriod")}:
                 </span>
                 <span className="font-medium">35 days</span>
               </div>
-              <div className="flex justify-between border-b border-gray-200 dark:border-gray-700 pb-2">
+              <div className="flex justify-between border-b border-design-main/20 dark:border-design-main/70 pb-2">
                 <span className="text-sm text-muted-foreground">
                   {t("startDate")}:
                 </span>
                 <span className="font-medium">01/06/2025</span>
               </div>
-              <div className="flex justify-between border-b border-gray-200 dark:border-gray-700 pb-2">
+              <div className="flex justify-between border-b border-design-main/20 dark:border-design-main/70 pb-2">
                 <span className="text-sm text-muted-foreground">
                   {t("contractDate")}:
                 </span>
@@ -209,30 +209,30 @@ export const ContractViewer: React.FC<ContractViewerProps> = ({
 
         {/* Right Column - Financial Terms */}
         <div className="space-y-4">
-          <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-700 rounded-lg p-4">
-            <h4 className="font-semibold text-amber-900 dark:text-amber-100 mb-4 text-center">
+          <div className="bg-card rounded-lg p-4">
+            <h4 className="font-semibold text-design-main dark:text-design-main mb-4 text-center">
               {t("financialTerms")}
             </h4>
             <div className="space-y-3">
-              <div className="flex justify-between border-b border-gray-200 dark:border-gray-700 pb-2">
+              <div className="flex justify-between border-b border-design-main/20 dark:border-design-main/70 pb-2">
                 <span className="text-sm text-muted-foreground">
                   {t("totalAmount")}:
                 </span>
                 <span className="font-medium">95,000 SAR</span>
               </div>
-              <div className="flex justify-between border-b border-gray-200 dark:border-gray-700 pb-2">
+              <div className="flex justify-between border-b border-design-main/20 dark:border-design-main/70 pb-2">
                 <span className="text-sm text-muted-foreground">
                   {t("advancePayment")}:
                 </span>
                 <span className="font-medium">30,000 SAR</span>
               </div>
-              <div className="flex justify-between border-b border-gray-200 dark:border-gray-700 pb-2">
+              <div className="flex justify-between border-b border-design-main/20 dark:border-design-main/70 pb-2">
                 <span className="text-sm text-muted-foreground">
                   {t("productPayment")}:
                 </span>
                 <span className="font-medium">50,000 SAR</span>
               </div>
-              <div className="flex justify-between border-b border-gray-200 dark:border-gray-700 pb-2">
+              <div className="flex justify-between border-b border-design-main/20 dark:border-design-main/70 pb-2">
                 <span className="text-sm text-muted-foreground">
                   {t("finalPayment")}:
                 </span>
@@ -247,8 +247,8 @@ export const ContractViewer: React.FC<ContractViewerProps> = ({
 
       {/* Contract Terms */}
       <div className="space-y-4 mb-6">
-        <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-lg p-3">
-          <h4 className="font-semibold text-blue-900 dark:text-blue-100 text-center">
+        <div className="bg-design-main/5 dark:bg-design-main/10 border border-design-main/20 dark:border-design-main/70 rounded-lg p-3">
+          <h4 className="font-semibold text-design-main dark:text-design-main text-center">
             {t("contractTerms")}
           </h4>
         </div>
@@ -288,12 +288,12 @@ export const ContractViewer: React.FC<ContractViewerProps> = ({
           {contract.standardClauses.map((clause) => (
             <div
               key={clause.id}
-              className="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg"
+              className="p-4 bg-card rounded-lg"
             >
-              <h5 className="font-semibold text-sm mb-2 text-gray-900 dark:text-gray-100">
+              <h5 className="font-semibold text-sm mb-2 ">
                 {clause.title}
               </h5>
-              <p className="text-sm text-gray-700 dark:text-gray-300">
+              <p className="text-sm text-muted-foreground">
                 {clause.text}
               </p>
             </div>
@@ -321,17 +321,17 @@ export const ContractViewer: React.FC<ContractViewerProps> = ({
                 key={clause.id}
                 className={`p-4 rounded-lg ${
                   isEditable
-                    ? "bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700"
-                    : "bg-gray-50 dark:bg-gray-800"
+                    ? "bg-card"
+                    : "bg-card"
                 }`}
               >
-                <p className="text-sm text-gray-900 dark:text-gray-100">
+                <p className="text-sm">
                   {clause.text}
                 </p>
               </div>
             ))
           ) : (
-            <p className="text-sm text-muted-foreground dark:text-gray-400 italic">
+            <p className="text-sm text-muted-foreground">
               {t("noAdditionalClauses")}
             </p>
           )}
@@ -343,11 +343,11 @@ export const ContractViewer: React.FC<ContractViewerProps> = ({
         <>
           <Separator />
           <div className="space-y-3 mt-6">
-            <h4 className="font-semibold text-orange-600 dark:text-orange-400">
+            <h4 className="font-semibold">
               {t("latestComment")}
             </h4>
-            <div className="p-4 bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-700 rounded-lg">
-              <p className="text-sm text-gray-900 dark:text-gray-100">
+            <div className="p-4 bg-card rounded-lg">
+              <p className="text-sm  text-design-main">
                 {contract.lastNegotiationComment}
               </p>
             </div>

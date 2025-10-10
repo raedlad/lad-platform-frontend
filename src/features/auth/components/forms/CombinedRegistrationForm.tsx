@@ -115,7 +115,6 @@ const CombinedRegistrationForm: React.FC<{ role: string }> = ({ role }) => {
         business_name: store.roleData.personalInfo?.business_name || "",
         commercial_register_number:
           store.roleData.personalInfo?.commercial_register_number || "",
-        license_number: store.roleData.personalInfo?.license_number || "",
         commercial_register_file:
           store.roleData.personalInfo?.commercial_register_file,
       }),
@@ -211,21 +210,6 @@ const CombinedRegistrationForm: React.FC<{ role: string }> = ({ role }) => {
     }
   }, [role, form, store.roleData.personalInfo]);
 
-  React.useEffect(() => {
-    if (store.roleData.thirdPartyInfo) {
-      const thirdPartyInfo = store.roleData.thirdPartyInfo;
-      // Set firstName and lastName from third party
-      if (thirdPartyInfo.firstName) {
-        form.setValue("first_name", thirdPartyInfo.firstName);
-      }
-      if (thirdPartyInfo.lastName) {
-        form.setValue("last_name", thirdPartyInfo.lastName);
-      }
-      if (thirdPartyInfo.email) {
-        form.setValue("email", thirdPartyInfo.email);
-      }
-    }
-  }, [store.roleData.thirdPartyInfo, form]);
 
   React.useEffect(() => {
     const subscription = form.watch((value, { name }) => {
@@ -677,21 +661,6 @@ const CombinedRegistrationForm: React.FC<{ role: string }> = ({ role }) => {
                         <FormItem>
                           <FormLabel>
                             {authT("personalInfo.commercialRegisterNumber")}
-                          </FormLabel>
-                          <FormControl>
-                            <Input {...field} disabled={isLoading} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="license_number"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>
-                            {authT("personalInfo.licenseNumber")}
                           </FormLabel>
                           <FormControl>
                             <Input {...field} disabled={isLoading} />

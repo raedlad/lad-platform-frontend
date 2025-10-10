@@ -379,7 +379,8 @@ export type RegistrationData =
 // Dynamic registration data type that includes all possible fields
 export interface DynamicRegistrationData {
   // Base fields
-  name: string;
+  first_name: string;
+  last_name: string;
   email: string;
   phone: string;
   phone_code?: string;

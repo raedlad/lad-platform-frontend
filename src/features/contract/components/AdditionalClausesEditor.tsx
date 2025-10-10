@@ -137,9 +137,9 @@ export const AdditionalClausesEditor: React.FC<
 
   if (!isEditable) {
     return (
-      <Alert className="mb-6 bg-yellow-50 dark:bg-yellow-900/20 border-yellow-200 dark:border-yellow-700">
-        <AlertCircle className="h-4 w-4 text-yellow-600 dark:text-yellow-400" />
-        <AlertDescription className="text-yellow-800 dark:text-yellow-200">
+      <Alert className="mb-6 ">
+        <AlertCircle className="h-4 w-4" />
+        <AlertDescription className="">
           {t("canOnlyBeEditedByClient")}
         </AlertDescription>
       </Alert>
@@ -177,7 +177,7 @@ export const AdditionalClausesEditor: React.FC<
               {localClauses.map((clause) => (
                 <div
                   key={clause.id}
-                  className="p-4 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800"
+                  className="p-4 border rounded-lg bg-card"
                 >
                   {editingClauseId === clause.id ? (
                     <div className="space-y-3">
@@ -209,7 +209,7 @@ export const AdditionalClausesEditor: React.FC<
                     </div>
                   ) : (
                     <div className="flex justify-between items-start gap-4">
-                      <p className="text-sm flex-1 text-gray-900 dark:text-gray-100">
+                      <p className="text-sm flex-1 ">
                         {clause.text}
                       </p>
                       <div className="flex gap-2">
@@ -236,7 +236,7 @@ export const AdditionalClausesEditor: React.FC<
               ))}
 
               {localClauses.length === 0 && !showNewClauseForm && (
-                <p className="text-sm text-muted-foreground dark:text-gray-400 italic text-center py-4">
+                <p className="text-sm text-muted-foreground  italic text-center py-4">
                   {t("noAdditionalClauses")}
                 </p>
               )}
@@ -244,11 +244,11 @@ export const AdditionalClausesEditor: React.FC<
 
             {/* Add New Clause */}
             {showNewClauseForm ? (
-              <div className="space-y-3 p-4 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-800">
+              <div className="space-y-3 p-4 border-2 border-dashed bg-card rounded-lg">
                 <Textarea
                   value={newClauseText}
                   onChange={(e) => setNewClauseText(e.target.value)}
-                  className="min-h-[80px] bg-white dark:bg-gray-900 border-gray-300 dark:border-gray-600"
+                  className="min-h-[80px]"
                   placeholder={t("enterNewClauseText")}
                 />
                 <div className="flex gap-2">
